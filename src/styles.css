@@ -1,0 +1,130 @@
+/* ===== ARLAB shared design tokens =======================================
+   Light is the default palette. Dark applies via [data-theme="dark"] or
+   prefers-color-scheme when no explicit override is set. Token NAMES match
+   what arlab-studio and arlab-docs already used, so migrating either app
+   to this file is a drop-in rename, not a rewrite. */
+
+:root {
+  color-scheme: light;
+
+  --ground: #f6f5f3;
+  --raise: #ffffff;
+  --sunken: #efeeec;
+
+  --line: rgba(20, 18, 15, 0.10);
+  --line-soft: rgba(20, 18, 15, 0.06);
+  --line-hover: rgba(20, 18, 15, 0.20);
+
+  --ink: #17151c;
+  --ink-dim: rgba(23, 21, 28, 0.72);
+  --ink-faint: rgba(23, 21, 28, 0.50);
+  --ink-inactive: rgba(23, 21, 28, 0.36);
+
+  --accent: #e414db;
+  --accent-tint: rgba(228, 20, 219, 0.10);
+  --accent-deep: #9a0b90;
+  --accent-soft: rgba(228, 20, 219, 0.08);
+  --accent-line: rgba(228, 20, 219, 0.22);
+  --accent-secondary: #c2650f;
+
+  --warn: #a86a1d;
+  --crit: #c23b2e;
+  --info: #1c6fb0;
+  --live: #1f8f6b;
+  --code-bg: #efeeec;
+
+  --shadow-card: 0 1px 2px rgba(20, 18, 15, 0.06), 0 10px 24px -14px rgba(20, 18, 15, 0.18);
+  --shadow-pop: 0 14px 40px -10px rgba(20, 18, 15, 0.22);
+  --shadow-glow: 0 0 32px rgba(228, 20, 219, 0.14);
+
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark;
+    --ground: #0b0b0d; --raise: #17171a; --sunken: #101012;
+    --line: rgba(255, 255, 255, 0.10); --line-soft: rgba(255, 255, 255, 0.06); --line-hover: rgba(255, 255, 255, 0.20);
+    --ink: #f5f5f6; --ink-dim: rgba(245, 245, 246, 0.72); --ink-faint: rgba(245, 245, 246, 0.48); --ink-inactive: rgba(245, 245, 246, 0.34);
+    --accent: #e414db; --accent-tint: rgba(228, 20, 219, 0.14); --accent-deep: #ff8cf5; --accent-soft: rgba(228, 20, 219, 0.10); --accent-line: rgba(228, 20, 219, 0.28); --accent-secondary: #fb923c;
+    --warn: #e0a458; --crit: #ff6b5e; --info: #6cb6ff; --live: #46d19e; --code-bg: #101012;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 34px -16px rgba(0, 0, 0, 0.65);
+    --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.75);
+    --shadow-glow: 0 0 40px rgba(228, 20, 219, 0.18);
+  }
+}
+
+:root[data-theme="dark"] { color-scheme: dark;
+  --ground: #0b0b0d; --raise: #17171a; --sunken: #101012;
+  --line: rgba(255, 255, 255, 0.10); --line-soft: rgba(255, 255, 255, 0.06); --line-hover: rgba(255, 255, 255, 0.20);
+  --ink: #f5f5f6; --ink-dim: rgba(245, 245, 246, 0.72); --ink-faint: rgba(245, 245, 246, 0.48); --ink-inactive: rgba(245, 245, 246, 0.34);
+  --accent: #e414db; --accent-tint: rgba(228, 20, 219, 0.14); --accent-deep: #ff8cf5; --accent-soft: rgba(228, 20, 219, 0.10); --accent-line: rgba(228, 20, 219, 0.28); --accent-secondary: #fb923c;
+  --warn: #e0a458; --crit: #ff6b5e; --info: #6cb6ff; --live: #46d19e; --code-bg: #101012;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 34px -16px rgba(0, 0, 0, 0.65);
+  --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.75);
+  --shadow-glow: 0 0 40px rgba(228, 20, 219, 0.18);
+}
+
+body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
+
+/* ===== primitives ======================================================== */
+
+.arlab-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 600; line-height: 1;
+  padding: 9px 14px; border-radius: var(--radius-sm); border: 1px solid transparent;
+  cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.arlab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.arlab-btn.sm { padding: 6px 10px; font-size: 12px; }
+.arlab-btn.primary { background: var(--accent); color: #fff; }
+.arlab-btn.primary:hover:not(:disabled) { filter: brightness(1.06); }
+.arlab-btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.arlab-btn.ghost:hover:not(:disabled) { border-color: var(--line-hover); background: var(--sunken); }
+.arlab-btn.danger { background: transparent; border-color: var(--line); color: var(--crit); }
+.arlab-btn.danger:hover:not(:disabled) { border-color: var(--crit); background: color-mix(in srgb, var(--crit) 8%, transparent); }
+
+.arlab-card {
+  background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card); padding: 20px;
+}
+
+.arlab-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+  padding: 3px 9px; border-radius: 9999px; border: 1px solid var(--line); color: var(--ink-dim);
+}
+.arlab-badge.accent { color: var(--accent-deep); background: var(--accent-tint); border-color: var(--accent-line); }
+.arlab-badge.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 12%, transparent); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+.arlab-badge.crit { color: var(--crit); background: color-mix(in srgb, var(--crit) 12%, transparent); border-color: color-mix(in srgb, var(--crit) 30%, transparent); }
+.arlab-badge.live { color: var(--live); background: color-mix(in srgb, var(--live) 12%, transparent); border-color: color-mix(in srgb, var(--live) 30%, transparent); }
+
+/* Row: a typographic list item. Use for anything that was tempted to be
+   its own bordered card — divide with a hairline, not a box. */
+.arlab-list { display: flex; flex-direction: column; }
+.arlab-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 2px; border-bottom: 1px solid var(--line-soft);
+}
+.arlab-list .arlab-row:last-child { border-bottom: none; }
+.arlab-row-title { font-size: 14px; color: var(--ink); }
+.arlab-row-meta { font-size: 13px; color: var(--ink-faint); }
+
+.arlab-field { display: flex; flex-direction: column; gap: 6px; }
+.arlab-label { font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-dim); }
+.arlab-input {
+  font-family: var(--font-sans); font-size: 14px; color: var(--ink); background: var(--sunken);
+  border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 11px;
+}
+.arlab-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.arlab-skeleton {
+  background: linear-gradient(90deg, var(--sunken) 25%, var(--line-soft) 50%, var(--sunken) 75%);
+  background-size: 200% 100%; animation: arlab-skel 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes arlab-skel { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .arlab-skeleton { animation: none; } }
