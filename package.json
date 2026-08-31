@@ -1,9 +1,9 @@
 {
   "name": "@arlab/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Control Room, ARLAB Knowledge, and future apps).",
+  "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

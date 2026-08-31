@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button, type ButtonProps } from './Button';
+import { IconButton, type IconButtonProps } from './IconButton';
+import { MoonIcon, SunIcon } from './icons';
 import { getTheme, setTheme, type Theme } from './theme';
 
-export function ThemeToggle(props: Omit<ButtonProps, 'onClick' | 'children'>) {
+export function ThemeToggle(props: Omit<IconButtonProps, 'onClick' | 'children' | 'aria-label'>) {
   const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
@@ -16,8 +17,13 @@ export function ThemeToggle(props: Omit<ButtonProps, 'onClick' | 'children'>) {
   }
 
   return (
-    <Button variant="ghost" size="sm" {...props} onClick={toggle} aria-label="Toggle theme">
-      {theme === 'dark' ? 'Dark' : 'Light'}
-    </Button>
+    <IconButton
+      {...props}
+      onClick={toggle}
+      aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+      title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+    >
+      {theme === 'dark' ? <MoonIcon size={16} /> : <SunIcon size={16} />}
+    </IconButton>
   );
 }

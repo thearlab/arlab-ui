@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@arlab/ui — component showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./dist/styles.css" />
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--font-sans); -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-weight: 700; text-wrap: balance; margin: 0; }
+  p { margin: 0; line-height: var(--leading-normal); }
+  code { font-family: var(--font-mono); font-size: 0.9em; background: var(--sunken); padding: 1px 5px; border-radius: 4px; }
+
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: 56px; justify-content: center; padding: 0 32px 120px; }
+
+  /* ---- side nav ---- */
+  nav { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 2px; max-height: calc(100vh - 48px); overflow-y: auto; padding-top: 24px; }
+  nav .brand { font-size: var(--text-md); font-weight: 700; margin-bottom: 16px; }
+  nav .brand span { color: var(--accent); }
+  nav a {
+    font-size: var(--text-sm); color: var(--ink-faint); text-decoration: none; padding: 6px 0;
+    border-left: 2px solid transparent; padding-left: 10px; margin-left: -11px;
+  }
+  nav a:hover { color: var(--ink); }
+  nav a.active { color: var(--ink); border-left-color: var(--accent); }
+
+  /* ---- content ---- */
+  main { display: flex; flex-direction: column; gap: 64px; min-width: 0; padding-top: 24px; }
+  header.page-head { display: flex; flex-direction: column; gap: 10px; }
+  header.page-head p { color: var(--ink-dim); font-size: var(--text-md); max-width: 56ch; }
+
+  section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
+  section > .sec-head { display: flex; flex-direction: column; gap: 4px; }
+  section > .sec-head h2 { font-size: var(--text-xl); }
+  section > .sec-head p { color: var(--ink-faint); font-size: var(--text-sm); max-width: 62ch; }
+
+  .demo { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .demo.col { flex-direction: column; align-items: stretch; }
+  .demo.top { align-items: flex-start; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 12px; }
+  .swatch { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .swatch .fill { height: 56px; }
+  .swatch .label { padding: 8px 10px; font-size: var(--text-xs); }
+  .swatch .label .name { color: var(--ink); font-weight: 500; }
+  .swatch .label .hex { display: block; color: var(--ink-faint); font-family: var(--font-mono); font-size: 11px; margin-top: 2px; }
+
+  .type-row { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .tag { width: 100px; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+
+  .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+  .icon-tile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink-dim); }
+  .icon-tile span { font-size: 11px; color: var(--ink-faint); }
+
+  .rules-list { display: flex; flex-direction: column; }
+  .rule { display: flex; gap: 14px; padding: 14px 2px; border-bottom: 1px solid var(--line-soft); }
+  .rule:last-child { border-bottom: none; }
+  .rule .n { font-family: var(--font-mono); font-size: 12px; color: var(--accent-deep); flex-shrink: 0; padding-top: 2px; }
+  .rule .t { font-size: var(--text-base); color: var(--ink); }
+  .rule .t b { font-weight: 600; }
+  .rule .t small { display: block; color: var(--ink-faint); font-size: var(--text-sm); margin-top: 3px; }
+
+  .page-toggle { position: fixed; top: 20px; right: 24px; z-index: 5; }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .field-grid { grid-template-columns: 1fr; } .layout { grid-template-columns: minmax(0,1fr); } nav { display: none; } }
+
+  footer { color: var(--ink-inactive); font-size: var(--text-xs); padding-top: 8px; border-top: 1px solid var(--line-soft); }
+</style>
+</head>
+<body data-arlab-ui>
+
+<div id="themeSlot" class="page-toggle"></div>
+
+<!-- ================= Navbar demo (full-bleed, outside the reading column) ================= -->
+<header class="arlab-navbar">
+  <div class="arlab-navbar-brand">
+    <svg class="arlab-navbar-logo" viewBox="0 0 2003 630" fill="currentColor" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ARLAB">
+      <path d="M253.175 478.878C193.58 478.878 150.392 438.283 150.392 373.506C150.392 308.729 193.58 268.134 253.175 268.134C312.393 268.134 355.384 308.223 355.932 372.278V374.734C355.384 438.789 312.393 478.878 253.175 478.878ZM614.432 145.031C556.508 145.031 514.145 164.917 485.612 197.771V157.138H355.932V198.145C327.427 165.339 285.113 145.485 227.264 145.485C114.12 145.485 20.8359 244.813 20.8359 373.506C20.8359 502.201 114.12 601.527 227.264 601.527C285.113 601.527 327.427 581.673 355.932 548.867V589.41H355.957V589.433H485.513V373.889H485.637C485.637 373.679 485.612 373.485 485.612 373.274C485.612 308.434 528.837 267.799 588.495 267.799C648.147 267.799 691.377 308.434 691.377 373.274C691.377 373.485 691.352 373.679 691.351 373.889H821.043C821.044 373.682 821.057 373.481 821.057 373.274C821.057 244.455 727.684 145.031 614.432 145.031Z" />
+      <path d="M903.336 593.014H942.047V27.8056H903.336V593.014Z" />
+      <path d="M1254.05 564.363C1161.92 564.363 1089.92 491.59 1089.92 399.451C1089.92 307.313 1161.92 234.53 1254.05 234.53C1346.19 234.53 1417.43 307.313 1417.43 399.451C1417.43 491.59 1346.19 564.363 1254.05 564.363ZM1417.43 293.379C1384.9 235.303 1325.29 197.366 1250.96 197.366C1141.01 197.366 1050.42 284.857 1050.42 399.451C1050.42 514.038 1141.01 601.527 1250.96 601.527C1325.29 601.527 1384.9 563.59 1417.43 505.523V593.014H1456.91V205.879H1417.43V293.379Z" />
+      <path d="M1778.97 564.363C1686.84 564.363 1614.84 491.59 1614.84 399.451C1614.84 307.313 1686.84 234.53 1778.97 234.53C1871.11 234.53 1943.12 307.313 1943.12 399.451C1943.12 491.59 1871.11 564.363 1778.97 564.363ZM1781.3 197.366C1706.2 197.366 1646.58 236.077 1614.84 295.698V51.0367H1576.12V593.014H1614.84V503.195C1646.58 562.817 1706.2 601.527 1781.3 601.527C1892.02 601.527 1981.83 514.038 1981.83 399.451C1981.83 284.857 1892.02 197.366 1781.3 197.366Z" />
+    </svg>
+    <span class="arlab-navbar-dot"></span>
+    <span class="arlab-navbar-name">Agents Studio</span>
+  </div>
+  <div class="arlab-navbar-spacer"></div>
+  <span class="arlab-badge accent" style="align-self:center;">Lead</span>
+  <button class="arlab-icon-btn sm" type="button" aria-label="Search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+  <span class="arlab-avatar" style="width:28px;height:28px;font-size:11px;">LC</span>
+</header>
+
+<div class="layout">
+<nav>
+  <div class="brand"><span>ar</span>lab / ui</div>
+  <a href="#rules">Design rules</a>
+  <a href="#signature">Signature details</a>
+  <a href="#navbar">Navbar</a>
+  <a href="#icons">Icons</a>
+  <a href="#color">Color</a>
+  <a href="#type">Type</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#card">Card</a>
+  <a href="#badge">Badge &amp; Chip</a>
+  <a href="#avatar">Avatar</a>
+  <a href="#rows">Rows &amp; lists</a>
+  <a href="#fields">Text fields</a>
+  <a href="#choice">Checkbox, radio, switch</a>
+  <a href="#dropzone">Dropzone</a>
+  <a href="#overlays">Dialog &amp; toast</a>
+  <a href="#skeleton">Skeleton</a>
+  <a href="#tabs2">Tabs</a>
+  <a href="#menus">Popover, menu &amp; combobox</a>
+  <a href="#cmdk">Command palette</a>
+  <a href="#navtree">Nav tree</a>
+  <a href="#breadcrumbs">Breadcrumbs</a>
+  <a href="#more">Tag input, collapsible, tooltip</a>
+  <a href="#cardvariants">Card variants</a>
+  <a href="#misc">Steps, legend, timestamp</a>
+</nav>
+
+<main>
+  <header class="page-head">
+    <h1>@arlab/ui</h1>
+    <p>Shared tokens and primitives for ARLAB's internal tools. Everything on this page — including the nav bar above — is rendered with the actual built stylesheet (<code>dist/styles.css</code>). Toggle the theme button, top right, to check both palettes.</p>
+  </header>
+
+  <section id="rules">
+    <div class="sec-head">
+      <h2>Design system rules this package encodes</h2>
+      <p>From ARLAB's anti-AI-slop playbook, plus what this pass fixed.</p>
+    </div>
+    <div class="rules-list">
+      <div class="rule"><span class="n">01</span><span class="t"><b>Cards are the exception, not the default.</b><small>Use <code>Row</code>/<code>ArlabList</code> for anything that's a list item. Reach for <code>Card</code> only for a genuinely independent, liftable object.</small></span></div>
+      <div class="rule"><span class="n">02</span><span class="t"><b>No mono-uppercase labels on every string.</b><small><code>Label</code> is sentence case, normal weight. We deliberately did <em>not</em> copy signature-studio's uppercase mono product-name style into <code>NavbarBrand</code> for this reason — see the Navbar section.</small></span></div>
+      <div class="rule"><span class="n">03</span><span class="t"><b>One accent, used sparingly.</b><small><code>--accent</code> is for small fills, dots, and primary buttons only. <code>--accent-tint</code> is the muted surface fill; <code>--accent-deep</code> is the readable text tone on light backgrounds.</small></span></div>
+      <div class="rule"><span class="n">04</span><span class="t"><b>Skeletons, never bare loading text.</b><small><code>Skeleton</code> mirrors the real layout's shape.</small></span></div>
+      <div class="rule"><span class="n">05</span><span class="t"><b>Real light and dark, not an inversion.</b><small>Light is the default palette here. Dark isn't pure black.</small></span></div>
+      <div class="rule"><span class="n">06</span><span class="t"><b>One primitive per concept, composed rather than configured.</b><small><code>Card</code> + <code>CardHeader</code>/<code>CardBody</code>/<code>CardFooter</code> compose like a sentence, instead of one component with twelve props.</small></span></div>
+      <div class="rule"><span class="n">07</span><span class="t"><b>Type is a scale, in rem, not arbitrary px.</b><small>Every font-size is a <code>--text-*</code> token so the UI still respects a user's browser text-size/zoom preference — a real accessibility mechanism, not just visual consistency.</small></span></div>
+      <div class="rule"><span class="n">08</span><span class="t"><b>Every primitive defends its own layout.</b><small>A <code>Badge</code> stays a pill even inside a stretching flex column; a <code>Row</code> title truncates instead of colliding with a trailing control. Found the hard way — see the Card section.</small></span></div>
+    </div>
+  </section>
+
+  <section id="signature">
+    <div class="sec-head">
+      <h2>Signature details</h2>
+      <p>The things that make this a designed system instead of a competent default: three radius tiers with a reason (not one flat rounding everywhere), a mono face that does real identity work, and a corner-bracket motif used exactly twice.</p>
+    </div>
+
+    <div class="demo top">
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
+        <div style="width:64px; height:64px; background:var(--sunken); border:1px solid var(--line); border-radius:var(--radius-xs);"></div>
+        <span style="font-size:var(--text-xs); color:var(--ink-faint);">xs · 6px<br>inputs, rows, tags</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
+        <div style="width:64px; height:64px; background:var(--sunken); border:1px solid var(--line); border-radius:var(--radius-sm);"></div>
+        <span style="font-size:var(--text-xs); color:var(--ink-faint);">sm · 8px<br>buttons, menus</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
+        <div style="width:64px; height:64px; background:var(--sunken); border:1px solid var(--line); border-radius:var(--radius-md);"></div>
+        <span style="font-size:var(--text-xs); color:var(--ink-faint);">md · 14px<br>cards, dialogs</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
+        <div style="width:64px; height:64px; background:var(--accent); border-radius:var(--radius-pill);"></div>
+        <span style="font-size:var(--text-xs); color:var(--ink-faint);">pill<br>badges, chips, avatars</span>
+      </div>
+    </div>
+
+    <div class="demo top" style="margin-top:8px;">
+      <div class="arlab-card arlab-accent-edge" style="width:280px; position:relative; overflow:hidden;">
+        <h3 class="arlab-card-title" style="font-size:var(--text-md);">Accent edge</h3>
+        <p class="arlab-card-description">Used on <code>Dialog</code> and <code>CommandPalette</code> — the two highest-emphasis surfaces. The same gradient the primary button uses, so it reads as "the important one" without needing a caption to explain it. Shown here for demonstration only.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-family:var(--font-mono); font-size:var(--text-base); color:var(--ink); letter-spacing:0.01em;">agt_8f21c0f3</span>
+        <span style="font-family:var(--font-mono); font-size:var(--text-sm); color:var(--ink-faint); letter-spacing:0.01em;">2026-08-30T14:02:11Z</span>
+        <span style="font-family:var(--font-mono); font-size:var(--text-sm); color:var(--ink-faint); letter-spacing:0.01em;">sk_live_7f2a…d891</span>
+        <span style="font-size:var(--text-xs); color:var(--ink-inactive);">JetBrains Mono — the readout face</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="navbar">
+    <div class="sec-head">
+      <h2>Navbar</h2>
+      <p>The lockup at the very top of this page is <code>&lt;Navbar&gt;&lt;NavbarBrand logo name dot /&gt;&lt;NavbarSpacer /&gt;...anything...&lt;/Navbar&gt;</code>. <code>Navbar</code> is just a flex row — <code>NavbarBrand</code> is the only opinionated piece. Everything after <code>NavbarSpacer</code> is arbitrary children: a role badge, an icon button, an avatar here, but it could be search, nav links, anything.</p>
+    </div>
+  </section>
+
+  <section id="icons">
+    <div class="sec-head">
+      <h2>Icons</h2>
+      <p>A custom set, one shared recipe: 24×24 canvas, 1.6 stroke (thinner than the usual 1.75-2 — reads more precise, less cartoonish at small sizes), round caps and joins. 21 icons, covering what a lead console actually needs.</p>
+    </div>
+    <div class="icon-grid" id="iconGrid"></div>
+  </section>
+
+  <section id="color">
+    <div class="sec-head">
+      <h2>Color</h2>
+      <p>Every value below is a CSS custom property from <code>styles.css</code> — components never hardcode a hex.</p>
+    </div>
+    <div class="swatch-grid" id="swatches"></div>
+  </section>
+
+  <section id="type">
+    <div class="sec-head">
+      <h2>Type</h2>
+      <p>A rem-based scale (<code>--text-xs</code> through <code>--text-3xl</code>), so it scales with a user's font-size preference — not just fixed pixels.</p>
+    </div>
+    <div>
+      <div class="type-row"><span class="tag">3xl / 700</span><span style="font-size:var(--text-3xl); font-weight:700;">Sign in to Agents Studio</span></div>
+      <div class="type-row"><span class="tag">xl / 600</span><span style="font-size:var(--text-xl); font-weight:600;">Agent registry</span></div>
+      <div class="type-row"><span class="tag">base / 500</span><span style="font-size:var(--text-base); font-weight:500;">Trend Analyst</span></div>
+      <div class="type-row"><span class="tag">base / 400</span><span style="font-size:var(--text-base); color:var(--ink-dim);">Reads signal sources and drafts a weekly trend brief for the Content Planner.</span></div>
+      <div class="type-row"><span class="tag">xs / mono</span><span style="font-family:var(--font-mono); font-size:var(--text-xs); color:var(--ink-faint);">agt_8f21c0 · claude-sonnet-5</span></div>
+    </div>
+  </section>
+
+  <section id="buttons">
+    <div class="sec-head">
+      <h2>Button &amp; IconButton</h2>
+      <p><code>variant</code>: primary, ghost, danger. <code>size</code>: md, sm.</p>
+    </div>
+    <div class="demo">
+      <button class="arlab-btn primary" type="button"><span class="arlab-btn-label">Install agent</span></button>
+      <button class="arlab-btn ghost" type="button">View definition</button>
+      <button class="arlab-btn danger" type="button">Delete agent</button>
+      <button class="arlab-btn primary" type="button" disabled><span class="arlab-btn-label">Installing…</span></button>
+    </div>
+    <div class="demo">
+      <button class="arlab-btn primary sm" type="button"><span class="arlab-btn-label">Save</span></button>
+      <button class="arlab-btn ghost sm" type="button">Cancel</button>
+      <button class="arlab-btn danger sm" type="button">Revoke key</button>
+    </div>
+    <div class="demo">
+      <button class="arlab-icon-btn" type="button" aria-label="Refresh" id="iconBtnRefresh"></button>
+      <button class="arlab-icon-btn" type="button" aria-label="More options" id="iconBtnMore"></button>
+      <button class="arlab-icon-btn sm" type="button" aria-label="Close" id="iconBtnClose"></button>
+    </div>
+  </section>
+
+  <section id="card">
+    <div class="sec-head">
+      <h2>Card, composed</h2>
+      <p><code>Card</code> is a flex column by default. <code>CardHeader</code> puts the title on the left and a trailing slot — a badge, a menu — on the right, so status doesn't have to compete with identity for the same line.</p>
+    </div>
+    <div class="demo top">
+      <div class="arlab-card" style="width:340px;">
+        <div class="arlab-card-header">
+          <div class="arlab-card-header-main">
+            <h3 class="arlab-card-title">Content Planner</h3>
+            <p class="arlab-card-description">signal · claude-sonnet-5</p>
+          </div>
+          <span class="arlab-badge accent">Active</span>
+        </div>
+        <p class="arlab-card-description">Master agent for the Social Calendar. Orchestrates Trend Analyst and Social Content Strategy on a weekly cadence.</p>
+        <div class="arlab-card-footer">
+          <button class="arlab-btn ghost sm" type="button">View definition</button>
+          <button class="arlab-btn ghost sm" type="button">Test</button>
+        </div>
+      </div>
+      <div class="arlab-card interactive" style="width:340px;" tabindex="0">
+        <div class="arlab-card-header">
+          <div class="arlab-card-header-main">
+            <h3 class="arlab-card-title">Agent Creator</h3>
+            <p class="arlab-card-description">management · claude-opus-5</p>
+          </div>
+          <span class="arlab-badge warn">Needs review</span>
+        </div>
+        <p class="arlab-card-description">Hover or tab to this card — <code>interactive</code> adds lift and a focus ring for a card that's itself a link or button.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="badge">
+    <div class="sec-head">
+      <h2>Badge &amp; Chip</h2>
+      <p><code>Badge</code> is a status signal (<code>tone</code>: default, accent, warn, crit, live). <code>Chip</code> is an identity tag — usually removable, and has an <code>empty</code> variant for "nothing set" instead of hiding the row.</p>
+    </div>
+    <div class="demo">
+      <span class="arlab-badge">Draft</span>
+      <span class="arlab-badge accent">Active</span>
+      <span class="arlab-badge warn">Needs review</span>
+      <span class="arlab-badge crit">Failing evals</span>
+      <span class="arlab-badge live">Live</span>
+    </div>
+    <div class="demo">
+      <span class="arlab-chip">signal:read <button class="arlab-chip-remove" type="button" aria-label="Remove">✕</button></span>
+      <span class="arlab-chip">brand:read <button class="arlab-chip-remove" type="button" aria-label="Remove">✕</button></span>
+      <span class="arlab-chip empty">No scopes set</span>
+    </div>
+  </section>
+
+  <section id="avatar">
+    <div class="sec-head">
+      <h2>Avatar</h2>
+      <p>Initials fallback when there's no image — always legible, never a broken image icon.</p>
+    </div>
+    <div class="demo">
+      <span class="arlab-avatar" style="width:36px;height:36px;font-size:14px;">LC</span>
+      <span class="arlab-avatar" style="width:28px;height:28px;font-size:11px;">JD</span>
+      <span class="arlab-avatar" style="width:22px;height:22px;font-size:9px;">MK</span>
+    </div>
+  </section>
+
+  <section id="rows">
+    <div class="sec-head">
+      <h2>Row &amp; ArlabList</h2>
+      <p>A divided, typographic list. The first row is <code>interactive</code>; its title truncates instead of colliding with the badge.</p>
+    </div>
+    <div class="arlab-list">
+      <div class="arlab-row interactive" tabindex="0">
+        <div class="arlab-row-main"><div class="arlab-row-title">Trend Analyst — signal intelligence, weekly cadence</div><div class="arlab-row-meta">signal · claude-sonnet-5</div></div>
+        <div class="arlab-row-trailing"><span class="arlab-badge accent">Active</span></div>
+      </div>
+      <div class="arlab-row">
+        <div class="arlab-row-main"><div class="arlab-row-title">Social Content Strategy</div><div class="arlab-row-meta">brand · claude-sonnet-5</div></div>
+        <div class="arlab-row-trailing"><span class="arlab-badge accent">Active</span></div>
+      </div>
+      <div class="arlab-row">
+        <div class="arlab-row-main"><div class="arlab-row-title">Roadmap ClickUp Creator</div><div class="arlab-row-meta">execution · claude-opus-5</div></div>
+        <div class="arlab-row-trailing"><span class="arlab-badge">Draft</span></div>
+      </div>
+      <div class="arlab-row">
+        <div class="arlab-row-main"><div class="arlab-row-title">Agent Creator</div><div class="arlab-row-meta">management · claude-opus-5</div></div>
+        <div class="arlab-row-trailing"><span class="arlab-badge warn">Needs review</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fields">
+    <div class="sec-head">
+      <h2>Text fields</h2>
+      <p>Input, Textarea, and Select share one visual language — border, focus ring, error state.</p>
+    </div>
+    <div class="field-grid">
+      <div class="arlab-field">
+        <label class="arlab-label" for="fname">Agent name</label>
+        <input class="arlab-input" id="fname" type="text" placeholder="Trend Analyst" />
+      </div>
+      <div class="arlab-field">
+        <label class="arlab-label" for="fintel">Intelligence</label>
+        <div class="arlab-select-wrap">
+          <select class="arlab-select" id="fintel">
+            <option>Signal</option>
+            <option>Brand</option>
+            <option>Strategy</option>
+            <option>Execution</option>
+          </select>
+          <svg class="arlab-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="arlab-field" style="grid-column:1/-1;">
+        <label class="arlab-label" for="fdesc">Description</label>
+        <textarea class="arlab-textarea" id="fdesc" placeholder="What does this agent do, and when should someone reach for it?"></textarea>
+      </div>
+      <div class="arlab-field">
+        <label class="arlab-label" for="ferr">API key</label>
+        <input class="arlab-input error" id="ferr" type="text" value="sk_live_••••" />
+        <span class="arlab-hint error">This key was revoked on Aug 28.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="choice">
+    <div class="sec-head">
+      <h2>Checkbox, radio, switch, segmented control</h2>
+      <p>Four ways to make a bounded choice, each suited to a different shape of decision.</p>
+    </div>
+    <div class="demo col" style="max-width:340px; gap:14px;">
+      <label class="arlab-checkbox"><input type="checkbox" checked /><span class="arlab-checkbox-box" id="cbCheck1"></span>Notify me when evals fail</label>
+      <label class="arlab-checkbox"><input type="checkbox" /><span class="arlab-checkbox-box" id="cbCheck2"></span>Auto-install on publish</label>
+    </div>
+    <div class="demo col" style="max-width:340px; gap:10px;">
+      <label class="arlab-radio"><input type="radio" name="model" checked /><span class="arlab-radio-dot"></span>claude-sonnet-5</label>
+      <label class="arlab-radio"><input type="radio" name="model" /><span class="arlab-radio-dot"></span>claude-opus-5</label>
+      <label class="arlab-radio"><input type="radio" name="model" /><span class="arlab-radio-dot"></span>claude-haiku-4-5</label>
+    </div>
+    <div class="demo">
+      <button class="arlab-switch" role="switch" aria-checked="true" id="switch1"><span class="arlab-switch-knob"></span></button>
+      <span style="font-size:var(--text-base); color:var(--ink-dim);">Live in production</span>
+    </div>
+    <div class="arlab-segmented" role="tablist" id="segmented">
+      <button class="arlab-segment" role="tab" aria-selected="true" type="button">Overview</button>
+      <button class="arlab-segment" role="tab" aria-selected="false" type="button">Evals</button>
+      <button class="arlab-segment" role="tab" aria-selected="false" type="button">Install</button>
+    </div>
+  </section>
+
+  <section id="dropzone">
+    <div class="sec-head">
+      <h2>Dropzone</h2>
+      <p>No dashed border — that's the single most generic "AI file upload" pattern there is. A solid tonal panel, an actually-elevated icon target with its own shadow, and an explicit "Browse files" pill instead of a control that only works if you click the right invisible spot.</p>
+    </div>
+    <label class="arlab-dropzone" id="dz" for="dzInput" style="max-width:420px;" tabindex="0">
+      <span class="arlab-dropzone-target">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      </span>
+      <span class="arlab-dropzone-title">Drop a reference doc here</span>
+      <span class="arlab-dropzone-hint">PDF, Markdown, or plain text</span>
+      <span class="arlab-dropzone-browse">Browse files</span>
+      <input id="dzInput" type="file" />
+    </label>
+  </section>
+
+  <section id="overlays">
+    <div class="sec-head">
+      <h2>Dialog, Toast &amp; LoadingBar</h2>
+      <p>Dialog: backdrop blur, closes on Escape or a backdrop click, returns focus on close. Toast: a bottom-center pill, always dark-on-light or light-on-dark regardless of page theme. LoadingBar: a thin top-of-page indeterminate bar for a route change or long fetch — ported from theARLab's site loader, gradient accent→orange sliding across.</p>
+    </div>
+    <div class="demo">
+      <button class="arlab-btn ghost" type="button" id="openDialog">Delete agent…</button>
+      <button class="arlab-btn ghost" type="button" id="fireToast">Show a toast</button>
+      <button class="arlab-btn ghost" type="button" id="fireLoading">Simulate loading</button>
+    </div>
+  </section>
+
+  <section id="skeleton">
+    <div class="sec-head">
+      <h2>Skeleton</h2>
+      <p>Mirrors the row layout above, at rest. Never a bare "Loading…" string.</p>
+    </div>
+    <div class="arlab-list" style="max-width:420px;">
+      <div class="arlab-row">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div class="arlab-skeleton" style="width:160px; height:14px;"></div>
+          <div class="arlab-skeleton" style="width:110px; height:11px;"></div>
+        </div>
+        <div class="arlab-skeleton" style="width:56px; height:20px; border-radius:9999px;"></div>
+      </div>
+      <div class="arlab-row">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div class="arlab-skeleton" style="width:190px; height:14px;"></div>
+          <div class="arlab-skeleton" style="width:90px; height:11px;"></div>
+        </div>
+        <div class="arlab-skeleton" style="width:56px; height:20px; border-radius:9999px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tabs2">
+    <div class="sec-head">
+      <h2>Tabs</h2>
+      <p>Replaces arlab-studio's two divergent tab systems (a nav-pill system and a plain-underline system). The underline now slides to the active tab instead of just recoloring, and the track scrolls horizontally instead of wrapping — the Detail view's 8 tabs used to wrap awkwardly.</p>
+    </div>
+    <div class="arlab-tabs" role="tablist" id="tabsDemo" style="max-width:480px;">
+      <button class="arlab-tab" role="tab" aria-selected="true" type="button">Overview</button>
+      <button class="arlab-tab" role="tab" aria-selected="false" type="button">References</button>
+      <button class="arlab-tab" role="tab" aria-selected="false" type="button">Definition</button>
+      <button class="arlab-tab" role="tab" aria-selected="false" type="button">Evals</button>
+      <button class="arlab-tab" role="tab" aria-selected="false" type="button">Install</button>
+      <span class="arlab-tabs-indicator" id="tabsIndicator"></span>
+    </div>
+  </section>
+
+  <section id="menus">
+    <div class="sec-head">
+      <h2>Popover, dropdown menu &amp; combobox picker</h2>
+      <p>Neither app had an actual floating action menu. <code>DropdownMenu</code> is built on a generic <code>Popover</code>. <code>ComboboxPicker</code> hardens arlab-studio's inline reference-picker (search + list) with arrow-key navigation it previously lacked.</p>
+    </div>
+    <div class="demo top">
+      <div class="arlab-popover-wrap">
+        <button class="arlab-btn ghost" type="button" id="menuTrigger" aria-expanded="false">Actions</button>
+        <div class="arlab-popover-panel start" id="menuPanel" style="display:none; min-width:200px;">
+          <button class="arlab-menu-item" type="button"><span style="width:16px;"></span>Edit definition</button>
+          <button class="arlab-menu-item active" type="button"><span style="width:16px;"></span>Duplicate</button>
+          <button class="arlab-menu-item" type="button"><span style="width:16px;"></span>Export JSON</button>
+          <div class="arlab-menu-sep"></div>
+          <button class="arlab-menu-item danger" type="button"><span style="width:16px;"></span>Delete agent</button>
+        </div>
+      </div>
+      <div style="width:280px;">
+        <div class="arlab-picker">
+          <input class="arlab-input" placeholder="Search reference docs…" id="pickerSearch" />
+          <div class="arlab-picker-list">
+            <button class="arlab-picker-item active" type="button"><span>Signal intelligence brief</span><span class="arlab-picker-item-meta">signal</span></button>
+            <button class="arlab-picker-item" type="button"><span>Brand voice guide</span><span class="arlab-picker-item-meta">brand</span></button>
+            <button class="arlab-picker-item" type="button"><span>Weekly trend template</span><span class="arlab-picker-item-meta">execution</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cmdk">
+    <div class="sec-head">
+      <h2>Command palette</h2>
+      <p>A Cmd/Ctrl+K searchable modal, ported from arlab-docs. Click the search button, or press <code>⌘K</code>.</p>
+    </div>
+    <div style="max-width:420px;">
+      <button class="arlab-search-btn" type="button" id="openCmdk">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span class="placeholder">Search agents, docs, actions…</span>
+        <span class="arlab-cmdk-kbd">⌘K</span>
+      </button>
+    </div>
+  </section>
+
+  <section id="navtree">
+    <div class="sec-head">
+      <h2>Nav tree</h2>
+      <p>A collapsible, nested, route-aware sidebar nav — arlab-docs' Sidebar pattern, generalized. The branch containing the active item auto-expands.</p>
+    </div>
+    <nav class="arlab-navtree" style="max-width:280px;">
+      <div class="arlab-navtree-node">
+        <div class="arlab-navtree-row">
+          <button class="arlab-navtree-toggle open" type="button" aria-label="Collapse Signal" aria-expanded="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+          <a href="#" class="arlab-navtree-link">Signal</a>
+        </div>
+        <div class="arlab-navtree-children">
+          <div class="arlab-navtree-node"><div class="arlab-navtree-row"><span style="width:20px; flex-shrink:0;"></span><a href="#" class="arlab-navtree-link active">Trend Analyst</a></div></div>
+          <div class="arlab-navtree-node"><div class="arlab-navtree-row"><span style="width:20px; flex-shrink:0;"></span><a href="#" class="arlab-navtree-link">Signal Qualify</a></div></div>
+        </div>
+      </div>
+      <div class="arlab-navtree-node">
+        <div class="arlab-navtree-row">
+          <button class="arlab-navtree-toggle" type="button" aria-label="Expand Brand" aria-expanded="false"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+          <a href="#" class="arlab-navtree-link">Brand</a>
+        </div>
+      </div>
+    </nav>
+  </section>
+
+  <section id="breadcrumbs">
+    <div class="sec-head">
+      <h2>Breadcrumbs</h2>
+      <p>Sentence case, not the mono-uppercase trail arlab-docs had duplicated across two files. Fixed a real bug here: the component now declares <code>flex-direction: row</code> explicitly, so a host page's own <code>nav</code> reset can't stack it vertically the way this demo briefly did.</p>
+    </div>
+    <nav class="arlab-breadcrumbs">
+      <a href="#">Agents</a>
+      <svg class="sep" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      <a href="#">Signal</a>
+      <svg class="sep" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="current">Trend Analyst</span>
+    </nav>
+  </section>
+
+  <section id="more">
+    <div class="sec-head">
+      <h2>Tag input, collapsible, tooltip</h2>
+    </div>
+    <div class="demo col" style="max-width:340px; gap:20px;">
+      <div class="arlab-taginput" id="tagInput">
+        <span class="arlab-chip">signal:read <button class="arlab-chip-remove" type="button" aria-label="Remove">✕</button></span>
+        <span class="arlab-chip">brand:read <button class="arlab-chip-remove" type="button" aria-label="Remove">✕</button></span>
+        <input placeholder="Add a scope…" />
+      </div>
+      <div>
+        <button class="arlab-collapsible-trigger" id="collapseTrigger" aria-expanded="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          Advanced: send raw JSON
+        </button>
+        <div class="arlab-collapsible-body" id="collapseBody">
+          <div>
+            <div class="arlab-collapsible-body-inner">
+              <textarea class="arlab-textarea" placeholder='{ "input": "..." }'></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo">
+        <span class="arlab-tooltip-wrap">
+          <button class="arlab-icon-btn" type="button" aria-label="Refresh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11A8 8 0 1 0 18 16.3"/><path d="M20 5.5V11h-5.5"/></svg></button>
+          <span class="arlab-tooltip-bubble" role="tooltip">Refresh registry</span>
+        </span>
+        <span style="font-size:var(--text-sm); color:var(--ink-faint);">Hover the icon button</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="cardvariants">
+    <div class="sec-head">
+      <h2>Card variants: rail &amp; accent-hover</h2>
+      <p>Ported from arlab-docs' DepartmentCard (colored rail + count) and EntityCard (hover-reveal top accent) — neither matched plain Card before this.</p>
+    </div>
+    <div class="demo top">
+      <div class="arlab-card rail" style="--card-rail:var(--info); width:260px;">
+        <div class="arlab-card-header">
+          <h3 class="arlab-card-title" style="font-size:var(--text-md);">Signal</h3>
+          <span class="arlab-badge">14 agents</span>
+        </div>
+        <p class="arlab-card-description">Trend detection, source qualification, and weekly briefs.</p>
+      </div>
+      <div class="arlab-card accent-hover interactive" style="width:260px;" tabindex="0">
+        <span class="arlab-kicker">01 · Agent</span>
+        <h3 class="arlab-card-title" style="font-size:var(--text-md);">Trend Analyst</h3>
+        <p class="arlab-card-description">Hover for the top accent reveal — arlab-docs' EntityCard did this per-department-colored.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="misc">
+    <div class="sec-head">
+      <h2>Steps, legend dot, timestamp</h2>
+    </div>
+    <div class="demo top" style="align-items:flex-start; gap:40px;">
+      <div class="arlab-steps" style="width:260px;">
+        <div class="arlab-step done"><span class="arlab-step-index"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><div class="arlab-step-body"><div class="arlab-step-title">Connect Gmail</div><div class="arlab-step-description">Authorize the signature add-on.</div></div></div>
+        <div class="arlab-step current"><span class="arlab-step-index">2</span><div class="arlab-step-body"><div class="arlab-step-title">Choose a template</div><div class="arlab-step-description">Pick a signature layout.</div></div></div>
+        <div class="arlab-step"><span class="arlab-step-index">3</span><div class="arlab-step-body"><div class="arlab-step-title">Apply to Gmail</div></div></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <span class="arlab-legend-dot"><span class="dot" style="background:var(--info);"></span>Signal</span>
+        <span class="arlab-legend-dot"><span class="dot" style="background:var(--live);"></span>Brand</span>
+        <span class="arlab-legend-dot"><span class="dot" style="background:var(--warn);"></span>Strategy</span>
+        <span class="arlab-timestamp" id="timestampDemo"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>@arlab/ui v0.1.0 · thearlab/arlab-ui · generated from the built stylesheet, not a mockup.</footer>
+</main>
+</div>
+
+<!-- Dialog (hidden until opened) -->
+<div id="dialogBackdrop" class="arlab-dialog-backdrop" style="display:none;">
+  <div class="arlab-dialog" role="dialog" aria-modal="true" tabindex="-1">
+    <h2 class="arlab-dialog-title">Delete this agent?</h2>
+    <p class="arlab-dialog-description">This can't be undone. Anything currently installed from it keeps running until it's manually uninstalled.</p>
+    <div class="arlab-dialog-footer">
+      <button class="arlab-btn ghost" type="button" id="dialogCancel">Cancel</button>
+      <button class="arlab-btn danger" type="button" id="dialogConfirm">Delete agent</button>
+    </div>
+  </div>
+</div>
+
+<div class="arlab-loadingbar" id="loadingBar" style="display:none;"><div class="arlab-loadingbar-fill"></div></div>
+
+<div class="arlab-toast-viewport" id="toastViewport"></div>
+
+<div class="arlab-cmdk-backdrop" id="cmdkBackdrop" style="display:none;">
+  <div class="arlab-cmdk">
+    <div class="arlab-cmdk-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input class="arlab-cmdk-input" id="cmdkInput" placeholder="Search agents, docs, actions…" />
+      <span class="arlab-cmdk-kbd">ESC</span>
+    </div>
+    <div class="arlab-cmdk-list" id="cmdkList">
+      <button class="arlab-cmdk-row active" type="button"><span class="arlab-cmdk-row-type">agent</span><span class="arlab-cmdk-row-main"><span class="arlab-cmdk-row-title">Trend Analyst</span><span class="arlab-cmdk-row-summary">signal · claude-sonnet-5</span></span></button>
+      <button class="arlab-cmdk-row" type="button"><span class="arlab-cmdk-row-type">agent</span><span class="arlab-cmdk-row-main"><span class="arlab-cmdk-row-title">Social Content Strategy</span><span class="arlab-cmdk-row-summary">brand · claude-sonnet-5</span></span></button>
+      <button class="arlab-cmdk-row" type="button"><span class="arlab-cmdk-row-type">action</span><span class="arlab-cmdk-row-main"><span class="arlab-cmdk-row-title">Create agent…</span></span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- icon set (mirrors src/icons.tsx 1:1) ----
+  const ICONS = {
+    ChevronDown: '<path d="M6 9l6 6 6-6"/>',
+    ChevronRight: '<path d="M9 6l6 6-6 6"/>',
+    ChevronLeft: '<path d="M15 6l-6 6 6 6"/>',
+    Close: '<path d="M6 6l12 12M18 6L6 18"/>',
+    Search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+    Check: '<path d="M5 13l4 4L19 7"/>',
+    Plus: '<path d="M12 5v14M5 12h14"/>',
+    Trash: '<path d="M4 7h16"/><path d="M9 7V4.8C9 4.36 9.36 4 9.8 4h4.4c.44 0 .8.36.8.8V7"/><path d="M6.5 7l.7 12.1c.05.9.8 1.9 1.8 1.9h6c1 0 1.75-1 1.8-1.9L18.5 7"/><path d="M10 11v6M14 11v6"/>',
+    ExternalLink: '<path d="M14 5h5v5"/><path d="M19 5l-8.5 8.5"/><path d="M11 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/>',
+    Copy: '<rect x="8" y="8" width="12" height="12" rx="2.2"/><path d="M6 16h-.5A1.5 1.5 0 0 1 4 14.5v-9A1.5 1.5 0 0 1 5.5 4h9A1.5 1.5 0 0 1 16 5.5V6"/>',
+    Key: '<circle cx="7.5" cy="15.5" r="3.5"/><path d="M10.5 12.5L20 3"/><path d="M16.5 6.5l3 3"/><path d="M14 9l2 2"/>',
+    User: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>',
+    Users: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8.5" r="2.6"/><path d="M15.5 14.2c2.7.4 4.8 2.7 4.8 5.8"/>',
+    Settings: '<line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="16" cy="12" r="2"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="10" cy="17" r="2"/>',
+    MoreHorizontal: '<circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/>',
+    Refresh: '<path d="M20 11A8 8 0 1 0 18 16.3"/><path d="M20 5.5V11h-5.5"/>',
+    ArrowRight: '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
+    AlertTriangle: '<path d="M12 3.5l9.5 16.5H2.5L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17" r="0.9" fill="currentColor" stroke="none"/>',
+    InfoCircle: '<circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.8" r="0.9" fill="currentColor" stroke="none"/>',
+    Sun: '<circle cx="12" cy="12" r="4.2"/><g stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="4.8"/><line x1="12" y1="19.2" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="4.8" y2="12"/><line x1="19.2" y1="12" x2="21.5" y2="12"/><line x1="5.3" y1="5.3" x2="6.9" y2="6.9"/><line x1="17.1" y1="17.1" x2="18.7" y2="18.7"/><line x1="5.3" y1="18.7" x2="6.9" y2="17.1"/><line x1="17.1" y1="6.9" x2="18.7" y2="5.3"/></g>',
+    Moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" stroke-linejoin="round"/>',
+    Upload: '<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>',
+  };
+  function iconSvg(name, size) {
+    size = size || 18;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+  }
+
+  const grid = document.getElementById('iconGrid');
+  for (const name of Object.keys(ICONS)) {
+    const el = document.createElement('div');
+    el.className = 'icon-tile';
+    el.innerHTML = iconSvg(name, 20) + `<span>${name}</span>`;
+    grid.appendChild(el);
+  }
+  document.getElementById('iconBtnRefresh').innerHTML = iconSvg('Refresh', 16);
+  document.getElementById('iconBtnMore').innerHTML = iconSvg('MoreHorizontal', 16);
+  document.getElementById('iconBtnClose').innerHTML = iconSvg('Close', 14);
+
+  const SWATCHES = [
+    ['ground', '--ground'], ['raise', '--raise'], ['sunken', '--sunken'],
+    ['ink', '--ink'], ['accent', '--accent'], ['accent-tint', '--accent-tint'],
+    ['accent-deep', '--accent-deep'], ['warn', '--warn'], ['crit', '--crit'],
+    ['info', '--info'], ['live', '--live'],
+  ];
+  const swatchGrid = document.getElementById('swatches');
+  for (const [name, varName] of SWATCHES) {
+    const el = document.createElement('div');
+    el.className = 'swatch';
+    el.innerHTML = `<div class="fill" style="background:var(${varName})"></div><div class="label"><span class="name">${name}</span><span class="hex">var(${varName})</span></div>`;
+    swatchGrid.appendChild(el);
+  }
+
+  // ---- theme toggle (icon-based, matches ThemeToggle.tsx) ----
+  const slot = document.getElementById('themeSlot');
+  const themeBtn = document.createElement('button');
+  themeBtn.className = 'arlab-icon-btn';
+  themeBtn.type = 'button';
+  slot.appendChild(themeBtn);
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.innerHTML = iconSvg(t === 'dark' ? 'Moon' : 'Sun', 16);
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    localStorage.setItem('arlab-theme-showcase', t);
+  }
+  const stored = localStorage.getItem('arlab-theme-showcase');
+  applyTheme(stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => {
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // ---- checkbox check glyphs ----
+  document.getElementById('cbCheck1').innerHTML = iconSvg('Check', 12);
+  document.getElementById('cbCheck2').innerHTML = iconSvg('Check', 12);
+
+  // ---- switch ----
+  const sw = document.getElementById('switch1');
+  sw.addEventListener('click', () => sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') === 'true' ? 'false' : 'true'));
+
+  // ---- segmented control ----
+  document.getElementById('segmented').addEventListener('click', (e) => {
+    const btn = e.target.closest('.arlab-segment');
+    if (!btn) return;
+    [...btn.parentElement.children].forEach((c) => c.setAttribute('aria-selected', 'false'));
+    btn.setAttribute('aria-selected', 'true');
+  });
+
+  // ---- dropzone drag state ----
+  const dz = document.getElementById('dz');
+  dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+  dz.addEventListener('drop', (e) => { e.preventDefault(); dz.classList.remove('drag'); });
+
+  // ---- dialog ----
+  const backdrop = document.getElementById('dialogBackdrop');
+  function openDialog() { backdrop.style.display = 'flex'; backdrop.querySelector('.arlab-dialog').focus(); }
+  function closeDialog() { backdrop.style.display = 'none'; }
+  document.getElementById('openDialog').addEventListener('click', openDialog);
+  document.getElementById('dialogCancel').addEventListener('click', closeDialog);
+  document.getElementById('dialogConfirm').addEventListener('click', closeDialog);
+  backdrop.addEventListener('mousedown', (e) => { if (e.target === backdrop) closeDialog(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDialog(); });
+
+  // ---- toast ----
+  const viewport = document.getElementById('toastViewport');
+  document.getElementById('fireToast').addEventListener('click', () => {
+    const el = document.createElement('div');
+    el.className = 'arlab-toast';
+    el.textContent = 'Saved.';
+    viewport.appendChild(el);
+    setTimeout(() => el.remove(), 2600);
+  });
+
+  // ---- tabs sliding indicator ----
+  const tabsDemo = document.getElementById('tabsDemo');
+  const tabsIndicator = document.getElementById('tabsIndicator');
+  function positionIndicator() {
+    const active = tabsDemo.querySelector('[aria-selected="true"]');
+    if (active) { tabsIndicator.style.transform = `translateX(${active.offsetLeft}px)`; tabsIndicator.style.width = active.offsetWidth + 'px'; }
+  }
+  tabsDemo.addEventListener('click', (e) => {
+    const btn = e.target.closest('.arlab-tab');
+    if (!btn) return;
+    [...tabsDemo.querySelectorAll('.arlab-tab')].forEach(t => t.setAttribute('aria-selected', 'false'));
+    btn.setAttribute('aria-selected', 'true');
+    positionIndicator();
+  });
+  positionIndicator();
+
+  // ---- dropdown menu (popover) ----
+  const menuTrigger = document.getElementById('menuTrigger');
+  const menuPanel = document.getElementById('menuPanel');
+  menuTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = menuPanel.style.display !== 'none';
+    menuPanel.style.display = isOpen ? 'none' : 'block';
+    menuTrigger.setAttribute('aria-expanded', String(!isOpen));
+  });
+  document.addEventListener('click', () => { menuPanel.style.display = 'none'; menuTrigger.setAttribute('aria-expanded', 'false'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { menuPanel.style.display = 'none'; menuTrigger.setAttribute('aria-expanded', 'false'); } });
+
+  // ---- command palette ----
+  const cmdkBackdrop = document.getElementById('cmdkBackdrop');
+  const cmdkInput = document.getElementById('cmdkInput');
+  function openCmdk() { cmdkBackdrop.style.display = 'flex'; cmdkInput.focus(); }
+  function closeCmdk() { cmdkBackdrop.style.display = 'none'; }
+  document.getElementById('openCmdk').addEventListener('click', openCmdk);
+  cmdkBackdrop.addEventListener('mousedown', (e) => { if (e.target === cmdkBackdrop) closeCmdk(); });
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmdk(); }
+    else if (e.key === 'Escape') closeCmdk();
+  });
+
+  // ---- nav tree ----
+  document.querySelectorAll('.arlab-navtree-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.classList.toggle('open', !open);
+      const node = btn.closest('.arlab-navtree-node');
+      const children = node.querySelector('.arlab-navtree-children');
+      if (children) children.style.display = open ? 'none' : 'flex';
+    });
+  });
+
+  // ---- tag input (remove only in this static demo; add-on-enter needs no extra js beyond native input) ----
+  document.getElementById('tagInput').addEventListener('click', (e) => {
+    const btn = e.target.closest('.arlab-chip-remove');
+    if (btn) btn.closest('.arlab-chip').remove();
+  });
+
+  // ---- collapsible ----
+  document.getElementById('collapseTrigger').addEventListener('click', () => {
+    const trigger = document.getElementById('collapseTrigger');
+    const body = document.getElementById('collapseBody');
+    const open = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!open));
+    body.classList.toggle('open', !open);
+  });
+
+  // ---- loading bar ----
+  document.getElementById('fireLoading').addEventListener('click', () => {
+    const bar = document.getElementById('loadingBar');
+    bar.style.display = 'block';
+    setTimeout(() => { bar.style.display = 'none'; }, 2200);
+  });
+
+  // ---- timestamp ----
+  document.getElementById('timestampDemo').textContent = 'Updated 3 hours ago';
+  document.getElementById('timestampDemo').title = new Date().toLocaleString();
+
+  // ---- nav scroll-spy ----
+  const links = document.querySelectorAll('nav a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        links.forEach(a => a.classList.remove('active'));
+        const idx = sections.indexOf(e.target);
+        if (idx >= 0) links[idx].classList.add('active');
+      }
+    }
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => s && io.observe(s));
+</script>
+
+</body>
+</html>
