@@ -1,3 +1,5 @@
+'use client';
+
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {

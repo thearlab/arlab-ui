@@ -1,3 +1,5 @@
+'use client';
+
 const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
   ['year', 31536000],
   ['month', 2592000],

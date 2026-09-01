@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes } from 'react';
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {

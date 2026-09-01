@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from 'react';
 
 export function Label({ className = '', ...rest }: LabelHTMLAttributes<HTMLLabelElement>) {

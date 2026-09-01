@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes } from 'react';
 
 /** A restrained eyebrow label — sentence case, not uppercase. Use rarely,

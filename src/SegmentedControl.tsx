@@ -1,3 +1,5 @@
+'use client';
+
 export interface SegmentOption {
   value: string;
   label: string;

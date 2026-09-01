@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { IconButton, type IconButtonProps } from './IconButton';
 import { MoonIcon, SunIcon } from './icons';

@@ -1,3 +1,5 @@
+'use client';
+
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 /** A flex row, nothing more prescriptive — any element can go inside it.
