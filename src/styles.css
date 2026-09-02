@@ -747,6 +747,23 @@ body[data-arlab-ui] {
 /* ---- Timestamp ------------------------------------------------------------ */
 .arlab-timestamp { font-size: var(--text-sm); color: var(--ink-faint); }
 
+/* ---- ScoreBar: a precise fill meter, not an icon+number stat tile --------- */
+.arlab-scorebar-wrap { display: inline-flex; align-items: center; gap: 8px; }
+.arlab-scorebar { position: relative; width: 64px; height: 4px; border-radius: var(--radius-pill); background: var(--sunken); overflow: hidden; flex-shrink: 0; }
+.arlab-scorebar-fill { position: absolute; inset: 0; width: 0; border-radius: var(--radius-pill); background: var(--accent); transition: width var(--dur-slow) var(--ease); }
+.arlab-scorebar-fill.live { background: var(--live); }
+.arlab-scorebar-fill.warn { background: var(--warn); }
+.arlab-scorebar-fill.crit { background: var(--crit); }
+.arlab-scorebar-value { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); flex-shrink: 0; }
+
+/* ---- Kanban: a status board (triage queues, pipeline stages, ...) -------- */
+.arlab-kanban { display: flex; align-items: flex-start; gap: 20px; overflow-x: auto; padding-bottom: 8px; }
+.arlab-kanban-col { width: 300px; flex-shrink: 0; }
+.arlab-kanban-col-header { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px; margin-bottom: 12px; }
+.arlab-kanban-col-title { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; color: var(--ink); margin: 0; }
+.arlab-kanban-col-count { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); }
+.arlab-kanban-col-body { display: flex; flex-direction: column; gap: 10px; }
+
 /* ---- Steps / stepper ------------------------------------------------------ */
 .arlab-steps { display: flex; flex-direction: column; }
 .arlab-step { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }

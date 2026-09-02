@@ -77,3 +77,7 @@ export { Steps } from './Steps';
 export type { StepsProps, StepDef } from './Steps';
 export { LoadingBar } from './LoadingBar';
 export type { LoadingBarProps } from './LoadingBar';
+export { ScoreBar } from './ScoreBar';
+export type { ScoreBarProps } from './ScoreBar';
+export { KanbanBoard, KanbanColumn } from './Kanban';
+export type { KanbanColumnProps } from './Kanban';
