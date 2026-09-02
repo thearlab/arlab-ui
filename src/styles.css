@@ -757,12 +757,26 @@ body[data-arlab-ui] {
 .arlab-scorebar-value { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); flex-shrink: 0; }
 
 /* ---- Kanban: a status board (triage queues, pipeline stages, ...) -------- */
-.arlab-kanban { display: flex; align-items: flex-start; gap: 20px; overflow-x: auto; padding-bottom: 8px; }
-.arlab-kanban-col { width: 300px; flex-shrink: 0; }
-.arlab-kanban-col-header { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px; margin-bottom: 12px; }
-.arlab-kanban-col-title { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; color: var(--ink); margin: 0; }
-.arlab-kanban-col-count { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); }
-.arlab-kanban-col-body { display: flex; flex-direction: column; gap: 10px; }
+/* Fills the parent's height (a flex-1/min-h-0 ancestor) — columns scroll
+   independently instead of the whole page growing with the busiest column. */
+.arlab-kanban { display: flex; align-items: stretch; gap: 20px; height: 100%; overflow-x: auto; padding-bottom: 8px; }
+.arlab-kanban-col { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; }
+/* Collapsed: shrink to just the header instead of leaving a tall empty box
+   (stretch would otherwise still give it the full board height). */
+.arlab-kanban-col.collapsed { align-self: flex-start; }
+.arlab-kanban-col-header {
+  display: flex; align-items: center; justify-content: space-between; width: 100%; flex-shrink: 0;
+  padding: 8px 2px; margin-bottom: 4px; background: none; border: none; cursor: pointer;
+  border-radius: var(--radius-xs); transition: background var(--dur) var(--ease);
+}
+.arlab-kanban-col-header:hover { background: var(--sunken); }
+.arlab-kanban-col-header:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-kanban-col-title-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.arlab-kanban-col-chevron { color: var(--ink-faint); flex-shrink: 0; transition: transform var(--dur) var(--ease); }
+.arlab-kanban-col.collapsed .arlab-kanban-col-chevron { transform: rotate(-90deg); }
+.arlab-kanban-col-title { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; color: var(--ink); margin: 0; text-align: left; }
+.arlab-kanban-col-count { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); flex-shrink: 0; }
+.arlab-kanban-col-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 2px 2px 4px; }
 
 /* ---- Steps / stepper ------------------------------------------------------ */
 .arlab-steps { display: flex; flex-direction: column; }
