@@ -39,6 +39,20 @@ initTheme(); // call once on boot, before first paint, to avoid a theme flash
 - **Radius, three tiers with a reason**: `--radius-xs` (6px — structural/data-entry: inputs, rows, tags), `--radius-sm` (8px — floating utility: buttons, popovers, menus), `--radius-md` (14px — elevated content: cards, dialogs, dropzone), `--radius-pill`.
 - **Motion**: `--ease` is theARLab's actual verified site easing (`cubic-bezier(0.16,1,0.3,1)`), not an approximation.
 
+## Favicon
+
+Every ARLAB app uses the same favicon shape: a **black rounded square** with a **single ARLAB-pink icon** (`#e414db`), as an **SVG** (crisp at every size, theme-independent). `favicon.svg` in this repo is the canonical default — the ARLAB mark on black. Copy it into your app and link it:
+
+```
+public/favicon.svg          # copy the file here
+```
+```html
+<!-- index.html <head> -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+```
+
+To make it your own tool's icon, keep the black rounded-square background and the pink fill, and swap the inner glyph for something relevant to the tool. Same recipe, different symbol, so every ARLAB app reads as one family. (The internal-tool template already ships this favicon; you only change the glyph.)
+
 ## What's here
 
 Primitives: `Button`, `IconButton`, `Card` (+ `CardHeader`/`CardTitle`/`CardDescription`/`CardBody`/`CardFooter`, plus `rail` and `accentHover` variants), `Badge`, `Chip`, `Avatar`, `Row`/`ArlabList`, `Field`/`Label`/`Input`/`Textarea`/`Select`, `Checkbox`, `Radio`, `Switch`, `SegmentedControl`, `Dropzone`, `TagInput`, `Skeleton`, `LoadingBar`.
