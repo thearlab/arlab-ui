@@ -12,13 +12,14 @@ export function Navbar({ className = '', ...rest }: HTMLAttributes<HTMLElement>)
 export interface NavbarBrandProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   logo?: ReactNode;
   name: string;
-  /** The small accent pulse next to the name — an ambient "this is live" signal, not a status indicator. Off by default; turn on deliberately. */
+  /** The small accent pulse next to the name — the ambient "this is live" ARLAB signal.
+   * ON by default so every ARLAB app carries it; pass dot={false} to suppress it deliberately. */
   dot?: boolean;
 }
 
 /** The one opinionated piece: logo + name, consistently spaced and sized.
  * Renders as a link when href is given, otherwise a plain non-interactive lockup. */
-export function NavbarBrand({ logo, name, dot = false, href, className = '', ...rest }: NavbarBrandProps) {
+export function NavbarBrand({ logo, name, dot = true, href, className = '', ...rest }: NavbarBrandProps) {
   const cls = ['arlab-navbar-brand', className].filter(Boolean).join(' ');
   const inner = (
     <>
