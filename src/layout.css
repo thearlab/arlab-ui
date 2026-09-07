@@ -60,9 +60,12 @@
    few hundred, and step text wrapped one word per line. So the split view is a container, and
    these ask it how much room there actually is. */
 .arlab-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
-@container arlab-pane (min-width: 780px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 280px; } }
-@container arlab-pane (min-width: 900px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 320px; } }
-@container arlab-pane (min-width: 720px) {
+/* A container query is evaluated against the container's CONTENT box, so a detail body 816px wide
+   with 36px of padding each side answers 744px, not 816. These numbers are measured in the running
+   apps: 744 is what a 1440 screen leaves once the sidebar and the list have taken theirs. */
+@container arlab-pane (min-width: 700px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 280px; } }
+@container arlab-pane (min-width: 860px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 320px; } }
+@container arlab-pane (min-width: 660px) {
   .arlab-cols.equal { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .arlab-cols.run { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
 }
@@ -149,8 +152,8 @@
 
 /* ----- reading page ----- */
 .arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
-@container arlab-pane (min-width: 900px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 300px; } }
-@container arlab-pane (min-width: 1120px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; } }
+@container arlab-pane (min-width: 840px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 300px; } }
+@container arlab-pane (min-width: 1060px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; } }
 @media (max-width: 1100px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr); } }
 .arlab-read.narrow .arlab-read-main { max-width: 46rem; }
 .arlab-read-main { min-width: 0; }
