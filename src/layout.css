@@ -1,0 +1,171 @@
+/* ===== ARLAB UI 1.0 layout primitives ====================================
+   The grammar of an application screen: split view and panes, the detail header band with its
+   property row and tab strip, panels with rows and facts, timeline and step lists, the dashboard
+   grid, the reading page and the gate. Tokens only; both themes come from the tokens. */
+
+/* ----- split view and panes ----- */
+.arlab-split { flex: 1; min-height: 0; min-width: 0; display: flex; }
+.arlab-pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.arlab-pane.list { width: var(--list-w); flex-shrink: 0; border-right: 1px solid var(--line); background: var(--ground); }
+.arlab-pane.detail { flex: 1; background: var(--raise); }
+.arlab-pane-tools { padding: 16px 16px 12px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line-soft); }
+.arlab-pane-scroll { overflow: auto; flex: 1; min-height: 0; padding-bottom: 20px; }
+.arlab-list-group { padding: 16px 16px 6px; display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+.arlab-dot { width: 6px; height: 6px; border-radius: var(--radius-pill); display: inline-block; flex-shrink: 0; background: var(--ink-faint); }
+.arlab-item {
+  display: grid; grid-template-columns: 8px 1fr auto; gap: 1px 12px; align-items: center;
+  width: calc(100% - 12px); margin: 0 6px; padding: 10px 16px; border: 0; border-left: 2px solid transparent; border-radius: var(--radius-sm);
+  background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+.arlab-item:hover { background: var(--sunken); }
+.arlab-item.on { background: var(--raise); border-left-color: var(--accent); box-shadow: var(--shadow); }
+.arlab-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-item-dot { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--ink-faint); }
+.arlab-item-title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.arlab-item-sub { grid-column: 2; color: var(--ink-faint); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-item-trailing { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); white-space: nowrap; }
+.arlab-item-skeleton { display: grid; gap: 8px; padding: 12px 18px; }
+.arlab-list-empty { padding: 24px 18px; color: var(--ink-faint); font-size: var(--text-sm); }
+
+/* ----- detail header band ----- */
+.arlab-dhead {
+  padding: 26px 36px 0; border-bottom: 1px solid var(--line); background: var(--ground);
+  box-shadow: 0 8px 18px -16px rgba(0, 0, 0, 0.55); position: relative; z-index: 2; flex-shrink: 0;
+}
+.arlab-dhead-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.arlab-dhead-title { margin: 0; font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); line-height: 1.2; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.arlab-dhead-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.arlab-dhead-tabs { padding: 0 0 18px; }
+.arlab-dhead-tabs .arlab-tabstrip { margin-top: 20px; }
+.arlab-props { display: flex; gap: 6px 22px; margin-top: 12px; flex-wrap: wrap; align-items: baseline; }
+.arlab-prop { display: flex; gap: 7px; align-items: baseline; min-width: 0; }
+.arlab-prop-k { font-size: var(--text-xs); color: var(--ink-faint); white-space: nowrap; }
+.arlab-prop-v { font-size: var(--text-sm); color: var(--ink-dim); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.arlab-prop-v.mono { font-family: var(--font-mono); font-size: 12.5px; }
+.arlab-tabstrip { display: flex; width: 100%; gap: 2px; background: var(--sunken); padding: 3px; border-radius: 9px; }
+.arlab-tabstrip button {
+  flex: 1; text-align: center; padding: 8px 10px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--ink-dim);
+  border: 0; border-radius: 7px; background: none; cursor: pointer; white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.arlab-tabstrip button:hover { color: var(--ink); }
+.arlab-tabstrip button.on { background: var(--raise); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 2px 6px -2px rgba(0, 0, 0, 0.18); }
+.arlab-tabstrip button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-dbody { padding: 28px 36px 56px; overflow: auto; flex: 1; min-height: 0; }
+.arlab-cols { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
+.arlab-cols.equal { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.arlab-cols.run { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+@media (max-width: 1100px) { .arlab-cols, .arlab-cols.equal, .arlab-cols.run { grid-template-columns: minmax(0, 1fr); } }
+.arlab-stack > * + * { margin-top: 14px; }
+
+/* ----- panel and its contents ----- */
+.arlab-panel { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--raise); box-shadow: var(--shadow); min-width: 0; }
+.arlab-panel.quiet { box-shadow: none; }
+.arlab-panel.gate { border-color: var(--accent-line); }
+.arlab-panel-title {
+  margin: 0; padding: 12px 16px; border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint);
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.arlab-panel.gate .arlab-panel-title { color: var(--accent-deep); border-bottom-color: var(--accent-line); }
+.arlab-panel-trailing { text-transform: none; letter-spacing: 0; font-weight: 400; display: inline-flex; align-items: center; gap: 8px; }
+.arlab-panel-body { padding: 16px; }
+.arlab-rows { display: flex; flex-direction: column; }
+.arlab-row-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--line-soft); font-size: var(--text-sm); min-width: 0; }
+.arlab-row-item:first-child { border-top: 0; }
+.arlab-row-item.link { cursor: pointer; }
+.arlab-row-item.link:hover { background: var(--sunken); }
+.arlab-row-item.link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-row-item-main { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+.arlab-row-item-right { display: inline-flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.arlab-facts { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px 12px; padding: 14px 16px; font-size: var(--text-sm); margin: 0; }
+.arlab-facts-row { display: contents; }
+.arlab-facts dt { color: var(--ink-faint); }
+.arlab-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.arlab-empty { padding: 22px 16px; color: var(--ink-faint); font-size: var(--text-sm); }
+.arlab-empty p { margin: 0 0 10px; }
+.arlab-empty p:last-child { margin-bottom: 0; }
+.arlab-timeline { padding: 6px 16px 12px; }
+.arlab-tl { display: grid; grid-template-columns: 18px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; font-size: var(--text-sm); }
+.arlab-tl-dot { width: 10px; height: 10px; border-radius: var(--radius-pill); border: 2px solid var(--line); background: var(--raise); }
+.arlab-tl-dot.ok { background: var(--live); border-color: var(--live); }
+.arlab-tl-dot.now { border-color: var(--accent); background: var(--accent-tint); }
+.arlab-tl-dot.failed { background: var(--crit); border-color: var(--crit); }
+.arlab-tl-meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+.arlab-steplist { display: flex; flex-direction: column; }
+.arlab-steprow { display: grid; grid-template-columns: 28px 1fr auto; gap: 14px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--line-soft); }
+.arlab-steprow:first-child { border-top: 0; }
+.arlab-steprow.link { cursor: pointer; }
+.arlab-steprow.link:hover { background: var(--sunken); }
+.arlab-steprow.link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-steprow-n { width: 26px; height: 26px; border-radius: var(--radius-pill); border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+.arlab-steprow-n.marked { border-color: var(--accent-line); color: var(--accent-deep); background: var(--accent-tint); }
+.arlab-steprow-text { min-width: 0; display: flex; flex-direction: column; }
+.arlab-steprow-name { font-weight: 500; }
+.arlab-steprow-sub { color: var(--ink-faint); font-size: var(--text-xs); }
+.arlab-steprow-trailing { display: inline-flex; gap: 6px; align-items: center; }
+
+/* ----- dashboard ----- */
+.arlab-dash { padding: 28px 36px 48px; overflow: auto; flex: 1; min-height: 0; }
+.arlab-dash-hello { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+.arlab-dash-title { margin: 0; font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+.arlab-dash-sub { color: var(--ink-dim); margin-top: 4px; }
+.arlab-dash-actions { display: flex; gap: 8px; }
+.arlab-dash-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.arlab-panel.span-4 { grid-column: span 4; }
+.arlab-panel.span-5 { grid-column: span 5; }
+.arlab-panel.span-7 { grid-column: span 7; }
+.arlab-panel.span-8 { grid-column: span 8; }
+.arlab-panel.span-12 { grid-column: span 12; }
+@media (max-width: 1100px) { .arlab-panel.span-4, .arlab-panel.span-5, .arlab-panel.span-7, .arlab-panel.span-8 { grid-column: span 12; } }
+.arlab-att { display: flex; gap: 14px; padding: 14px 16px; border-top: 1px solid var(--line-soft); align-items: flex-start; }
+.arlab-att:first-child { border-top: 0; }
+.arlab-att-icon { width: 28px; height: 28px; border-radius: var(--radius-md); display: grid; place-items: center; flex-shrink: 0; background: var(--warn-tint); color: var(--warn); }
+.arlab-att-icon.accent { background: var(--accent-tint); color: var(--accent-deep); }
+.arlab-att-icon svg { width: 14px; height: 14px; }
+.arlab-att-text { min-width: 0; flex: 1; }
+.arlab-att-text b { font-weight: 500; }
+.arlab-att-sub { display: block; margin-top: 2px; color: var(--ink-faint); font-size: var(--text-xs); }
+.arlab-att-action { margin-left: auto; flex-shrink: 0; }
+.arlab-act { display: flex; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--line-soft); font-size: var(--text-sm); align-items: baseline; }
+.arlab-act:first-child { border-top: 0; }
+.arlab-act-time { color: var(--ink-faint); font-family: var(--font-mono); font-size: 11px; flex-shrink: 0; width: 56px; white-space: nowrap; }
+.arlab-act-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ----- reading page ----- */
+.arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
+.arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; }
+@media (max-width: 1100px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr); } }
+.arlab-read.narrow .arlab-read-main { max-width: 46rem; }
+.arlab-read-main { min-width: 0; }
+.arlab-read-title { margin: 0 0 6px; font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+.arlab-read-sub { color: var(--ink-dim); margin: 0 0 18px; max-width: 62ch; }
+.arlab-read-rail { min-width: 0; }
+
+/* ----- gate: splash and sign-in ----- */
+.arlab-splash { min-height: 100vh; display: grid; place-items: center; align-content: center; gap: 14px; }
+.arlab-splash-text { color: var(--ink-faint); font-size: var(--text-xs); }
+.arlab-gate { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.arlab-gate-card { width: 100%; max-width: 430px; background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 32px; box-shadow: var(--shadow); }
+.arlab-gate-title { font-size: var(--text-xl); margin: 20px 0 8px; letter-spacing: var(--tracking-tight); font-weight: 600; }
+.arlab-gate-text { color: var(--ink-dim); margin: 0 0 18px; line-height: var(--leading-relaxed); }
+.arlab-gate-fine { color: var(--ink-faint); font-size: var(--text-xs); margin: 14px 0 0; }
+
+/* ----- copy block and readable document ----- */
+.arlab-copyblock { position: relative; }
+.arlab-copyblock .arlab-btn { position: absolute; top: 6px; right: 6px; }
+.arlab-code { font-family: var(--font-mono); font-size: 12px; background: var(--sunken); border: 1px solid var(--line-soft); border-radius: var(--radius-md); padding: 10px 12px; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; color: var(--ink); }
+.arlab-readable { display: grid; grid-template-columns: minmax(110px, max-content) minmax(0, 1fr); gap: 8px 14px; margin: 0; font-size: var(--text-sm); }
+.arlab-readable.top { margin: 4px 0; }
+.arlab-readable-row { display: contents; }
+.arlab-readable dt { color: var(--ink-faint); font-weight: 500; }
+.arlab-readable dd { margin: 0; min-width: 0; }
+.arlab-readable-list { margin: 2px 0; padding-left: 18px; }
+.arlab-readable-list li { margin: 4px 0; }
+.arlab-readable-val { white-space: pre-wrap; overflow-wrap: anywhere; }
+.arlab-readable-none { color: var(--ink-faint); }
+
+@media (prefers-reduced-motion: reduce) {
+  .arlab-item, .arlab-tabstrip button { transition: none; }
+}
