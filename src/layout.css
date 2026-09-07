@@ -7,7 +7,7 @@
 .arlab-split { flex: 1; min-height: 0; min-width: 0; display: flex; }
 .arlab-pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .arlab-pane.list { width: var(--list-w); flex-shrink: 0; border-right: 1px solid var(--line); background: var(--ground); }
-.arlab-pane.detail { flex: 1; background: var(--raise); }
+.arlab-pane.detail { flex: 1; background: var(--raise); container: arlab-pane / inline-size; }
 .arlab-pane-tools { padding: 16px 16px 12px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line-soft); }
 .arlab-pane-scroll { overflow: auto; flex: 1; min-height: 0; padding-bottom: 20px; }
 .arlab-list-group { padding: 16px 16px 6px; display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; }
@@ -43,7 +43,8 @@
 .arlab-prop-k { font-size: var(--text-xs); color: var(--ink-faint); white-space: nowrap; }
 .arlab-prop-v { font-size: var(--text-sm); color: var(--ink-dim); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
 .arlab-prop-v.mono { font-family: var(--font-mono); font-size: 12.5px; }
-.arlab-tabstrip { display: flex; width: 100%; gap: 2px; background: var(--sunken); padding: 3px; border-radius: 9px; }
+.arlab-tabstrip { display: flex; width: 100%; gap: 2px; background: var(--sunken); padding: 3px; border-radius: 9px; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.arlab-tabstrip::-webkit-scrollbar { display: none; }
 .arlab-tabstrip button {
   flex: 1; text-align: center; padding: 8px 10px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--ink-dim);
   border: 0; border-radius: 7px; background: none; cursor: pointer; white-space: nowrap;
@@ -52,11 +53,20 @@
 .arlab-tabstrip button:hover { color: var(--ink); }
 .arlab-tabstrip button.on { background: var(--raise); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 2px 6px -2px rgba(0, 0, 0, 0.18); }
 .arlab-tabstrip button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.arlab-dbody { padding: 28px 36px 56px; overflow: auto; flex: 1; min-height: 0; }
-.arlab-cols { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
-.arlab-cols.equal { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.arlab-cols.run { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
-@media (max-width: 1100px) { .arlab-cols, .arlab-cols.equal, .arlab-cols.run { grid-template-columns: minmax(0, 1fr); } }
+.arlab-dbody { padding: 28px 36px 56px; overflow: auto; flex: 1; min-height: 0; container: arlab-pane / inline-size; }
+/* These columns live inside a pane, not inside the window: a 1440 screen leaves a detail pane of
+   about 816px once the sidebar and the list have taken theirs, and a demo frame can be narrower
+   still. Sized against the viewport, the inspector kept its 320px while the main column fell to a
+   few hundred, and step text wrapped one word per line. So the split view is a container, and
+   these ask it how much room there actually is. */
+.arlab-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
+@container arlab-pane (min-width: 780px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 280px; } }
+@container arlab-pane (min-width: 900px) { .arlab-cols { grid-template-columns: minmax(0, 1fr) 320px; } }
+@container arlab-pane (min-width: 720px) {
+  .arlab-cols.equal { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .arlab-cols.run { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+}
+
 .arlab-stack > * + * { margin-top: 14px; }
 
 /* ----- panel and its contents ----- */
@@ -77,7 +87,11 @@
 .arlab-row-item.link { cursor: pointer; }
 .arlab-row-item.link:hover { background: var(--sunken); }
 .arlab-row-item.link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.arlab-row-item-main { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+/* `text-overflow` needs a block container with inline content: on an inline-flex box it is
+   ignored, and a row that was too long got cut mid-word with no ellipsis at all. Block, with the
+   children left inline, so a long row ends in a proper ellipsis. */
+.arlab-row-item-main { flex: 1 1 auto; min-width: 0; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arlab-row-item-main > * { vertical-align: middle; }
 .arlab-row-item-right { display: inline-flex; gap: 8px; align-items: center; flex-shrink: 0; }
 .arlab-facts { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px 12px; padding: 14px 16px; font-size: var(--text-sm); margin: 0; }
 .arlab-facts-row { display: contents; }
@@ -94,7 +108,7 @@
 .arlab-tl-dot.failed { background: var(--crit); border-color: var(--crit); }
 .arlab-tl-meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 .arlab-steplist { display: flex; flex-direction: column; }
-.arlab-steprow { display: grid; grid-template-columns: 28px 1fr auto; gap: 14px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--line-soft); }
+.arlab-steprow { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--line-soft); }
 .arlab-steprow:first-child { border-top: 0; }
 .arlab-steprow.link { cursor: pointer; }
 .arlab-steprow.link:hover { background: var(--sunken); }
@@ -107,7 +121,7 @@
 .arlab-steprow-trailing { display: inline-flex; gap: 6px; align-items: center; }
 
 /* ----- dashboard ----- */
-.arlab-dash { padding: 28px 36px 48px; overflow: auto; flex: 1; min-height: 0; }
+.arlab-dash { padding: 28px 36px 48px; overflow: auto; flex: 1; min-height: 0; container: arlab-pane / inline-size; }
 .arlab-dash-hello { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
 .arlab-dash-title { margin: 0; font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
 .arlab-dash-sub { color: var(--ink-dim); margin-top: 4px; }
@@ -134,8 +148,9 @@
 .arlab-act-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* ----- reading page ----- */
-.arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
-.arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; }
+.arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; container: arlab-pane / inline-size; }
+@container arlab-pane (min-width: 900px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 300px; } }
+@container arlab-pane (min-width: 1120px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; } }
 @media (max-width: 1100px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr); } }
 .arlab-read.narrow .arlab-read-main { max-width: 46rem; }
 .arlab-read-main { min-width: 0; }
