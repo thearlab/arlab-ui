@@ -1,6 +1,6 @@
 {
   "name": "@arlab/ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "type": "module",
   "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
@@ -15,7 +15,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && cat src/styles.css src/layout.css src/shells.css > dist/styles.css",
+    "check:css": "node scripts/check-css.mjs",
+    "build": "npm run check:css && tsc && cat src/styles.css src/layout.css src/shells.css > dist/styles.css",
     "prepare": "npm run build",
     "dev": "tsc --watch"
   },
