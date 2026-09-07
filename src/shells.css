@@ -69,4 +69,19 @@ html { overscroll-behavior-y: none; }
 .arlab-topnav-spacer { flex: 1 1 auto; }
 .arlab-topnav .arlab-search-btn { width: 220px; flex: 0 0 auto; }
 .arlab-topnav .arlab-shell-account.compact { gap: 8px; }
-.arlab-topnav-page { min-height: calc(100vh - var(--top-h)); }
+/* The page is the container the layout primitives inside it measure themselves against. */
+.arlab-topnav-page { min-height: calc(100vh - var(--top-h)); container: arlab-pane / inline-size; }
+
+/* On a phone the top bar wants more room than it has: the brand, the links, the search, the
+   account and the theme toggle on one line pushed the page sideways. It wraps onto a second line,
+   the search takes the width it can, and the page padding tightens. */
+@media (max-width: 620px) {
+  .arlab-topnav { height: auto; min-height: var(--top-h); flex-wrap: wrap; padding: 10px 16px; row-gap: 8px; }
+  .arlab-topnav-spacer { flex-basis: 100%; height: 0; }
+  .arlab-topnav-links { margin-left: 0; }
+  .arlab-topnav .arlab-search-btn { width: auto; flex: 1 1 auto; min-width: 0; }
+  .arlab-shell-account .arlab-shell-account-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+@media (max-width: 560px) {
+  .arlab-read, .arlab-dash { padding: 24px 16px 56px; }
+}

@@ -148,7 +148,7 @@
 .arlab-act-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* ----- reading page ----- */
-.arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; container: arlab-pane / inline-size; }
+.arlab-read { padding: 32px 36px 48px; overflow: auto; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
 @container arlab-pane (min-width: 900px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 300px; } }
 @container arlab-pane (min-width: 1120px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr) 380px; } }
 @media (max-width: 1100px) { .arlab-read.with-rail { grid-template-columns: minmax(0, 1fr); } }
