@@ -460,13 +460,6 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 
 /* ===== second pass: patterns mined from arlab-studio + arlab-docs ======= */
 
-/* ---- Tabs: one system, replacing arlab-studio's two divergent ones ---- */
-  position: relative; flex-shrink: 0; background: none; border: none; color: var(--ink-faint);
-  font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; padding: 10px 14px; cursor: pointer;
-  transition: color var(--dur) var(--ease); white-space: nowrap;
-}
-@media (prefers-reduced-motion: reduce) { .arlab-tabs-indicator { transition: none; } }
-
 /* ---- Popover / DropdownMenu / ComboboxPicker --------------------------
    ponytail: simple absolute-in-relative positioning, no collision/flip
    detection or portal. Fine while every menu opens with room below it;
