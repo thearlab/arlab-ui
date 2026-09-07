@@ -1,0 +1,87 @@
+/* ===== ARLAB UI 1.0 shells ===============================================
+   Shell A (sidebar + top bar + workspace) and Shell B (sticky top bar + page).
+   Frame dimensions come from --side-w / --list-w / --top-h. Tokens only. */
+
+/* shared: brand, account */
+.arlab-shell-brand { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: none; border: 0; color: var(--ink); font: inherit; cursor: default; text-align: left; border-radius: var(--radius-sm); }
+button.arlab-shell-brand { cursor: pointer; }
+button.arlab-shell-brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.arlab-shell-brand svg { height: 20px; width: auto; display: block; color: var(--ink); }
+.arlab-shell-brand b { font-weight: 600; font-size: var(--text-base); white-space: nowrap; }
+.arlab-shell-pulse { width: 7px; height: 7px; border-radius: var(--radius-pill); background: var(--accent); box-shadow: 0 0 0 0 var(--accent-line); animation: arlab-shell-pulse 2.4s infinite; flex-shrink: 0; }
+@keyframes arlab-shell-pulse { 0% { box-shadow: 0 0 0 0 var(--accent-line); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+@media (prefers-reduced-motion: reduce) { .arlab-shell-pulse { animation: none; } }
+.arlab-shell-account { display: flex; align-items: center; gap: 10px; min-width: 0; background: none; border: 0; padding: 2px; cursor: pointer; color: inherit; text-align: left; font: inherit; border-radius: var(--radius-pill); }
+.arlab-shell-account:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.arlab-shell-who { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; font-size: var(--text-sm); }
+.arlab-shell-who span, .arlab-shell-who small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-shell-who small { color: var(--ink-faint); font-size: 11.5px; }
+
+/* ---- Shell A: sidebar ---- */
+.arlab-app { display: grid; grid-template-columns: var(--side-w) 1fr; height: 100vh; background: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: var(--text-base); }
+.arlab-side { background: var(--sunken); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 18px 12px 14px; min-height: 0; }
+.arlab-side .arlab-shell-brand { padding-bottom: 22px; }
+.arlab-side-group { font-size: var(--text-2xs); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); padding: 16px 12px 6px; }
+.arlab-side-item { display: flex; align-items: center; gap: 11px; width: 100%; text-align: left; padding: 9px 12px; border-radius: var(--radius-sm); color: var(--ink-dim); font: 500 14px var(--font-sans); background: none; border: 0; cursor: pointer; min-width: 0; }
+.arlab-side-item:hover { background: var(--sunken-2); color: var(--ink); }
+.arlab-side-item.on { background: var(--raise); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.arlab-side-item.on .arlab-side-icon { color: var(--accent); }
+.arlab-side-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.arlab-side-icon { display: inline-flex; flex-shrink: 0; opacity: .9; }
+.arlab-side-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-side-count { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); }
+.arlab-side-dot { width: 6px; height: 6px; border-radius: var(--radius-pill); flex-shrink: 0; display: inline-block; }
+.arlab-side-recent .arlab-side-item { font-weight: 400; font-size: var(--text-sm); padding: 6px 12px; }
+.arlab-side-grow { flex: 1; min-height: 0; overflow: auto; }
+.arlab-side-me { display: flex; align-items: center; gap: 8px; padding: 12px 8px 4px; border-top: 1px solid var(--line); margin-top: 8px; }
+.arlab-side-me .arlab-shell-account { flex: 1; }
+.arlab-main { display: flex; flex-direction: column; min-width: 0; height: 100vh; }
+.arlab-topbar { height: var(--top-h); display: flex; align-items: center; gap: 14px; padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--ground); flex-shrink: 0; }
+.arlab-crumbs { display: flex; align-items: center; gap: 8px; color: var(--ink-faint); font-size: var(--text-sm); min-width: 0; flex: 1; }
+.arlab-crumbs a, .arlab-crumbs button { color: var(--ink-faint); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
+.arlab-crumbs a:hover, .arlab-crumbs button:hover { color: var(--ink); }
+.arlab-crumbs b { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-topbar .arlab-search-btn { margin-left: auto; width: 220px; flex: 0 0 auto; }
+.arlab-crumbs + .arlab-search-btn { margin-left: 0; }
+.arlab-body { flex: 1; min-height: 0; display: flex; }
+@media (max-width: 1000px) {
+  .arlab-app { grid-template-columns: 64px 1fr; }
+  .arlab-side { padding: 14px 8px 10px; }
+  .arlab-side .arlab-shell-brand b, .arlab-side-label, .arlab-side-count, .arlab-side-group, .arlab-side-recent, .arlab-shell-who { display: none; }
+  .arlab-side-item { justify-content: center; padding: 10px 0; }
+  .arlab-side-me { justify-content: center; flex-direction: column; }
+}
+@media (max-width: 900px) {
+  .arlab-topbar .arlab-search-btn, .arlab-topnav .arlab-search-btn { width: 34px; padding: 0 8px; justify-content: center; }
+  .arlab-topbar .arlab-search-btn .placeholder, .arlab-topbar .arlab-search-btn .arlab-cmdk-kbd,
+  .arlab-topnav .arlab-search-btn .placeholder, .arlab-topnav .arlab-search-btn .arlab-cmdk-kbd { display: none; }
+}
+
+/* ---- Shell B: top navigation ---- */
+html { overscroll-behavior-y: none; }
+.arlab-topnav-app { min-height: 100vh; background: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: var(--text-base); }
+.arlab-topnav { position: sticky; top: 0; z-index: 40; height: var(--top-h); display: flex; align-items: center; gap: 14px; padding: 0 24px; background: var(--raise); border-bottom: 1px solid var(--line); flex-wrap: nowrap; }
+.arlab-topnav-links { display: flex; align-items: center; gap: 2px; margin-left: 10px; }
+.arlab-topnav-link { padding: 7px 12px; border-radius: var(--radius-sm); color: var(--ink-dim); font: 500 14px var(--font-sans); background: none; border: 0; cursor: pointer; white-space: nowrap; }
+.arlab-topnav-link:hover { color: var(--ink); background: var(--sunken); }
+.arlab-topnav-link.on { color: var(--ink); background: var(--sunken); }
+.arlab-topnav-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-topnav-spacer { flex: 1 1 auto; }
+.arlab-topnav .arlab-search-btn { width: 220px; flex: 0 0 auto; }
+.arlab-topnav .arlab-shell-account.compact { gap: 8px; }
+/* The page is the container the layout primitives inside it measure themselves against. */
+.arlab-topnav-page { min-height: calc(100vh - var(--top-h)); container: arlab-pane / inline-size; }
+
+/* On a phone the top bar wants more room than it has: the brand, the links, the search, the
+   account and the theme toggle on one line pushed the page sideways. It wraps onto a second line,
+   the search takes the width it can, and the page padding tightens. */
+@media (max-width: 620px) {
+  .arlab-topnav { height: auto; min-height: var(--top-h); flex-wrap: wrap; padding: 10px 16px; row-gap: 8px; }
+  .arlab-topnav-spacer { flex-basis: 100%; height: 0; }
+  .arlab-topnav-links { margin-left: 0; }
+  .arlab-topnav .arlab-search-btn { width: auto; flex: 1 1 auto; min-width: 0; }
+  .arlab-shell-account .arlab-shell-account-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+@media (max-width: 560px) {
+  .arlab-read, .arlab-dash { padding: 24px 16px 56px; }
+}
