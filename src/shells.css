@@ -43,7 +43,7 @@ button.arlab-shell-brand:focus-visible { outline: 2px solid var(--accent); outli
 .arlab-crumbs b { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .arlab-topbar .arlab-search-btn { margin-left: auto; width: 220px; flex: 0 0 auto; }
 .arlab-crumbs + .arlab-search-btn { margin-left: 0; }
-.arlab-body { flex: 1; min-height: 0; display: flex; }
+.arlab-body { container: arlab-pane / inline-size; flex: 1; min-height: 0; display: flex; }
 @media (max-width: 1000px) {
   .arlab-app { grid-template-columns: 64px 1fr; }
   .arlab-side { padding: 14px 8px 10px; }
@@ -69,7 +69,8 @@ html { overscroll-behavior-y: none; }
 .arlab-topnav-spacer { flex: 1 1 auto; }
 .arlab-topnav .arlab-search-btn { width: 220px; flex: 0 0 auto; }
 .arlab-topnav .arlab-shell-account.compact { gap: 8px; }
-/* The page is the container the layout primitives inside it measure themselves against. */
+/* The page, and the sidebar shell's workspace, are the containers the layout primitives inside
+   them measure themselves against. A container query asks an ancestor, never the element itself. */
 .arlab-topnav-page { min-height: calc(100vh - var(--top-h)); container: arlab-pane / inline-size; }
 
 /* On a phone the top bar wants more room than it has: the brand, the links, the search, the
