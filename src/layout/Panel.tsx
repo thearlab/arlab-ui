@@ -43,18 +43,35 @@ export function Rows({ className = '', ...rest }: HTMLAttributes<HTMLDivElement>
 }
 
 export interface RowItemProps {
-  children: ReactNode;
+  /** Freeform row content. Use this or title/meta, not both. */
+  children?: ReactNode;
+  /** Row heading. Give `meta` alongside it for the two-line row. */
+  title?: ReactNode;
+  /** Second line, under the title. */
+  meta?: ReactNode;
   /** Trailing content: badges, a value, a small button. */
   right?: ReactNode;
   onClick?: () => void;
 }
 
-/** One row: main content truncates, the right slot never shrinks. Clickable when onClick is given. */
-export function RowItem({ children, right, onClick }: RowItemProps) {
+/** One row: main content truncates, the right slot never shrinks. Clickable when onClick is given.
+ *
+ * Pass `children` for a single line, or `title` (with optional `meta`) for the
+ * two-line row — the same vocabulary as the standalone `Row`, which is the one
+ * to use outside a Panel. Each line truncates on its own. */
+export function RowItem({ children, title, meta, right, onClick }: RowItemProps) {
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => { if (onClick && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onClick(); } };
+  const stacked = title !== undefined || meta !== undefined;
   return (
     <div className={['arlab-row-item', onClick ? 'link' : ''].filter(Boolean).join(' ')} onClick={onClick} onKeyDown={onClick ? onKey : undefined} role={onClick ? 'button' : undefined} tabIndex={onClick ? 0 : undefined}>
-      <span className="arlab-row-item-main">{children}</span>
+      <span className={['arlab-row-item-main', stacked ? 'stack' : ''].filter(Boolean).join(' ')}>
+        {stacked ? (
+          <>
+            <span className="arlab-row-item-title">{title}</span>
+            {meta !== undefined ? <span className="arlab-row-item-meta">{meta}</span> : null}
+          </>
+        ) : children}
+      </span>
       {right !== undefined ? <span className="arlab-row-item-right">{right}</span> : null}
     </div>
   );

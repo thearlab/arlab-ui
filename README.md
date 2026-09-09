@@ -59,6 +59,12 @@ Two, sharing the brand lockup, the ⌘K search, the account menu and the theme t
 
 `SplitView` (`ListPane`, `ListGroup`, `ListItem`, `ListSkeleton`, `DetailPane`) · `DetailHeader` (`PropertyRow`, `TabStrip`) · `DetailBody`, `Columns`, `Stack` · `Panel` (with `gate`) · `Rows`, `RowItem`, `Facts`, `EmptyNote`, `Timeline`, `StepList` · `Dashboard`, `AttentionItem`, `ActivityItem` · `ReadPage` · `Gate` · `CopyBlock` · `ReadableDoc`.
 
+Two row components, and the choice matters: `Rows` + `RowItem` for a list
+**inside a `Panel`** (they carry the panel's own padding and a hairline between
+rows), `ArlabList` + `Row` for a list **outside** one. Both take `title` and
+`meta` for a two-line row, or `children`/`title` alone for one line, with the
+trailing slot (`right` on `RowItem`, `trailing` on `Row`) never shrinking.
+
 ## Elements
 
 `Button` (primary | ghost | danger, sm) · `IconButton` · `Badge` (accent | live | warn | crit) · `Chip` (`on`) · `Avatar` · `Field`, `Label`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `SegmentedControl`, `TagInput`, `ComboboxPicker`, `Dropzone` · `Card` family (liftable objects only) · `Skeleton`, `LoadingBar`, `SearchButton` · `Dialog`, `DialogFooter`, `ToastProvider`/`useToast`, `DropdownMenu`, `Popover`, `Tooltip`, `Collapsible`, `CommandPalette` · `NavTree`, `Toc`/`useScrollspy`, `Breadcrumbs` · `Steps`, `LegendDot`, `Timestamp`, `ScoreBar`, `KanbanBoard` · `ThemeToggle`, `initTheme`, `setTheme`, `getTheme` · `ArlabMark`, icons.
