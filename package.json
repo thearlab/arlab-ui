@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
