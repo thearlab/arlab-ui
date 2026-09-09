@@ -10,13 +10,19 @@ Shared design tokens and React UI primitives for ARLAB's internal tools (Agents 
 
 ## Distribution
 
-Private package, NOT on npm. Consumed as a git dependency pinned to a tag:
+PUBLIC repo (MIT), not on npm. Consumed as a git dependency pinned to a tag:
 
 ```json
-"@arlab/ui": "github:thearlab/arlab-ui#v0.7.0"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v1.0.6"
 ```
 
-Current version: 0.7.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Public means no token and no SSH key, in CI or on a laptop. The `github:thearlab/arlab-ui#v1.0.6`
+shorthand works too: npm resolves it to an SSH URL but falls back to anonymous HTTPS. Never pin
+v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive it, real CSS
+compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
+does not parse, which is what those tags predate.
+
+Current version: 1.0.6. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 
