@@ -2,11 +2,17 @@
 
 The design system for ARLAB's internal tools: tokens, elements, layout primitives and two application shells. Built from what Agents Studio and ARLAB Knowledge are: applications, not pages. The specification and visual reference is the "ARLAB UI 1.0" page; the showcase (`arlab-ui-showcase`) renders every export live in both themes.
 
-Private package, installed as a git dependency pinned to a tag:
+Installed as a git dependency pinned to a tag. The repository is public, so no token and no SSH
+key are needed to install it, in CI or on a laptop:
 
 ```json
-"dependencies": { "@arlab/ui": "github:thearlab/arlab-ui#v1.0.0" }
+"dependencies": { "@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v1.0.6" }
 ```
+
+The `github:thearlab/arlab-ui#v1.0.6` shorthand also works, but npm resolves it to an SSH URL,
+which needs a key on the machine doing the install. The explicit `git+https` form above needs
+nothing. Do not pin v1.0.0 to v1.0.3: their stylesheet has a rule with no selector, which browsers
+forgive and real CSS compilers (Tailwind v4, Lightning CSS) do not.
 
 React 18 peer dependency, TypeScript, ESM, no bundler, no router dependency (shells navigate through callbacks).
 
