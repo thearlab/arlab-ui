@@ -61,10 +61,25 @@ function check(css, label) {
   return true;
 }
 
-const parts = FILES.map((f) => fs.readFileSync(path.join(root, f), 'utf8'));
-let ok = FILES.every((f, i) => check(parts[i], f));
-// The concatenation is the artifact consumers compile: a file that ends mid-block only shows up here.
-ok = check(parts.join(''), 'concatenated dist/styles.css') && ok;
+// Files named on the command line are checked instead of this package's own, so the same guard can
+// be pointed at any stylesheet: a consumer's CSS, a file pulled out of an old tag to confirm the
+// fault, a paste from a bug report. It used to ignore its arguments and always check the package,
+// which reported "parses clean" for a file it had never opened. That is worse than no argument
+// support, because it answers a question it did not look at.
+const args = process.argv.slice(2).filter((a) => !a.startsWith('-'));
+let ok;
+if (args.length) {
+  const read = (f) => ({ label: f, css: fs.readFileSync(path.resolve(f), 'utf8') });
+  const files = args.map(read);
+  ok = files.every((f) => check(f.css, f.label));
+  // Only concatenate when there is more than one: a single file IS the artifact.
+  if (files.length > 1) ok = check(files.map((f) => f.css).join(''), `concatenated (${files.length} files)`) && ok;
+} else {
+  const parts = FILES.map((f) => fs.readFileSync(path.join(root, f), 'utf8'));
+  ok = FILES.every((f, i) => check(parts[i], f));
+  // The concatenation is the artifact consumers compile: a file that ends mid-block only shows up here.
+  ok = check(parts.join(''), 'concatenated dist/styles.css') && ok;
+}
 
 if (!ok) {
   console.log('\nThis would break any consumer that compiles CSS (Tailwind, Lightning CSS, PostCSS).');
