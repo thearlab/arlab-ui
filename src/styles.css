@@ -7,19 +7,19 @@
 :root {
   color-scheme: light;
 
-  --ground: #f3f4f7;
+  --ground: #f7f8fa;
   --raise: #ffffff;
-  --sunken: #e9ebf0;
-  --sunken-2: #dfe2e9;
+  --sunken: #f0f2f5;
+  --sunken-2: #e9ecf1;
 
-  --line: #d9dce3;
-  --line-soft: #e7e9ee;
-  --line-hover: #b9bdc8;
+  --line: #e1e4e9;
+  --line-soft: #edf0f3;
+  --line-hover: #b8c0cc;
 
-  --ink: #15161c;
-  --ink-dim: #4b4f5c;
-  --ink-faint: #7b8090;      /* AA on --raise for real text */
-  --ink-inactive: #a3a7b3;   /* placeholders only */
+  --ink: #202530;
+  --ink-dim: #535e6f;
+  --ink-faint: #667184;      /* AA on --raise for real text */
+  --ink-inactive: #788396;   /* placeholders only */
 
   --accent: #e414db;
   --action: #d000c6;
@@ -32,13 +32,18 @@
   --accent-line: rgba(228, 20, 219, 0.35);
   --accent-secondary: #e8823a;
 
-  --live: #1e8a55;  --live-tint: rgba(30, 138, 85, 0.12);
-  --warn: #b8720a;  --warn-tint: rgba(184, 114, 10, 0.12);
+  --live: #187345;  --live-tint: rgba(30, 138, 85, 0.12);
+  --warn: #96600b;  --warn-tint: rgba(184, 114, 10, 0.12);
   --crit: #c62f2f;  --crit-tint: rgba(198, 47, 47, 0.12);
   --info: #2f6fd6;  --info-tint: rgba(47, 111, 214, 0.12);
-  --code-bg: #e9ebf0;
+  --code-bg: #f0f2f5;
 
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px -16px rgba(0, 0, 0, 0.18);
+  --shadow: 0 1px 3px rgba(25, 35, 50, 0.04);
+  --surface-nav: #f0f2f5;
+  --surface-hover: #f5f6f8;
+  --control-h: 38px;
+  --control-h-sm: 30px;
+  --page-pad: 36px;
   --shadow-card: var(--shadow);
   --shadow-pop: 0 14px 40px -10px rgba(0, 0, 0, 0.22);
   --shadow-glow: 0 0 32px rgba(228, 20, 219, 0.14);
@@ -48,13 +53,13 @@
 
   /* Corners: 6 for items and segments, 8 for inputs, 10 for panels, 12 for dialogs, pills for
      buttons, badges, chips, dots. --radius-xs stays as an alias for older consumers. */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 12px;
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-pill: 9999px;
-  --tracking-tight: -0.01em;
+  --tracking-tight: -0.025em;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --dur: 0.15s;
@@ -77,28 +82,30 @@
   /* Frame dimensions shared by the shells and panes. */
   --side-w: 252px;
   --list-w: 372px;
-  --top-h: 58px;
+  --top-h: 64px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { color-scheme: dark;
-  --ground: #0e0f13; --raise: #15161c; --sunken: #0b0c10; --sunken-2: #1b1d25;
-  --line: #262933; --line-soft: #1f2129; --line-hover: #3a3e4b;
-  --ink: #ecedf1; --ink-dim: #b4b8c4; --ink-faint: #7d8292; --ink-inactive: #5a5e6b;
+  --ground: #171a21; --raise: #20252e; --sunken: #14171d; --sunken-2: #272c36;
+  --line: #343b48; --line-soft: #2b303b; --line-hover: #515c6e;
+  --ink: #edf0f5; --ink-dim: #b8c1d0; --ink-faint: #929eb2; --ink-inactive: #8591a5;
   --accent: #f04ee8; --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
-  --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #0b0c10;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.8); --shadow-card: var(--shadow);
+  --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #14171d;
+  --surface-nav: #14171d; --surface-hover: #292f3a;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.9);
   --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); }
 }
 
 :root[data-theme="dark"] { color-scheme: dark;
-  --ground: #0e0f13; --raise: #15161c; --sunken: #0b0c10; --sunken-2: #1b1d25;
-  --line: #262933; --line-soft: #1f2129; --line-hover: #3a3e4b;
-  --ink: #ecedf1; --ink-dim: #b4b8c4; --ink-faint: #7d8292; --ink-inactive: #5a5e6b;
+  --ground: #171a21; --raise: #20252e; --sunken: #14171d; --sunken-2: #272c36;
+  --line: #343b48; --line-soft: #2b303b; --line-hover: #515c6e;
+  --ink: #edf0f5; --ink-dim: #b8c1d0; --ink-faint: #929eb2; --ink-inactive: #8591a5;
   --accent: #f04ee8; --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
-  --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #0b0c10;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.8); --shadow-card: var(--shadow);
+  --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #14171d;
+  --surface-nav: #14171d; --surface-hover: #292f3a;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.9);
   --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); }
 
@@ -133,14 +140,14 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 .arlab-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 500; line-height: 1;
-  height: 34px; padding: 0 14px; border-radius: var(--radius-pill); border: 1px solid var(--line);
+  height: var(--control-h); padding: 0 15px; border-radius: var(--radius-md); border: 1px solid var(--line);
   background: var(--raise); color: var(--ink); cursor: pointer; user-select: none; white-space: nowrap;
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 .arlab-btn:hover:not(:disabled) { border-color: var(--ink-faint); }
 .arlab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .arlab-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.arlab-btn.sm { height: 28px; padding: 0 11px; font-size: var(--text-xs); }
+.arlab-btn.sm { height: var(--control-h-sm); padding: 0 11px; font-size: var(--text-xs); }
 .arlab-btn-label { display: inline-flex; align-items: center; gap: 6px; }
 /* Primary: flat accent, brightens on hover. No gradient sweep, no lift, no glow: the accent is the signal. */
 /* The brand pink is 3.87:1 against white, under the 4.5:1 that text on a button needs. --action is
@@ -157,8 +164,8 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 
 /* ---- IconButton -------------------------------------------------------- */
 .arlab-icon-btn {
-  display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
-  border-radius: var(--radius-pill); border: 1px solid var(--line); background: transparent; color: var(--ink-dim);
+  display: inline-flex; align-items: center; justify-content: center; width: var(--control-h); height: var(--control-h);
+  border-radius: var(--radius-md); border: 1px solid var(--line); background: transparent; color: var(--ink-dim);
   cursor: pointer; flex-shrink: 0; padding: 0;
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
@@ -172,26 +179,26 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
   background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-md);
   /* An inset top highlight on top of the drop shadow — the "glass" detail
      theARLab's actual elevated surfaces use, not just a shadow underneath. */
-  box-shadow: var(--shadow-card), inset 0 1px 0 var(--line-soft); padding: 22px;
+  box-shadow: var(--shadow-card); padding: 22px;
   display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
 }
 .arlab-card.interactive {
   cursor: pointer;
   transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
-.arlab-card.interactive:hover { border-color: var(--line-hover); box-shadow: var(--shadow-pop); transform: translateY(-2px); }
+.arlab-card.interactive:hover { border-color: var(--line-hover); box-shadow: var(--shadow-card); background: var(--surface-hover); }
 .arlab-card.interactive:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .arlab-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; width: 100%; }
 .arlab-card-header-main { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.arlab-card-title { font-size: var(--text-lg); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--ink); margin: 0; line-height: var(--leading-tight); }
+.arlab-card-title { font-size: var(--text-lg); font-weight: 600; letter-spacing: var(--tracking-tight); color: var(--ink); margin: 0; line-height: var(--leading-tight); }
 .arlab-card-description { font-size: var(--text-base); color: var(--ink-dim); line-height: var(--leading-normal); margin: 0; }
 .arlab-card-body { display: flex; flex-direction: column; gap: 10px; width: 100%; }
 .arlab-card-footer { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 2px; }
 
 /* ---- Badge --------------------------------------------------------- */
 .arlab-badge {
-  display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 8px; border-radius: var(--radius-pill);
-  font-family: var(--font-sans); font-size: 11.5px; font-weight: 500; line-height: 1; white-space: nowrap; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 5px; height: 23px; padding: 0 8px; border-radius: var(--radius-sm);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 500; line-height: 1; white-space: nowrap; flex-shrink: 0;
   color: var(--ink-dim); background: transparent; border: 1px solid var(--line);
 }
 .arlab-badge.accent { color: var(--accent-deep); background: var(--accent-tint); border-color: transparent; }
@@ -257,7 +264,7 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
   border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 12px;
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-.arlab-input { height: 36px; }
+.arlab-input, .arlab-select { height: var(--control-h); }
 .arlab-input::placeholder, .arlab-textarea::placeholder { color: var(--ink-inactive); }
 .arlab-input:hover, .arlab-textarea:hover, .arlab-select:hover { border-color: var(--ink-faint); }
 .arlab-input:focus-visible, .arlab-textarea:focus-visible, .arlab-select:focus-visible {
@@ -326,7 +333,7 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); white-space: nowrap;
 }
 .arlab-segment:hover { color: var(--ink); }
-.arlab-segment[aria-selected="true"] { background: var(--raise); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 2px 6px -2px rgba(0,0,0,.18); }
+.arlab-segment[aria-selected="true"] { background: var(--raise); color: var(--ink); box-shadow: var(--shadow); }
 .arlab-segment:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .arlab-segment:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -416,7 +423,7 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
   box-shadow: var(--shadow-pop), inset 0 1px 0 var(--line-soft); max-width: 480px; width: 100%; max-height: 85vh; overflow-y: auto;
   padding: 26px; animation: arlab-dialog-in var(--dur-slow) var(--ease);
 }
-.arlab-dialog-title { font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--ink); margin: 0 0 6px; }
+.arlab-dialog-title { font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); color: var(--ink); margin: 0 0 6px; }
 .arlab-dialog-description { font-size: var(--text-base); color: var(--ink-dim); line-height: var(--leading-normal); margin: 0 0 18px; }
 .arlab-dialog-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 @keyframes arlab-fade-in { from { opacity: 0; } to { opacity: 1; } }
@@ -709,7 +716,7 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 .arlab-step-title { font-size: var(--text-base); font-weight: 600; color: var(--ink); }
 .arlab-step-description { font-size: var(--text-sm); color: var(--ink-faint); margin-top: 2px; }
 
-.arlab-icon-tile { display: grid; place-items: center; flex-shrink: 0; width: 48px; height: 48px; border-radius: 13px; color: #fff; background: linear-gradient(150deg, var(--accent), var(--accent-deep)); box-shadow: 0 6px 18px -6px var(--accent-line); }
+.arlab-icon-tile { display: grid; place-items: center; flex-shrink: 0; width: 48px; height: 48px; border-radius: 13px; color: #fff; background: var(--action); box-shadow: none; }
 .arlab-icon-tile.sm { width: 38px; height: 38px; border-radius: 11px; }
 .arlab-icon-tile.lg { width: 56px; height: 56px; border-radius: 15px; }
 .arlab-icon-tile.soft { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-line); box-shadow: none; }
@@ -717,3 +724,8 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 
 
 
+
+/* Motion follows an action, and stops entirely when the user requests it. */
+@media (prefers-reduced-motion: reduce) {
+  [class^="arlab-"], [class*=" arlab-"] { animation: none !important; transition: none !important; }
+}
