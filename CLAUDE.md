@@ -56,3 +56,11 @@ Pin consumers to a tag, never a branch, so an install never picks up unreviewed 
 - Fonts (Outfit + JetBrains Mono) are NOT bundled - the consuming app must load them (Google Fonts link) at its entry point.
 - Every primitive defends its own `box-sizing`/layout/focus ring and assumes no global reset - do not rely on a consumer's normalize.
 - The reticle motif (`.arlab-reticle`) is deliberately used on exactly two surfaces (Dialog, CommandPalette). Do not spread it - a signature stays a signature only if it is not wallpaper.
+
+## Scrollbars
+
+Every ARLAB app uses the theARLab scrollbar, and it comes from this package's `styles.css`: thin
+(6px), no track, a pink thumb (`--accent-line` at rest, `--accent` on hover). Do not restyle it
+per app, and never ship the browser's default grey bar. To hide a scrollbar on purpose (a tab
+strip, a horizontal rail), use `scrollbar-width: none` plus `::-webkit-scrollbar { display: none }`
+on that one element - never globally.

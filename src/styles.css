@@ -115,11 +115,17 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 /* Scrollbar — ported from theARLab's public site (its global recipe: thin,
    transparent track, tokenized thumb). Firefox properties are inherited,
    so setting them once here covers every scrollable box in the app. */
-:root { scrollbar-color: var(--line-hover) transparent; scrollbar-width: thin; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
+/* The theARLab scrollbar: thin, no track, a pink thumb. Every ARLAB app gets it from here, so
+   no app styles its own - and none should fall back to the browser's grey default.
+   At rest the thumb is the translucent accent line, so a long list does not glow; it goes full
+   pink when you reach for it. Both tokens are redefined for dark mode, so it follows the theme
+   without a second rule. */
+:root { scrollbar-color: var(--accent-line) transparent; scrollbar-width: thin; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--line-hover); border-radius: var(--radius-pill); }
-::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+::-webkit-scrollbar-thumb { background: var(--accent-line); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background: var(--accent); }
+::-webkit-scrollbar-corner { background: transparent; }
 
 /* ===== primitives ========================================================
    Every primitive is defensively self-contained: its own box-sizing, its
