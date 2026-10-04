@@ -59,8 +59,10 @@ Pin consumers to a tag, never a branch, so an install never picks up unreviewed 
 
 ## Scrollbars
 
-Every ARLAB app uses the theARLab scrollbar, and it comes from this package's `styles.css`: thin
-(6px), no track, a pink thumb (`--accent-line` at rest, `--accent` on hover). Do not restyle it
-per app, and never ship the browser's default grey bar. To hide a scrollbar on purpose (a tab
-strip, a horizontal rail), use `scrollbar-width: none` plus `::-webkit-scrollbar { display: none }`
-on that one element - never globally.
+No native scrollbars: theARLab uses a scroll-progress line (as thelabs.group does) - a 3px
+magenta line on the right edge that fills as you scroll. `<ScrollProgress />` follows the page;
+when the page is pinned and an inner column scrolls instead, give that column the `arlab-scroll`
+class, wrap it in an `arlab-scroll-host`, and pass its ref: `<ScrollProgress target={ref} />`.
+
+Never hide scrollbars globally (`*`): the indicator only tracks vertical scroll, so a wide table
+or code block would lose its only horizontal cue. Hide them only where the indicator replaces them.

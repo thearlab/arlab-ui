@@ -79,3 +79,5 @@ export type { KanbanColumnProps } from './Kanban';
 
 export * from './layout';
 export * from './shells';
+export { ScrollProgress } from './ScrollProgress';
+export type { ScrollProgressProps } from './ScrollProgress';
