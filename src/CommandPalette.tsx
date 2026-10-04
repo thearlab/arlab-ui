@@ -83,15 +83,16 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search…'
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="arlab-cmdk arlab-accent-edge" onKeyDown={onKeyDown}>
+      <div className="arlab-cmdk" onKeyDown={onKeyDown} role="dialog" aria-modal="true" aria-label={placeholder}>
         <div className="arlab-cmdk-input-row">
           <SearchIcon size={16} />
           <input ref={inputRef} className="arlab-cmdk-input" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={placeholder} />
-          <span className="arlab-cmdk-kbd">ESC</span>
+          {query ? <button type="button" className="arlab-cmdk-clear" onClick={() => { setQuery(''); inputRef.current?.focus(); }} aria-label="Clear">Clear</button> : <span className="arlab-cmdk-kbd">Esc</span>}
         </div>
+        {query.trim() && results.length > 0 && <div className="arlab-cmdk-count">{results.length === 24 ? 'Top 24 matches' : `${results.length} ${results.length === 1 ? 'match' : 'matches'}`}</div>}
         <div className="arlab-cmdk-list" ref={listRef} role="listbox">
           {results.length === 0 ? (
-            <div className="arlab-cmdk-empty">{emptyLabel}</div>
+            <div className="arlab-cmdk-empty">{query.trim() ? <>{emptyLabel}<span>Try fewer words, or another spelling.</span></> : emptyLabel}</div>
           ) : (
             results.map((item, i) => (
               <button
@@ -107,15 +108,17 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search…'
                   onClose();
                 }}
               >
-                {item.typeLabel ? <span className="arlab-cmdk-row-type">{item.typeLabel}</span> : null}
                 <span className="arlab-cmdk-row-main">
                   <span className="arlab-cmdk-row-title">{item.title}</span>
                   {item.summary ? <span className="arlab-cmdk-row-summary">{item.summary}</span> : null}
                 </span>
+                {item.typeLabel ? <span className="arlab-cmdk-row-type">{item.typeLabel}</span> : null}
+                <svg className="arlab-cmdk-go" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
               </button>
             ))
           )}
         </div>
+        <div className="arlab-cmdk-foot"><span><kbd>↑</kbd><kbd>↓</kbd>to move</span><span><kbd>Enter</kbd>to open</span><span><kbd>Esc</kbd>to close</span></div>
       </div>
     </div>,
     document.body,

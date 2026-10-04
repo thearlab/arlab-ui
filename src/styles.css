@@ -539,22 +539,35 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
   animation: arlab-fade-in var(--dur-slow) var(--ease);
 }
 .arlab-cmdk {
-  position: relative; width: 100%; max-width: 560px; background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-md);
-  box-shadow: var(--shadow-pop), inset 0 1px 0 var(--line-soft); overflow: hidden; animation: arlab-dialog-in var(--dur-slow) var(--ease);
+  position: relative; width: 100%; max-width: 720px; background: var(--raise); border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: var(--shadow-pop); overflow: hidden; display: flex; flex-direction: column; max-height: min(680px, 78vh); animation: arlab-dialog-in var(--dur-slow) var(--ease);
 }
-.arlab-cmdk-input-row { display: flex; align-items: center; gap: 10px; padding: 4px 16px; border-bottom: 1px solid var(--line); }
-.arlab-cmdk-input-row svg { color: var(--ink-faint); flex-shrink: 0; }
-.arlab-cmdk-input { flex: 1; border: none; background: none; outline: none; font-family: var(--font-sans); font-size: var(--text-lg); font-weight: 500; color: var(--ink); height: 60px; }
-.arlab-cmdk-input::placeholder { color: var(--ink-inactive); }
-.arlab-cmdk-kbd { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); border: 1px solid var(--line); background: var(--sunken); padding: 2px 6px; border-radius: var(--radius-xs); flex-shrink: 0; }
-.arlab-cmdk-list { max-height: 360px; overflow-y: auto; padding: 6px; }
-.arlab-cmdk-row { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: none; padding: 12px; border-radius: var(--radius-sm); cursor: pointer; }
+.arlab-cmdk-input-row { display: flex; align-items: center; gap: 12px; padding: 6px 20px; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
+.arlab-cmdk-input-row svg { color: var(--ink-faint); flex-shrink: 0; width: 18px; height: 18px; }
+.arlab-cmdk-input { flex: 1; min-width: 0; border: none; background: none; outline: none; font-family: var(--font-sans); font-size: 18px; font-weight: 500; color: var(--ink); height: 62px; }
+.arlab-cmdk-input::placeholder { color: var(--ink-inactive); font-weight: 400; }
+.arlab-cmdk-kbd { font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: var(--ink-faint); background: var(--sunken); padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+.arlab-cmdk-clear { border: 0; background: none; color: var(--ink-faint); font: inherit; font-size: var(--text-xs); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+.arlab-cmdk-clear:hover { color: var(--ink); background: var(--sunken); }
+.arlab-cmdk-count { padding: 10px 22px 2px; font-size: var(--text-xs); color: var(--ink-faint); font-weight: 500; }
+.arlab-cmdk-list { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 10px 10px; }
+.arlab-cmdk-row { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; background: none; border: none; padding: 12px 14px; border-radius: 10px; cursor: pointer; }
 .arlab-cmdk-row:hover, .arlab-cmdk-row.active { background: var(--sunken); }
-.arlab-cmdk-row-type { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); border: 1px solid var(--line); border-radius: var(--radius-xs); padding: 2px 6px; flex-shrink: 0; }
-.arlab-cmdk-row-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1px; }
-.arlab-cmdk-row-title { font-size: var(--text-base); color: var(--ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arlab-cmdk-row.active { box-shadow: inset 3px 0 0 var(--accent); }
+.arlab-cmdk-row-type { font-family: var(--font-sans); font-size: 11.5px; font-weight: 500; color: var(--ink-dim); background: var(--sunken); border-radius: var(--radius-pill); padding: 3px 10px; flex-shrink: 0; white-space: nowrap; }
+.arlab-cmdk-row:hover .arlab-cmdk-row-type, .arlab-cmdk-row.active .arlab-cmdk-row-type { background: var(--raise); }
+.arlab-cmdk-row-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.arlab-cmdk-row-title { font-size: 15px; color: var(--ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .arlab-cmdk-row-summary { font-size: var(--text-xs); color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.arlab-cmdk-empty { padding: 40px 20px; text-align: center; color: var(--ink-faint); font-size: var(--text-sm); }
+.arlab-cmdk-go { color: var(--ink-faint); flex-shrink: 0; opacity: 0; transition: opacity var(--dur) var(--ease); }
+.arlab-cmdk-row.active .arlab-cmdk-go { opacity: 1; color: var(--accent-deep); }
+.arlab-cmdk-empty { padding: 48px 20px; text-align: center; color: var(--ink-dim); font-size: var(--text-sm); display: grid; gap: 4px; }
+.arlab-cmdk-empty span { color: var(--ink-faint); font-size: var(--text-xs); }
+.arlab-cmdk-foot { display: flex; gap: 18px; padding: 10px 20px; border-top: 1px solid var(--line-soft); background: var(--ground); font-size: 11.5px; color: var(--ink-faint); flex-shrink: 0; }
+.arlab-cmdk-foot span { display: inline-flex; align-items: center; gap: 5px; }
+.arlab-cmdk-foot kbd { font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: var(--ink-dim); background: var(--raise); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; min-width: 20px; text-align: center; }
+@media (max-width: 640px) { .arlab-cmdk-foot { display: none; } .arlab-cmdk-row-type { display: none; } }
+@media (prefers-reduced-motion: reduce) { .arlab-cmdk-go { transition: none; } }
 
 /* ---- NavTree: collapsible, nested, route-aware ------------------------- */
 .arlab-navtree { display: flex; flex-direction: column; gap: 1px; font-family: var(--font-sans); font-size: var(--text-base); }
