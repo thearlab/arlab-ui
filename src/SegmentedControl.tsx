@@ -3,6 +3,8 @@
 export interface SegmentOption {
   value: string;
   label: string;
+  /** A count after the label, in mono. */
+  count?: number;
   disabled?: boolean;
 }
 
@@ -30,6 +32,7 @@ export function SegmentedControl({ options, value, onChange, className = '' }: S
           onClick={() => onChange(opt.value)}
         >
           {opt.label}
+          {opt.count !== undefined && <span className="arlab-segment-n">{opt.count}</span>}
         </button>
       ))}
     </div>

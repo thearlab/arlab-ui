@@ -754,3 +754,118 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 @media (prefers-reduced-motion: reduce) {
   [class^="arlab-"], [class*=" arlab-"] { animation: none !important; transition: none !important; }
 }
+
+/* ===== ARLAB UI 1.1: pills, pickers, bars, cards, tables, sheets ===========================
+   The rules: one fact per pill (no "a · b · c" strings); a count is a pill; something that
+   changed this week is a fresh pill; a page has one fixed bar; collections are cards with an
+   inset list, not ruled rows; a long form slides in from the right. Tokens only. */
+
+/* ---- pill ---- */
+.arlab-pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: var(--radius-pill); background: var(--sunken); color: var(--ink-dim); font: 500 11.5px var(--font-sans); white-space: nowrap; box-sizing: border-box; border: 0; }
+.arlab-pill.t-fresh { background: var(--accent-tint); color: var(--accent-deep); }
+.arlab-pill.t-fresh::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.arlab-pill.t-quiet { background: none; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-faint); }
+.arlab-pill.t-strong { background: var(--ink); color: var(--raise); font-family: var(--font-mono); }
+.arlab-pill.t-ok { background: var(--live-tint); color: var(--live); }
+.arlab-pill.t-warn { background: var(--warn-tint); color: var(--warn); }
+.arlab-pill.t-bad { background: var(--crit-tint); color: var(--crit); }
+.arlab-pill.t-info { background: var(--info-tint); color: var(--info); }
+.arlab-pill-btn { cursor: pointer; }
+.arlab-pill-btn:hover { background: var(--accent-tint); color: var(--accent-deep); }
+.arlab-pill-btn.on { background: var(--accent-tint); color: var(--accent-deep); box-shadow: inset 0 0 0 1px var(--accent-line); }
+.arlab-pill-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---- icon button: the bordered square, with an optional tooltip ---- */
+.arlab-icon-btn { position: relative; border-radius: 8px; }
+.arlab-icon-btn[data-tip]:hover:not(:disabled)::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; background: var(--ink); color: var(--raise); font: 500 12px var(--font-sans); padding: 4px 8px; border-radius: 6px; white-space: nowrap; pointer-events: none; z-index: 40; }
+
+/* ---- segmented tabs: counts in mono ---- */
+.arlab-segmented { border: 0; border-radius: 10px; }
+.arlab-segment { display: inline-flex; align-items: center; gap: 7px; border-radius: 8px; }
+.arlab-segment[aria-selected="true"] { box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.arlab-segment-n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+
+/* ---- picker ---- */
+.arlab-picker-x { position: relative; min-width: 0; }
+.arlab-picker-btn { display: flex; align-items: center; gap: 8px; width: 100%; height: 36px; padding: 0 10px 0 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--raise); color: var(--ink); font: inherit; cursor: pointer; text-align: left; box-sizing: border-box; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.arlab-picker-btn:hover { border-color: var(--line-hover); }
+.arlab-picker-btn[aria-expanded="true"], .arlab-picker-btn:focus-visible { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+.arlab-picker-btn .k { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); flex-shrink: 0; }
+.arlab-picker-btn .v { flex: 1; min-width: 0; font-size: var(--text-sm); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-picker-btn .n { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); flex-shrink: 0; }
+.arlab-picker-btn svg { width: 15px; height: 15px; fill: none; stroke: var(--ink-faint); stroke-width: 2; stroke-linecap: round; flex-shrink: 0; transition: transform var(--dur) var(--ease); }
+.arlab-picker-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.arlab-picker-panel { position: absolute; z-index: 30; left: 0; min-width: 100%; width: max-content; max-width: 320px; top: calc(100% + 6px); background: var(--raise); border: 1px solid var(--line); border-radius: 11px; box-shadow: var(--shadow-pop); padding: 6px; display: grid; gap: 6px; box-sizing: border-box; animation: arlab-picker-in .12s var(--ease); }
+@keyframes arlab-picker-in { from { opacity: 0; transform: translateY(-4px); } }
+.arlab-picker-search { height: 32px; border: 1px solid var(--line); border-radius: 7px; background: var(--ground); color: var(--ink); font: inherit; font-size: var(--text-sm); padding: 0 10px; }
+.arlab-picker-search:focus { outline: none; border-color: var(--accent-line); }
+.arlab-picker-opts { max-height: 300px; overflow: auto; display: grid; gap: 1px; }
+.arlab-picker-opt { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 0; border-radius: 7px; background: none; color: var(--ink-dim); font: inherit; font-size: var(--text-sm); text-align: left; cursor: pointer; }
+.arlab-picker-opt .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-picker-opt .n { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); }
+.arlab-picker-opt.active { background: var(--surface-hover); color: var(--ink); }
+.arlab-picker-opt.on, .arlab-picker-opt.on .n { color: var(--accent-deep); font-weight: 600; }
+.arlab-picker-none { padding: 10px; font-size: var(--text-xs); color: var(--ink-faint); }
+
+/* ---- page bar and section head ---- */
+.arlab-pagebar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 36px; border-bottom: 1px solid var(--line-soft); background: var(--raise); position: sticky; top: 0; z-index: 5; flex-shrink: 0; }
+.arlab-pagebar h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: var(--tracking-tight); white-space: nowrap; }
+.arlab-pagebar-tile { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.arlab-pagebar-end { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.arlab-sectionhead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.arlab-sectionhead h2 { margin: 0 6px 0 0; font-size: var(--text-md); font-weight: 600; }
+.arlab-sectionhead-end { margin-left: auto; }
+@media (max-width: 900px) { .arlab-pagebar { padding: 12px 16px; } .arlab-pagebar-end { width: 100%; margin-left: 0; } }
+
+/* ---- collection card ---- */
+.arlab-cardgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.arlab-cardgrid > * { min-width: 0; }
+.arlab-ccard { display: flex; flex-direction: column; gap: 10px; padding: 15px 16px 14px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--raise); cursor: pointer; min-width: 0; box-sizing: border-box; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.arlab-ccard > * { min-width: 0; }
+.arlab-ccard:hover { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
+.arlab-ccard.dashed { border-style: dashed; background: var(--ground); }
+.arlab-ccard-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.arlab-ccard-name { border: 0; background: none; padding: 0; font: 600 var(--text-base) var(--font-sans); color: var(--ink); text-align: left; cursor: pointer; min-width: 0; overflow-wrap: anywhere; line-height: 1.3; }
+.arlab-ccard-name:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.arlab-ccard-n { font-family: var(--font-mono); font-size: 12px; background: var(--ink); color: var(--raise); border-radius: var(--radius-pill); padding: 1px 9px; flex-shrink: 0; transition: background var(--dur) var(--ease); }
+.arlab-ccard:hover .arlab-ccard-n { background: var(--accent); }
+.arlab-ccard-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.arlab-ccard-items { list-style: none; margin: 0; padding: 4px 6px; background: var(--ground); border-radius: 9px; display: grid; min-width: 0; overflow: hidden; }
+.arlab-ccard-items button { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; border: 0; background: none; padding: 6px; border-radius: 6px; font: inherit; font-size: var(--text-xs); color: var(--ink-dim); cursor: pointer; }
+.arlab-ccard-items button::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--line-hover); flex-shrink: 0; }
+.arlab-ccard-items button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arlab-ccard-items button:hover { background: var(--raise); color: var(--ink); }
+.arlab-ccard-items button:hover::before { background: var(--accent); }
+.arlab-ccard-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+.arlab-ccard-tags span { font-size: 11px; color: var(--ink-dim); background: var(--sunken); border-radius: var(--radius-pill); padding: 2px 8px; display: inline-flex; gap: 5px; }
+.arlab-ccard-tags i { font-style: normal; font-family: var(--font-mono); color: var(--ink-faint); }
+.arlab-ccard-tags .more { background: none; box-shadow: inset 0 0 0 1px var(--line); }
+
+/* ---- table: fixed head, edge to edge ---- */
+.arlab-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--text-sm); }
+.arlab-table thead th { position: sticky; top: 0; z-index: 2; background: var(--ground); text-align: left; font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .07em; color: var(--ink-faint); font-weight: 600; padding: 14px 14px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.arlab-table thead th button { display: inline-flex; align-items: center; gap: 4px; border: 0; background: none; padding: 0; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+.arlab-table thead th button.on { color: var(--ink); }
+.arlab-table thead th button svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .35; }
+.arlab-table thead th button.on svg { opacity: 1; }
+.arlab-table thead th button svg.up { transform: rotate(180deg); }
+.arlab-table tbody td { padding: 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; background: var(--raise); }
+.arlab-table tbody tr:hover td { background: var(--surface-hover); }
+.arlab-table th:first-child, .arlab-table td:first-child { padding-left: 36px; }
+.arlab-table th:last-child, .arlab-table td:last-child { padding-right: 36px; }
+@media (max-width: 900px) { .arlab-table th:first-child, .arlab-table td:first-child { padding-left: 16px; } .arlab-table th:last-child, .arlab-table td:last-child { padding-right: 16px; } }
+
+/* ---- sheet ---- */
+.arlab-sheet-wrap { position: fixed; inset: 0; z-index: 80; display: flex; justify-content: flex-end; }
+.arlab-sheet-scrim { position: absolute; inset: 0; border: 0; background: rgba(10, 12, 18, .32); cursor: default; }
+.arlab-sheet { position: relative; height: 100%; background: var(--raise); border-left: 1px solid var(--line); box-shadow: var(--shadow-pop); display: flex; flex-direction: column; animation: arlab-sheet-in .22s cubic-bezier(.32, .72, 0, 1); }
+@keyframes arlab-sheet-in { from { transform: translateX(24px); opacity: 0; } }
+.arlab-sheet-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 20px 24px 16px; border-bottom: 1px solid var(--line-soft); }
+.arlab-sheet-h .k { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .07em; color: var(--ink-faint); font-weight: 600; }
+.arlab-sheet-h h2 { margin: 2px 0 0; font-size: var(--text-xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+.arlab-sheet-body { flex: 1; overflow: auto; padding: 8px 24px 24px; }
+.arlab-sheet-sec { display: grid; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
+.arlab-sheet-sec:last-child { border-bottom: 0; }
+.arlab-sheet-sec h3 { margin: 0; font-size: var(--text-sm); font-weight: 600; color: var(--ink-dim); }
+.arlab-sheet-f { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 24px; border-top: 1px solid var(--line-soft); background: var(--ground); }
+@media (prefers-reduced-motion: reduce) { .arlab-sheet, .arlab-picker-panel { animation: none; } }

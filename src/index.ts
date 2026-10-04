@@ -77,6 +77,20 @@ export type { ScoreBarProps } from './ScoreBar';
 export { KanbanBoard, KanbanColumn } from './Kanban';
 export type { KanbanColumnProps } from './Kanban';
 
+export { Pill, PillButton } from './Pill';
+export type { PillProps, PillButtonProps, PillTone } from './Pill';
+export { Picker } from './Picker';
+export type { PickerProps, PickerOption as PickerChoice } from './Picker';
+export { PageBar, SectionHead } from './PageBar';
+export type { PageBarProps } from './PageBar';
+export { CollectionCard, CardGrid } from './CollectionCard';
+export type { CollectionCardProps } from './CollectionCard';
+export { Sheet, SheetSection } from './Sheet';
+export type { SheetProps } from './Sheet';
+export { RailPanel } from './RailPanel';
+export type { RailPanelProps } from './RailPanel';
+export { Table, SortHead } from './Table';
+
 export * from './layout';
 export * from './shells';
 export { ScrollProgress } from './ScrollProgress';

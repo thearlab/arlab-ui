@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { LoadingBar } from '../LoadingBar';
 import { SearchButton } from '../SearchButton';
 import { ThemeToggle } from '../ThemeToggle';
@@ -11,6 +11,8 @@ export interface NavItem {
   label: string;
   icon?: ReactNode;
   count?: number;
+  /** A lettered colour tile instead of an icon, for collections with an identity (departments). */
+  tile?: { letter?: string; color: string };
   active?: boolean;
   onSelect: () => void;
 }
@@ -23,6 +25,17 @@ export interface SidebarShellProps {
   account: ShellAccount;
   topbar?: { crumbs?: ReactNode; search?: { placeholder?: string; onOpen: () => void }; actions?: ReactNode };
   loading?: boolean;
+  /** Fold the rail to icons. Leave undefined to let the person choose (remembered per browser). */
+  collapsed?: boolean;
+  /** Fold the rail by itself while true (e.g. a document is open, reading wants the width). The
+   * person can still expand it; that override lasts until autoCollapse changes. */
+  autoCollapse?: boolean;
+  /** A right-hand panel (usually a RailPanel). While it is open the left rail folds; expanding the
+   * left rail calls onAsideClose. */
+  aside?: ReactNode;
+  onAsideClose?: () => void;
+  /** Show the light/dark switch at the right of the top bar (default true). */
+  themeInTopbar?: boolean;
   /** The workspace. Fills the viewport under the top bar; children manage their own scroll. */
   children: ReactNode;
 }
@@ -32,8 +45,9 @@ const dotStyle = (dot?: string) => ({ background: dot ? (TOKENS.has(dot) ? `var(
 
 function Item({ item }: { item: NavItem }) {
   return (
-    <button type="button" className={`arlab-side-item${item.active ? ' on' : ''}`} onClick={item.onSelect} aria-current={item.active ? 'page' : undefined} title={item.label}>
-      {item.icon && <span className="arlab-side-icon">{item.icon}</span>}
+    <button type="button" className={`arlab-side-item${item.active ? ' on' : ''}`} onClick={item.onSelect} aria-current={item.active ? 'page' : undefined} aria-label={item.label} data-tip={typeof item.count === 'number' ? `${item.label} · ${item.count}` : item.label}>
+      {item.tile ? <span className="arlab-side-tile" style={{ background: item.tile.color }} aria-hidden="true">{item.tile.letter ?? item.label.slice(0, 1)}</span>
+        : item.icon && <span className="arlab-side-icon">{item.icon}</span>}
       <span className="arlab-side-label">{item.label}</span>
       {typeof item.count === 'number' && <span className="arlab-side-count">{item.count}</span>}
     </button>
@@ -43,9 +57,24 @@ function Item({ item }: { item: NavItem }) {
 /** Shell A: a persistent sidebar (sections, groups, recent, the person) beside a thin top bar
  * (breadcrumbs, search, actions) and a workspace that fills the viewport. For tools with several
  * sections and collections: Agents Studio, ARLAB Knowledge. Router-agnostic: navigation is callbacks. */
-export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, children }: SidebarShellProps) {
+export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, children }: SidebarShellProps) {
+  const [pref, setPref] = useState(() => { try { return localStorage.getItem('arlab:rail') === 'min'; } catch { return false; } });
+  const [override, setOverride] = useState<boolean | null>(null);
+  useEffect(() => { setOverride(null); }, [autoCollapse]);
+  const min = collapsed ?? (aside ? true : override ?? (autoCollapse ? true : pref));
+  const toggle = () => {
+    if (aside && min) { onAsideClose?.(); setOverride(false); return; }
+    if (autoCollapse) { setOverride(!min); return; }
+    const next = !min; setPref(next);
+    try { localStorage.setItem('arlab:rail', next ? 'min' : 'full'); } catch { /* storage unavailable */ }
+  };
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => { if ((e.metaKey || e.ctrlKey) && e.key === '\\') { e.preventDefault(); toggle(); } };
+    window.addEventListener('keydown', key);
+    return () => window.removeEventListener('keydown', key);
+  });
   return (
-    <div className="arlab-app">
+    <div className={`arlab-app${min ? ' rail-min' : ''}${aside ? ' has-aside' : ''}`}>
       <aside className="arlab-side">
         <Brand {...brand} />
         <nav aria-label="Sections">
@@ -72,7 +101,12 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
         </div>
         <div className="arlab-side-me">
           <AccountMenu account={account} />
-          <ThemeToggle />
+          {!(themeInTopbar && topbar) && <ThemeToggle />}
+          {(
+            <button type="button" className="arlab-icon-btn arlab-rail-toggle" onClick={toggle} aria-pressed={min} aria-label={min ? 'Expand the sidebar' : 'Collapse the sidebar'} data-tip={min ? 'Expand  ⌘\\' : 'Collapse  ⌘\\'}>
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" /><path d="M9 4.5v15" /><path className="chev" d="M15.5 10l-2 2 2 2" /></svg>
+            </button>
+          )}
         </div>
       </aside>
       <div className="arlab-main">
@@ -82,10 +116,12 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
             {topbar.crumbs && <div className="arlab-crumbs">{topbar.crumbs}</div>}
             {topbar.search && <SearchButton placeholder={topbar.search.placeholder ?? 'Search'} onClick={topbar.search.onOpen} />}
             {topbar.actions}
+            {themeInTopbar && <span className="arlab-topbar-theme"><ThemeToggle /></span>}
           </div>
         )}
         <div className="arlab-body">{children}</div>
       </div>
+      {aside}
     </div>
   );
 }

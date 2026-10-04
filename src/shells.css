@@ -98,3 +98,48 @@ html { overscroll-behavior-y: none; }
   .arlab-topbar { padding: 0 14px; }
   .arlab-side > nav { overflow-y: auto; min-height: 0; }
 }
+
+/* ===== ARLAB UI 1.1: the rail ==========================================================
+   Folds to icons (button in the account row, or ⌘\), labels become tooltips, collections show as
+   lettered colour tiles, the selected item is raised with an accent marker, and a right panel
+   (`aside`) takes the width when the left rail folds. */
+.arlab-app { transition: grid-template-columns .18s cubic-bezier(.32, .72, 0, 1); }
+.arlab-side-item { position: relative; }
+.arlab-side-item.on::after { content: ""; position: absolute; left: -12px; top: 50%; width: 3px; height: 16px; margin-top: -8px; border-radius: 2px; background: var(--accent); }
+.arlab-side-tile { width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 10.5px; font-weight: 700; flex-shrink: 0; }
+/* the line above the account row runs edge to edge */
+.arlab-side-me { margin-left: -12px; margin-right: -12px; padding-left: 20px; padding-right: 14px; }
+.arlab-rail-toggle { margin-left: auto; position: relative; }
+.arlab-rail-toggle .chev { transition: transform .18s cubic-bezier(.32, .72, 0, 1); transform-origin: 14.5px 12px; }
+.arlab-topbar-theme { display: inline-flex; }
+@media (min-width: 1001px) {
+  .arlab-app.rail-min { grid-template-columns: 64px minmax(0, 1fr); }
+  .arlab-app.has-aside { grid-template-columns: 64px minmax(0, 1fr) 380px; }
+  .rail-min .arlab-side { padding: 18px 8px 14px; }
+  .rail-min .arlab-shell-brand { justify-content: center; padding: 6px 0 22px; }
+  .rail-min .arlab-shell-brand b, .rail-min .arlab-shell-pulse { display: none; }
+  .rail-min .arlab-side-item { justify-content: center; padding: 10px 0; }
+  .rail-min .arlab-side-item.on::after { left: -8px; }
+  .rail-min .arlab-side-label, .rail-min .arlab-side-count, .rail-min .arlab-side-recent, .rail-min .arlab-shell-who { display: none; }
+  .rail-min .arlab-side-group { font-size: 0; padding: 10px 0 4px; margin: 0 14px; border-top: 1px solid var(--line); }
+  .rail-min .arlab-side-me { flex-direction: column; gap: 10px; margin-left: -8px; margin-right: -8px; padding: 12px 0 4px; align-items: center; }
+  .rail-min .arlab-rail-toggle { margin-left: 0; }
+  .rail-min .arlab-rail-toggle .chev { transform: rotate(180deg); }
+  .rail-min [data-tip]:hover::before, .rail-min [data-tip]:focus-visible::before {
+    content: attr(data-tip); position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%);
+    background: var(--ink); color: var(--raise); font: 500 12px var(--font-sans); padding: 5px 9px; border-radius: 6px;
+    white-space: nowrap; pointer-events: none; z-index: 60; box-shadow: var(--shadow-pop);
+  }
+}
+@media (max-width: 1000px) { .arlab-rail-toggle { display: none; } .arlab-side-me { margin: 8px 0 0; padding: 12px 0 4px; } }
+
+/* the right panel (RailPanel) */
+.arlab-railpanel { display: flex; flex-direction: column; min-height: 0; height: 100dvh; background: var(--raise); border-left: 1px solid var(--line); animation: arlab-rail-in .2s cubic-bezier(.32, .72, 0, 1); }
+@keyframes arlab-rail-in { from { opacity: 0; transform: translateX(16px); } }
+.arlab-railpanel-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: var(--top-h); padding: 0 16px 0 20px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+.arlab-railpanel-h b { display: block; font-size: var(--text-base); font-weight: 600; }
+.arlab-railpanel-h small { display: block; font-size: 11.5px; color: var(--ink-faint); }
+.arlab-railpanel-body { flex: 1; min-height: 0; overflow: auto; padding: 18px 20px; }
+.arlab-railpanel-f { padding: 12px 16px 16px; border-top: 1px solid var(--line-soft); }
+@media (max-width: 1000px) { .arlab-railpanel { position: fixed; inset: 0 0 0 auto; width: min(420px, 100vw); z-index: 60; box-shadow: var(--shadow-pop); } }
+@media (prefers-reduced-motion: reduce) { .arlab-app { transition: none; } .arlab-railpanel { animation: none; } }

@@ -13,16 +13,16 @@ Shared design tokens and React UI primitives for ARLAB's internal tools (Agents 
 PUBLIC repo (MIT), not on npm. Consumed as a git dependency pinned to a tag:
 
 ```json
-"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v1.0.6"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v1.1.0"
 ```
 
-Public means no token and no SSH key, in CI or on a laptop. The `github:thearlab/arlab-ui#v1.0.6`
+Public means no token and no SSH key, in CI or on a laptop. The `github:thearlab/arlab-ui#v1.1.0`
 shorthand works too: npm resolves it to an SSH URL but falls back to anonymous HTTPS. Never pin
 v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive it, real CSS
 compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
 does not parse, which is what those tags predate.
 
-Current version: 1.0.6. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Current version: 1.1.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 
@@ -66,3 +66,35 @@ class, wrap it in an `arlab-scroll-host`, and pass its ref: `<ScrollProgress tar
 
 Never hide scrollbars globally (`*`): the indicator only tracks vertical scroll, so a wide table
 or code block would lose its only horizontal cue. Hide them only where the indicator replaces them.
+
+## The 1.1 element set (the house style since 2026-10-05)
+
+Set by the docs.thearlab.com revamp. Every ARLAB app follows it; build with these, do not re-invent.
+
+- **Rail** - `SidebarShell`. It folds to icons (account-row button or ⌘\), remembered per browser;
+  `autoCollapse` folds it while reading wants the width (a document is open). Collections with an
+  identity (departments) are `NavItem.tile` lettered colour tiles; the selected item is raised with
+  an accent marker; labels become tooltips when folded. The light/dark switch lives at the right of
+  the top bar, never in the rail. The line above the account row runs edge to edge.
+- **Right panel** - a companion task (an assistant, a chat) is a `RailPanel` passed as `aside`,
+  never a floating popup. Opening it folds the left rail; expanding the left rail closes it.
+- **Page bar** - one `PageBar` per page: title, its count as a `strong` pill, tabs, search, actions,
+  fixed while the page scrolls. A lettered `tile` only for a collection with an identity; ordinary
+  pages (Projects, Clients) carry no tile.
+- **Pills, not separators** - one fact per `Pill`. Never "a · b · c" meta strings. Counts are pills;
+  something changed this week is `tone="fresh"`; status is ok / warn / bad; an aside is `quiet`.
+- **Pickers** - `Picker` for any filter or choice that carries counts or needs finding (it searches
+  past 10 options). Native `<select>` only for a plain short list inside a dense form.
+- **Segmented tabs** - `SegmentedControl` with `count` per option for 2-6 views of one list.
+- **Collections as cards** - `CollectionCard` in a `CardGrid`: name and count, a pill line, the
+  latest few items in one inset block (each opens itself), the biggest groups as tags. No ruled rows.
+  Long text truncates with an ellipsis; every flex/grid child holding text has `min-width: 0`.
+- **Section heads** - `SectionHead`: the name, then its facts as pills.
+- **Tables** - `Table` + `SortHead`: fixed header inside its scroll container, edge to edge with the
+  gutter in the first and last cells, people as named badges, links as icon buttons. Load more as
+  the end scrolls into view rather than pages.
+- **Icon buttons** - the bordered square (`IconButton`, `tip` for the tooltip) for back, previous,
+  next, close, edit, export. Never a text link with an arrow.
+- **Long forms** - a `Sheet` sliding in from the right with `SheetSection` groups, not a centred
+  modal. Centred dialogs are for confirmations only.
+- **Loading** - `LoadingBar` and `Skeleton`, never a sentence.
