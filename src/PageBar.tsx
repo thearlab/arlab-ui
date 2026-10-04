@@ -6,7 +6,7 @@ export interface PageBarProps {
   title: ReactNode;
   /** A coloured lettered tile before the title, for a collection with an identity (a department).
    * Leave it off for ordinary pages: a tile on every page is decoration, not identity. */
-  tile?: { letter: string; color: string };
+  tile?: { letter?: string; icon?: ReactNode; color: string };
   /** Pills right after the title: the count, the state. */
   pills?: ReactNode;
   /** Segmented tabs, sitting with the title. */
@@ -23,7 +23,7 @@ export interface PageBarProps {
 export function PageBar({ title, tile, pills, tabs, search, actions, className = '' }: PageBarProps) {
   return (
     <div className={['arlab-pagebar', className].filter(Boolean).join(' ')}>
-      {tile && <span className="arlab-pagebar-tile" style={{ background: tile.color }} aria-hidden="true">{tile.letter}</span>}
+      {tile && <span className="arlab-pagebar-tile" style={{ background: tile.color }} aria-hidden="true">{tile.icon ?? tile.letter}</span>}
       <h1>{title}</h1>
       {pills}
       {tabs}

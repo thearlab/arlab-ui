@@ -83,6 +83,7 @@ export { Picker } from './Picker';
 export type { PickerProps, PickerOption as PickerChoice } from './Picker';
 export { PageBar, SectionHead } from './PageBar';
 export type { PageBarProps } from './PageBar';
+export { deptIcon } from './DeptIcon';
 export { CollectionCard, CardGrid } from './CollectionCard';
 export type { CollectionCardProps } from './CollectionCard';
 export { Sheet, SheetSection } from './Sheet';

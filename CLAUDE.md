@@ -73,13 +73,13 @@ Set by the docs.thearlab.com revamp. Every ARLAB app follows it; build with thes
 
 - **Rail** - `SidebarShell`. It folds to icons (account-row button or ⌘\), remembered per browser;
   `autoCollapse` folds it while reading wants the width (a document is open). Collections with an
-  identity (departments) are `NavItem.tile` lettered colour tiles; the selected item is raised with
+  identity (departments) are `NavItem.tile` colour tiles carrying the department icon (`tile.icon: deptIcon(id)`, falling back to a letter for a department with no icon yet); the selected item is raised with
   an accent marker; labels become tooltips when folded. The light/dark switch lives at the right of
   the top bar, never in the rail. The line above the account row runs edge to edge.
 - **Right panel** - a companion task (an assistant, a chat) is a `RailPanel` passed as `aside`,
   never a floating popup. Opening it folds the left rail; expanding the left rail closes it.
 - **Page bar** - one `PageBar` per page: title, its count as a `strong` pill, tabs, search, actions,
-  fixed while the page scrolls. A lettered `tile` only for a collection with an identity; ordinary
+  fixed while the page scrolls. A `tile` (with `deptIcon`) only for a collection with an identity; ordinary
   pages (Projects, Clients) carry no tile.
 - **Pills, not separators** - one fact per `Pill`. Never "a · b · c" meta strings. Counts are pills;
   something changed this week is `tone="fresh"`; status is ok / warn / bad; an aside is `quiet`.
