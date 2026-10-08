@@ -21,7 +21,7 @@ React 18 peer dependency, TypeScript, ESM, no bundler, no router dependency (she
 Load the two typefaces and the stylesheet once, at the app's entry point, before the app's own CSS:
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 ```
 ```ts
 import '@arlab/ui/styles.css';
@@ -44,7 +44,7 @@ initTheme(); // before first paint, no theme flash
 
 Cool neutrals. Surfaces step `--sunken` (sidebar, tracks) to `--ground` (workspace, header band) to `--raise` (panes, panels, inputs), with `--sunken-2` for hover on sunken. Ink: `--ink`, `--ink-dim`, `--ink-faint` (AA on raise), `--ink-inactive` (placeholders only). Lines: `--line`, `--line-soft`, `--line-hover`. Accent `--accent` with `--accent-deep` (as text), `--accent-tint` (surface), `--accent-line` (gate border, focus), `--accent-secondary` (the dialog edge only). Status `--live`, `--warn`, `--crit`, `--info`, each with a `--*-tint`. Identity colours (intelligences, departments) are dots only, drawn from those.
 
-Type: `--font-sans` Outfit, `--font-mono` JetBrains Mono. Scale `--text-2xs` 11 (panel headings, uppercase) · `--text-xs` 12.5 (labels, meta, chips) · `--text-sm` 13.5 · `--text-base` 14.5 · `--text-md` 16 · `--text-xl` 22 · `--text-2xl` 28 · `--text-3xl` 34.
+Type: `--font-sans` Onest (the same family as talk.thearlab.com), `--font-mono` JetBrains Mono. Scale `--text-2xs` 11 (panel headings, uppercase) · `--text-xs` 12.5 (labels, meta, chips) · `--text-sm` 13.5 · `--text-base` 14.5 · `--text-md` 16 · `--text-xl` 22 · `--text-2xl` 28 · `--text-3xl` 34.
 
 Corners: `--radius-sm` 6 (items, segments) · `--radius-md` 8 (inputs, tracks) · `--radius-lg` 10 (panels) · `--radius-xl` 12 (dialogs) · `--radius-pill`. Elevation: `--shadow` (panels, selected item, raised tab), `--shadow-pop` (dialogs, menus, palette, toasts). Motion: `--ease`, `--dur` 150ms, `--dur-slow` 280ms, none under reduced motion. Frame: `--side-w` 252, `--list-w` 372, `--top-h` 58.
 

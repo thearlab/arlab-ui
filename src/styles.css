@@ -48,7 +48,7 @@
   --shadow-pop: 0 14px 40px -10px rgba(0, 0, 0, 0.22);
   --shadow-glow: 0 0 32px rgba(228, 20, 219, 0.14);
 
-  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Onest', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Corners: 6 for items and segments, 8 for inputs, 10 for panels, 12 for dialogs, pills for
