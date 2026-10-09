@@ -62,6 +62,8 @@ export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
 export { Disclosure } from './Disclosure';
 export type { DisclosureProps } from './Disclosure';
+export { ScrollIndicator } from './ScrollIndicator';
+export type { ScrollIndicatorProps } from './ScrollIndicator';
 export { Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
 export { SearchButton } from './SearchButton';

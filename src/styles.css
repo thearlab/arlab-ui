@@ -891,12 +891,31 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 .arlab-disclosure-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius-lg); }
 .arlab-disclosure-title { flex: 1; min-width: 0; font-size: var(--text-base); font-weight: 600; letter-spacing: var(--tracking-tight); }
 .arlab-disclosure-meta { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--ink-faint); white-space: nowrap; }
-.arlab-disclosure-chev { display: inline-grid; place-items: center; width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-pill); background: var(--sunken); color: var(--ink-dim); transition: transform var(--dur-slow) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease); }
+.arlab-disclosure-chev { display: inline-grid; place-items: center; width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-pill); background: var(--sunken); color: var(--ink-dim); line-height: 0; transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
+/* Only the arrow turns, around its own centre: the circle stays put, so the arrow stays centred open or closed. */
+.arlab-disclosure-chev svg { display: block; transform-origin: 50% 50%; transition: transform var(--dur-slow) var(--ease); }
 .arlab-disclosure-head:hover .arlab-disclosure-chev { color: var(--ink); }
-.arlab-disclosure.open .arlab-disclosure-chev, .arlab-collapsible-trigger[aria-expanded="true"] .arlab-disclosure-chev { transform: rotate(180deg); background: var(--accent-tint); color: var(--accent-deep); }
+.arlab-disclosure.open .arlab-disclosure-chev, .arlab-collapsible-trigger[aria-expanded="true"] .arlab-disclosure-chev { background: var(--accent-tint); color: var(--accent-deep); }
+.arlab-disclosure.open .arlab-disclosure-chev svg, .arlab-collapsible-trigger[aria-expanded="true"] .arlab-disclosure-chev svg { transform: rotate(180deg); }
 .arlab-collapsible-trigger .arlab-disclosure-chev { width: 20px; height: 20px; }
 .arlab-disclosure-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow) var(--ease); }
 .arlab-disclosure.open .arlab-disclosure-body { grid-template-rows: 1fr; }
 .arlab-disclosure-body > div { overflow: hidden; }
 .arlab-disclosure-inner { padding: 4px 18px 18px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
-@media (prefers-reduced-motion: reduce) { .arlab-disclosure-chev, .arlab-disclosure-body, .arlab-disclosure-head { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .arlab-disclosure-chev, .arlab-disclosure-chev svg, .arlab-disclosure-body, .arlab-disclosure-head { transition: none; } }
+
+/* ---- ScrollIndicator: theARLab's scroll bar --------------------------------------------------------------------
+   A 3px pink thumb stuck to the edge (the window's, or a positioned box's with .in-box), sized to the view, shown while
+   scrolling. .arlab-scroll-none hides the native bar on the element it replaces; .arlab-scroll-thin is the fallback for
+   small inner lists a mouse still drags: the same pink, as a thin native bar. */
+.arlab-scroll-none { scrollbar-width: none; }
+.arlab-scroll-none::-webkit-scrollbar { display: none; }
+.arlab-scroll-thin { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
+.arlab-scroll-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+.arlab-scroll-thin::-webkit-scrollbar-track { background: transparent; }
+.arlab-scroll-thin::-webkit-scrollbar-thumb { background: var(--accent); border-radius: var(--radius-pill); }
+.arlab-scrollbar { position: fixed; top: 0; bottom: 0; right: 0; width: 3px; z-index: 40; pointer-events: none; opacity: 0; transition: opacity var(--dur-slow) var(--ease); }
+.arlab-scrollbar.in-box { position: absolute; }
+.arlab-scrollbar.on { opacity: 1; transition-duration: var(--dur); }
+.arlab-scrollbar > div { position: absolute; left: 0; right: 0; border-radius: 3px; background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent); }
+@media (prefers-reduced-motion: reduce) { .arlab-scrollbar { transition: none; } }
