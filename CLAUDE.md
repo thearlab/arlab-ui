@@ -22,7 +22,7 @@ v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive
 compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
 does not parse, which is what those tags predate.
 
-Current version: 1.4.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Current version: 1.5.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 

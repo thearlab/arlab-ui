@@ -905,17 +905,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 @media (prefers-reduced-motion: reduce) { .arlab-disclosure-chev, .arlab-disclosure-chev svg, .arlab-disclosure-body, .arlab-disclosure-head { transition: none; } }
 
 /* ---- ScrollIndicator: theARLab's scroll bar --------------------------------------------------------------------
-   A 3px pink thumb stuck to the edge (the window's, or a positioned box's with .in-box), sized to the view, shown while
-   scrolling. .arlab-scroll-none hides the native bar on the element it replaces; .arlab-scroll-thin is the fallback for
-   small inner lists a mouse still drags: the same pink, as a thin native bar. */
-.arlab-scroll-none { scrollbar-width: none; }
-.arlab-scroll-none::-webkit-scrollbar { display: none; }
-.arlab-scroll-thin { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
-.arlab-scroll-thin::-webkit-scrollbar { width: 4px; height: 4px; }
-.arlab-scroll-thin::-webkit-scrollbar-track { background: transparent; }
-.arlab-scroll-thin::-webkit-scrollbar-thumb { background: var(--accent); border-radius: var(--radius-pill); }
-.arlab-scrollbar { position: fixed; top: 0; bottom: 0; right: 0; width: 3px; z-index: 40; pointer-events: none; opacity: 0; transition: opacity var(--dur-slow) var(--ease); }
-.arlab-scrollbar.in-box { position: absolute; }
+   One 3px pink thumb, stuck to the right edge of whatever is scrolling, sized to the view, shown while scrolling
+   (ScrollIndicator.tsx, mounted once). `arlab-scroll-native-none` on <html> hides every native bar, so the whole app
+   has the one style. A scroller that sits inside padding should reach the edge it belongs to, or the thumb floats. */
+.arlab-scroll-native-none, .arlab-scroll-native-none * { scrollbar-width: none; }
+.arlab-scroll-native-none::-webkit-scrollbar, .arlab-scroll-native-none *::-webkit-scrollbar { display: none; }
+.arlab-scrollbar { position: fixed; width: 3px; z-index: 1000; pointer-events: none; border-radius: 3px; opacity: 0; background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent); transition: opacity var(--dur-slow) var(--ease); }
 .arlab-scrollbar.on { opacity: 1; transition-duration: var(--dur); }
-.arlab-scrollbar > div { position: absolute; left: 0; right: 0; border-radius: 3px; background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent); }
 @media (prefers-reduced-motion: reduce) { .arlab-scrollbar { transition: none; } }
