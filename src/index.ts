@@ -60,6 +60,8 @@ export { TagInput } from './TagInput';
 export type { TagInputProps } from './TagInput';
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
+export { Disclosure } from './Disclosure';
+export type { DisclosureProps } from './Disclosure';
 export { Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
 export { SearchButton } from './SearchButton';

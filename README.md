@@ -61,7 +61,7 @@ Two, sharing the brand lockup, the ⌘K search, the account menu and the theme t
 
 ## Elements
 
-`Button` (primary | ghost | danger, sm) · `IconButton` · `Badge` (accent | live | warn | crit) · `Chip` (`on`) · `Avatar` · `Field`, `Label`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `SegmentedControl`, `TagInput`, `ComboboxPicker`, `Dropzone` · `Card` family (liftable objects only) · `Skeleton`, `LoadingBar`, `SearchButton` · `Dialog`, `DialogFooter`, `ToastProvider`/`useToast`, `DropdownMenu`, `Popover`, `Tooltip`, `Collapsible`, `CommandPalette` · `NavTree`, `Toc`/`useScrollspy`, `Breadcrumbs` · `Steps`, `LegendDot`, `Timestamp`, `ScoreBar`, `KanbanBoard` · `ThemeToggle`, `initTheme`, `setTheme`, `getTheme` · `ArlabMark`, icons.
+`Button` (primary | ghost | danger, sm) · `IconButton` · `Badge` (accent | live | warn | crit) · `Chip` (`on`) · `Avatar` · `Field`, `Label`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `SegmentedControl`, `TagInput`, `ComboboxPicker`, `Dropzone` · `Card` family (liftable objects only) · `Skeleton`, `LoadingBar`, `SearchButton` · `Dialog`, `DialogFooter`, `ToastProvider`/`useToast`, `DropdownMenu`, `Popover`, `Tooltip`, `Collapsible`, `Disclosure` (a titled section that opens and closes: title, meta, round chevron; use it instead of <details>), `CommandPalette` · `NavTree`, `Toc`/`useScrollspy`, `Breadcrumbs` · `Steps`, `LegendDot`, `Timestamp`, `ScoreBar`, `KanbanBoard` · `ThemeToggle`, `initTheme`, `setTheme`, `getTheme` · `ArlabMark`, icons.
 
 Removed in 1.0: `Tabs` (use `TabStrip`), `Kicker`, `ChipGroup`, `DashCard`, `NavCard`, `IconTile`, the 0.7 `Panel` (use `Panel` + `Rows`). The `Navbar` family stays exported for the transition and is superseded by `TopNavShell`.
 

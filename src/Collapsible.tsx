@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { ChevronRightIcon } from './icons';
+import { ChevronDownIcon } from './icons';
 
 export interface CollapsibleProps {
   trigger: ReactNode;
@@ -17,7 +17,7 @@ export function Collapsible({ trigger, children, defaultOpen = false }: Collapsi
   return (
     <div>
       <button type="button" className="arlab-collapsible-trigger" aria-expanded={open} onClick={() => setOpen(!open)}>
-        <ChevronRightIcon size={14} />
+        <span className="arlab-disclosure-chev" aria-hidden="true"><ChevronDownIcon size={12} /></span>
         {trigger}
       </button>
       <div className={['arlab-collapsible-body', open ? 'open' : ''].filter(Boolean).join(' ')}>
