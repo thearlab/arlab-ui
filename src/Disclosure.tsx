@@ -27,11 +27,14 @@ export function Disclosure({ title, meta, children, defaultOpen = false, open, o
   const toggle = () => { const next = !isOpen; if (open === undefined) setOwn(next); onOpenChange?.(next); };
   return (
     <section className={['arlab-disclosure', isOpen ? 'open' : '', className].filter(Boolean).join(' ')}>
-      <button type="button" className="arlab-disclosure-head" aria-expanded={isOpen} aria-controls={id} onClick={toggle}>
+      {/* A role="button" div, not a <button>: a section often sits inside a read-only <fieldset disabled> (a settings
+          page someone may only look at), which would disable a real button and lock the section shut. */}
+      <div role="button" tabIndex={0} className="arlab-disclosure-head" aria-expanded={isOpen} aria-controls={id} onClick={toggle}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}>
         <span className="arlab-disclosure-title">{title}</span>
         {meta != null && <span className="arlab-disclosure-meta">{meta}</span>}
         <span className="arlab-disclosure-chev" aria-hidden="true"><ChevronDownIcon size={14} /></span>
-      </button>
+      </div>
       <div id={id} className="arlab-disclosure-body" role="region" aria-hidden={!isOpen}>
         <div><div className="arlab-disclosure-inner">{children}</div></div>
       </div>
