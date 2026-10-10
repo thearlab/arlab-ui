@@ -912,4 +912,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 .arlab-scroll-native-none::-webkit-scrollbar, .arlab-scroll-native-none *::-webkit-scrollbar { display: none; }
 .arlab-scrollbar { position: fixed; width: 3px; z-index: 1000; pointer-events: none; border-radius: 3px; opacity: 0; background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent); transition: opacity var(--dur-slow) var(--ease); }
 .arlab-scrollbar.on { opacity: 1; transition-duration: var(--dur); }
+/* Pickers, menus and pop-overs: a plain thin bar that is simply there, no fade (ScrollIndicator skips them). */
+.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain]) { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar { display: block; width: 6px; }
+.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { .arlab-scrollbar { transition: none; } }
