@@ -22,7 +22,7 @@ v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive
 compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
 does not parse, which is what those tags predate.
 
-Current version: 1.5.1. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Current version: 1.6.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 
@@ -98,3 +98,6 @@ Set by the docs.thearlab.com revamp. Every ARLAB app follows it; build with thes
 - **Long forms** - a `Sheet` sliding in from the right with `SheetSection` groups, not a centred
   modal. Centred dialogs are for confirmations only.
 - **Loading** - `LoadingBar` and `Skeleton`, never a sentence.
+- **Tour** (1.6.0) - every app has the "?" tour: `HelpButton` last in the top bar actions, `Tour` + `useTour`,
+  steps in the app's `src/tour.ts` pointing at `[data-tour]` attributes (SidebarShell rail items are
+  `nav-<id>`, the button is `help`). Missing targets are skipped. See the README's Tour section.

@@ -46,7 +46,7 @@ const dotStyle = (dot?: string) => ({ background: dot ? (TOKENS.has(dot) ? `var(
 
 function Item({ item }: { item: NavItem }) {
   return (
-    <button type="button" className={`arlab-side-item${item.active ? ' on' : ''}`} onClick={item.onSelect} aria-current={item.active ? 'page' : undefined} aria-label={item.label} data-tip={typeof item.count === 'number' ? `${item.label} · ${item.count}` : item.label}>
+    <button type="button" className={`arlab-side-item${item.active ? ' on' : ''}`} onClick={item.onSelect} aria-current={item.active ? 'page' : undefined} aria-label={item.label} data-tour={`nav-${item.id}`} data-tip={typeof item.count === 'number' ? `${item.label} · ${item.count}` : item.label}>
       {item.tile ? <span className="arlab-side-tile" style={{ background: item.tile.color }} aria-hidden="true">{item.tile.icon ?? item.tile.letter ?? item.label.slice(0, 1)}</span>
         : item.icon && <span className="arlab-side-icon">{item.icon}</span>}
       <span className="arlab-side-label">{item.label}</span>

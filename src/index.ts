@@ -100,3 +100,7 @@ export * from './layout';
 export * from './shells';
 export { ScrollProgress } from './ScrollProgress';
 export type { ScrollProgressProps } from './ScrollProgress';
+export { Tour, HelpButton, useTour } from './Tour';
+export type { TourProps, TourStep, TourEnd, HelpButtonProps, UseTourOptions } from './Tour';
+export { placeTour, tourDue } from './tourPlace';
+export type { TourPlacement, TourSpot } from './tourPlace';

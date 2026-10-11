@@ -65,6 +65,30 @@ Two, sharing the brand lockup, the ⌘K search, the account menu and the theme t
 
 Removed in 1.0: `Tabs` (use `TabStrip`), `Kicker`, `ChipGroup`, `DashCard`, `NavCard`, `IconTile`, the 0.7 `Panel` (use `Panel` + `Rows`). The `Navbar` family stays exported for the transition and is superseded by `TopNavShell`.
 
+## Tour (1.6.0)
+
+Every ARLAB app has a "?" tour: `HelpButton` in the top bar (last in the actions, so it sits just left of the theme switch), `Tour` under the shell, `useTour` for the first-visit rule. Steps live in the app's `src/tour.ts` with a version; bump it after a big change and everyone sees the tour again, once.
+
+```tsx
+import { HelpButton, Tour, useTour, type TourStep } from '@arlab/ui';
+export const TOUR_VERSION = 1;
+export const TOUR: TourStep[] = [
+  { target: '[data-tour="nav-projects"]', title: 'Projects', body: 'Every project we have shipped.' },
+  { target: '[data-tour="help"]', title: 'Come back any time', body: 'Press ? to see this tour again.' },
+];
+const tour = useTour({ app: 'docs', version: TOUR_VERSION, seen: me?.tours?.docs, ready: !!me && pageDrawn,
+  save: (v) => fetch('/engine/me/tours', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ app: 'docs', version: v }) }) });
+<HelpButton onClick={tour.start} expanded={tour.open} />
+<Tour steps={TOUR} open={tour.open} onClose={tour.close} />
+```
+
+- Targets are `[data-tour="..."]` attributes, never label text or classes. `SidebarShell` stamps `data-tour="nav-<id>"` on every rail item and `HelpButton` carries `data-tour="help"`.
+- A step whose target is not on screen (not rendered, hidden, zero size) is skipped; the tour waits up to 1.5s for slow pages. On localhost a console warning names the selector.
+- Done, Skip, Close and Esc all count as seen. "Seen" lives on the person's engine record (`tours` from `/whoami`, written by `POST /me/tours`) plus a browser copy (`localStorage["arlab:tour:<app>"]`).
+- Keyboard: Esc closes, Right arrow (and Enter on the card) goes on, Left goes back. Focus moves into the card and back to "?" after. Not a modal: the page stays usable.
+- Under 640px the card docks to the bottom with a 16px gutter and no arrow. No movement under reduced motion. Colours are tokens only, plus `--scrim` (new in 1.6.0).
+- Keep steps 4 to 8, all on the landing page, titles 1 to 3 words, bodies 2 short sentences at most.
+
 ## Favicon
 
 Every ARLAB app uses the same favicon shape: a black rounded square with a single ARLAB-pink glyph, as an SVG. `favicon.svg` in this repo is the default; copy it to `public/favicon.svg`, link it, and swap only the inner glyph for your tool.

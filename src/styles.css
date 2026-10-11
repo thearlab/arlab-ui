@@ -47,6 +47,7 @@
   --shadow-card: var(--shadow);
   --shadow-pop: 0 14px 40px -10px rgba(0, 0, 0, 0.22);
   --shadow-glow: 0 0 32px rgba(228, 20, 219, 0.14);
+  --scrim: rgba(20, 24, 32, 0.28);   /* the light dimming around a tour target */
 
   --font-sans: 'Onest', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
@@ -95,7 +96,7 @@
   --surface-nav: #14171d; --surface-hover: #292f3a;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.9);
-  --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); }
+  --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); --scrim: rgba(0, 0, 0, 0.45); }
 }
 
 :root[data-theme="dark"] { color-scheme: dark;
@@ -107,7 +108,7 @@
   --surface-nav: #14171d; --surface-hover: #292f3a;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.9);
-  --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); }
+  --shadow-glow: 0 0 40px rgba(240, 78, 232, 0.18); --scrim: rgba(0, 0, 0, 0.45); }
 
 /* A flat, calm ground. The corner glows of 0.x are gone: the frame carries the depth. */
 body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
@@ -917,3 +918,39 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 .arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar { display: block; width: 6px; }
 .arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { .arlab-scrollbar { transition: none; } }
+
+/* ===== Tour (1.6.0) ======================================================
+   The "?" tour: a ring around the target that dims the rest of the page a little, and a 320px
+   popup beside it with an arrow. Above RailPanel (60) and menus. Docked to the bottom on phones. */
+.arlab-tour-ring {
+  position: fixed; z-index: 80; pointer-events: none; border-radius: 10px;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 0 9999px var(--scrim);
+  transition: top var(--dur-slow) var(--ease), left var(--dur-slow) var(--ease), width var(--dur-slow) var(--ease), height var(--dur-slow) var(--ease);
+}
+.arlab-tour {
+  box-sizing: border-box; position: fixed; z-index: 81; top: 0; left: 0; width: min(320px, calc(100vw - 32px));
+  background: var(--raise); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop); padding: 16px 16px 12px; display: grid; gap: 6px;
+  font-family: var(--font-sans); outline: none; animation: arlab-tour-in var(--dur-slow) var(--ease);
+}
+/* The card takes focus so keys work, but it is not a control: no focus ring, whatever the app's global rule. */
+.arlab-tour:focus, .arlab-tour:focus-visible { outline: none; }
+@keyframes arlab-tour-in { from { opacity: 0; transform: translateY(4px) scale(0.98); } to { opacity: 1; transform: none; } }
+.arlab-tour-arrow { position: absolute; width: 12px; height: 12px; background: var(--raise); border: 1px solid var(--line); transform: rotate(45deg); }
+.arlab-tour[data-side="bottom"] .arlab-tour-arrow { top: -7px; border-right: 0; border-bottom: 0; }
+.arlab-tour[data-side="top"] .arlab-tour-arrow { bottom: -7px; border-left: 0; border-top: 0; }
+.arlab-tour[data-side="right"] .arlab-tour-arrow { left: -7px; border-top: 0; border-right: 0; }
+.arlab-tour[data-side="left"] .arlab-tour-arrow { right: -7px; border-bottom: 0; border-left: 0; }
+.arlab-tour[data-side="dock"] .arlab-tour-arrow { display: none; }
+.arlab-tour-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.arlab-tour-count { font-size: var(--text-xs); color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.arlab-tour-dots { display: flex; gap: 4px; }
+.arlab-tour-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.arlab-tour-dots i.on { background: var(--accent); }
+.arlab-tour-title { margin: 2px 0 0; font-size: var(--text-md); font-weight: 600; line-height: var(--leading-tight); color: var(--ink); }
+.arlab-tour-body { margin: 0; font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--ink-dim); }
+.arlab-tour-actions { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.arlab-tour-grow { flex: 1; }
+.arlab-help-glyph { font: 600 15px/1 var(--font-sans); }
+@media (prefers-reduced-motion: reduce) { .arlab-tour-ring { transition: none; } .arlab-tour { animation: none; } }
+@media (max-width: 640px) { .arlab-tour { width: calc(100vw - 32px); } }
