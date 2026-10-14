@@ -1,1 +1,35 @@
-/* charts */
+/* ===== Charts: bar, line, sparkline, legend. Data is the loudest thing; axes and labels are quiet. ===== */
+@layer ar-components {
+  .ar-chart { margin: 0; min-width: 0; }
+  .ar-chart-box { position: relative; width: 100%; min-width: 0; }
+  .ar-chart-box svg { display: block; overflow: visible; }
+  .ar-chart-box--focus { border-radius: var(--r-sm); }
+  .ar-chart-box--focus:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+  .ar-chart-grid { stroke: var(--line-soft); stroke-width: 1; }
+  .ar-chart-axis { stroke: var(--line); stroke-width: 1; }
+  .ar-chart-x, .ar-chart-y { fill: var(--ink-3); font-size: var(--fs-xs); font-family: var(--font-sans); }
+  .ar-chart-val { fill: var(--ink-2); font-size: var(--fs-xs); font-weight: 600; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+  .ar-chart-bar--accent { fill: var(--accent); }
+  .ar-chart-bar--bad { fill: var(--bad); }
+  .ar-chart-bar.is-soft { fill-opacity: .45; }
+  .ar-chart-missing { fill: var(--sunken-2); }
+  .ar-chart-line { fill: none; stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
+  .ar-chart-now { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+  .ar-chart-cursor { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 3; }
+  .ar-chart-point { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+  .ar-chart-tip { position: absolute; z-index: 1; display: grid; gap: 1px; min-width: 64px; max-width: 110px; padding: 5px 9px; border-radius: var(--r-sm); background: var(--ink); color: var(--surface); font-size: var(--fs-xs); pointer-events: none; box-shadow: var(--shadow-2); }
+  .ar-chart-tip b { font-variant-numeric: tabular-nums; }
+  .ar-chart-tip span { opacity: .8; }
+  .ar-chart-summary { margin-top: var(--s2); font-size: var(--fs-xs); color: var(--ink-3); }
+
+  .ar-spark { display: inline-flex; vertical-align: middle; flex: none; }
+  .ar-spark-bar { fill: var(--accent); fill-opacity: .7; }
+  .ar-spark-empty { fill: var(--sunken-2); }
+  .ar-spark-line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; }
+
+  .ar-legend { display: flex; flex-wrap: wrap; gap: var(--s1-5) var(--s4); margin: 0; padding: 0; list-style: none; font-size: var(--fs-xs); color: var(--ink-2); }
+  .ar-legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .ar-legend b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ar-legend-sw { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+  .ar-legend-sw--bad { background: var(--bad); } .ar-legend-sw--ok { background: var(--ok); } .ar-legend-sw--warn { background: var(--warn); } .ar-legend-sw--info { background: var(--info); } .ar-legend-sw--muted { background: var(--sunken-2); }
+}

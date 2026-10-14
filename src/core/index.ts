@@ -18,3 +18,4 @@ export { ThemeToggle, AccentToggle } from './ThemeToggle';
 export type { ThemeToggleProps } from './ThemeToggle';
 export { initTheme, setTheme, getTheme, getResolvedTheme, setAccent, getAccent, onThemeChange } from './theme';
 export type { Theme, Accent } from './theme';
+export { initScrollbars } from './scrollbars';

@@ -29,12 +29,12 @@ const pairs = [
   ...['surface', 'frame', 'accent-soft', 'accent-soft-2'].map((b) => ['accent-text', b, T, 'Accent text, active item']),
   ['ink', 'accent-soft', T, 'Text on the selected row'],
   ...['accent', 'accent-hover', 'accent-press'].map((b) => ['on-accent', b, T, 'Primary button label']),
-  ['on-bad', 'bad', T, 'Danger button label'],
+  ['on-bad', 'bad-fill', T, 'Danger button label'],
   ...['ok', 'warn', 'bad', 'info'].flatMap((s) => [[s, s + '-soft', T, 'Status tag'], [s, 'surface', T, 'Status text on a card'], [s, 'frame', T, 'Status text on the page']]),
   ...surfaces.map((b) => ['control-line', b, U, 'Control edge (input, checkbox, switch)']),
   ...surfaces.map((b) => ['focus', b, U, 'Focus ring']),
   ...['surface', 'frame'].map((b) => ['accent', b, U, 'Selected marker, switch on, slider fill']),
-  ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => ['#FFFFFF', 'hue-' + n, U, 'Initials on an avatar (bold)']),
+  ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => ['#FFFFFF', 'hue-' + n, T, 'Initials on an avatar']),
   ...['ok', 'warn', 'bad', 'info'].map((s) => [s, 'surface', U, 'Status dot']),
 ];
 let fails = 0;

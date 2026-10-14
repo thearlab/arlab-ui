@@ -1,1 +1,98 @@
-/* disclosure */
+/* ===== Disclosure: accordion, disclosure, stepper, tour ===== */
+@layer ar-components {
+  /* Shared open/close: rows animate 0fr to 1fr; a closed panel is hidden from tab order and readers. */
+  .ar-acc-panel { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--dur-panel) var(--ease-out), visibility 0s; }
+  .ar-acc-panel[data-state="closed"] { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows var(--dur-panel) var(--ease-out), visibility 0s linear var(--dur-panel); }
+  .ar-acc-clip { overflow: hidden; min-height: 0; }
+  .ar-chevron { display: inline-grid; place-items: center; width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--sunken); color: var(--ink-2); }
+  .ar-chevron svg { transition: transform var(--dur-small) var(--ease-out); }
+  .ar-acc-item[data-state="closed"] > .ar-acc-heading .ar-chevron svg, .ar-disclosure[data-state="closed"] > .ar-disclosure-row .ar-chevron svg { transform: rotate(-90deg); }
+  [dir="rtl"] .ar-acc-item[data-state="closed"] > .ar-acc-heading .ar-chevron svg, [dir="rtl"] .ar-disclosure[data-state="closed"] > .ar-disclosure-row .ar-chevron svg { transform: rotate(90deg); }
+
+  /* ---- Accordion ---- */
+  .ar-accordion { display: grid; border-radius: var(--r-md); background: var(--surface); box-shadow: var(--shadow-1); overflow: hidden; }
+  .ar-acc-item + .ar-acc-item { border-top: 1px solid var(--line-soft); }
+  .ar-acc-heading { margin: 0; font-size: inherit; font-weight: inherit; }
+  .ar-acc-trigger {
+    display: flex; align-items: center; gap: var(--s3); width: 100%; min-height: var(--h-lg); padding: var(--s3) var(--s4); border: 0; background: none;
+    text-align: start; color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold); cursor: pointer;
+    transition: background-color var(--dur-press) var(--ease-out);
+  }
+  .ar-acc-trigger:hover { background: var(--surface-hover); }
+  .ar-acc-trigger:focus-visible { outline-offset: -2px; border-radius: var(--r-md); }
+  .ar-acc-trigger:disabled { color: var(--ink-disabled); cursor: not-allowed; }
+  .ar-acc-title { flex: 1; min-width: 0; }
+  .ar-acc-meta { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--ink-3); }
+  .ar-acc-body { padding: 0 var(--s4) var(--s4); color: var(--ink-2); font-size: var(--fs-base); }
+
+  /* ---- Disclosure ---- */
+  .ar-disclosure--panel { border-radius: var(--r-md); background: var(--surface); box-shadow: var(--shadow-1); }
+  .ar-disclosure-row { display: flex; align-items: center; gap: var(--s2); padding-inline-end: var(--s3); }
+  .ar-disclosure-trigger {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--s3); min-height: var(--h-lg); padding: var(--s2) var(--s4);
+    color: var(--ink); font-weight: var(--fw-semibold); font-size: var(--fs-md); cursor: pointer; user-select: none; border-radius: var(--r-md);
+  }
+  .ar-disclosure--plain .ar-disclosure-trigger { padding-inline: 0; min-height: var(--h-md); font-size: var(--fs-base); }
+  .ar-disclosure-trigger:focus-visible { outline-offset: -2px; }
+  .ar-disclosure-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ar-disclosure-meta { display: inline-flex; gap: var(--s1-5); color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+  .ar-disclosure-actions { display: flex; gap: var(--s1-5); flex: none; }
+  .ar-disclosure-body { padding: 0 var(--s4) var(--s4); display: grid; gap: var(--s3); }
+  .ar-disclosure--plain .ar-disclosure-body { padding: var(--s1) 0 var(--s2) 36px; }
+
+  /* ---- Stepper ---- */
+  .ar-stepper { display: flex; margin: 0; padding: 0; list-style: none; gap: var(--s2); min-width: 0; }
+  .ar-stepper--horizontal { align-items: flex-start; overflow-x: auto; }
+  .ar-stepper--vertical { flex-direction: column; gap: 0; }
+  .ar-step { position: relative; flex: 1 1 0; min-width: 120px; }
+  .ar-stepper--vertical .ar-step { min-width: 0; padding-bottom: var(--s4); }
+  .ar-stepper--horizontal .ar-step:not(:last-child)::after { content: ''; position: absolute; top: 15px; inset-inline-start: 40px; inset-inline-end: 8px; height: 2px; border-radius: 2px; background: var(--line); }
+  .ar-stepper--vertical .ar-step:not(:last-child)::after { content: ''; position: absolute; top: 36px; bottom: 4px; inset-inline-start: 15px; width: 2px; border-radius: 2px; background: var(--line); }
+  .ar-step[data-status="done"]::after { background: var(--accent) !important; }
+  .ar-step-inner { display: flex; gap: var(--s2-5, 10px); align-items: flex-start; width: 100%; padding: 0; border: 0; background: none; text-align: start; color: inherit; font: inherit; }
+  .ar-stepper--horizontal .ar-step-inner { flex-direction: column; }
+  button.ar-step-inner { cursor: pointer; border-radius: var(--r-sm); }
+  button.ar-step-inner:hover .ar-step-title { text-decoration: underline; text-underline-offset: 3px; }
+  .ar-step-mark { display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 2px var(--control-line); color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; position: relative; z-index: 1; }
+  .ar-step[data-status="done"] .ar-step-mark { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+  .ar-step[data-status="current"] .ar-step-mark { background: var(--accent-soft); color: var(--accent-text); box-shadow: inset 0 0 0 2px var(--accent); }
+  .ar-step[data-status="error"] .ar-step-mark { background: var(--bad-fill, var(--bad)); color: var(--on-bad); box-shadow: none; }
+  .ar-step-text { display: grid; gap: 2px; min-width: 0; padding-top: 5px; }
+  .ar-stepper--horizontal .ar-step-text { padding-top: 0; }
+  .ar-step-title { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink); }
+  .ar-step[data-status="upcoming"] .ar-step-title { color: var(--ink-2); }
+  .ar-step[data-status="error"] .ar-step-title { color: var(--bad); }
+  .ar-step-desc { font-size: var(--fs-xs); color: var(--ink-3); }
+
+  /* ---- Tour: a ring around the target that dims the page a little, a popup beside it ---- */
+  .ar-tour-ring {
+    position: fixed; z-index: var(--z-tour); pointer-events: none; border-radius: var(--r-control);
+    box-shadow: 0 0 0 2px var(--accent), 0 0 0 9999px var(--scrim);
+    transition: top var(--dur-panel) var(--ease-out), left var(--dur-panel) var(--ease-out), width var(--dur-panel) var(--ease-out), height var(--dur-panel) var(--ease-out);
+  }
+  .ar-tour {
+    position: fixed; z-index: calc(var(--z-tour) + 1); top: 0; left: 0; width: min(320px, calc(100vw - 32px));
+    display: grid; gap: var(--s1-5); padding: var(--s4) var(--s4) var(--s3);
+    background: var(--frame); color: var(--ink); border-radius: var(--r-lg); box-shadow: var(--shadow-3);
+    animation: ar-rise-in var(--dur-panel) var(--ease-out);
+  }
+  .ar-tour:focus, .ar-tour:focus-visible { outline: none; }
+  .ar-tour-arrow { position: absolute; width: 12px; height: 12px; background: var(--frame); transform: rotate(45deg); }
+  .ar-tour[data-side="bottom"] .ar-tour-arrow { top: -6px; }
+  .ar-tour[data-side="top"] .ar-tour-arrow { bottom: -6px; }
+  .ar-tour[data-side="right"] .ar-tour-arrow { left: -6px; }
+  .ar-tour[data-side="left"] .ar-tour-arrow { right: -6px; }
+  .ar-tour[data-side="dock"] .ar-tour-arrow { display: none; }
+  .ar-tour-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+  .ar-tour-count { font-size: var(--fs-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .ar-tour-dots { display: flex; gap: 4px; }
+  .ar-tour-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--sunken-2); }
+  .ar-tour-dots i.on { background: var(--accent); }
+  .ar-tour-title { margin: 2px 0 0; font-size: var(--fs-md); font-weight: var(--fw-bold); line-height: var(--lh-snug); }
+  .ar-tour-body { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }
+  .ar-tour-actions { display: flex; align-items: center; gap: var(--s1-5); margin-top: var(--s2); }
+  .ar-tour-grow { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @layer ar-components { .ar-tour-ring { transition: none; } .ar-chevron svg { transition: none; } }
+}

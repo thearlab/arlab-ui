@@ -41,6 +41,7 @@ export function SegmentedControl<T extends string = string>({ options, value, de
   };
   return (
     <div role="radiogroup" aria-label={label} className={cx('ar-seg', size === 'sm' && 'ar-seg--sm', block && 'ar-seg--block', className)} onKeyDown={onKey}>
+      <div className="ar-seg-in">
       {options.map((o, i) => (
         <button key={o.value} ref={(el) => { refs.current[i] = el; }} type="button" role="radio" aria-checked={i === cur}
           aria-label={o['aria-label']} tabIndex={i === cur ? 0 : -1} disabled={o.disabled} className="ar-seg-item"
@@ -50,6 +51,7 @@ export function SegmentedControl<T extends string = string>({ options, value, de
           {o.count !== undefined && <span className="ar-seg-count">{o.count}</span>}
         </button>
       ))}
+      </div>
     </div>
   );
 }

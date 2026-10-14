@@ -46,14 +46,19 @@
   --warn: #8F5400;  --warn-soft: #FFF1D9;
   --bad: #BE321D;   --bad-soft: #FCE7E3;
   --info: #2357D0;  --info-soft: #E5EDFD;
-  --on-bad: #FFFFFF;
+  --bad-fill: #BE321D; --on-bad: #FFFFFF;   /* danger buttons: a deep red fill, light text, in both themes */
 
   /* The soft hero gradient */
   --hero-a: #F8DDF3; --hero-b: #EADFFF; --hero-c: #FFE8DE;
   --hero-ring: rgba(255, 255, 255, .18);
 
-  /* Category hues for avatars, swatches and chart series (white text on each passes 3:1 at 600 weight) */
-  --hue-1: #7B57F0; --hue-2: #D0408F; --hue-3: #C2661A; --hue-4: #1F8A6E;
+  /* Scrollbars: hidden at rest, a thin square thumb while you hover, focus or scroll a box */
+  --scrollbar-size: 4px;
+  --scrollbar-thumb: color-mix(in srgb, var(--ink-3) 35%, transparent);
+  --scrollbar-thumb-active: color-mix(in srgb, var(--ink-3) 60%, transparent);
+
+  /* Category hues for avatars, swatches and chart series: white text on each passes 4.5:1 */
+  --hue-1: #7B57F0; --hue-2: #C83D89; --hue-3: #B25E18; --hue-4: #1E846A;
   --hue-5: #2F6FE0; --hue-6: #A649C9; --hue-7: #C9403F; --hue-8: #5A6680;
 
   /* Elevation: two soft layers tinted violet, never grey */
@@ -66,7 +71,7 @@
   /* Type */
   --font-sans: 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --fs-2xs: .6875rem;  /* 11 badges and counts */
+  --fs-2xs: .75rem;    /* 12: the minimum text size anywhere (kept as a name for counts and badges) */
   --fs-xs: .75rem;     /* 12 meta */
   --fs-sm: .8125rem;   /* 13 labels, secondary */
   --fs-base: .875rem;  /* 14 body */
@@ -98,7 +103,7 @@
   --r-pill: 999px;
 
   /* Control sizes (44px on touch, see below) */
-  --h-sm: 30px; --h-md: 36px; --h-lg: 44px;
+  --h-sm: 28px; --h-md: 32px; --h-lg: 40px;
   --hit: 24px;      /* the smallest target anywhere (WCAG 2.2) */
 
   /* Motion (HIG motion doc, ARLAB values). Reduced motion turns them into a 150ms fade. */
@@ -137,11 +142,11 @@
     --line: #2E2B40; --line-soft: #27253A; --control-line: #7C7896;
     --ink: #F1EFFA; --ink-2: #C9C5DD; --ink-3: #A9A4C2; --ink-disabled: #6A6683;
     --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A; --on-accent: #FFFFFF;
-    --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
+    --accent-soft: #4A1C45; --accent-soft-2: #5C2256; --accent-text: #F8A2EC; --focus: #F06FDC;
     --ok: #4CD39A; --ok-soft: #12291F; --warn: #F2B65A; --warn-soft: #2E2410; --bad: #FF8A78; --bad-soft: #321A16; --info: #8FB0FF; --info-soft: #18213A;
-    --on-bad: #1A0B08;
-    --hero-a: #3A1838; --hero-b: #2A2150; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
-    --hue-1: #8E6BFF; --hue-2: #E85FB5; --hue-3: #D9782A; --hue-4: #2FA284; --hue-5: #4C8DF6; --hue-6: #B85FDB; --hue-7: #E05A5A; --hue-8: #6D7A92;
+    --bad-fill: #B42F1C; --on-bad: #FFFFFF;
+    --hero-a: #3A1838; --hero-b: #26203D; --hero-c: #1E1C2A; --hero-ring: rgba(255, 255, 255, .035);
+    --hue-1: #7D5EE0; --hue-2: #BA4C91; --hue-3: #AE6022; --hue-4: #26836B; --hue-5: #3E74CA; --hue-6: #A053BF; --hue-7: #C34E4E; --hue-8: #69758C;
     --shadow-1: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
     --shadow-2: 0 2px 8px rgba(0, 0, 0, .5), 0 18px 48px rgba(0, 0, 0, .55);
     --shadow-3: 0 30px 80px rgba(0, 0, 0, .7);
@@ -149,8 +154,8 @@
   }
   :root:not([data-theme="light"])[data-accent="violet"] {
     --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9;
-    --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
-    --hero-a: #2A2150; --hero-b: #3A1E3E;
+    --accent-soft: #352B66; --accent-soft-2: #42377D; --accent-text: #CBBCFF; --focus: #A48DFF;
+    --hero-a: #2A2150; --hero-b: #2B1F3D;
   }
 }
 :root[data-theme="dark"] {
@@ -159,11 +164,11 @@
   --line: #2E2B40; --line-soft: #27253A; --control-line: #7C7896;
   --ink: #F1EFFA; --ink-2: #C9C5DD; --ink-3: #A9A4C2; --ink-disabled: #6A6683;
   --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A; --on-accent: #FFFFFF;
-  --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
+  --accent-soft: #4A1C45; --accent-soft-2: #5C2256; --accent-text: #F8A2EC; --focus: #F06FDC;
   --ok: #4CD39A; --ok-soft: #12291F; --warn: #F2B65A; --warn-soft: #2E2410; --bad: #FF8A78; --bad-soft: #321A16; --info: #8FB0FF; --info-soft: #18213A;
-  --on-bad: #1A0B08;
-  --hero-a: #3A1838; --hero-b: #2A2150; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
-  --hue-1: #8E6BFF; --hue-2: #E85FB5; --hue-3: #D9782A; --hue-4: #2FA284; --hue-5: #4C8DF6; --hue-6: #B85FDB; --hue-7: #E05A5A; --hue-8: #6D7A92;
+  --bad-fill: #B42F1C; --on-bad: #FFFFFF;
+  --hero-a: #3A1838; --hero-b: #26203D; --hero-c: #1E1C2A; --hero-ring: rgba(255, 255, 255, .035);
+  --hue-1: #7D5EE0; --hue-2: #BA4C91; --hue-3: #AE6022; --hue-4: #26836B; --hue-5: #3E74CA; --hue-6: #A053BF; --hue-7: #C34E4E; --hue-8: #69758C;
   --shadow-1: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
   --shadow-2: 0 2px 8px rgba(0, 0, 0, .5), 0 18px 48px rgba(0, 0, 0, .55);
   --shadow-3: 0 30px 80px rgba(0, 0, 0, .7);
@@ -171,8 +176,8 @@
 }
 :root[data-theme="dark"][data-accent="violet"] {
   --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9;
-  --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
-  --hero-a: #2A2150; --hero-b: #3A1E3E;
+  --accent-soft: #352B66; --accent-soft-2: #42377D; --accent-text: #CBBCFF; --focus: #A48DFF;
+  --hero-a: #2A2150; --hero-b: #2B1F3D;
 }
 
 /* More contrast when the person asks for it */

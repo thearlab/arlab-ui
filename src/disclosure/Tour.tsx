@@ -148,18 +148,18 @@ export function Tour({ steps, open, onClose }: TourProps) {
   const last = i === list.length - 1;
   return createPortal(
     <>
-      <div ref={ring} className="arlab-tour-ring" aria-hidden="true" />
-      <div key={i} ref={pop} className="arlab-tour" role="dialog" aria-labelledby={`${id}t`} aria-describedby={`${id}b`} tabIndex={-1}>
-        <span ref={arrow} className="arlab-tour-arrow" aria-hidden="true" />
-        <div className="arlab-tour-head">
-          <span className="arlab-tour-count">{i + 1} of {list.length}</span>
-          <span className="arlab-tour-dots" aria-hidden="true">{list.map((_, k) => <i key={k} className={k === i ? 'on' : undefined} />)}</span>
+      <div ref={ring} className="ar-tour-ring" aria-hidden="true" />
+      <div key={i} ref={pop} className="ar-tour" role="dialog" aria-labelledby={`${id}t`} aria-describedby={`${id}b`} tabIndex={-1}>
+        <span ref={arrow} className="ar-tour-arrow" aria-hidden="true" />
+        <div className="ar-tour-head">
+          <span className="ar-tour-count">{i + 1} of {list.length}</span>
+          <span className="ar-tour-dots" aria-hidden="true">{list.map((_, k) => <i key={k} className={k === i ? 'on' : undefined} />)}</span>
         </div>
-        <h3 id={`${id}t`} className="arlab-tour-title">{s.title}</h3>
-        <p id={`${id}b`} className="arlab-tour-body">{s.body}</p>
-        <div className="arlab-tour-actions">
+        <h3 id={`${id}t`} className="ar-tour-title">{s.title}</h3>
+        <p id={`${id}b`} className="ar-tour-body">{s.body}</p>
+        <div className="ar-tour-actions">
           <Button type="button" variant="ghost" size="sm" onClick={() => end('skip')}>{last ? 'Close' : 'Skip tour'}</Button>
-          <span className="arlab-tour-grow" />
+          <span className="ar-tour-grow" />
           {i > 0 && <Button type="button" size="sm" onClick={() => setI(i - 1)}>Back</Button>}
           <Button type="button" variant="primary" size="sm" onClick={() => (last ? end('done') : setI(i + 1))}>{last ? 'Done' : 'Next'}</Button>
         </div>

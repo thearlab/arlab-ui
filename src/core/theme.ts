@@ -1,6 +1,7 @@
 // Theme and accent. The person's choice is stored per browser; 'system' follows the OS setting
 // (no attribute on <html>, the CSS media query decides). Call initTheme() before first paint.
 import type { Accent } from '../tokens/tokens';
+import { initScrollbars } from './scrollbars';
 
 export type Theme = 'light' | 'dark' | 'system';
 export type { Accent };
@@ -18,13 +19,15 @@ function apply(theme: Theme, accent: Accent) {
   if (accent === 'magenta') el.removeAttribute('data-accent'); else el.setAttribute('data-accent', accent);
 }
 
-/** Apply the stored theme and accent (or the product default accent) to <html>. */
+/** Apply the stored theme and accent (or the product default accent) to <html>, and turn on the
+ * scrollbar behaviour (thumbs show while a box scrolls). Call once before first paint. */
 export function initTheme(opts: { accent?: Accent } = {}): { theme: Theme; accent: Accent } {
   const t = read(THEME_KEY);
   const theme: Theme = t === 'light' || t === 'dark' ? t : 'system';
   const a = read(ACCENT_KEY);
   const accent: Accent = a === 'violet' || a === 'magenta' ? a : opts.accent ?? 'magenta';
   apply(theme, accent);
+  initScrollbars();
   return { theme, accent };
 }
 

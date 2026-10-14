@@ -23,7 +23,9 @@ const axeSrc = fs.readFileSync(path.join(here, 'node_modules/axe-core/axe.min.js
 const server = await createServer({ configFile: path.join(here, 'harness.vite.config.ts'), server: { port: 0, host: '127.0.0.1' }, logLevel: 'error' });
 await server.listen();
 const base = server.resolvedUrls.local[0].replace(/\/$/, '');
-const browser = await chromium.launch();
+// Scrollbars are shown (classic, always-on) so the check sees them where a person with "always show
+// scrollbars" would: headless Chrome hides them by default.
+const browser = await chromium.launch({ ignoreDefaultArgs: ['--hide-scrollbars'] });
 const MODES = [
   { name: 'light', theme: 'light', viewport: { width: 1280, height: 860 } },
   { name: 'dark', theme: 'dark', viewport: { width: 1280, height: 860 } },
@@ -49,12 +51,50 @@ async function run(t, mode) {
   await page.waitForSelector('.h-page');
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(150);
-  const overflow = await page.evaluate(() => {
-    const w = document.documentElement.clientWidth;
-    if (document.documentElement.scrollWidth <= w + 1) return null;
-    const bad = [...document.querySelectorAll('.h-page *')].filter((el) => el.getBoundingClientRect().right > w + 1 && !el.closest('[data-scroll-x], .ar-scroll-x'));
-    return bad.slice(0, 3).map((el) => el.className || el.tagName).join(', ') || 'page';
+  const layout = await page.evaluate(() => {
+    const out = [];
+    const vw = document.documentElement.clientWidth;
+    if (document.documentElement.scrollWidth > vw + 1) out.push('the page scrolls sideways');
+    const name = (el) => (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : el.tagName.toLowerCase()) + (el.textContent ? ` "${el.textContent.trim().slice(0, 30)}"` : '');
+    const scrolls = (cs) => /(auto|scroll)/.test(cs.overflowX) || /(auto|scroll)/.test(cs.overflowY);
+    const clips = (cs) => cs.overflowX !== 'visible' || cs.overflowY !== 'visible';
+    const hiddenish = (el, cs) => cs.position === 'fixed' || cs.clipPath?.includes('inset(50%') || el.closest('.ar-visually-hidden, .ar-sr-only, .ar-skip-link, [data-clip-ok], [aria-hidden="true"]');
+    const inFixed = (el) => { for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) if (getComputedStyle(p).position === 'fixed') return true; return false; };
+    for (const el of document.querySelectorAll('.h-page *')) {
+      if (el.closest('svg') && el.tagName.toLowerCase() !== 'svg') continue;
+      const cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.display === 'contents') continue;
+      if (hiddenish(el, cs)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) continue;
+      // nearest clipping ancestor
+      let p = el.parentElement, clip = null;
+      while (p && p !== document.body) { const pcs = getComputedStyle(p); if (clips(pcs)) { clip = { el: p, cs: pcs }; break; } p = p.parentElement; }
+      if (!clip && (r.right > vw + 1 || r.left < -1)) out.push(`past the window: ${name(el)}`);
+      if (clip && !scrolls(clip.cs) && clip.cs.textOverflow !== 'ellipsis' && !inFixed(el)) {
+        const c = clip.el.getBoundingClientRect();
+        if (r.right > c.right + 2 || r.left < c.left - 2) out.push(`cut off by ${name(clip.el)}: ${name(el)}`);
+      }
+      // clipped text without an ellipsis
+      if (!scrolls(cs) && el.clientWidth > 0 && el.scrollWidth > el.clientWidth + 1 && [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) {
+        if (cs.textOverflow !== 'ellipsis') out.push(`text does not fit: ${name(el)}`);
+      }
+      if (el.classList.contains('ar-scroll') && el.scrollWidth > el.clientWidth + 1) out.push(`a vertical scroll box scrolls sideways (its content is too wide): ${name(el)}`);
+      // a scroller's bar must stay inside its rounded box
+      const canScrollY = /(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1;
+      const canScrollX = /(auto|scroll)/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 1;
+      if (canScrollY || canScrollX) {
+        const rad = Math.max(...['borderTopRightRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderBottomLeftRadius'].map((k) => parseFloat(cs[k]) || 0));
+        if (rad > 8) out.push(`a rounded box scrolls itself (radius ${rad}px): scroll an inner viewport instead: ${name(el)}`);
+        if (clip) {
+          const c = clip.el.getBoundingClientRect(), cr = parseFloat(clip.cs.borderTopRightRadius) || 0;
+          if (canScrollY && cr > 8 && r.right > c.right - 2 && (r.top < c.top + cr - 8 || r.bottom > c.bottom - cr + 8)) out.push(`the scrollbar reaches a rounded corner of ${name(clip.el)}: ${name(el)}`);
+        }
+      }
+    }
+    return [...new Set(out)].slice(0, 12);
   });
+  const overflow = layout.length ? layout.join('; ') : null;
   let axe = [];
   if (mode.name !== 'phone') {
     await page.addScriptTag({ content: axeSrc });
