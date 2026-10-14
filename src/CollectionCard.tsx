@@ -43,4 +43,4 @@ export function CollectionCard({ title, count, pills, items, tags, more, onOpen,
 }
 
 /** A grid of CollectionCards that fills the width. */
-export function CardGrid({ children }: { children: ReactNode }) { return <div className="arlab-cardgrid">{children}</div>; }
+// CardGrid moved to layout/Grid.tsx in 1.8.0 (equal heights, fixed columns, no orphans).

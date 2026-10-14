@@ -201,3 +201,56 @@
   .arlab-row-item { flex-wrap: wrap; }
   .arlab-row-item-main { flex-basis: 100%; }
 }
+
+/* ----- page layout (1.8.0): PageGrid + Col, CardGrid, Stack gap ---------------------------------
+   The required way to lay out a page. A strict 12-column grid with one gutter; spans are deliberate
+   (12, 8 + 4, 9 + 3, 6 + 6, 4 + 4 + 4, 3 x 4) and a row's cards share height and edges. CardGrid
+   puts equal cards in even rows and stretches the last row so nothing sits alone beside a hole.
+   Both answer to their own width (container queries), so they behave the same in a pane, a sheet
+   or a full page. */
+.arlab-pgrid, .arlab-cgrid { container-type: inline-size; min-width: 0; }
+.arlab-pgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: stretch; }
+.arlab-col { grid-column: span 12; min-width: 0; display: flex; flex-direction: column; }
+.arlab-col > * { flex: 1 1 auto; min-width: 0; }
+.arlab-col > * + * { flex: 0 0 auto; margin-top: var(--gutter); }
+.arlab-col.s9 { grid-column: span 9; } .arlab-col.s8 { grid-column: span 8; } .arlab-col.s6 { grid-column: span 6; }
+.arlab-col.s4 { grid-column: span 4; } .arlab-col.s3 { grid-column: span 3; }
+@container (max-width: 900px) {
+  .arlab-col.s9, .arlab-col.s8, .arlab-col.s4 { grid-column: span 12; }
+  .arlab-col.s6, .arlab-col.s3 { grid-column: span 6; }
+}
+@container (max-width: 560px) {
+  .arlab-pgrid-in { gap: var(--gutter-sm); }
+  .arlab-col.s6, .arlab-col.s3 { grid-column: span 12; }
+}
+
+.arlab-cgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); grid-auto-rows: 1fr; }
+.arlab-cgrid-in > * { min-width: 0; grid-column: span 12; }
+/* Wide: the asked columns, and a last row that stretches (each width range has its own rules, so
+   they never fight over specificity). */
+@container (min-width: 901px) {
+  .arlab-cgrid[data-cols="2"] .arlab-cgrid-in > * { grid-column: span 6; }
+  .arlab-cgrid[data-cols="3"] .arlab-cgrid-in > * { grid-column: span 4; }
+  .arlab-cgrid[data-cols="4"] .arlab-cgrid-in > * { grid-column: span 3; }
+  .arlab-cgrid[data-cols="2"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(2n+1) { grid-column: span 12; }
+  .arlab-cgrid[data-cols="3"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(3n+1) { grid-column: span 12; }
+  .arlab-cgrid[data-cols="3"][data-last="stretch"] .arlab-cgrid-in > :nth-last-child(2):nth-child(3n+1),
+  .arlab-cgrid[data-cols="3"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(3n+2) { grid-column: span 6; }
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(4n+1) { grid-column: span 12; }
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :nth-last-child(2):nth-child(4n+1),
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(4n+2) { grid-column: span 6; }
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :nth-last-child(3):nth-child(4n+1),
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :nth-last-child(2):nth-child(4n+2),
+  .arlab-cgrid[data-cols="4"][data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(4n+3) { grid-column: span 4; }
+}
+/* Medium: two per row, an odd last card spans the row. */
+@container (min-width: 561px) and (max-width: 900px) {
+  .arlab-cgrid .arlab-cgrid-in > * { grid-column: span 6; }
+  .arlab-cgrid[data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(2n+1) { grid-column: span 12; }
+}
+/* Narrow: one per row. */
+@container (max-width: 560px) { .arlab-cgrid-in { gap: var(--gutter-sm); grid-auto-rows: auto; } }
+
+.arlab-stack[class*="g-"] { display: flex; flex-direction: column; }
+.arlab-stack[class*="g-"] > * + * { margin-top: 0; }
+.arlab-stack.g-sm { gap: var(--rhythm-sm); } .arlab-stack.g-md { gap: var(--rhythm); } .arlab-stack.g-lg { gap: var(--rhythm-lg); }

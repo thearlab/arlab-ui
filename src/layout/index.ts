@@ -2,7 +2,9 @@
 export { SplitView, ListPane, DetailPane, ListGroup, ListItem, ListSkeleton, ListEmpty } from './SplitView';
 export type { ListPaneProps, ListGroupProps, ListItemProps } from './SplitView';
 export { DetailHeader, DetailBody, PropertyRow, TabStrip, Columns, Stack } from './DetailHeader';
-export type { DetailHeaderProps, Prop, TabDef, TabStripProps, ColumnsProps } from './DetailHeader';
+export type { DetailHeaderProps, Prop, TabDef, TabStripProps, ColumnsProps, StackProps } from './DetailHeader';
+export { PageGrid, Col, CardGrid } from './Grid';
+export type { PageGridProps, ColProps, CardGridProps, Span } from './Grid';
 export { Panel, PanelBody, Rows, RowItem, Facts, EmptyNote, Timeline, StepList } from './Panel';
 export type { PanelProps, RowItemProps, FactsProps, TimelineItem, TimelineState, StepListItem, StepMarker } from './Panel';
 export { Dashboard, AttentionItem, ActivityItem } from './Dashboard';

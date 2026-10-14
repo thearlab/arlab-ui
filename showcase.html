@@ -103,6 +103,7 @@
 <nav>
   <div class="brand"><span>ar</span>lab / ui</div>
   <a href="#rules">Design rules</a>
+  <a href="#layout-grid">Page layout</a>
   <a href="#signature">Signature details</a>
   <a href="#navbar">Navbar</a>
   <a href="#icons">Icons</a>
@@ -149,6 +150,28 @@
       <div class="rule"><span class="n">07</span><span class="t"><b>Type is a scale, in rem, not arbitrary px.</b><small>Every font-size is a <code>--text-*</code> token so the UI still respects a user's browser text-size/zoom preference — a real accessibility mechanism, not just visual consistency.</small></span></div>
       <div class="rule"><span class="n">08</span><span class="t"><b>Every primitive defends its own layout.</b><small>A <code>Badge</code> stays a pill even inside a stretching flex column; a <code>Row</code> title truncates instead of colliding with a trailing control. Found the hard way — see the Card section.</small></span></div>
     </div>
+  </section>
+
+  <section id="layout-grid">
+    <div class="sec-head">
+      <h2>Page layout: PageGrid, Col, CardGrid, Stack</h2>
+      <p>The required way to lay out a page (1.8.0). 12 columns, one gutter, equal heights, no orphans.</p>
+    </div>
+    <div class="arlab-stack g-md">
+      <div class="arlab-cgrid" data-cols="4" data-last="stretch"><div class="arlab-cgrid-in">
+        <div class="sc-cell"><b>45</b><span>CardGrid cols=4</span></div><div class="sc-cell"><b>192</b><span>equal tiles</span></div><div class="sc-cell"><b>21</b><span>one row</span></div><div class="sc-cell"><b>14 Oct</b><span>same height</span></div>
+      </div></div>
+      <div class="arlab-pgrid"><div class="arlab-pgrid-in">
+        <div class="arlab-col s8"><div class="sc-cell">Col span=8<br>A longer card sets the row height; its neighbour stretches to match.<br>Line three.</div></div>
+        <div class="arlab-col s4"><div class="sc-cell">Col span=4</div></div>
+        <div class="arlab-col s6"><div class="sc-cell">Col span=6</div></div>
+        <div class="arlab-col s6"><div class="sc-cell">Col span=6</div></div>
+      </div></div>
+      <div class="arlab-cgrid" data-cols="3" data-last="stretch"><div class="arlab-cgrid-in">
+        <div class="sc-cell">1</div><div class="sc-cell">2</div><div class="sc-cell">3</div><div class="sc-cell">4</div><div class="sc-cell">5</div><div class="sc-cell">6</div><div class="sc-cell">7: CardGrid cols=3 with 7 cards, the last one stretches across the row</div>
+      </div></div>
+    </div>
+    <style>.sc-cell { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--raise); color: var(--ink-dim); display: grid; gap: 4px; align-content: start; } .sc-cell b { font-size: 22px; color: var(--ink); }</style>
   </section>
 
   <section id="signature">

@@ -54,6 +54,12 @@
 
   /* Corners: 6 for items and segments, 8 for inputs, 10 for panels, 12 for dialogs, pills for
      buttons, badges, chips, dots. --radius-xs stays as an alias for older consumers. */
+  /* Page layout (1.8.0): one gutter between columns and cards, one rhythm between sections. */
+  --gutter: 20px;
+  --gutter-sm: 16px;     /* under 560px */
+  --rhythm-sm: 12px;     /* inside a card */
+  --rhythm: 24px;        /* between sections of a page */
+  --rhythm-lg: 36px;     /* between major parts */
   --radius-xs: 5px;
   --radius-sm: 7px;
   --radius-md: 9px;

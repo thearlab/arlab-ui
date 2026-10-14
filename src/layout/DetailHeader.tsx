@@ -121,7 +121,13 @@ export function Columns({ variant = 'side', className = '', ...rest }: ColumnsPr
   return <div className={['arlab-cols', variant, className].filter(Boolean).join(' ')} {...rest} />;
 }
 
-/** Vertical rhythm for a column: 14px between children. */
-export function Stack({ className = '', ...rest }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={['arlab-stack', className].filter(Boolean).join(' ')} {...rest} />;
+export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+  /** The rhythm between children: sm (--rhythm-sm), md (--rhythm, between sections of a page),
+   * lg (--rhythm-lg). Without it, the 1.0 behaviour: 14px between children. */
+  gap?: 'sm' | 'md' | 'lg';
+}
+
+/** Vertical rhythm: one consistent gap between stacked children. */
+export function Stack({ gap, className = '', ...rest }: StackProps) {
+  return <div className={['arlab-stack', gap ? `g-${gap}` : '', className].filter(Boolean).join(' ')} {...rest} />;
 }

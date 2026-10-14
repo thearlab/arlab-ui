@@ -57,7 +57,42 @@ Two, sharing the brand lockup, the ⌘K search, the account menu and the theme t
 
 ## Layout primitives
 
-`SplitView` (`ListPane`, `ListGroup`, `ListItem`, `ListSkeleton`, `DetailPane`) · `DetailHeader` (`PropertyRow`, `TabStrip`) · `DetailBody`, `Columns`, `Stack` · `Panel` (with `gate`) · `Rows`, `RowItem`, `Facts`, `EmptyNote`, `Timeline`, `StepList` · `Dashboard`, `AttentionItem`, `ActivityItem` · `ReadPage` · `Gate` · `CopyBlock` · `ReadableDoc`.
+`SplitView` (`ListPane`, `ListGroup`, `ListItem`, `ListSkeleton`, `DetailPane`) · `DetailHeader` (`PropertyRow`, `TabStrip`) · `DetailBody`, `Columns`, `Stack` · `PageGrid`, `Col`, `CardGrid` (see Page layout) · `Panel` (with `gate`) · `Rows`, `RowItem`, `Facts`, `EmptyNote`, `Timeline`, `StepList` · `Dashboard`, `AttentionItem`, `ActivityItem` · `ReadPage` · `Gate` · `CopyBlock` · `ReadableDoc`.
+
+## Page layout (1.8.0): the required way to lay out a page
+
+Every page of an ARLAB internal tool is laid out with these four primitives. No ad-hoc
+`display: grid`, no `flex-wrap` card piles, no `auto-fill` masonry: those leave random gaps,
+orphan cards and rows of different heights.
+
+```tsx
+import { PageGrid, Col, CardGrid, Stack } from '@arlab/ui';
+
+<Stack gap="md">                        {/* one rhythm between sections: --rhythm (24px) */}
+  <CardGrid cols={4}>{figures}</CardGrid>{/* equal tiles, one row */}
+  <PageGrid>                             {/* 12 columns, --gutter (20px) */}
+    <Col span={8}><Panel title="Needs you">...</Panel></Col>
+    <Col span={4}><Panel title="SEO agent">...</Panel></Col>
+  </PageGrid>
+  <CardGrid cols={3}>{parts}</CardGrid>  {/* 10 cards: 3 + 3 + 3 + 1 full-width, never a hole */}
+</Stack>
+```
+
+- **`PageGrid` + `Col span`** - 12 columns. Spans are deliberate and add up to 12 per row: `12`,
+  `8 + 4`, `9 + 3`, `6 + 6`, `4 + 4 + 4`, `3 x 4`. A row's cards share height and edges (a `Col`'s
+  child stretches). It answers to its own width: under 900px 12/9/8/4 go full and 6/3 become halves,
+  under 560px everything is full.
+- **`CardGrid cols={2|3|4}`** - equal cards in even rows, every row the same height. The last row
+  stretches (`last="stretch"`, default): one left spans the row, two take halves, three (of four)
+  take thirds. Under 900px two per row, under 560px one. Use it for figures, collections and
+  specimen sheets alike.
+- **`Stack gap="sm|md|lg"`** - vertical rhythm from tokens: `--rhythm-sm` 12px inside a card,
+  `--rhythm` 24px between sections, `--rhythm-lg` 36px between major parts.
+- **Tokens** - `--gutter` (20px) between columns and cards, `--gutter-sm` (16px) under 560px.
+
+Rules: one rhythm per page; never put two cards side by side without a `PageGrid` or `CardGrid`;
+never leave a card alone in a row beside empty space; pick the span from the content's importance,
+not its length.
 
 ## Elements
 

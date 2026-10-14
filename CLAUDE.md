@@ -22,7 +22,7 @@ v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive
 compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
 does not parse, which is what those tags predate.
 
-Current version: 1.7.1. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Current version: 1.8.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 
@@ -56,6 +56,16 @@ Pin consumers to a tag, never a branch, so an install never picks up unreviewed 
 - Fonts (Onest + JetBrains Mono) are NOT bundled - the consuming app must load them (Google Fonts link) at its entry point.
 - Every primitive defends its own `box-sizing`/layout/focus ring and assumes no global reset - do not rely on a consumer's normalize.
 - The reticle motif (`.arlab-reticle`) is deliberately used on exactly two surfaces (Dialog, CommandPalette). Do not spread it - a signature stays a signature only if it is not wallpaper.
+
+## Page layout (1.8.0)
+
+`PageGrid` + `Col span` (12 columns, `--gutter`), `CardGrid cols` (equal heights, even rows, the
+last row stretches so no card sits alone beside a hole) and `Stack gap` (`--rhythm*`) are the
+required way to lay out a page; README "Page layout" has the rules. They use container queries on
+their own box, so they behave the same in a pane, a sheet or a full page. Laure, 2026-10-14: "i hate
+how it creates random gaps". `CardGrid` moved from CollectionCard.tsx to layout/Grid.tsx and became
+strict (default 3 columns; the old `auto-fill minmax(250px)` class `.arlab-cardgrid` is kept for raw
+users only). Do not add another grid helper; extend these.
 
 ## Scrollbars
 
