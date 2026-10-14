@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { LoadingBar } from '../LoadingBar';
 import { SearchButton } from '../SearchButton';
 import { ThemeToggle } from '../ThemeToggle';
@@ -35,6 +35,8 @@ export interface SidebarShellProps {
    * left rail calls onAsideClose. */
   aside?: ReactNode;
   onAsideClose?: () => void;
+  /** Labelled links pinned above the person at the bottom of the sidebar (Help, other ARLAB places). */
+  footer?: { id: string; label: string; icon?: ReactNode; href?: string; onSelect?: () => void }[];
   /** Show the light/dark switch at the right of the top bar (default true). */
   themeInTopbar?: boolean;
   /** The workspace. Fills the viewport under the top bar; children manage their own scroll. */
@@ -58,7 +60,11 @@ function Item({ item }: { item: NavItem }) {
 /** Shell A: a persistent sidebar (sections, groups, recent, the person) beside a thin top bar
  * (breadcrumbs, search, actions) and a workspace that fills the viewport. For tools with several
  * sections and collections: Agents Studio, ARLAB Knowledge. Router-agnostic: navigation is callbacks. */
-export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, children }: SidebarShellProps) {
+export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, footer, children }: SidebarShellProps) {
+  const navRef = useRef<HTMLElement>(null);
+  const activeId = [...nav.items, ...(nav.groups?.flatMap((g) => g.items) ?? [])].find((i) => i.active)?.id;
+  // The active item is always fully visible in the scrolling menu.
+  useEffect(() => { navRef.current?.querySelector<HTMLElement>('.arlab-side-item.on')?.scrollIntoView({ block: 'nearest' }); }, [activeId]);
   const [pref, setPref] = useState(() => { try { return localStorage.getItem('arlab:rail') === 'min'; } catch { return false; } });
   const [override, setOverride] = useState<boolean | null>(null);
   useEffect(() => { setOverride(null); }, [autoCollapse]);
@@ -78,7 +84,7 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
     <div className={`arlab-app${min ? ' rail-min' : ''}${aside ? ' has-aside' : ''}`}>
       <aside className="arlab-side">
         <Brand {...brand} />
-        <nav aria-label="Sections">
+        <nav aria-label="Sections" ref={navRef}>
           {nav.items.map((i) => <Item key={i.id} item={i} />)}
           {nav.groups?.map((g) => (
             <div key={g.label}>
@@ -100,6 +106,13 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
             </div>
           )}
         </div>
+        {footer && footer.length > 0 && (
+          <div className="arlab-side-links">
+            {footer.map((f) => f.href
+              ? <a key={f.id} className="arlab-side-item" href={f.href} target="_blank" rel="noreferrer" aria-label={`${f.label}, opens in a new tab`} data-tip={f.label}>{f.icon && <span className="arlab-side-icon">{f.icon}</span>}<span className="arlab-side-label">{f.label}</span></a>
+              : <button key={f.id} type="button" className="arlab-side-item" onClick={f.onSelect} data-tip={f.label}>{f.icon && <span className="arlab-side-icon">{f.icon}</span>}<span className="arlab-side-label">{f.label}</span></button>)}
+          </div>
+        )}
         <div className="arlab-side-me">
           <AccountMenu account={account} />
           {!(themeInTopbar && topbar) && <ThemeToggle />}

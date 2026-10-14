@@ -147,9 +147,9 @@ html { overscroll-behavior-y: none; }
 /* ---- Polish: one floating frame ------------------------------------------------------------------
    The app is a single rounded frame on a tinted backdrop. The sidebar and the workspace share the frame's surface
    (no divider line between them); depth comes from raised cards inside, not from borders. */
-.arlab-app { box-sizing: border-box; padding: 10px; background: var(--backdrop); }
-.arlab-side { background: var(--ground); border-right: 0; border-radius: 18px 0 0 18px; padding: 16px 10px 12px; }
-.arlab-main { height: 100%; min-height: 0; background: var(--ground); border-radius: 0 18px 18px 0; overflow: hidden; }
+.arlab-app { box-sizing: border-box; padding: 12px; background: var(--backdrop); }
+.arlab-side { background: var(--ground); border-right: 0; border-radius: 20px 0 0 20px; padding: 16px 10px 12px; }
+.arlab-main { height: 100%; min-height: 0; background: var(--ground); border-radius: 0 20px 20px 0; overflow: hidden; }
 .arlab-topbar { background: transparent; border-bottom: 0; }
 .arlab-side-group { font-size: 12px; font-weight: 500; color: var(--ink-faint); padding: 20px 10px 6px; }
 .arlab-side-item { min-height: 36px; padding: 8px 10px; margin: 1px 0; border-radius: 10px; font-size: 14px; }
@@ -158,6 +158,11 @@ html { overscroll-behavior-y: none; }
 .arlab-side-count { min-width: 20px; height: 20px; padding: 0 6px; display: inline-grid; place-items: center; border-radius: var(--radius-pill); background: var(--sunken-2); color: var(--ink-dim); font: 600 11px var(--font-sans); font-variant-numeric: tabular-nums; }
 .arlab-side-item.on .arlab-side-count { background: var(--accent-tint); color: var(--accent-deep); }
 .arlab-side-me { border-top: 0; margin-top: 4px; }
-/* The menu scrolls inside its own padded area, so the last item is never cut by the frame's corner. */
-.arlab-side > nav { overflow-y: auto; min-height: 0; padding-bottom: 12px; mask-image: linear-gradient(to bottom, #000 calc(100% - 20px), transparent); }
+/* The menu scrolls above a fixed footer (links + the person), so the footer never covers an item; the active item is
+   scrolled into view (SidebarShell). No fade mask: a faded last item read as cut off. */
+.arlab-side > nav { flex: 1 1 auto; overflow-y: auto; min-height: 0; padding: 2px 2px 8px; }
+.arlab-side > .arlab-side-grow { flex: 0 0 auto; }
+.arlab-side-links { flex-shrink: 0; display: grid; gap: 1px; padding: 8px 0 0; margin-top: 4px; border-top: 1px solid var(--line-soft); }
+.arlab-side-links .arlab-side-item { min-height: 32px; padding: 6px 10px; font-size: 13.5px; color: var(--ink-dim); text-decoration: none; }
+.arlab-side-me { flex-shrink: 0; }
 @media (max-width: 1000px) { .arlab-app { padding: 0; } .arlab-side, .arlab-main { border-radius: 0; } }
