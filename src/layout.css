@@ -224,7 +224,8 @@
   .arlab-col.s6, .arlab-col.s3 { grid-column: span 12; }
 }
 
-.arlab-cgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); grid-auto-rows: 1fr; }
+.arlab-cgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: stretch; }
+/* Cards in a row share the row's height; each row is as tall as its own tallest card (not the grid's). */
 .arlab-cgrid-in > * { min-width: 0; grid-column: span 12; }
 /* Wide: the asked columns, and a last row that stretches (each width range has its own rules, so
    they never fight over specificity). */
@@ -249,7 +250,7 @@
   .arlab-cgrid[data-last="stretch"] .arlab-cgrid-in > :last-child:nth-child(2n+1) { grid-column: span 12; }
 }
 /* Narrow: one per row. */
-@container (max-width: 560px) { .arlab-cgrid-in { gap: var(--gutter-sm); grid-auto-rows: auto; } }
+@container (max-width: 560px) { .arlab-cgrid-in { gap: var(--gutter-sm); } }
 
 .arlab-stack[class*="g-"] { display: flex; flex-direction: column; }
 .arlab-stack[class*="g-"] > * + * { margin-top: 0; }
