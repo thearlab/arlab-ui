@@ -116,11 +116,11 @@ body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 /* ---- Scrollbars -----------------------------------------------------------------------------
    Native, CSS only: a thin rounded thumb on a transparent track, a touch stronger on hover. No JS,
    no animation, so it never lags and it sits inside whatever box scrolls. Tokens make it light/dark
-   aware. Firefox gets the standard properties; Chrome and Safari get ::-webkit-scrollbar (Chrome
-   ignores the webkit rules once scrollbar-width/color is set, so the standard ones are Firefox-only). */
-@supports not selector(::-webkit-scrollbar) {
-  * { scrollbar-width: thin; scrollbar-color: var(--line-hover) transparent; }
-}
+   aware. Firefox and Chrome use the standard properties (scrollbar-color inherits, so an app can recolour a
+   subtree); Safari uses ::-webkit-scrollbar. Chrome drops the webkit rules once these are set, so the hover
+   tint is Safari's only. */
+html { scrollbar-color: var(--line-hover) transparent; }
+* { scrollbar-width: thin; }
 ::-webkit-scrollbar { width: 8px; height: 8px; background: transparent; }
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--line-hover); background-clip: padding-box; border: 2px solid transparent; border-radius: 8px; }
