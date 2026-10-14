@@ -22,7 +22,7 @@ v1.0.0 to v1.0.3, whose stylesheet has a rule with no selector: browsers forgive
 compilers (Tailwind v4, Lightning CSS) fail the build. `npm run build` refuses to ship CSS that
 does not parse, which is what those tags predate.
 
-Current version: 1.6.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
+Current version: 1.7.0. Consumer entry point: `import '@arlab/ui/styles.css'` once, then import primitives from `@arlab/ui`. Call `initTheme()` on boot before first paint to avoid a theme flash.
 
 ## Local dev / build
 
@@ -59,13 +59,13 @@ Pin consumers to a tag, never a branch, so an install never picks up unreviewed 
 
 ## Scrollbars
 
-No native scrollbars: theARLab uses a scroll-progress line (as thelabs.group does) - a 3px
-magenta line on the right edge that fills as you scroll. `<ScrollProgress />` follows the page;
-when the page is pinned and an inner column scrolls instead, give that column the `arlab-scroll`
-class, wrap it in an `arlab-scroll-host`, and pass its ref: `<ScrollProgress target={ref} />`.
-
-Never hide scrollbars globally (`*`): the indicator only tracks vertical scroll, so a wide table
-or code block would lose its only horizontal cue. Hide them only where the indicator replaces them.
+Native scrollbars, CSS only (since 1.7.0): `styles.css` gives every scroller a thin rounded thumb
+on a transparent track (`--line-hover`, `--ink-faint` on hover), `scrollbar-width: thin` +
+`scrollbar-color` for Firefox and `::-webkit-scrollbar` (8px, 2px inset) for Chrome and Safari.
+No JS, no animation, and it sits inside whatever box scrolls. `ScrollIndicator` and
+`ScrollProgress` are deprecated no-ops kept so consumers do not break; the
+`arlab-scroll-native-none` class on <html> no longer does anything. The old JS line lagged
+because it re-rendered React and read layout on every scroll event of every scroller.
 
 ## The 1.1 element set (the house style since 2026-10-05)
 

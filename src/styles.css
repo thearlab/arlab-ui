@@ -113,39 +113,20 @@
 /* A flat, calm ground. The corner glows of 0.x are gone: the frame carries the depth. */
 body[data-arlab-ui] { background: var(--ground); color: var(--ink); }
 
-/* Scrollbar — ported from theARLab's public site (its global recipe: thin,
-   transparent track, tokenized thumb). Firefox properties are inherited,
-   so setting them once here covers every scrollable box in the app. */
-/* ---- The theARLab scroll indicator ----------------------------------------------------------
-   As thelabs.group runs it: no native scrollbar anywhere, and a 3px magenta line on the right
-   edge that fills as you scroll (<ScrollProgress />). The native bar is hidden globally so no app
-   ever shows the browser's grey default - including inner scrolling columns, not just the page. */
-html, body { scrollbar-width: none; }
-html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
-/* An inner scroller that carries its own <ScrollProgress />. Scoped, not global: hiding every
-   bar would also hide the HORIZONTAL one on a wide table or code block, and the indicator only
-   tracks vertical scroll - so that content would become unreachable with no cue at all. */
-.arlab-scroll { scrollbar-width: none; }
-.arlab-scroll::-webkit-scrollbar { width: 0; height: 0; }
-
-.arlab-scroll-progress {
-  --bar: var(--accent);
-  position: fixed; z-index: 20; top: 0; right: 0; width: 3px; height: 100dvh;
-  background: linear-gradient(color-mix(in srgb, var(--bar) 45%, transparent), var(--bar));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--bar) 45%, transparent);
-  transform: scaleY(0); transform-origin: top;
-  transition: transform 0.12s linear, opacity 0.2s ease;
-  pointer-events: none;
+/* ---- Scrollbars -----------------------------------------------------------------------------
+   Native, CSS only: a thin rounded thumb on a transparent track, a touch stronger on hover. No JS,
+   no animation, so it never lags and it sits inside whatever box scrolls. Tokens make it light/dark
+   aware. Firefox gets the standard properties; Chrome and Safari get ::-webkit-scrollbar (Chrome
+   ignores the webkit rules once scrollbar-width/color is set, so the standard ones are Firefox-only). */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--line-hover) transparent; }
 }
-/* Pinned to one scrolling element rather than the viewport: its parent must be the positioned
-   host (.arlab-scroll-host), and the bar sits along that host's right edge. */
-.arlab-scroll-progress-local { position: absolute; height: 100%; }
+::-webkit-scrollbar { width: 8px; height: 8px; background: transparent; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-hover); background-clip: padding-box; border: 2px solid transparent; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ink-faint); }
+/* Kept so old markup still lays out: .arlab-scroll-host used to anchor <ScrollProgress />. */
 .arlab-scroll-host { position: relative; min-height: 0; min-width: 0; }
-@media (prefers-reduced-motion: reduce) { .arlab-scroll-progress { transition: none; } }
-/* Older browsers without color-mix: the two stops spelled out. */
-@supports not (color: color-mix(in srgb, red 50%, blue)) {
-  .arlab-scroll-progress { background: linear-gradient(rgba(228, 20, 219, 0.45), #e414db); box-shadow: 0 0 12px rgba(228, 20, 219, 0.45); }
-}
 
 /* ===== primitives ========================================================
    Every primitive is defensively self-contained: its own box-sizing, its
@@ -905,19 +886,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 .arlab-disclosure-inner { padding: 4px 18px 18px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
 @media (prefers-reduced-motion: reduce) { .arlab-disclosure-chev, .arlab-disclosure-chev svg, .arlab-disclosure-body, .arlab-disclosure-head { transition: none; } }
 
-/* ---- ScrollIndicator: theARLab's scroll bar --------------------------------------------------------------------
-   One 3px pink thumb, stuck to the right edge of whatever is scrolling, sized to the view, shown while scrolling
-   (ScrollIndicator.tsx, mounted once). `arlab-scroll-native-none` on <html> hides every native bar, so the whole app
-   has the one style. A scroller that sits inside padding should reach the edge it belongs to, or the thumb floats. */
-.arlab-scroll-native-none, .arlab-scroll-native-none * { scrollbar-width: none; }
-.arlab-scroll-native-none::-webkit-scrollbar, .arlab-scroll-native-none *::-webkit-scrollbar { display: none; }
-.arlab-scrollbar { position: fixed; width: 3px; z-index: 1000; pointer-events: none; border-radius: 3px; opacity: 0; background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, white)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent); transition: opacity var(--dur-slow) var(--ease); }
-.arlab-scrollbar.on { opacity: 1; transition-duration: var(--dur); }
-/* Pickers, menus and pop-overs: a plain thin bar that is simply there, no fade (ScrollIndicator skips them). */
-.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain]) { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar { display: block; width: 6px; }
-.arlab-scroll-native-none :is([role="listbox"], [role="menu"], .arlab-picker-panel, .arlab-popover-panel, .arlab-picker-list, [data-scroll-plain])::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
-@media (prefers-reduced-motion: reduce) { .arlab-scrollbar { transition: none; } }
 
 /* ===== Tour (1.6.0) ======================================================
    The "?" tour: a ring around the target that dims the rest of the page a little, and a 320px
