@@ -1,0 +1,35 @@
+/* ===== v1 token names, kept as aliases ===============================================================
+   An app's own CSS written for @arlab/ui 1.x reads these names. They point at the v2 tokens, so that
+   CSS keeps working (in the new skin) while it is moved over. New code uses the v2 names. Removed in
+   v3. MIGRATION.md has the full table. */
+:root {
+  --ground: var(--frame);
+  --raise: var(--surface);
+  --line-hover: var(--control-line);
+  --ink-dim: var(--ink-2);
+  --ink-faint: var(--ink-3);
+  --ink-inactive: var(--ink-disabled);
+  --action: var(--accent);
+  --action-hover: var(--accent-hover);
+  --action-pressed: var(--accent-press);
+  --action-ink: var(--on-accent);
+  --accent-deep: var(--accent-text);
+  --accent-tint: var(--accent-soft);
+  --accent-line: color-mix(in srgb, var(--accent) 40%, transparent);
+  --live: var(--ok);  --live-tint: var(--ok-soft);
+  --warn-tint: var(--warn-soft);
+  --crit: var(--bad); --crit-tint: var(--bad-soft);
+  --info-tint: var(--info-soft);
+  --code-bg: var(--sunken);
+  --shadow: var(--shadow-1);
+  --shadow-card: var(--shadow-1);
+  --shadow-pop: var(--shadow-2);
+  --surface-nav: var(--surface);
+  --control-h: var(--h-md);
+  --control-h-sm: var(--h-sm);
+  --radius-xs: var(--r-xs); --radius-sm: var(--r-sm); --radius-md: var(--r-control); --radius-lg: var(--r-md); --radius-xl: var(--r-lg); --radius-pill: var(--r-pill);
+  --ease: var(--ease-out); --dur: var(--dur-press); --dur-slow: var(--dur-panel);
+  --text-2xs: var(--fs-2xs); --text-xs: var(--fs-xs); --text-sm: var(--fs-sm); --text-base: var(--fs-base); --text-md: var(--fs-md); --text-lg: var(--fs-lg); --text-xl: var(--fs-xl); --text-2xl: var(--fs-2xl); --text-3xl: var(--fs-3xl);
+  --leading-tight: var(--lh-tight); --leading-normal: var(--lh-normal); --leading-relaxed: var(--lh-relaxed);
+  --side-w: var(--ctx-w); --top-h: var(--topbar-h);
+}

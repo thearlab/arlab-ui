@@ -1,0 +1,74 @@
+/* ===== Layers, reset, base ===========================================================================
+   Everything @arlab/ui draws lives in cascade layers, so an app's own (unlayered) CSS always wins
+   without !important or specificity games. Order: reset < base < components < patterns < utilities. */
+@layer ar-reset, ar-base, ar-components, ar-patterns, ar-utilities;
+
+@layer ar-reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overscroll-behavior-y: none; tab-size: 4; }
+  body { margin: 0; min-height: 100vh; min-height: 100dvh; }
+  h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, pre { margin: 0; }
+  ul[role="list"], ol[role="list"], menu { list-style: none; margin: 0; padding: 0; }
+  img, svg, video, canvas, picture { display: block; max-width: 100%; }
+  svg { flex: none; }
+  img, video { height: auto; }
+  button, input, select, textarea, optgroup { font: inherit; color: inherit; letter-spacing: inherit; margin: 0; }
+  button, [role="button"] { cursor: pointer; }
+  button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+  textarea { resize: vertical; }
+  table { border-collapse: collapse; border-spacing: 0; }
+  a { color: inherit; }
+  [hidden] { display: none !important; }
+  :where(p, li, h1, h2, h3, h4, dd, figcaption, blockquote) { overflow-wrap: break-word; }
+}
+
+@layer ar-base {
+  html {
+    font-family: var(--font-sans);
+    font-size: 100%;
+    line-height: var(--lh-normal);
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  body { font-size: var(--fs-base); background: var(--bg); color: var(--ink); }
+  :where(h1, h2, h3, h4) { line-height: var(--lh-snug); letter-spacing: var(--tracking-tight); text-wrap: balance; font-weight: var(--fw-bold); }
+  :where(code, kbd, samp, pre) { font-family: var(--font-mono); font-size: .92em; }
+  ::selection { background: var(--accent-soft-2); color: var(--ink); }
+
+  /* Focus: one ring everywhere, 2px in the accent, 2px away (HIG). Mouse clicks do not show it. */
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  @media (forced-colors: active) { :focus-visible { outline: 2px solid Highlight; } }
+
+  /* Scrollbars: thin, rounded, on a transparent track, inside whatever box scrolls. No JS. */
+  html { scrollbar-color: var(--sunken-2) transparent; }
+  * { scrollbar-width: thin; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--sunken-2); background-clip: padding-box; border: 3px solid transparent; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--ink-disabled); }
+}
+
+/* Reduced motion: nothing slides, scales or loops. Components fade instead (their own rules). */
+@media (prefers-reduced-motion: reduce) {
+  @layer ar-base {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  }
+}
+
+@layer ar-utilities {
+  .ar-visually-hidden, .ar-sr-only {
+    position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important;
+    overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important;
+  }
+  .ar-num { font-variant-numeric: tabular-nums; }
+  .ar-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .ar-muted { color: var(--ink-3); }
+  .ar-fine { font-size: var(--fs-xs); color: var(--ink-3); line-height: var(--lh-normal); }
+  .ar-skip-link { position: absolute; inset-inline-start: var(--s3); top: -100px; z-index: var(--z-tour); padding: var(--s2) var(--s3); border-radius: var(--r-control); background: var(--surface); box-shadow: var(--shadow-2); color: var(--ink); font-weight: var(--fw-semibold); text-decoration: none; }
+  .ar-skip-link:focus-visible { top: var(--s3); }
+}
