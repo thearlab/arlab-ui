@@ -1,26 +1,31 @@
 {
   "name": "@arlab/ui",
-  "version": "1.8.1",
+  "version": "2.0.0-alpha.0",
   "private": true,
   "type": "module",
-  "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
+  "description": "ARLAB's design system: tokens, components, layouts and patterns for every internal tool and dashboard.",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": ["*.css"],
   "exports": {
-    ".": "./dist/index.js",
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
     "./styles.css": "./dist/styles.css",
+    "./stories": { "types": "./dist/stories/index.d.ts", "default": "./dist/stories/index.js" },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist", "favicon.svg"],
   "scripts": {
-    "check:css": "node scripts/check-css.mjs",
-    "build": "npm run check:css && tsc && cat src/styles.css src/layout.css src/shells.css > dist/styles.css && npm run check:tour",
+    "build": "node scripts/build-css.mjs && tsc -p tsconfig.json",
     "prepare": "npm run build",
     "dev": "tsc --watch",
-    "check:tour": "node scripts/check-tour.mjs"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check:css": "node scripts/build-css.mjs",
+    "check:contrast": "node scripts/contrast.mjs",
+    "test": "npm --prefix tools run test",
+    "test:visual": "npm --prefix tools run visual",
+    "harness": "npm --prefix tools run harness",
+    "check": "npm run check:contrast && npm run build && npm test && npm run test:visual"
   },
   "peerDependencies": {
     "react": ">=18",

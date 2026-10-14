@@ -1,3 +1,18 @@
+/* @arlab/ui v2 stylesheet. The build inlines these @imports, in this order, into dist/styles.css. */
 @import './tokens/tokens.css';
 @import './tokens/base.css';
 @import './tokens/compat.css';
+@import './core/core.css';
+@import './layout/layout.css';
+@import './shell/shell.css';
+@import './navigation/navigation.css';
+@import './forms/forms.css';
+@import './data/data.css';
+@import './charts/charts.css';
+@import './board/board.css';
+@import './time/time.css';
+@import './feedback/feedback.css';
+@import './overlays/overlays.css';
+@import './disclosure/disclosure.css';
+@import './content/content.css';
+@import './patterns/patterns.css';

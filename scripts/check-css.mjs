@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // The same files, in the same order, that `build` concatenates into dist/styles.css.
-const FILES = ['src/styles.css', 'src/layout.css', 'src/shells.css'];
+const FILES = ['dist/styles.css'];
 
 /** Comments and quoted strings can contain braces and semicolons; blank them, keeping newlines
  *  so reported line numbers still point at the real source line. */

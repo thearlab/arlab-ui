@@ -1,10 +1,10 @@
 /* ===== @arlab/ui v2 tokens ==========================================================================
    The soft, airy restyle: three surface levels (lavender ground, off-white frame, white cards) do the
-   separating, one accent (violet or ARLAB magenta) used only as a signal, soft violet-tinted shadows,
+   separating, one accent (ARLAB magenta, or violet) used only as a signal, soft violet-tinted shadows,
    generous radii. Light is the default; dark is its own palette, not an inversion.
 
    Theme:  <html data-theme="light|dark">, or no attribute to follow the system (prefers-color-scheme).
-   Accent: <html data-accent="violet|magenta">, violet when absent.
+   Accent: <html data-accent="violet">, ARLAB magenta when absent (the default).
    Every pair of text and surface below is contrast-checked by scripts/contrast.mjs (WCAG 2.2 AA:
    4.5:1 text, 3:1 large text and UI parts). The numbers live in docs/CONTRAST.md. Change a colour,
    run `npm run check:contrast`.
@@ -31,15 +31,15 @@
   --ink-3: #635F7C;       /* muted text, placeholders: 4.5:1 on the ground too */
   --ink-disabled: #9A96B0;/* disabled only (exempt from contrast) */
 
-  /* Accent: violet by default */
-  --accent: #6D4AE8;
-  --accent-hover: #5F3DDB;
-  --accent-press: #5232C9;
+  /* Accent: ARLAB magenta by default, violet as the alternative (data-accent="violet") */
+  --accent: #B3109C;
+  --accent-hover: #9E0D8A;
+  --accent-press: #880B76;
   --on-accent: #FFFFFF;
-  --accent-soft: #EEE9FD;
-  --accent-soft-2: #E2DAFC;
-  --accent-text: #5A37D6;
-  --focus: #6D4AE8;
+  --accent-soft: #FBE8F8;
+  --accent-soft-2: #F6D3F0;
+  --accent-text: #9C0D88;
+  --focus: #B3109C;
 
   /* Status: for data and state only, never decoration */
   --ok: #157A52;    --ok-soft: #E3F4EC;
@@ -49,7 +49,7 @@
   --on-bad: #FFFFFF;
 
   /* The soft hero gradient */
-  --hero-a: #E9DEFF; --hero-b: #FBE3F4; --hero-c: #FFEBDC;
+  --hero-a: #F8DDF3; --hero-b: #EADFFF; --hero-c: #FFE8DE;
   --hero-ring: rgba(255, 255, 255, .18);
 
   /* Category hues for avatars, swatches and chart series (white text on each passes 3:1 at 600 weight) */
@@ -64,7 +64,7 @@
   --scrim: rgba(20, 16, 40, .38);
 
   /* Type */
-  --font-sans: 'Plus Jakarta Sans', 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-sans: 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --fs-2xs: .6875rem;  /* 11 badges and counts */
   --fs-xs: .75rem;     /* 12 meta */
@@ -123,10 +123,10 @@
      phone < 640, tablet < 820, laptop < 1180, desktop >= 1180, wide >= 1440 */
 }
 
-:root[data-accent="magenta"] {
-  --accent: #B3109C; --accent-hover: #9E0D8A; --accent-press: #880B76;
-  --accent-soft: #FBE8F8; --accent-soft-2: #F6D3F0; --accent-text: #9C0D88; --focus: #B3109C;
-  --hero-a: #F8DDF3; --hero-b: #EADFFF; --hero-c: #FFE8DE;
+:root[data-accent="violet"] {
+  --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9;
+  --accent-soft: #EEE9FD; --accent-soft-2: #E2DAFC; --accent-text: #5A37D6; --focus: #6D4AE8;
+  --hero-a: #E9DEFF; --hero-b: #FBE3F4; --hero-c: #FFEBDC;
 }
 
 /* ---- Dark: its own palette. Written twice (system and explicit), kept identical. ---- */
@@ -136,21 +136,21 @@
     --bg: #0F0E17; --frame: #16151F; --surface: #1E1C2A; --surface-hover: #232131; --sunken: #252334; --sunken-2: #2E2B40;
     --line: #2E2B40; --line-soft: #27253A; --control-line: #7C7896;
     --ink: #F1EFFA; --ink-2: #C9C5DD; --ink-3: #A9A4C2; --ink-disabled: #6A6683;
-    --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9; --on-accent: #FFFFFF;
-    --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
+    --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A; --on-accent: #FFFFFF;
+    --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
     --ok: #4CD39A; --ok-soft: #12291F; --warn: #F2B65A; --warn-soft: #2E2410; --bad: #FF8A78; --bad-soft: #321A16; --info: #8FB0FF; --info-soft: #18213A;
     --on-bad: #1A0B08;
-    --hero-a: #2A2150; --hero-b: #3A1E3E; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
+    --hero-a: #3A1838; --hero-b: #2A2150; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
     --hue-1: #8E6BFF; --hue-2: #E85FB5; --hue-3: #D9782A; --hue-4: #2FA284; --hue-5: #4C8DF6; --hue-6: #B85FDB; --hue-7: #E05A5A; --hue-8: #6D7A92;
     --shadow-1: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
     --shadow-2: 0 2px 8px rgba(0, 0, 0, .5), 0 18px 48px rgba(0, 0, 0, .55);
     --shadow-3: 0 30px 80px rgba(0, 0, 0, .7);
     --scrim: rgba(4, 3, 10, .62);
   }
-  :root:not([data-theme="light"])[data-accent="magenta"] {
-    --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A;
-    --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
-    --hero-a: #3A1838; --hero-b: #2A2150;
+  :root:not([data-theme="light"])[data-accent="violet"] {
+    --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9;
+    --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
+    --hero-a: #2A2150; --hero-b: #3A1E3E;
   }
 }
 :root[data-theme="dark"] {
@@ -158,21 +158,21 @@
   --bg: #0F0E17; --frame: #16151F; --surface: #1E1C2A; --surface-hover: #232131; --sunken: #252334; --sunken-2: #2E2B40;
   --line: #2E2B40; --line-soft: #27253A; --control-line: #7C7896;
   --ink: #F1EFFA; --ink-2: #C9C5DD; --ink-3: #A9A4C2; --ink-disabled: #6A6683;
-  --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9; --on-accent: #FFFFFF;
-  --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
+  --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A; --on-accent: #FFFFFF;
+  --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
   --ok: #4CD39A; --ok-soft: #12291F; --warn: #F2B65A; --warn-soft: #2E2410; --bad: #FF8A78; --bad-soft: #321A16; --info: #8FB0FF; --info-soft: #18213A;
   --on-bad: #1A0B08;
-  --hero-a: #2A2150; --hero-b: #3A1E3E; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
+  --hero-a: #3A1838; --hero-b: #2A2150; --hero-c: #3A2A22; --hero-ring: rgba(255, 255, 255, .035);
   --hue-1: #8E6BFF; --hue-2: #E85FB5; --hue-3: #D9782A; --hue-4: #2FA284; --hue-5: #4C8DF6; --hue-6: #B85FDB; --hue-7: #E05A5A; --hue-8: #6D7A92;
   --shadow-1: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
   --shadow-2: 0 2px 8px rgba(0, 0, 0, .5), 0 18px 48px rgba(0, 0, 0, .55);
   --shadow-3: 0 30px 80px rgba(0, 0, 0, .7);
   --scrim: rgba(4, 3, 10, .62);
 }
-:root[data-theme="dark"][data-accent="magenta"] {
-  --accent: #C81BB0; --accent-hover: #B3109C; --accent-press: #9E0D8A;
-  --accent-soft: #3A1636; --accent-soft-2: #4A1C45; --accent-text: #F58BE6; --focus: #F06FDC;
-  --hero-a: #3A1838; --hero-b: #2A2150;
+:root[data-theme="dark"][data-accent="violet"] {
+  --accent: #6D4AE8; --accent-hover: #5F3DDB; --accent-press: #5232C9;
+  --accent-soft: #2B2450; --accent-soft-2: #372E66; --accent-text: #BCA9FF; --focus: #A48DFF;
+  --hero-a: #2A2150; --hero-b: #3A1E3E;
 }
 
 /* More contrast when the person asks for it */

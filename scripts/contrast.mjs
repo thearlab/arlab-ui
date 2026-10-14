@@ -1,5 +1,5 @@
 // WCAG 2.2 contrast check of every text/surface and UI/surface pair the components use, in the four
-// palettes (light, dark) x (violet, magenta). Reads src/tokens/tokens.css, writes docs/CONTRAST.md,
+// palettes (light, dark) x (magenta, violet). Reads src/tokens/tokens.css, writes docs/CONTRAST.md,
 // and fails when a pair is under its minimum. Run: npm run check:contrast
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,10 +16,10 @@ const block = (sel) => {
 };
 const light = block(':root');
 const palettes = {
-  'Light, violet': light,
-  'Light, magenta': { ...light, ...block(':root[data-accent="magenta"]') },
-  'Dark, violet': { ...light, ...block(':root[data-theme="dark"]') },
-  'Dark, magenta': { ...light, ...block(':root[data-theme="dark"]'), ...block(':root[data-theme="dark"][data-accent="magenta"]') },
+  'Light, magenta (default)': light,
+  'Light, violet': { ...light, ...block(':root[data-accent="violet"]') },
+  'Dark, magenta (default)': { ...light, ...block(':root[data-theme="dark"]') },
+  'Dark, violet': { ...light, ...block(':root[data-theme="dark"]'), ...block(':root[data-theme="dark"][data-accent="violet"]') },
 };
 const T = 4.5, U = 3;
 const surfaces = ['bg', 'frame', 'surface', 'sunken'];

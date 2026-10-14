@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Button } from './Button';
-import { IconButton, type IconButtonProps } from './IconButton';
-import { placeTour, tourDue, TOUR_PHONE, type TourPlacement } from './tourPlace';
+import { Button } from '../core/Button';
+import { IconButton, type IconButtonProps } from '../core/IconButton';
+import { HelpIcon } from '../core/icons';
+import { placeTour, tourDue, TOUR_PHONE, type TourPlacement } from '../lib/tourPlace';
 
 /** One stop on the tour: what to point at, and two lines of plain words. */
 export interface TourStep {
@@ -168,7 +169,7 @@ export function Tour({ steps, open, onClose }: TourProps) {
   );
 }
 
-export interface HelpButtonProps extends Omit<IconButtonProps, 'aria-label' | 'children'> {
+export interface HelpButtonProps extends Omit<IconButtonProps, 'label' | 'children'> {
   /** Pass the tour's `open` so screen readers hear whether it is showing. */
   expanded?: boolean;
 }
@@ -177,8 +178,8 @@ export interface HelpButtonProps extends Omit<IconButtonProps, 'aria-label' | 'c
  * can point at it, and so the tour can hand focus back to it when it closes. */
 export function HelpButton({ expanded, ...rest }: HelpButtonProps) {
   return (
-    <IconButton aria-label="Show me around" tip="Show me around" data-tour="help" aria-expanded={expanded} {...rest}>
-      <span className="arlab-help-glyph" aria-hidden="true">?</span>
+    <IconButton label="Show me around" data-tour="help" aria-expanded={expanded} {...rest}>
+      <HelpIcon />
     </IconButton>
   );
 }

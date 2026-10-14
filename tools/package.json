@@ -1,0 +1,21 @@
+{
+  "name": "arlab-ui-tools",
+  "private": true,
+  "type": "module",
+  "description": "Test tooling for @arlab/ui (kept out of the package so a git-dependency install stays light).",
+  "scripts": {
+    "test": "vitest run",
+    "harness": "vite --config harness.vite.config.ts",
+    "visual": "node visual.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/onest": "^5.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "axe-core": "^4.10.3",
+    "playwright": "1.64.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.21",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,53 @@
+/* ===== Layout primitives: PageGrid, Col, CardGrid, Stack, Inline ===== */
+@layer ar-components {
+  .ar-pgrid, .ar-cgrid { container-type: inline-size; min-width: 0; }
+  .ar-pgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: stretch; }
+  .ar-col { grid-column: span 12; min-width: 0; display: flex; flex-direction: column; gap: var(--gutter); }
+  .ar-col > :first-child { flex: 1 1 auto; }
+  .ar-col > * { min-width: 0; }
+  .ar-col--9 { grid-column: span 9; } .ar-col--8 { grid-column: span 8; } .ar-col--6 { grid-column: span 6; }
+  .ar-col--4 { grid-column: span 4; } .ar-col--3 { grid-column: span 3; }
+  @container (max-width: 900px) {
+    .ar-col--9, .ar-col--8, .ar-col--4 { grid-column: span 12; }
+    .ar-col--6, .ar-col--3 { grid-column: span 6; }
+  }
+  @container (max-width: 560px) {
+    .ar-pgrid-in { gap: var(--s3); }
+    .ar-col--6, .ar-col--3 { grid-column: span 12; }
+  }
+
+  .ar-cgrid-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: stretch; margin: 0; padding: 0; list-style: none; }
+  .ar-cgrid-in > * { min-width: 0; grid-column: span 12; }
+  @container (min-width: 901px) {
+    .ar-cgrid[data-cols="2"] .ar-cgrid-in > * { grid-column: span 6; }
+    .ar-cgrid[data-cols="3"] .ar-cgrid-in > * { grid-column: span 4; }
+    .ar-cgrid[data-cols="4"] .ar-cgrid-in > * { grid-column: span 3; }
+    .ar-cgrid[data-cols="2"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(2n+1) { grid-column: span 12; }
+    .ar-cgrid[data-cols="3"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(3n+1) { grid-column: span 12; }
+    .ar-cgrid[data-cols="3"][data-last="stretch"] .ar-cgrid-in > :nth-last-child(2):nth-child(3n+1),
+    .ar-cgrid[data-cols="3"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(3n+2) { grid-column: span 6; }
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(4n+1) { grid-column: span 12; }
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :nth-last-child(2):nth-child(4n+1),
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(4n+2) { grid-column: span 6; }
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :nth-last-child(3):nth-child(4n+1),
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :nth-last-child(2):nth-child(4n+2),
+    .ar-cgrid[data-cols="4"][data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(4n+3) { grid-column: span 4; }
+  }
+  @container (min-width: 561px) and (max-width: 900px) {
+    .ar-cgrid .ar-cgrid-in > * { grid-column: span 6; }
+    .ar-cgrid[data-last="stretch"] .ar-cgrid-in > :last-child:nth-child(2n+1) { grid-column: span 12; }
+  }
+  @container (max-width: 560px) { .ar-cgrid-in { gap: var(--s3); } }
+
+  .ar-stack { display: flex; flex-direction: column; min-width: 0; margin: 0; padding: 0; }
+  ul.ar-stack, ol.ar-stack { list-style: none; }
+  .ar-stack[data-align="start"] { align-items: flex-start; } .ar-stack[data-align="center"] { align-items: center; } .ar-stack[data-align="end"] { align-items: flex-end; }
+  .ar-inline { display: flex; flex-wrap: wrap; min-width: 0; margin: 0; padding: 0; list-style: none; }
+  .ar-inline[data-nowrap] { flex-wrap: nowrap; }
+  .ar-inline[data-align="start"] { align-items: flex-start; } .ar-inline[data-align="center"] { align-items: center; } .ar-inline[data-align="end"] { align-items: flex-end; } .ar-inline[data-align="baseline"] { align-items: baseline; } .ar-inline[data-align="stretch"] { align-items: stretch; }
+  .ar-inline[data-justify="center"] { justify-content: center; } .ar-inline[data-justify="end"] { justify-content: flex-end; } .ar-inline[data-justify="between"] { justify-content: space-between; }
+  .ar-inline > * { min-width: 0; }
+  .ar-gap-none { gap: 0; } .ar-gap-xs { gap: var(--s1); } .ar-gap-sm { gap: var(--s2); }
+  .ar-stack.ar-gap-sm { gap: var(--rhythm-sm); } .ar-stack.ar-gap-md { gap: var(--rhythm); } .ar-stack.ar-gap-lg { gap: var(--rhythm-lg); } .ar-stack.ar-gap-xl { gap: var(--s12); }
+  .ar-inline.ar-gap-md { gap: var(--s3); } .ar-inline.ar-gap-lg { gap: var(--s4); } .ar-inline.ar-gap-xl { gap: var(--s6); }
+}

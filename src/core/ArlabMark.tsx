@@ -1,6 +1,6 @@
 'use client';
 
-import type { SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
 export interface ArlabMarkProps extends SVGProps<SVGSVGElement> {
   /** Rendered height in px; width follows the mark's real aspect ratio (~3.18:1). */
@@ -31,6 +31,22 @@ export function ArlabMark({ height = 26, className = '', ...rest }: ArlabMarkPro
       <path d="M903.336 593.014H942.047V27.8056H903.336V593.014Z" />
       <path d="M1254.05 564.363C1161.92 564.363 1089.92 491.59 1089.92 399.451C1089.92 307.313 1161.92 234.53 1254.05 234.53C1346.19 234.53 1417.43 307.313 1417.43 399.451C1417.43 491.59 1346.19 564.363 1254.05 564.363ZM1417.43 293.379C1384.9 235.303 1325.29 197.366 1250.96 197.366C1141.01 197.366 1050.42 284.857 1050.42 399.451C1050.42 514.038 1141.01 601.527 1250.96 601.527C1325.29 601.527 1384.9 563.59 1417.43 505.523V593.014H1456.91V205.879H1417.43V293.379Z" />
       <path d="M1778.97 564.363C1686.84 564.363 1614.84 491.59 1614.84 399.451C1614.84 307.313 1686.84 234.53 1778.97 234.53C1871.11 234.53 1943.12 307.313 1943.12 399.451C1943.12 491.59 1871.11 564.363 1778.97 564.363ZM1781.3 197.366C1706.2 197.366 1646.58 236.077 1614.84 295.698V51.0367H1576.12V593.014H1614.84V503.195C1646.58 562.817 1706.2 601.527 1781.3 601.527C1892.02 601.527 1981.83 514.038 1981.83 399.451C1981.83 284.857 1892.02 197.366 1781.3 197.366Z" />
+    </svg>
+  );
+}
+const GLYPH = 'M253.175 478.878C193.58 478.878 150.392 438.283 150.392 373.506C150.392 308.729 193.58 268.134 253.175 268.134C312.393 268.134 355.384 308.223 355.932 372.278V374.734C355.384 438.789 312.393 478.878 253.175 478.878ZM614.432 145.031C556.508 145.031 514.145 164.917 485.612 197.771V157.138H355.932V198.145C327.427 165.339 285.113 145.485 227.264 145.485C114.12 145.485 20.8359 244.813 20.8359 373.506C20.8359 502.201 114.12 601.527 227.264 601.527C285.113 601.527 327.427 581.673 355.932 548.867V589.41H355.957V589.433H485.513V373.889H485.637C485.637 373.679 485.612 373.485 485.612 373.274C485.612 308.434 528.837 267.799 588.495 267.799C648.147 267.799 691.377 308.434 691.377 373.274C691.377 373.485 691.352 373.679 691.351 373.889H821.043C821.044 373.682 821.057 373.481 821.057 373.274C821.057 244.455 727.684 145.031 614.432 145.031Z';
+
+export interface ArlabTileProps { size?: number; /** A tool's own glyph (24x24 line icon) in place of the ARLAB "a". */ glyph?: ReactNode; label?: string; className?: string }
+
+/** The ARLAB app tile (HIG branding rule): a black rounded square (radius 14 on 64) with one pink
+ * glyph. The same art as favicon.svg. Decorative unless `label` is given. */
+export function ArlabTile({ size = 36, glyph, label, className = '' }: ArlabTileProps) {
+  return (
+    <svg className={`ar-tile ${className}`} width={size} height={size} viewBox="0 0 64 64" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
+      <rect width="64" height="64" rx="14" fill="#0b0b0d" />
+      {glyph
+        ? <svg x="16" y="16" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e414db" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{glyph}</svg>
+        : <svg x="9" y="19" width="46" height="26" viewBox="15 140 812 466"><path fill="#e414db" d={GLYPH} /></svg>}
     </svg>
   );
 }

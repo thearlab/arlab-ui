@@ -9,7 +9,7 @@ export type Breakpoint = keyof typeof BREAKPOINTS;
 export const DURATIONS = { press: 120, small: 180, panel: 320, sheet: 380, fade: 150 } as const;
 
 /** The accents a product may pick. One per product. */
-export const ACCENTS = ['violet', 'magenta'] as const;
+export const ACCENTS = ['magenta', 'violet'] as const;
 export type Accent = (typeof ACCENTS)[number];
 
 /** z-index ladder, same as the --z-* tokens. */

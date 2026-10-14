@@ -1,0 +1,8 @@
+body { background: var(--frame); }
+.h-page, .h-index { padding: 24px; display: grid; gap: 20px; }
+.h-page > h1 { font-size: var(--fs-xl); }
+.h-state { display: grid; gap: 10px; max-width: 760px; }
+.h-state.wide { max-width: none; }
+.h-state > h2 { font-size: var(--fs-sm); color: var(--ink-3); font-weight: 600; }
+.h-canvas { min-width: 0; }
+@media (max-width: 640px) { .h-page { padding: 16px; } }
