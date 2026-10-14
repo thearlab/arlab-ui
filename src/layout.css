@@ -73,7 +73,7 @@
 .arlab-stack > * + * { margin-top: 14px; }
 
 /* ----- panel and its contents ----- */
-.arlab-panel { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--raise); box-shadow: var(--shadow); min-width: 0; }
+.arlab-panel { border: 1px solid var(--card-line); border-radius: var(--radius-lg); background: var(--raise); box-shadow: var(--shadow); min-width: 0; }
 .arlab-panel.quiet { box-shadow: none; }
 .arlab-panel.gate { border-color: var(--accent-line); }
 .arlab-panel-title {
@@ -100,8 +100,8 @@
 .arlab-facts-row { display: contents; }
 .arlab-facts dt { color: var(--ink-faint); }
 .arlab-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
-.arlab-empty { padding: 28px 20px; color: var(--ink-faint); font-size: var(--text-sm); }
-.arlab-empty p { margin: 0 0 10px; }
+.arlab-empty { display: grid; justify-items: center; gap: 12px; padding: 36px 20px; color: var(--ink-dim); font-size: var(--text-sm); text-align: center; }
+.arlab-empty p { margin: 0; max-width: 52ch; }
 .arlab-empty p:last-child { margin-bottom: 0; }
 .arlab-timeline { padding: 6px 16px 12px; }
 .arlab-tl { display: grid; grid-template-columns: 18px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; font-size: var(--text-sm); }

@@ -16,6 +16,7 @@
   --line: #e2e5ea;
   --line-soft: #eceef2;
   --line-hover: #b8c0cc;
+  --card-line: transparent;   /* cards show their edge with --shadow-card, not a border (polish) */
 
   --ink: #202530;
   --ink-dim: #535e6f;
@@ -99,7 +100,7 @@
   /* Dark (polish): neutral, slightly cool near-blacks in three clear steps (backdrop, frame, raised).
      Depth comes from lighter surfaces, not shadows. Every text and status pair passes AA (scripts/contrast.mjs). */
   --backdrop: #0a0b0e; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
-  --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56;
+  --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56; --card-line: transparent;
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;
   --action: #eceef2; --action-hover: #ffffff; --action-pressed: #d3d7de; --action-ink: #121418;
@@ -114,7 +115,7 @@
   /* Dark (polish): neutral, slightly cool near-blacks in three clear steps (backdrop, frame, raised).
      Depth comes from lighter surfaces, not shadows. Every text and status pair passes AA (scripts/contrast.mjs). */
   --backdrop: #0a0b0e; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
-  --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56;
+  --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56; --card-line: transparent;
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;
   --action: #eceef2; --action-hover: #ffffff; --action-pressed: #d3d7de; --action-ink: #121418;
@@ -197,7 +198,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 
 /* ---- Card + composable header/body/footer ------------------------------ */
 .arlab-card {
-  background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-md);
+  background: var(--raise); border: 1px solid var(--card-line); border-radius: var(--radius-lg);
   /* An inset top highlight on top of the drop shadow — the "glass" detail
      theARLab's actual elevated surfaces use, not just a shadow underneath. */
   box-shadow: var(--shadow-card); padding: 22px;
@@ -676,7 +677,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 /* ---- SearchButton: an input-shaped button that opens something else ----- */
 .arlab-search-btn {
   display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; cursor: pointer;
-  background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 0 12px; height: 34px;
+  background: var(--raise); border: 1px solid var(--card-line); border-radius: var(--radius-lg); padding: 0 12px; height: 34px;
   color: var(--ink-faint); font-family: var(--font-sans); font-size: var(--text-sm);
   transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
@@ -779,7 +780,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-pill.t-info { background: var(--info-tint); color: var(--info); }
 .arlab-pill-btn { cursor: pointer; }
 .arlab-pill-btn:hover { background: var(--accent-tint); color: var(--accent-deep); }
-.arlab-pill-btn.on { background: var(--accent-tint); color: var(--accent-deep); box-shadow: inset 0 0 0 1px var(--accent-line); }
+.arlab-pill-btn.on { background: var(--action); color: var(--action-ink); box-shadow: none; }
 .arlab-pill-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---- icon button: the bordered square, with an optional tooltip ---- */
@@ -856,10 +857,10 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-table thead th button svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .35; }
 .arlab-table thead th button.on svg { opacity: 1; }
 .arlab-table thead th button svg.up { transform: rotate(180deg); }
-.arlab-table tbody td { padding: 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; background: var(--raise); }
+.arlab-table tbody td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; background: var(--raise); }
 .arlab-table tbody tr:hover td { background: var(--surface-hover); }
-.arlab-table th:first-child, .arlab-table td:first-child { padding-left: 36px; }
-.arlab-table th:last-child, .arlab-table td:last-child { padding-right: 36px; }
+.arlab-table th:first-child, .arlab-table td:first-child { padding-left: 28px; }
+.arlab-table th:last-child, .arlab-table td:last-child { padding-right: 28px; }
 @media (max-width: 900px) { .arlab-table th:first-child, .arlab-table td:first-child { padding-left: 16px; } .arlab-table th:last-child, .arlab-table td:last-child { padding-right: 16px; } }
 
 /* ---- sheet ---- */
@@ -939,3 +940,8 @@ html { scrollbar-color: var(--line-hover) transparent; }
 
 /* Polish: numbers line up everywhere they are compared. */
 .arlab-table td, .arlab-badge, .arlab-pill, .arlab-side-count { font-variant-numeric: tabular-nums; }
+
+/* Initials in one stable hue per person (Avatar sets --av-h): a tint with same-hue ink, AA in both themes. */
+.arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 70% 91%); color: hsl(var(--av-h) 55% 26%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 32% 26%); color: hsl(var(--av-h) 80% 86%); } }
+:root[data-theme="dark"] .arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 32% 26%); color: hsl(var(--av-h) 80% 86%); }
