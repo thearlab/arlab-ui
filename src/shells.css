@@ -154,8 +154,8 @@ html { overscroll-behavior-y: none; }
 .arlab-side { background: var(--ground); border-right: 0; border-radius: 20px 0 0 20px; padding: 16px 10px 12px; }
 .arlab-main { height: 100%; min-height: 0; background: var(--ground); border-radius: 0 20px 20px 0; overflow: hidden; }
 .arlab-topbar { background: transparent; border-bottom: 0; }
-.arlab-side-group { font-size: 11px; font-weight: 600; color: var(--ink-faint); padding: 16px 10px 4px; }
-.arlab-side-item { min-height: 32px; padding: 6px 10px; margin: 1px 0; border-radius: 8px; font-size: 14px; gap: 10px; }
+.arlab-side-group { font-size: 11px; font-weight: 600; color: var(--ink-faint); padding: 12px 10px 4px; line-height: 14px; }
+.arlab-side-item { min-height: 32px; padding: 6px 10px; margin: 0; border-radius: 8px; font-size: 14px; gap: 10px; }
 .arlab-side-item:hover { background: var(--sunken-2); }
 .arlab-side-item.on { background: var(--raise); color: var(--ink); box-shadow: var(--shadow); }
 .arlab-side-count { min-width: 20px; height: 20px; padding: 0 6px; display: inline-grid; place-items: center; border-radius: var(--radius-pill); background: var(--sunken-2); color: var(--ink-dim); font: 600 11px var(--font-sans); font-variant-numeric: tabular-nums; }
@@ -163,10 +163,20 @@ html { overscroll-behavior-y: none; }
 .arlab-side-me { border-top: 0; margin-top: 4px; }
 /* The menu scrolls above a fixed footer (links + the person), so the footer never covers an item; the active item is
    scrolled into view (SidebarShell). No fade mask: a faded last item read as cut off. */
-.arlab-side > nav { flex: 1 1 auto; overflow-y: auto; min-height: 0; padding: 2px 2px 8px; }
+.arlab-side > nav { flex: 1 1 auto; overflow-y: auto; min-height: 0; padding: 2px 2px 4px; }
 .arlab-side > .arlab-side-grow { flex: 0 0 auto; }
-.arlab-side-links { flex-shrink: 0; display: grid; gap: 1px; padding: 8px 0 0; margin-top: 4px; border-top: 1px solid var(--line-soft); }
-.arlab-side-links .arlab-side-item { min-height: 32px; padding: 6px 10px; font-size: 13.5px; color: var(--ink-dim); text-decoration: none; }
+.arlab-side-links { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 2px; padding: 6px 0 0; margin-top: 4px; border-top: 1px solid var(--line-soft); }
+.arlab-side-links .arlab-side-item { width: auto; min-height: 30px; padding: 4px 6px; gap: 6px; font-size: 13px; color: var(--ink-dim); text-decoration: none; }
+/* One quiet row of text links on the full sidebar; icons only when the rail is folded. */
+.arlab-app:not(.rail-min) .arlab-side-links .arlab-side-icon { display: none; }
+/* Folded groups (outside links): the label is the toggle. */
+.arlab-side-fold > summary { list-style: none; display: flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 6px; }
+.arlab-side-fold > summary::-webkit-details-marker { display: none; }
+.arlab-side-fold > summary svg { transition: transform .15s ease; }
+.arlab-side-fold[open] > summary svg { transform: rotate(90deg); }
+.arlab-side-fold > summary:hover { color: var(--ink); }
+.arlab-side-fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .arlab-side-fold > summary svg { transition: none; } }
 .arlab-side-me { flex-shrink: 0; }
 @media (max-width: 1000px) { .arlab-app { padding: 0; } .arlab-side, .arlab-main { border-radius: 0; } }
 
@@ -189,6 +199,8 @@ html { overscroll-behavior-y: none; }
   .side-open > .arlab-side .arlab-side-item { justify-content: flex-start; padding: 8px 10px; min-height: 44px; }
   .side-open > .arlab-side .arlab-side-me { flex-direction: row; justify-content: flex-start; }
   .side-open > .arlab-side .arlab-rail-toggle { display: none; }
+  .arlab-app.side-open > .arlab-side { overflow-y: auto; overscroll-behavior: contain; }
+  .side-open > .arlab-side > nav { flex: 0 0 auto; overflow: visible; }
   .side-open > .arlab-side .arlab-shell-who { display: grid; min-width: 0; }
   .side-open > .arlab-side .arlab-shell-who span { overflow: hidden; text-overflow: ellipsis; }
   .arlab-main { border-radius: 0; }

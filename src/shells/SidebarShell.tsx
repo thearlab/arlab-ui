@@ -21,7 +21,8 @@ export interface NavItem {
 
 export interface SidebarShellProps {
   brand: ShellBrand;
-  nav: { items: NavItem[]; groups?: { label: string; items: NavItem[] }[] };
+  /** A group with `collapsible` folds into a disclosure (closed unless it holds the active item). */
+  nav: { items: NavItem[]; groups?: { label: string; items: NavItem[]; collapsible?: boolean }[] };
   /** Recently opened things; `dot` is a token name ('info', 'accent', 'live', ...) or any CSS color. */
   recent?: { id: string; label: string; dot?: string; onSelect: () => void }[];
   account: ShellAccount;
@@ -38,8 +39,6 @@ export interface SidebarShellProps {
   onAsideClose?: () => void;
   /** Labelled links pinned above the person at the bottom of the sidebar (Help, other ARLAB places). */
   footer?: { id: string; label: string; icon?: ReactNode; href?: string; onSelect?: () => void }[];
-  /** The page's name, shown in the phone top bar (under 768px the sidebar becomes a menu sheet). */
-  title?: ReactNode;
   /** Show the light/dark switch at the right of the top bar (default true). */
   themeInTopbar?: boolean;
   /** The workspace. Fills the viewport under the top bar; children manage their own scroll. */
@@ -63,7 +62,7 @@ function Item({ item }: { item: NavItem }) {
 /** Shell A: a persistent sidebar (sections, groups, recent, the person) beside a thin top bar
  * (breadcrumbs, search, actions) and a workspace that fills the viewport. For tools with several
  * sections and collections: Agents Studio, ARLAB Knowledge. Router-agnostic: navigation is callbacks. */
-export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, footer, title, children }: SidebarShellProps) {
+export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, footer, children }: SidebarShellProps) {
   // Phone (under 768px): a slim top bar with a menu button; the sidebar opens over the page as a sheet.
   const [sheet, setSheet] = useState(false);
   const menuBtn = useRef<HTMLButtonElement>(null), sideRef = useRef<HTMLElement>(null);
@@ -114,7 +113,8 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
     <div className={`arlab-app${min ? ' rail-min' : ''}${aside ? ' has-aside' : ''}${sheet ? ' side-open' : ''}`}>
       <header className="arlab-phonebar">
         <ArlabMark height={16} />
-        <span className="arlab-phonebar-t">{title}</span>
+        {/* The page names itself in its own header below; the bar holds only the mark and the menu. */}
+        <span className="arlab-phonebar-t" />
         <button ref={menuBtn} type="button" className="arlab-icon-btn" aria-label="Open the menu" aria-expanded={sheet} aria-controls="arlab-side" onClick={() => setSheet(true)}>
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
         </button>
@@ -125,7 +125,12 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
         <Brand {...brand} />
         <nav aria-label="Sections" ref={navRef}>
           {nav.items.map((i) => <Item key={i.id} item={i} />)}
-          {nav.groups?.map((g) => (
+          {nav.groups?.map((g) => g.collapsible ? (
+            <details key={g.label} className="arlab-side-fold" open={g.items.some((i) => i.active) || undefined}>
+              <summary className="arlab-side-group">{g.label}<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></summary>
+              {g.items.map((i) => <Item key={i.id} item={i} />)}
+            </details>
+          ) : (
             <div key={g.label}>
               <div className="arlab-side-group">{g.label}</div>
               {g.items.map((i) => <Item key={i.id} item={i} />)}
