@@ -154,8 +154,8 @@ html { overscroll-behavior-y: none; }
 .arlab-side { background: var(--ground); border-right: 0; border-radius: 20px 0 0 20px; padding: 16px 10px 12px; }
 .arlab-main { height: 100%; min-height: 0; background: var(--ground); border-radius: 0 20px 20px 0; overflow: hidden; }
 .arlab-topbar { background: transparent; border-bottom: 0; }
-.arlab-side-group { font-size: 12px; font-weight: 500; color: var(--ink-faint); padding: 20px 10px 6px; }
-.arlab-side-item { min-height: 36px; padding: 8px 10px; margin: 1px 0; border-radius: 10px; font-size: 14px; }
+.arlab-side-group { font-size: 11px; font-weight: 600; color: var(--ink-faint); padding: 16px 10px 4px; }
+.arlab-side-item { min-height: 32px; padding: 6px 10px; margin: 1px 0; border-radius: 8px; font-size: 14px; gap: 10px; }
 .arlab-side-item:hover { background: var(--sunken-2); }
 .arlab-side-item.on { background: var(--raise); color: var(--ink); box-shadow: var(--shadow); }
 .arlab-side-count { min-width: 20px; height: 20px; padding: 0 6px; display: inline-grid; place-items: center; border-radius: var(--radius-pill); background: var(--sunken-2); color: var(--ink-dim); font: 600 11px var(--font-sans); font-variant-numeric: tabular-nums; }

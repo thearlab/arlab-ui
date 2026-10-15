@@ -46,8 +46,11 @@
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
   --surface-nav: var(--ground);
   --surface-hover: #eef0f3;
-  --control-h: 38px;
-  --control-h-sm: 30px;
+  --control-h: 34px;      /* density pass: compact controls (reference: calm SaaS dashboards) */
+  --control-h-sm: 28px;
+  --card-pad: 16px;
+  --gap-card: 14px;
+  --row-h: 48px;
   --page-pad: 36px;
   --shadow-card: var(--shadow);
   --shadow-pop: 0 14px 40px -10px rgba(0, 0, 0, 0.22);
@@ -164,7 +167,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 500; line-height: 1;
-  height: var(--control-h); padding: 0 15px; border-radius: var(--radius-md); border: 1px solid var(--line);
+  height: var(--control-h); padding: 0 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
   background: var(--raise); color: var(--ink); cursor: pointer; user-select: none; white-space: nowrap;
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
@@ -203,7 +206,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
   background: var(--raise); border: 1px solid var(--card-line); border-radius: var(--radius-lg);
   /* An inset top highlight on top of the drop shadow — the "glass" detail
      theARLab's actual elevated surfaces use, not just a shadow underneath. */
-  box-shadow: var(--shadow-card); padding: 22px;
+  box-shadow: var(--shadow-card); padding: var(--card-pad);
   display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
 }
 .arlab-card.interactive {
@@ -352,7 +355,11 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-switch:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ---- SegmentedControl (tabs-as-buttons / pill toggle group) --------- */
-.arlab-segmented { display: inline-flex; padding: 3px; gap: 2px; background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.arlab-segmented { display: inline-flex; padding: 3px; gap: 2px; background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius-md);
+  /* Never wider than its box: it scrolls inside itself, with soft fades at the edges, instead of pushing the page. */
+  max-width: 100%; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.arlab-segmented::-webkit-scrollbar { display: none; }
+@media (max-width: 640px) { .arlab-segmented { mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 calc(100% - 16px), transparent); } }
 .arlab-segment {
   font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-dim);
   padding: 5px 12px; border-radius: var(--radius-sm); border: none; background: transparent; cursor: pointer;
@@ -954,3 +961,19 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-toast { display: flex; align-items: center; gap: 14px; }
 .arlab-toast-act { margin-left: auto; border: 0; background: none; padding: 2px 4px; color: inherit; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; pointer-events: auto; }
 .arlab-toast-act:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+
+/* ---- Tables on a phone: each row becomes a stacked card ---------------------------------------------------------
+   Under 640px a table stops being a grid: the first cell (the name) and the other cells stack on the left; a key value
+   (classes c-when, c-date, c-num, c-key, or the admin's ea-r) sits right-aligned beside the name; cells marked m-hide
+   and the icon-action columns (c-links, c-act) go (their actions live in the row's popup). Opt a table in with
+   .arlab-table (default) or data-stack on any table. Shared, so no page builds its own. */
+@media (max-width: 640px) {
+  :is(.arlab-table, table[data-stack]) { display: block; width: 100%; min-width: 0; }
+  :is(.arlab-table, table[data-stack]) > :is(tbody, tfoot) { display: block; }
+  :is(.arlab-table, table[data-stack]) > thead { display: none; }
+  :is(.arlab-table, table[data-stack]) tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 2px; align-items: start; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); }
+  :is(.arlab-table, table[data-stack]) td { display: block; grid-column: 1; padding: 0; border: 0; min-width: 0; background: none; overflow-wrap: anywhere; text-align: left; }
+  :is(.arlab-table, table[data-stack]) td[colspan] { grid-column: 1 / -1; }
+  :is(.arlab-table, table[data-stack]) td:is(.c-when, .c-date, .c-num, .c-key, .ea-r) { grid-column: 2; grid-row: 1; text-align: right; white-space: nowrap; width: auto; }
+  :is(.arlab-table, table[data-stack]) td:is(.m-hide, .c-links, .c-act, .c-site) { display: none; }
+}
