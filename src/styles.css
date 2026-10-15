@@ -7,8 +7,10 @@
 :root {
   color-scheme: light;
 
-  --backdrop: #e6e7eb;    /* outside the floating frame (polish): clearly darker than the frame */
-  --ground: #f7f7f8;
+  --backdrop: #dfe1e6;    /* outside the floating frame (polish): clearly darker than the frame */
+  --ground: #f8f8f9;
+  --frame-ring: rgba(16, 24, 40, 0.06);
+  --frame-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
   --raise: #ffffff;
   --sunken: #eef0f3;
   --sunken-2: #e6e9ee;
@@ -99,7 +101,7 @@
   :root:not([data-theme="light"]) { color-scheme: dark;
   /* Dark (polish): neutral, slightly cool near-blacks in three clear steps (backdrop, frame, raised).
      Depth comes from lighter surfaces, not shadows. Every text and status pair passes AA (scripts/contrast.mjs). */
-  --backdrop: #0a0b0e; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
+  --backdrop: #07080a; --frame-ring: rgba(255, 255, 255, 0.06); --frame-shadow: none; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
   --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56; --card-line: transparent;
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;
@@ -114,7 +116,7 @@
 :root[data-theme="dark"] { color-scheme: dark;
   /* Dark (polish): neutral, slightly cool near-blacks in three clear steps (backdrop, frame, raised).
      Depth comes from lighter surfaces, not shadows. Every text and status pair passes AA (scripts/contrast.mjs). */
-  --backdrop: #0a0b0e; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
+  --backdrop: #07080a; --frame-ring: rgba(255, 255, 255, 0.06); --frame-shadow: none; --ground: #121418; --raise: #1b1e24; --sunken: #16181d; --sunken-2: #23272f;
   --line: #2a2e36; --line-soft: #22252c; --line-hover: #444a56; --card-line: transparent;
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;

@@ -64,7 +64,15 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
   const navRef = useRef<HTMLElement>(null);
   const activeId = [...nav.items, ...(nav.groups?.flatMap((g) => g.items) ?? [])].find((i) => i.active)?.id;
   // The active item is always fully visible in the scrolling menu.
-  useEffect(() => { navRef.current?.querySelector<HTMLElement>('.arlab-side-item.on')?.scrollIntoView({ block: 'nearest' }); }, [activeId]);
+  // Bring the active item into view only when it is actually hidden, and only by the minimum, inside the menu itself
+  // (never scrolls the page, never moves a menu the person scrolled while the item is visible).
+  useEffect(() => {
+    const n = navRef.current, el = n?.querySelector<HTMLElement>('.arlab-side-item.on');
+    if (!n || !el) return;
+    const nr = n.getBoundingClientRect(), r = el.getBoundingClientRect();
+    if (r.top < nr.top) n.scrollTop -= nr.top - r.top + 8;
+    else if (r.bottom > nr.bottom) n.scrollTop += r.bottom - nr.bottom + 8;
+  }, [activeId]);
   const [pref, setPref] = useState(() => { try { return localStorage.getItem('arlab:rail') === 'min'; } catch { return false; } });
   const [override, setOverride] = useState<boolean | null>(null);
   useEffect(() => { setOverride(null); }, [autoCollapse]);

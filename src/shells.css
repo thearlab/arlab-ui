@@ -148,6 +148,9 @@ html { overscroll-behavior-y: none; }
    The app is a single rounded frame on a tinted backdrop. The sidebar and the workspace share the frame's surface
    (no divider line between them); depth comes from raised cards inside, not from borders. */
 .arlab-app { box-sizing: border-box; padding: 12px; background: var(--backdrop); }
+/* The frame reads as one object: a hairline ring and a soft outer shadow around sidebar + workspace together. */
+.arlab-app > .arlab-side { box-shadow: inset 1px 0 0 var(--frame-ring), inset 0 1px 0 var(--frame-ring), inset 0 -1px 0 var(--frame-ring), -8px 8px 24px -16px rgba(16, 24, 40, 0.10); }
+.arlab-app > .arlab-main { box-shadow: inset -1px 0 0 var(--frame-ring), inset 0 1px 0 var(--frame-ring), inset 0 -1px 0 var(--frame-ring), var(--frame-shadow); }
 .arlab-side { background: var(--ground); border-right: 0; border-radius: 20px 0 0 20px; padding: 16px 10px 12px; }
 .arlab-main { height: 100%; min-height: 0; background: var(--ground); border-radius: 0 20px 20px 0; overflow: hidden; }
 .arlab-topbar { background: transparent; border-bottom: 0; }
