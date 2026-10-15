@@ -39,7 +39,7 @@
 
   --live: #187345;  --live-tint: rgba(30, 138, 85, 0.12);
   --warn: #96600b;  --warn-tint: rgba(184, 114, 10, 0.12);
-  --crit: #c62f2f;  --crit-tint: rgba(198, 47, 47, 0.12);
+  --crit: #c62f2f;  --crit-tint: rgba(198, 47, 47, 0.12);  --crit-ink: #a11d1d;   /* text on --crit-tint, 4.5:1+ */
   --info: #2560c0;  --info-tint: rgba(37, 96, 192, 0.12);
   --code-bg: #f0f2f5;
 
@@ -106,7 +106,7 @@
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;
   --action: #eceef2; --action-hover: #ffffff; --action-pressed: #d3d7de; --action-ink: #121418;
-  --live: #4fc68d; --live-tint: rgba(79, 198, 141, 0.15); --warn: #e9b65c; --warn-tint: rgba(233, 182, 92, 0.15); --crit: #f2787a; --crit-tint: rgba(242, 120, 122, 0.15); --info: #7eaaf2; --info-tint: rgba(126, 170, 242, 0.15); --code-bg: #16181d;
+  --live: #4fc68d; --live-tint: rgba(79, 198, 141, 0.15); --warn: #e9b65c; --warn-tint: rgba(233, 182, 92, 0.15); --crit: #f2787a; --crit-tint: rgba(242, 120, 122, 0.15); --crit-ink: #ffb3b3; --info: #7eaaf2; --info-tint: rgba(126, 170, 242, 0.15); --code-bg: #16181d;
   --surface-nav: var(--ground); --surface-hover: #22252c;
   --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
@@ -121,7 +121,7 @@
   --ink: #eceef2; --ink-dim: #b3b9c4; --ink-faint: #9098a6; --ink-inactive: #7f8795;
   --accent: #f25cea; --accent-deep: #f78ff1; --accent-tint: rgba(242, 92, 234, 0.16); --accent-soft: rgba(242, 92, 234, 0.10); --accent-line: rgba(242, 92, 234, 0.45); --accent-secondary: #ef9a5c;
   --action: #eceef2; --action-hover: #ffffff; --action-pressed: #d3d7de; --action-ink: #121418;
-  --live: #4fc68d; --live-tint: rgba(79, 198, 141, 0.15); --warn: #e9b65c; --warn-tint: rgba(233, 182, 92, 0.15); --crit: #f2787a; --crit-tint: rgba(242, 120, 122, 0.15); --info: #7eaaf2; --info-tint: rgba(126, 170, 242, 0.15); --code-bg: #16181d;
+  --live: #4fc68d; --live-tint: rgba(79, 198, 141, 0.15); --warn: #e9b65c; --warn-tint: rgba(233, 182, 92, 0.15); --crit: #f2787a; --crit-tint: rgba(242, 120, 122, 0.15); --crit-ink: #ffb3b3; --info: #7eaaf2; --info-tint: rgba(126, 170, 242, 0.15); --code-bg: #16181d;
   --surface-nav: var(--ground); --surface-hover: #22252c;
   --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04); --shadow-card: var(--shadow);
   --shadow-pop: 0 18px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
@@ -289,7 +289,9 @@ html { scrollbar-color: var(--line-hover) transparent; }
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .arlab-input, .arlab-select { height: var(--control-h); }
-.arlab-input::placeholder, .arlab-textarea::placeholder { color: var(--ink-inactive); }
+/* Every field's placeholder (the browser default grey fails AA): the faint ink, 4.5:1 on raised surfaces. */
+::placeholder { color: var(--ink-faint); opacity: 1; }
+.arlab-input::placeholder, .arlab-textarea::placeholder { color: var(--ink-faint); }
 .arlab-input:hover, .arlab-textarea:hover, .arlab-select:hover { border-color: var(--ink-faint); }
 .arlab-input:focus-visible, .arlab-textarea:focus-visible, .arlab-select:focus-visible {
   outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint);
@@ -544,7 +546,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-cmdk-input-row { display: flex; align-items: center; gap: 12px; padding: 6px 20px; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
 .arlab-cmdk-input-row svg { color: var(--ink-faint); flex-shrink: 0; width: 18px; height: 18px; }
 .arlab-cmdk-input { flex: 1; min-width: 0; border: none; background: none; outline: none; font-family: var(--font-sans); font-size: 18px; font-weight: 500; color: var(--ink); height: 62px; }
-.arlab-cmdk-input::placeholder { color: var(--ink-inactive); font-weight: 400; }
+.arlab-cmdk-input::placeholder { color: var(--ink-faint); font-weight: 400; }
 .arlab-cmdk-kbd { font-family: var(--font-sans); font-size: 11px; font-weight: 500; color: var(--ink-faint); background: var(--sunken); padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
 .arlab-cmdk-clear { border: 0; background: none; color: var(--ink-faint); font: inherit; font-size: var(--text-xs); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
 .arlab-cmdk-clear:hover { color: var(--ink); background: var(--sunken); }
@@ -637,7 +639,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 }
 .arlab-taginput:focus-within { border-color: var(--accent); background: var(--raise); box-shadow: 0 0 0 3px var(--accent-soft); }
 .arlab-taginput input { flex: 1; min-width: 80px; border: none; background: none; outline: none; font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); padding: 3px; }
-.arlab-taginput input::placeholder { color: var(--ink-inactive); }
+.arlab-taginput input::placeholder { color: var(--ink-faint); }
 
 /* ---- Collapsible: CSS-only grid-rows animation, no JS height measuring - */
 .arlab-collapsible-trigger {
@@ -947,3 +949,8 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 70% 91%); color: hsl(var(--av-h) 55% 26%); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 32% 26%); color: hsl(var(--av-h) 80% 86%); } }
 :root[data-theme="dark"] .arlab-avatar[style*="--av-h"] { background: hsl(var(--av-h) 32% 26%); color: hsl(var(--av-h) 80% 86%); }
+
+/* Toast action (Undo): the toasts are dark, so the button is light text with an underline. */
+.arlab-toast { display: flex; align-items: center; gap: 14px; }
+.arlab-toast-act { margin-left: auto; border: 0; background: none; padding: 2px 4px; color: inherit; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; pointer-events: auto; }
+.arlab-toast-act:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }

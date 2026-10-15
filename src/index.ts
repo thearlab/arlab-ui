@@ -37,6 +37,7 @@ export type { ArlabMarkProps } from './ArlabMark';
 export { Dialog, DialogFooter } from './Dialog';
 export type { DialogProps } from './Dialog';
 export { ToastProvider, useToast } from './Toast';
+export type { ToastAction } from './Toast';
 export { ThemeToggle } from './ThemeToggle';
 export { initTheme, setTheme, getTheme } from './theme';
 export type { Theme } from './theme';
