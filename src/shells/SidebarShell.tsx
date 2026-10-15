@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { LoadingBar } from '../LoadingBar';
 import { SearchButton } from '../SearchButton';
 import { ThemeToggle } from '../ThemeToggle';
+import { ArlabMark } from '../ArlabMark';
 import { AccountMenu, Brand, type ShellAccount, type ShellBrand } from './parts';
 
 export interface NavItem {
@@ -37,6 +38,8 @@ export interface SidebarShellProps {
   onAsideClose?: () => void;
   /** Labelled links pinned above the person at the bottom of the sidebar (Help, other ARLAB places). */
   footer?: { id: string; label: string; icon?: ReactNode; href?: string; onSelect?: () => void }[];
+  /** The page's name, shown in the phone top bar (under 768px the sidebar becomes a menu sheet). */
+  title?: ReactNode;
   /** Show the light/dark switch at the right of the top bar (default true). */
   themeInTopbar?: boolean;
   /** The workspace. Fills the viewport under the top bar; children manage their own scroll. */
@@ -60,7 +63,26 @@ function Item({ item }: { item: NavItem }) {
 /** Shell A: a persistent sidebar (sections, groups, recent, the person) beside a thin top bar
  * (breadcrumbs, search, actions) and a workspace that fills the viewport. For tools with several
  * sections and collections: Agents Studio, ARLAB Knowledge. Router-agnostic: navigation is callbacks. */
-export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, footer, children }: SidebarShellProps) {
+export function SidebarShell({ brand, nav, recent, account, topbar, loading = false, collapsed, autoCollapse = false, aside, onAsideClose, themeInTopbar = true, footer, title, children }: SidebarShellProps) {
+  // Phone (under 768px): a slim top bar with a menu button; the sidebar opens over the page as a sheet.
+  const [sheet, setSheet] = useState(false);
+  const menuBtn = useRef<HTMLButtonElement>(null), sideRef = useRef<HTMLElement>(null);
+  const closeSheet = () => { setSheet(false); menuBtn.current?.focus(); };
+  useEffect(() => {
+    if (!sheet) return;
+    const side = sideRef.current; side?.querySelector<HTMLElement>('button, a')?.focus();
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); closeSheet(); return; }
+      if (e.key !== 'Tab' || !side) return;
+      const f = [...side.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input, [tabindex]:not([tabindex="-1"])')].filter((el) => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    window.addEventListener('keydown', key);
+    return () => window.removeEventListener('keydown', key);
+  }, [sheet]); // eslint-disable-line react-hooks/exhaustive-deps
   const navRef = useRef<HTMLElement>(null);
   const activeId = [...nav.items, ...(nav.groups?.flatMap((g) => g.items) ?? [])].find((i) => i.active)?.id;
   // The active item is always fully visible in the scrolling menu.
@@ -89,8 +111,17 @@ export function SidebarShell({ brand, nav, recent, account, topbar, loading = fa
     return () => window.removeEventListener('keydown', key);
   });
   return (
-    <div className={`arlab-app${min ? ' rail-min' : ''}${aside ? ' has-aside' : ''}`}>
-      <aside className="arlab-side">
+    <div className={`arlab-app${min ? ' rail-min' : ''}${aside ? ' has-aside' : ''}${sheet ? ' side-open' : ''}`}>
+      <header className="arlab-phonebar">
+        <ArlabMark height={16} />
+        <span className="arlab-phonebar-t">{title}</span>
+        <button ref={menuBtn} type="button" className="arlab-icon-btn" aria-label="Open the menu" aria-expanded={sheet} aria-controls="arlab-side" onClick={() => setSheet(true)}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </header>
+      {sheet && <button type="button" className="arlab-side-scrim" aria-label="Close the menu" tabIndex={-1} onClick={closeSheet} />}
+      <aside className="arlab-side" id="arlab-side" ref={sideRef} {...(sheet ? { role: 'dialog', 'aria-modal': true, 'aria-label': 'Menu' } : {})}
+        onClick={(e) => { if (sheet && (e.target as HTMLElement).closest('nav .arlab-side-item, .arlab-side-links .arlab-side-item')) setSheet(false); }}>
         <Brand {...brand} />
         <nav aria-label="Sections" ref={navRef}>
           {nav.items.map((i) => <Item key={i.id} item={i} />)}
