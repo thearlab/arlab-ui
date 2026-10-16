@@ -1,15 +1,25 @@
 {
   "name": "@arlab/ui",
-  "version": "1.8.1",
+  "version": "2.0.0-beta.1",
   "private": true,
   "type": "module",
   "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/contour/index.js",
+  "types": "./dist/contour/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./styles.css": "./dist/styles.css",
+    ".": {
+      "types": "./dist/contour/index.d.ts",
+      "import": "./dist/contour/index.js"
+    },
+    "./styles.css": "./dist/contour/styles.css",
+    "./primitives": "./dist/contour/ui.js",
+    "./icons": "./dist/contour/icons.js",
+    "./loading": "./dist/contour/loading.js",
+    "./scroll-area": "./dist/contour/scroll-area.js",
+    "./tokens": "./dist/contour/system.js",
+    "./legacy": "./dist/index.js",
+    "./legacy/styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -17,10 +27,11 @@
   ],
   "scripts": {
     "check:css": "node scripts/check-css.mjs",
-    "build": "npm run check:css && tsc && cat src/styles.css src/layout.css src/shells.css > dist/styles.css && npm run check:tour",
+    "build": "npm run check:css && tsc && cat src/styles.css src/layout.css src/shells.css > dist/styles.css && npm run check:tour && node scripts/build-contour.mjs && npm run check:contour",
     "prepare": "npm run build",
     "dev": "tsc --watch",
-    "check:tour": "node scripts/check-tour.mjs"
+    "check:tour": "node scripts/check-tour.mjs",
+    "check:contour": "node scripts/check-contour.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -29,6 +40,10 @@
   "devDependencies": {
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "postcss": "^8.5.6"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0"
   }
 }

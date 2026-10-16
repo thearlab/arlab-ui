@@ -1,0 +1,964 @@
+[
+  {
+    "name": "Button",
+    "category": "Actions",
+    "description": "A clear action with primary, secondary, quiet, ghost, or destructive emphasis.",
+    "props": [
+      "variant",
+      "disabled",
+      "onClick",
+      "children"
+    ],
+    "behavior": "Use one primary action per decision. Cancel always has a subtle border and surface."
+  },
+  {
+    "name": "IconButton",
+    "category": "Actions",
+    "description": "A compact, named action for familiar symbols.",
+    "props": [
+      "label",
+      "disabled",
+      "onClick",
+      "children"
+    ],
+    "behavior": "The accessible label describes the action. Touch targets expand to 44px."
+  },
+  {
+    "name": "TextLink",
+    "category": "Actions",
+    "description": "An underlined destination within prose or supporting navigation.",
+    "props": [
+      "href",
+      "children",
+      "target"
+    ],
+    "behavior": "Use a link for navigation and a button for an action. Pink text uses the deeper accessible tone."
+  },
+  {
+    "name": "PillButton",
+    "category": "Actions",
+    "description": "A labeled toggle for a small filter or preference.",
+    "props": [
+      "selected",
+      "onClick",
+      "children"
+    ],
+    "behavior": "Uses aria-pressed. The check and border make selection visible without relying on color."
+  },
+  {
+    "name": "Field",
+    "category": "Inputs & choices",
+    "description": "A complete field: persistent label, control, hint, and error.",
+    "props": [
+      "label",
+      "hint",
+      "error",
+      "required",
+      "children"
+    ],
+    "behavior": "Label and helper IDs are connected to the control. Errors keep the original input."
+  },
+  {
+    "name": "Input",
+    "category": "Inputs & choices",
+    "description": "A single-line input with a quiet, contained focus treatment.",
+    "props": [
+      "value",
+      "onChange",
+      "type",
+      "placeholder",
+      "disabled"
+    ],
+    "behavior": "A 1px focus border with a faint 2px halo replaces the large offset outline."
+  },
+  {
+    "name": "Textarea",
+    "category": "Inputs & choices",
+    "description": "A resizable multi-line field for longer content.",
+    "props": [
+      "value",
+      "onChange",
+      "rows",
+      "disabled"
+    ],
+    "behavior": "Preserve newlines and let the field grow vertically. Do not use placeholder text as the label."
+  },
+  {
+    "name": "Select",
+    "category": "Inputs & choices",
+    "description": "A polished single-choice control for short form lists.",
+    "props": [
+      "value",
+      "onChange",
+      "options",
+      "disabled",
+      "name"
+    ],
+    "behavior": "Uses the shared custom dropdown. Selection changes only after the user commits an option."
+  },
+  {
+    "name": "Dropdown",
+    "category": "Inputs & choices",
+    "description": "The shared dropdown surface, trigger, and keyboard interaction.",
+    "props": [
+      "value",
+      "onChange",
+      "options",
+      "searchable",
+      "disabled",
+      "name"
+    ],
+    "behavior": "Options support descriptions, counts, and disabled states. The popup chooses available viewport space."
+  },
+  {
+    "name": "Picker",
+    "category": "Inputs & choices",
+    "description": "A dropdown for filters, with optional counts.",
+    "props": [
+      "value",
+      "onChange",
+      "options",
+      "searchable"
+    ],
+    "behavior": "Use counts to explain a filter, and offer an explicit All option to reset it."
+  },
+  {
+    "name": "ComboboxPicker",
+    "category": "Inputs & choices",
+    "description": "A searchable choice list for larger collections.",
+    "props": [
+      "value",
+      "onChange",
+      "options",
+      "searchable"
+    ],
+    "behavior": "Search is local and case-insensitive. Empty results explain how to recover."
+  },
+  {
+    "name": "Checkbox",
+    "category": "Inputs & choices",
+    "description": "An independent on/off choice that can accompany helper text.",
+    "props": [
+      "label",
+      "hint",
+      "checked",
+      "onChange",
+      "disabled"
+    ],
+    "behavior": "Uses a native checkbox. Clicking the label changes the value; Space toggles it."
+  },
+  {
+    "name": "Radio",
+    "category": "Inputs & choices",
+    "description": "One choice within a mutually exclusive named group.",
+    "props": [
+      "label",
+      "name",
+      "value",
+      "checked",
+      "onChange"
+    ],
+    "behavior": "Use a fieldset and legend for a related group. Native arrow-key behavior stays intact."
+  },
+  {
+    "name": "Switch",
+    "category": "Inputs & choices",
+    "description": "An immediate binary setting, with a label and optional hint.",
+    "props": [
+      "label",
+      "hint",
+      "checked",
+      "onChange",
+      "disabled"
+    ],
+    "behavior": "The switch applies directly. Use a checkbox for a selection that waits for form submission."
+  },
+  {
+    "name": "SwitchRow",
+    "category": "Inputs & choices",
+    "description": "A setting name and explanation aligned with its switch.",
+    "props": [
+      "label",
+      "hint",
+      "checked",
+      "onChange"
+    ],
+    "behavior": "Keep the whole row large enough to click, without hiding the setting name."
+  },
+  {
+    "name": "SearchField",
+    "category": "Inputs & choices",
+    "description": "A reusable search input with a visible clear action.",
+    "props": [
+      "value",
+      "onChange",
+      "label",
+      "placeholder"
+    ],
+    "behavior": "Clearing the field resets the results. It does not discard unrelated filters."
+  },
+  {
+    "name": "TagInput",
+    "category": "Inputs & choices",
+    "description": "Editable tags with keyboard entry and removal.",
+    "props": [
+      "value",
+      "onChange",
+      "label"
+    ],
+    "behavior": "Enter or comma adds a trimmed, unique tag. Backspace on an empty input removes the last tag."
+  },
+  {
+    "name": "FileUpload",
+    "category": "Inputs & choices",
+    "description": "A document card with browse, drag-and-drop, validation, and file details.",
+    "props": [
+      "onChange",
+      "maxSize",
+      "disabled"
+    ],
+    "behavior": "Accepts one PDF, Markdown, or text file up to 10 MB by default. This local component does not transmit files."
+  },
+  {
+    "name": "Dropzone",
+    "category": "Inputs & choices",
+    "description": "The shared file-upload pattern, replacing local dashed boxes.",
+    "props": [
+      "onChange",
+      "maxSize",
+      "disabled"
+    ],
+    "behavior": "This is the FileUpload implementation under the migration alias Dropzone."
+  },
+  {
+    "name": "AppSwitcher",
+    "category": "Navigation",
+    "description": "A stable, labeled entry to Workspace, Agents Studio, and Knowledge.",
+    "props": [
+      "value",
+      "onChange"
+    ],
+    "behavior": "Changing apps preserves the surrounding navigation grammar."
+  },
+  {
+    "name": "Breadcrumbs",
+    "category": "Navigation",
+    "description": "A compact path showing the current location and its parents.",
+    "props": [
+      "items",
+      "onNavigate"
+    ],
+    "behavior": "Only the final item is current. Parent items are actionable; separators are decorative."
+  },
+  {
+    "name": "TabStrip",
+    "category": "Navigation",
+    "description": "Keyboard-navigable tabs for sections of one object.",
+    "props": [
+      "options",
+      "value",
+      "onChange",
+      "label"
+    ],
+    "behavior": "Left/Right, Home, and End move between tabs. Selection uses aria-selected and a clear underline."
+  },
+  {
+    "name": "SegmentedControl",
+    "category": "Navigation",
+    "description": "A compact switch between related views of the same content.",
+    "props": [
+      "options",
+      "value",
+      "onChange",
+      "label"
+    ],
+    "behavior": "Uses a group of pressed buttons, not mixed tab semantics. Keep labels brief and meaningful."
+  },
+  {
+    "name": "NavTree",
+    "category": "Navigation",
+    "description": "Expandable document groups with a clear current page.",
+    "props": [
+      "items",
+      "value",
+      "onChange"
+    ],
+    "behavior": "Uses native disclosure navigation. Each document remains a normal keyboard-reachable button."
+  },
+  {
+    "name": "AccountMenu",
+    "category": "Navigation",
+    "description": "A predictable menu for profile, workspace, and support actions.",
+    "props": [
+      "onSelect",
+      "name",
+      "initials",
+      "workspace"
+    ],
+    "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
+  },
+  {
+    "name": "Toc",
+    "category": "Navigation",
+    "description": "A reading rail with direct links to document headings.",
+    "props": [
+      "items"
+    ],
+    "behavior": "Links move to actual anchors. Hide the rail only when the article retains its headings."
+  },
+  {
+    "name": "Pill",
+    "category": "Data & identity",
+    "description": "A small labeled state with a semantic color and dot.",
+    "props": [
+      "tone",
+      "children"
+    ],
+    "behavior": "Use ok, warn, bad, info, or quiet. A color never replaces the written state."
+  },
+  {
+    "name": "StatusPill",
+    "category": "Data & identity",
+    "description": "The project-state vocabulary on the shared Pill.",
+    "props": [
+      "tone",
+      "children"
+    ],
+    "behavior": "Planning, In progress, In review, and Completed map to one shared set of tones."
+  },
+  {
+    "name": "Chip",
+    "category": "Data & identity",
+    "description": "A compact category or removable tag.",
+    "props": [
+      "children",
+      "onRemove"
+    ],
+    "behavior": "Removable tags have a named remove button. Passive tags never look like interactive buttons."
+  },
+  {
+    "name": "Avatar",
+    "category": "Data & identity",
+    "description": "An initials marker supporting an identifiable person.",
+    "props": [
+      "initials",
+      "name",
+      "color"
+    ],
+    "behavior": "Use a visible name nearby. The avatar alone should not be the only identification."
+  },
+  {
+    "name": "DeptTile",
+    "category": "Data & identity",
+    "description": "A department label using the dedicated pink-harmonized color scale.",
+    "props": [
+      "department"
+    ],
+    "behavior": "Department colors describe ownership. They never indicate success, warning, or failure."
+  },
+  {
+    "name": "Timestamp",
+    "category": "Data & identity",
+    "description": "A human-readable date with a machine-readable datetime value.",
+    "props": [
+      "date"
+    ],
+    "behavior": "The title contains the complete localized date. Timezone context belongs in the surrounding screen."
+  },
+  {
+    "name": "Kbd",
+    "category": "Data & identity",
+    "description": "A small keycap for a real, supported keyboard shortcut.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Only show shortcuts that actually work. Keep the keycap visually secondary."
+  },
+  {
+    "name": "LegendDot",
+    "category": "Data & identity",
+    "description": "A labeled chart category with its matching color.",
+    "props": [
+      "color",
+      "children"
+    ],
+    "behavior": "Place the label beside the color. Never ask users to distinguish unlabeled colors."
+  },
+  {
+    "name": "Stat",
+    "category": "Data & identity",
+    "description": "A metric with its label and useful context.",
+    "props": [
+      "label",
+      "value",
+      "hint"
+    ],
+    "behavior": "Use tabular numerals. A number needs a unit or explanation when its meaning is not obvious."
+  },
+  {
+    "name": "StatRow",
+    "category": "Data & identity",
+    "description": "A responsive row of related metrics separated by quiet rules.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Keep related metrics on one continuous surface, not a grid of identical floating cards."
+  },
+  {
+    "name": "Facts",
+    "category": "Data & identity",
+    "description": "Aligned labels and values for object properties.",
+    "props": [
+      "items"
+    ],
+    "behavior": "Use a semantic definition list. Long values wrap instead of widening the page."
+  },
+  {
+    "name": "Meter",
+    "category": "Data & identity",
+    "description": "A measurable completion value with text and progress semantics.",
+    "props": [
+      "value",
+      "label"
+    ],
+    "behavior": "Expose the value and its range to assistive technology. Unknown progress uses a loading state instead."
+  },
+  {
+    "name": "DataTable",
+    "category": "Data & identity",
+    "description": "A complete collection table with search, filtering, sorting, selection, and pagination.",
+    "props": [
+      "rows",
+      "onOpen"
+    ],
+    "behavior": "Selection, row actions, and sorting are explicit controls. The scroll container is keyboard accessible."
+  },
+  {
+    "name": "FilterRow",
+    "category": "Data & identity",
+    "description": "A consistent search and status-filter arrangement with a reset.",
+    "props": [
+      "query",
+      "onQueryChange",
+      "status",
+      "onStatusChange"
+    ],
+    "behavior": "The clear action only appears when a filter is applied. Mobile controls wrap rather than shrink."
+  },
+  {
+    "name": "SortHead",
+    "category": "Data & identity",
+    "description": "A column heading button with a visible and announced sort direction.",
+    "props": [
+      "label",
+      "direction",
+      "onSort"
+    ],
+    "behavior": "Use aria-sort on the enclosing column header and a button inside it."
+  },
+  {
+    "name": "ScrollArea",
+    "category": "Surfaces & layout",
+    "description": "Native scrolling with a short, transparent pink indicator flush to the container edge.",
+    "props": [
+      "label",
+      "height",
+      "maxHeight",
+      "axis",
+      "children"
+    ],
+    "behavior": "The 2px rectangular thumb is at most 28px long. Wheel, touch, keyboard, and thumb dragging work together. No indicator appears when content fits."
+  },
+  {
+    "name": "Panel",
+    "category": "Surfaces & layout",
+    "description": "A titled group of related content with an optional section action.",
+    "props": [
+      "title",
+      "description",
+      "action",
+      "children"
+    ],
+    "behavior": "Use a surface when the content has a distinct purpose, not around every individual item."
+  },
+  {
+    "name": "Card",
+    "category": "Surfaces & layout",
+    "description": "The same surface contract as Panel, with optional content.",
+    "props": [
+      "title",
+      "description",
+      "action",
+      "children"
+    ],
+    "behavior": "Shares Panel geometry and spacing instead of introducing a second card family."
+  },
+  {
+    "name": "CollectionCard",
+    "category": "Surfaces & layout",
+    "description": "A selectable collection preview with a title, description, and metadata.",
+    "props": [
+      "title",
+      "description",
+      "meta",
+      "onClick"
+    ],
+    "behavior": "The full card is one action. Do not nest interactive buttons inside it."
+  },
+  {
+    "name": "LinkTile",
+    "category": "Surfaces & layout",
+    "description": "A compact shortcut with an icon, name, and explanation.",
+    "props": [
+      "title",
+      "description",
+      "icon",
+      "onClick"
+    ],
+    "behavior": "Use for a destination or tool. Keep the title specific enough to predict what opens."
+  },
+  {
+    "name": "Rows",
+    "category": "Surfaces & layout",
+    "description": "A continuous container for related row items.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Use dividers to separate items without giving every row its own card."
+  },
+  {
+    "name": "Row",
+    "category": "Surfaces & layout",
+    "description": "A labeled content row with supporting text and optional action.",
+    "props": [
+      "title",
+      "description",
+      "leading",
+      "trailing",
+      "onClick"
+    ],
+    "behavior": "Passive rows are not buttons. Actionable rows show a chevron and have one clear target."
+  },
+  {
+    "name": "SectionHead",
+    "category": "Surfaces & layout",
+    "description": "A section title, optional description, and one related action.",
+    "props": [
+      "title",
+      "sub",
+      "children"
+    ],
+    "behavior": "Keep the action aligned with its section rather than placing every action in the page header."
+  },
+  {
+    "name": "SidebarShell",
+    "category": "Surfaces & layout",
+    "description": "The main layout with a togglable, labeled sidebar.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Collapsed navigation retains accessible names and tooltips. The full application example adds a mobile drawer."
+  },
+  {
+    "name": "PageBar",
+    "category": "Surfaces & layout",
+    "description": "The page title and its primary action in a shared layout.",
+    "props": [
+      "title",
+      "description",
+      "actions"
+    ],
+    "behavior": "The page should explain where the user is before presenting controls."
+  },
+  {
+    "name": "PageGrid",
+    "category": "Surfaces & layout",
+    "description": "The shared main-content and context-rail composition.",
+    "props": [
+      "children"
+    ],
+    "behavior": "The second column moves below the first when its minimum width is unavailable."
+  },
+  {
+    "name": "CardGrid",
+    "category": "Surfaces & layout",
+    "description": "A responsive grid of collection cards.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Cards use a consistent minimum width, never a screen-specific auto-fill rule."
+  },
+  {
+    "name": "Stack",
+    "category": "Surfaces & layout",
+    "description": "A vertical layout using a deliberate spacing value.",
+    "props": [
+      "children",
+      "gap"
+    ],
+    "behavior": "Choose gaps from the 4px spacing scale. Use Stack instead of repeated margin overrides."
+  },
+  {
+    "name": "DetailHeader",
+    "category": "Surfaces & layout",
+    "description": "An object title, state, explanation, and supporting facts.",
+    "props": [
+      "title",
+      "description",
+      "status",
+      "children"
+    ],
+    "behavior": "Use the same order in project, agent, workflow, and document detail pages."
+  },
+  {
+    "name": "Inspector",
+    "category": "Surfaces & layout",
+    "description": "A searchable list and its selected detail in one reusable component.",
+    "props": [
+      "items"
+    ],
+    "behavior": "The current selection remains visible. On narrow screens the list moves above the detail."
+  },
+  {
+    "name": "Gate",
+    "category": "Surfaces & layout",
+    "description": "The shared access screen with one clear next action.",
+    "props": [
+      "onContinue"
+    ],
+    "behavior": "The demonstration never sends authentication requests. Production sign-in must state the workspace and provider."
+  },
+  {
+    "name": "Loader",
+    "category": "Feedback",
+    "description": "A small geometric loader with a fine traveling stroke.",
+    "props": [
+      "label",
+      "size",
+      "decorative"
+    ],
+    "behavior": "Announces loading once. Uses no fabricated percentage. Reduced-motion preferences stop the animation."
+  },
+  {
+    "name": "PageLoading",
+    "category": "Feedback",
+    "description": "A full-page loading state with clear context and a quiet animated loader.",
+    "props": [
+      "title",
+      "description",
+      "onCancel"
+    ],
+    "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation."
+  },
+  {
+    "name": "Notice",
+    "category": "Feedback",
+    "description": "A contained message with an icon, explanation, and semantic tone.",
+    "props": [
+      "tone",
+      "children"
+    ],
+    "behavior": "Explain what happened and what to do next. Persistent messages belong inline, not in temporary toasts."
+  },
+  {
+    "name": "Toast",
+    "category": "Feedback",
+    "description": "A short confirmation announced without moving keyboard focus.",
+    "props": [
+      "children",
+      "onClose"
+    ],
+    "behavior": "Use for successful actions. Critical failures stay inline until they are resolved."
+  },
+  {
+    "name": "Skeleton",
+    "category": "Feedback",
+    "description": "Static placeholder rows matching the incoming content structure.",
+    "props": [
+      "rows"
+    ],
+    "behavior": "Reserves space without a spinner. Announce loading once, not on every placeholder."
+  },
+  {
+    "name": "LoadingBar",
+    "category": "Feedback",
+    "description": "A determinate progress indicator with a visible value.",
+    "props": [
+      "value",
+      "label"
+    ],
+    "behavior": "A real percentage is required. Do not invent progress when the amount of work is unknown."
+  },
+  {
+    "name": "Refreshing",
+    "category": "Feedback",
+    "description": "A subtle busy treatment over the existing, readable content.",
+    "props": [
+      "busy",
+      "children"
+    ],
+    "behavior": "Keep previous data visible while refreshing. Use aria-busy and one status announcement."
+  },
+  {
+    "name": "StateView",
+    "category": "Feedback",
+    "description": "A unified empty, error, or loading state with a useful next action.",
+    "props": [
+      "state",
+      "onRetry",
+      "onCreate"
+    ],
+    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
+  },
+  {
+    "name": "Tooltip",
+    "category": "Feedback",
+    "description": "A brief explanation available on hover and keyboard focus.",
+    "props": [
+      "label",
+      "children"
+    ],
+    "behavior": "Never place essential instructions only in a tooltip. Use aria-describedby."
+  },
+  {
+    "name": "Popover",
+    "category": "Overlays & editing",
+    "description": "An anchored top-layer surface for a small contextual task.",
+    "props": [
+      "trigger",
+      "children",
+      "label",
+      "open",
+      "onOpenChange"
+    ],
+    "behavior": "Escape and outside clicks close it. The surface stays within the viewport."
+  },
+  {
+    "name": "DropdownMenu",
+    "category": "Overlays & editing",
+    "description": "A keyboard-navigable action menu with optional icons and shortcuts.",
+    "props": [
+      "items",
+      "label"
+    ],
+    "behavior": "Arrow keys move through enabled items. Escape returns to the trigger."
+  },
+  {
+    "name": "Dialog",
+    "category": "Overlays & editing",
+    "description": "A modal decision or focused form using the native dialog layer.",
+    "props": [
+      "open",
+      "onClose",
+      "title",
+      "children"
+    ],
+    "behavior": "Focus stays inside. Escape closes; the opening control regains focus."
+  },
+  {
+    "name": "Sheet",
+    "category": "Overlays & editing",
+    "description": "A side panel for editing without losing the parent context.",
+    "props": [
+      "open",
+      "onClose",
+      "title",
+      "children"
+    ],
+    "behavior": "Shares Dialog focus behavior. It becomes full width on a phone."
+  },
+  {
+    "name": "ConfirmDialog",
+    "category": "Overlays & editing",
+    "description": "An explicit confirmation for a consequential operation.",
+    "props": [
+      "open",
+      "onClose",
+      "onConfirm",
+      "title",
+      "description",
+      "confirmLabel"
+    ],
+    "behavior": "Initial focus starts on the safe Cancel action. Name the action instead of saying Yes."
+  },
+  {
+    "name": "ConfirmStrip",
+    "category": "Overlays & editing",
+    "description": "A contained, in-place confirmation with two clear actions.",
+    "props": [
+      "children",
+      "onConfirm",
+      "onCancel"
+    ],
+    "behavior": "Use only when the action can be understood in the surrounding context."
+  },
+  {
+    "name": "Disclosure",
+    "category": "Overlays & editing",
+    "description": "The bordered information card with a clear header and expandable body.",
+    "props": [
+      "title",
+      "description",
+      "children",
+      "defaultOpen"
+    ],
+    "behavior": "Native details/summary handles Enter and Space. Icon, title, and chevron share one target."
+  },
+  {
+    "name": "SaveBar",
+    "category": "Overlays & editing",
+    "description": "A persistent editing summary with save and discard actions.",
+    "props": [
+      "dirty",
+      "onSave",
+      "onDiscard",
+      "saving"
+    ],
+    "behavior": "Save is unavailable when nothing changed. A failed save should preserve the dirty state and user input."
+  },
+  {
+    "name": "FieldRow",
+    "category": "Overlays & editing",
+    "description": "A setting description aligned with its control.",
+    "props": [
+      "label",
+      "hint",
+      "children"
+    ],
+    "behavior": "The label column has a consistent measure. On mobile the control stacks below the label."
+  },
+  {
+    "name": "SheetSection",
+    "category": "Overlays & editing",
+    "description": "A reusable section within a sheet or detail panel.",
+    "props": [
+      "title",
+      "description",
+      "children"
+    ],
+    "behavior": "Group a few related fields under a specific title. Avoid repeating a border around every field."
+  },
+  {
+    "name": "CopyBlock",
+    "category": "Overlays & editing",
+    "description": "A readable code or value block with a copy action.",
+    "props": [
+      "children"
+    ],
+    "behavior": "The control confirms a successful clipboard write. The text remains selectable when clipboard permission is unavailable."
+  },
+  {
+    "name": "ReadableDoc",
+    "category": "Documents & operations",
+    "description": "A readable article with consistent headings and paragraph rhythm.",
+    "props": [
+      "title",
+      "children"
+    ],
+    "behavior": "Keep prose within 64 to 72 characters and use 1.75 line height."
+  },
+  {
+    "name": "Markdown",
+    "category": "Documents & operations",
+    "description": "An escaped renderer for headings, paragraphs, lists, and fenced code.",
+    "props": [
+      "children"
+    ],
+    "behavior": "This implementation supports a documented Markdown subset and never renders raw HTML."
+  },
+  {
+    "name": "Timeline",
+    "category": "Documents & operations",
+    "description": "A sequence of updates with content and time labels.",
+    "props": [
+      "items"
+    ],
+    "behavior": "The order is meaningful. Do not rely on the connecting line to communicate chronology."
+  },
+  {
+    "name": "Steps",
+    "category": "Documents & operations",
+    "description": "A visible sequence with current and completed states.",
+    "props": [
+      "steps",
+      "current",
+      "onChange"
+    ],
+    "behavior": "Current step uses aria-current. Completion has a check icon and text label."
+  },
+  {
+    "name": "ColumnChart",
+    "category": "Documents & operations",
+    "description": "A labeled comparison of values with a data-table alternative.",
+    "props": [
+      "data"
+    ],
+    "behavior": "Use a zero baseline. Values and category labels are visible; color is supplementary."
+  },
+  {
+    "name": "Sparkline",
+    "category": "Documents & operations",
+    "description": "A small trend line with an accessible data summary.",
+    "props": [
+      "data"
+    ],
+    "behavior": "Use it to support a metric, not as the only way to understand the numbers."
+  },
+  {
+    "name": "StackedBar",
+    "category": "Documents & operations",
+    "description": "A part-to-whole comparison with a labeled legend and data table.",
+    "props": [
+      "data"
+    ],
+    "behavior": "Categories use the dedicated chart palette. Totals and category values remain available as text."
+  },
+  {
+    "name": "BarList",
+    "category": "Documents & operations",
+    "description": "A ranked or ordered set of values with horizontal bars.",
+    "props": [
+      "data"
+    ],
+    "behavior": "Labels and values align consistently. The bar width is proportional to the maximum value."
+  },
+  {
+    "name": "Calendar",
+    "category": "Documents & operations",
+    "description": "A month grid with date selection and keyboard navigation.",
+    "props": [
+      "onSelect"
+    ],
+    "behavior": "Previous/next change the month. Arrow keys move by day or week and preserve focus."
+  },
+  {
+    "name": "DayTimeline",
+    "category": "Documents & operations",
+    "description": "A time-based view of a day with selectable events.",
+    "props": [
+      "onSelect"
+    ],
+    "behavior": "Display the timezone. Event details remain available through normal buttons."
+  },
+  {
+    "name": "KanbanBoard",
+    "category": "Documents & operations",
+    "description": "A task board supporting pointer drag and an explicit move control.",
+    "props": [
+      "none"
+    ],
+    "behavior": "Every card can be moved with its dropdown, so drag-and-drop is never required."
+  },
+  {
+    "name": "ProjectStatusSheet",
+    "category": "Documents & operations",
+    "description": "The shared project-status editor for Workspace and Knowledge.",
+    "props": [
+      "open",
+      "onClose",
+      "project",
+      "onSave"
+    ],
+    "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
+  }
+]
