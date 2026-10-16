@@ -111,8 +111,8 @@ export function SidebarShell({ tool, sections = [], spaces, account, onHelp, cru
       </ScrollArea>
       <div className="sidebar-bottom">
         {onHelp && (folded && !inDrawer
-          ? <IconButton className="sidebar-help" label="Help and shortcuts" onClick={pick(onHelp)}><CircleHelp size={14} /></IconButton>
-          : <button type="button" title="Help and shortcuts" aria-label="Help and shortcuts" className="help-link" onClick={pick(onHelp)}><CircleHelp size={16} /> Help &amp; shortcuts</button>)}
+          ? <IconButton className="sidebar-help" label="Help and shortcuts" data-tour="help" onClick={pick(onHelp)}><CircleHelp size={14} /></IconButton>
+          : <button type="button" title="Help and shortcuts" aria-label="Help and shortcuts" className="help-link" data-tour="help" onClick={pick(onHelp)}><CircleHelp size={16} /> Help &amp; shortcuts</button>)}
         {account && (account.menu ?? (
           <button type="button" aria-label="Your account" title="Your account" className="profile" onClick={account.onOpen}>
             <span className="avatar lilac" aria-hidden="true">{account.initials ?? initialsOf(account.name)}</span>

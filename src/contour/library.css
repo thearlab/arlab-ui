@@ -2703,6 +2703,8 @@ button.lib-row:hover {
 .page-frame .filter-bar > .search-field { flex: 0 1 320px; }
 .contour-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
 .contour-tabs::-webkit-scrollbar { display: none; }
+/* Page tabs stay one row on a phone and scroll sideways (the library switcher stacks; tabs do not). */
+@media (max-width: 559px) { .lib-app-switcher.contour-tabs { flex-direction: row; width: max-content; max-width: 100%; align-items: center; } }
 .contour-tabs > button { flex-shrink: 0; white-space: nowrap; background: none; cursor: pointer; }
 .contour-tabs > button:hover:not(:disabled) { color: var(--ink); }
 .contour-tabs > button[aria-selected="true"] { background: var(--raise); border-color: var(--line); color: var(--link); }
