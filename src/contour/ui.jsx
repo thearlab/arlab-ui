@@ -20,13 +20,15 @@ import {
 } from "lucide-react";
 import { ScrollArea } from "./scroll-area.js";
 
-export function Button({ children, variant = "", className = "", ...props }) {
+/** @param {{children?: import('react').ReactNode, variant?: ''|'primary'|'quiet'|'ghost'|'danger'|'secondary', size?: 'sm'|'md', className?: string, [key: string]: any}} props */
+export function Button({ children, variant = "", size = "md", className = "", ...props }) {
   return (
-    <button type="button" className={`btn ${variant} ${className}`} {...props}>
+    <button type="button" className={`btn ${variant} ${size === "sm" ? "small" : ""} ${className}`} {...props}>
       {children}
     </button>
   );
 }
+/** @param {{label: string, children?: import('react').ReactNode, className?: string, [key: string]: any}} props */
 export function IconButton({ label, children, className = "", ...props }) {
   return (
     <button
@@ -57,14 +59,22 @@ export function Logo({ small = false }) {
     </span>
   );
 }
-export function Avatar({ initials = "AM", color = "lilac", name }) {
+/** @param {{initials?: string, color?: string, name?: string, size?: number}} props */
+export function Avatar({ initials, color = "lilac", name, size }) {
+  const shown = initials || (name ? initialsFrom(name) : "AM");
   return (
-    <span className={`avatar ${color}`} aria-label={name}>
-      {initials}
+    <span className={`avatar ${color}`} aria-label={name} style={size ? { width: size, height: size } : undefined}>
+      {shown}
     </span>
   );
 }
-export function Status({ children, tone }) {
+/** @param {{children?: import('react').ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet', dot?: boolean, className?: string, title?: string}} props */
+/** Initials from a name or an email ("laure@thearlab.com" -> "L"). */
+export function initialsFrom(name) {
+  const base = String(name).includes("@") ? String(name).split("@")[0].replace(/[._-]+/g, " ") : String(name);
+  return base.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
+}
+export function Status({ children, tone, dot = true, className = "", title }) {
   const tones = {
     "In progress": "info",
     "In review": "warn",
@@ -77,12 +87,13 @@ export function Status({ children, tone }) {
   };
   const t = tone || tones[children] || "quiet";
   return (
-    <span className={`status ${t}`}>
-      <span className="status-dot" />
+    <span className={`status ${t} ${className}`} title={title}>
+      {dot && <span className="status-dot" />}
       {children}
     </span>
   );
 }
+/** @param {{title: import('react').ReactNode, sub?: import('react').ReactNode, children?: import('react').ReactNode}} props */
 export function SectionHead({ title, sub, children }) {
   return (
     <div className="section-head">
@@ -94,6 +105,7 @@ export function SectionHead({ title, sub, children }) {
     </div>
   );
 }
+/** @param {{children?: import('react').ReactNode, [key: string]: any}} props */
 export function TextAction({ children, ...props }) {
   return (
     <button className="text-action" {...props}>
@@ -102,6 +114,7 @@ export function TextAction({ children, ...props }) {
     </button>
   );
 }
+/** @param {{value: number, label?: string}} props */
 export function Meter({ value, label }) {
   return (
     <span className="meter-wrap">
@@ -119,6 +132,7 @@ export function Meter({ value, label }) {
     </span>
   );
 }
+/** @param {{open: boolean, onClose: () => void, title?: import('react').ReactNode, children?: import('react').ReactNode, sheet?: boolean, className?: string, footer?: import('react').ReactNode, description?: import('react').ReactNode}} props */
 export function Modal({
   open,
   onClose,
@@ -126,6 +140,8 @@ export function Modal({
   children,
   sheet = false,
   className = "",
+  footer,
+  description,
 }) {
   const ref = useRef(null),
     id = useId();
@@ -159,7 +175,8 @@ export function Modal({
           <X size={18} />
         </IconButton>
       </div>
-      {open && <div className="modal-body">{children}</div>}
+      {open && <div className="modal-body">{description && <p className="modal-description">{description}</p>}{children}</div>}
+      {open && footer && <div className="modal-actions">{footer}</div>}
     </dialog>
   );
 }
@@ -177,6 +194,7 @@ export function ProjectMark({ color = "sage", size = "" }) {
     </span>
   );
 }
+/** @param {{tone?: 'ok'|'warn'|'bad'|'info', children?: import('react').ReactNode}} props */
 export function Notice({ tone = "info", children }) {
   return (
     <div className={`notice ${tone}`}>
@@ -191,6 +209,7 @@ export function Notice({ tone = "info", children }) {
     </div>
   );
 }
+/** @param {{title?: import('react').ReactNode, description?: import('react').ReactNode, children?: import('react').ReactNode}} props */
 export function EmptyState({
   title = "Nothing here yet",
   description,
@@ -208,6 +227,7 @@ export function EmptyState({
   );
 }
 
+/** @param {{onChange?: (file: File|null) => void, maxSize?: number, disabled?: boolean}} props */
 export function FileUpload({
   onChange,
   maxSize = 10 * 1024 * 1024,
@@ -353,6 +373,7 @@ function PlusSymbol() {
   );
 }
 
+/** @param {{children?: import('react').ReactNode, options?: {value: string, label: import('react').ReactNode, disabled?: boolean, count?: number|string, description?: string}[], value?: string, defaultValue?: string, onChange?: (e: {target: {value: string, name?: string}, currentTarget: {value: string, name?: string}}) => void, placeholder?: string, searchable?: boolean, disabled?: boolean, name?: string, className?: string, prefix?: string, 'aria-label'?: string, 'aria-invalid'?: boolean, 'aria-describedby'?: string, id?: string, required?: boolean}} props */
 export function Dropdown({
   children,
   options: supplied,
@@ -367,6 +388,7 @@ export function Dropdown({
   "aria-label": label,
   "aria-invalid": invalid,
   "aria-describedby": describedBy,
+  prefix,
   ...rest
 }) {
   const options =
@@ -532,7 +554,7 @@ export function Dropdown({
           }
         }}
       >
-        <span>{selected?.label || placeholder}</span>
+        <span>{prefix && <small className="dropdown-prefix">{prefix}</small>}{selected?.label || placeholder}</span>
         <ChevronDown size={15} className={open ? "rotated" : ""} />
       </button>
       {open && (

@@ -3,3 +3,4 @@ export { Logo, Status, Modal, TextAction, ProjectMark, EmptyState } from './ui.j
 export { Icon, iconRegistry } from './icons.js';
 export { ContourProvider } from './provider.js';
 export { tokensFor } from './system.js';
+export * from './app.js';

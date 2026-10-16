@@ -950,7 +950,8 @@ export function DetailHeader({ title, description, status, children }) {
     </div>
   );
 }
-export function SidebarShell({ children }) {
+/** The catalogue's demo of the collapsible shell. Apps use SidebarShell (app.tsx), which takes real data. */
+export function SidebarShellDemo({ children }) {
   const [collapsed, setCollapsed] = useState(false),
     [page, setPage] = useState("Overview");
   return (

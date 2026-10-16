@@ -19,6 +19,7 @@ export function scrollThumbMetrics(viewport, content, position) {
   };
 }
 
+/** @param {{children?: import('react').ReactNode, label?: string, height?: number|string, maxHeight?: number|string, axis?: 'vertical'|'horizontal'|'both', className?: string, contentClassName?: string, tabIndex?: number}} props */
 export function ScrollArea({
   children,
   label = "Scrollable content",
