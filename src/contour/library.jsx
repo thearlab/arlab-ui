@@ -75,9 +75,11 @@ export function TextLink({ children, ...props }) {
 export function Kbd({ children }) {
   return <kbd>{children}</kbd>;
 }
+/** @param {import('react').InputHTMLAttributes<HTMLInputElement>} props */
 export function Input(props) {
   return <input className="lib-input" {...props} />;
 }
+/** @param {import('react').TextareaHTMLAttributes<HTMLTextAreaElement>} props */
 export function Textarea(props) {
   return <textarea className="lib-input" rows={3} {...props} />;
 }
@@ -110,7 +112,7 @@ export function Field({ label, hint, error, required, children }) {
     </div>
   );
 }
-/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode, [key: string]: any}} props */
+/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode} & Omit<import('react').InputHTMLAttributes<HTMLInputElement>, 'type'>} props */
 export function Checkbox({ label, hint, ...props }) {
   return (
     <label className="lib-choice">
@@ -130,7 +132,7 @@ export function Radio({ label, ...props }) {
     </label>
   );
 }
-/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode, [key: string]: any}} props */
+/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode} & Omit<import('react').InputHTMLAttributes<HTMLInputElement>, 'type'>} props */
 export function Switch({ label, hint, ...props }) {
   return (
     <label className="switch-row">
@@ -228,11 +230,13 @@ export function Chip({ children, onRemove }) {
     </span>
   );
 }
-/** @param {{children?: import('react').ReactNode, selected?: boolean, onClick?: () => void}} props */
-export function PillButton({ children, selected, onClick }) {
+/** @param {{children?: import('react').ReactNode, selected?: boolean} & import('react').ButtonHTMLAttributes<HTMLButtonElement>} props */
+export function PillButton({ children, selected, onClick, className = "", ...props }) {
   return (
     <button
-      className={`lib-pill-button ${selected ? "selected" : ""}`}
+      type="button"
+      {...props}
+      className={`lib-pill-button ${selected ? "selected" : ""} ${className}`}
       aria-pressed={selected}
       onClick={onClick}
     >
@@ -614,6 +618,7 @@ export function Popover({
     </span>
   );
 }
+/** @param {{items: {label: string, onSelect?: () => void, disabled?: boolean, danger?: boolean, icon?: any, shortcut?: string}[], label?: string, trigger?: import('react').ReactNode, header?: import('react').ReactNode}} props */
 export function DropdownMenu({ items, label = "Actions", trigger, header }) {
   return (
     <Popover

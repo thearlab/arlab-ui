@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { ScrollArea } from "./scroll-area.js";
 
-/** @param {{children?: import('react').ReactNode, variant?: ''|'primary'|'quiet'|'ghost'|'danger'|'secondary', size?: 'sm'|'md', className?: string, [key: string]: any}} props */
+/** @param {{children?: import('react').ReactNode, variant?: ''|'primary'|'quiet'|'ghost'|'danger', size?: 'sm'|'md'} & import('react').ButtonHTMLAttributes<HTMLButtonElement>} props */
 export function Button({ children, variant = "", size = "md", className = "", ...props }) {
   return (
     <button type="button" className={`btn ${variant} ${size === "sm" ? "small" : ""} ${className}`} {...props}>
@@ -28,7 +28,7 @@ export function Button({ children, variant = "", size = "md", className = "", ..
     </button>
   );
 }
-/** @param {{label: string, children?: import('react').ReactNode, className?: string, [key: string]: any}} props */
+/** @param {{label: string, children?: import('react').ReactNode} & import('react').ButtonHTMLAttributes<HTMLButtonElement>} props */
 export function IconButton({ label, children, className = "", ...props }) {
   return (
     <button
@@ -68,13 +68,14 @@ export function Avatar({ initials, color = "lilac", name, size }) {
     </span>
   );
 }
-/** @param {{children?: import('react').ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet'|'default'|'strong'|'fresh', dot?: boolean, className?: string, title?: string}} props */
-/** Initials from a name or an email ("laure@thearlab.com" -> "L"). */
+/** Initials from a name or an email ("laure@thearlab.com" -> "L").
+ * @param {string} name */
 export function initialsFrom(name) {
   const base = String(name).includes("@") ? String(name).split("@")[0].replace(/[._-]+/g, " ") : String(name);
   return base.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
 }
-export function Status({ children, tone, dot = true, className = "", title }) {
+/** @param {{children?: import('react').ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet'|'default'|'strong'|'fresh', dot?: boolean, className?: string, title?: string, role?: string}} props */
+export function Status({ children, tone, dot = true, className = "", title, role }) {
   const tones = {
     "In progress": "info",
     "In review": "warn",
@@ -89,7 +90,7 @@ export function Status({ children, tone, dot = true, className = "", title }) {
   const aliases = { default: "quiet", strong: "quiet", fresh: "info" };
   const t = aliases[tone] || tone || tones[children] || "quiet";
   return (
-    <span className={`status ${t} ${className}`} title={title}>
+    <span className={`status ${t} ${className}`} title={title} role={role}>
       {dot && <span className="status-dot" />}
       {children}
     </span>
@@ -107,7 +108,7 @@ export function SectionHead({ title, sub, children }) {
     </div>
   );
 }
-/** @param {{children?: import('react').ReactNode, [key: string]: any}} props */
+/** @param {{children?: import('react').ReactNode} & import('react').ButtonHTMLAttributes<HTMLButtonElement>} props */
 export function TextAction({ children, ...props }) {
   return (
     <button className="text-action" {...props}>

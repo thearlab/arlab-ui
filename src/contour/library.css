@@ -2715,3 +2715,21 @@ button.lib-row:hover {
 .btn.small { min-height: 32px; padding: 6px 11px; font-size: 11px; }
 .lib-page-grid.cols-12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
 @media (max-width: 900px) { .lib-page-grid.cols-12 > .page-col { grid-column: span 12 !important; } }
+
+/* ---- 2.0.0-beta.2: 1.x token names, so apps migrate their own stylesheets gradually (Studio, Docs, dashboard).
+   Built into `.arlab-contour` with the rest; each name points at its Contour token. Remove an alias when no app uses it. */
+:root {
+  --ink-dim: var(--dim); --ink-faint: var(--dim); --ink-inactive: var(--dim);
+  --line-soft: var(--line); --line-hover: var(--strong);
+  --crit: var(--bad); --crit-tint: var(--badTint); --crit-soft: var(--badTint);
+  --live: var(--ok); --live-tint: var(--okTint); --warn-tint: var(--warnTint); --info-tint: var(--infoTint);
+  --action-ink: var(--actionInk); --action-hover: var(--actionHover);
+  --radius-md: var(--radius-sm); --radius-xl: var(--radius-lg); --radius-pill: 999px;
+  --surface-hover: var(--sunken); --sunken-2: var(--sunken);
+  --shadow: 0 1px 2px rgba(36, 33, 42, 0.05); --shadow-card: var(--shadow);
+  --text-2xs: 11px; --text-section: 15px;
+  --weight-regular: 400; --weight-medium: 500; --weight-strong: 600;
+  --type-section-title: 600 15px/1.5 var(--font-sans);
+  --tracking-tight: -0.02em; --leading-relaxed: 1.75;
+  --rhythm-sm: 12px; --rhythm: 24px; --gutter: 20px;
+}
