@@ -18,6 +18,8 @@ export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 export { Select } from './Select';
 export { SearchField } from './SearchField';
+export { ScrollArea, scrollThumbMetrics } from './ScrollArea';
+export type { ScrollAreaProps } from './ScrollArea';
 export type { SearchFieldProps } from './SearchField';
 export type { SelectProps } from './Select';
 export { Checkbox } from './Checkbox';

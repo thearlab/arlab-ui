@@ -371,6 +371,22 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 
 .arlab-textarea { resize: vertical; min-height: 100px; line-height: var(--leading-normal); }
 
+/* ---- ScrollArea: native scrolling, a short 2px indicator on the edge (as @arlab/ui 2.0.0-beta.1). ---- */
+.arlab-scroll-shell { position: relative; display: grid; min-width: 0; min-height: 0; }
+.arlab-scroll-viewport { min-width: 0; min-height: 0; max-height: inherit; overflow: auto; overscroll-behavior: contain; scrollbar-width: none !important; scrollbar-gutter: auto; }
+.arlab-scroll-viewport::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.arlab-scroll-viewport:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.arlab-scroll-shell[data-axis="vertical"] > .arlab-scroll-viewport { overflow-x: hidden; }
+.arlab-scroll-shell[data-axis="horizontal"] > .arlab-scroll-viewport { overflow-y: hidden; }
+.arlab-scroll-thumb { position: absolute; z-index: 2; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; touch-action: none; user-select: none; }
+.arlab-scroll-thumb.vertical { width: 10px; right: 0; cursor: ns-resize; }
+.arlab-scroll-thumb.horizontal { height: 10px; bottom: 0; cursor: ew-resize; }
+.arlab-scroll-thumb::after { content: ""; position: absolute; background: var(--scrollbar-thumb); transition: background var(--dur-fast); }
+.arlab-scroll-thumb.vertical::after { width: 2px; top: 0; bottom: 0; right: 0; }
+.arlab-scroll-thumb.horizontal::after { height: 2px; left: 0; right: 0; bottom: 0; }
+.arlab-scroll-thumb:hover::after, .arlab-scroll-thumb:active::after { background: var(--scrollbar-hover); }
+@media (forced-colors: active) { .arlab-scroll-thumb::after { background: ButtonText; } }
+
 /* ---- SearchField: a search input with its icon and a clear button ---- */
 .arlab-search-field { display: flex; align-items: center; gap: 8px; min-height: var(--control-h); border: 1px solid var(--strong); background: var(--raise); border-radius: var(--radius-sm); color: var(--dim); padding: 0 11px; box-sizing: border-box; font-family: var(--font-sans); }
 .arlab-search-field:focus-within { outline: none; border-color: var(--focus); box-shadow: 0 0 0 2px var(--accent-soft); }

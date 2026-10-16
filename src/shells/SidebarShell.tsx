@@ -6,6 +6,7 @@ import { ThemeToggle } from '../ThemeToggle';
 import { Icon } from '../icons';
 import { Avatar } from '../Avatar';
 import { DropdownMenu } from '../DropdownMenu';
+import { ScrollArea } from '../ScrollArea';
 import { Brand, type ShellAccount, type ShellBrand } from './parts';
 
 export interface NavItem {
@@ -26,7 +27,7 @@ export interface NavSection { label: string; items: NavItem[] }
 export interface SidebarShellProps {
   brand: ShellBrand;
   nav: {
-    /** The small line under the brand, e.g. "The ARLAB team". */
+    /** The tool's name, under the brand in the fixed header (e.g. "Internal dashboard"). */
     label?: string;
     /** The applications (this app and its siblings); the current one sits on the soft pink tint. */
     apps?: NavItem[];
@@ -83,7 +84,9 @@ export function SidebarShell({ brand, nav, recent, account, help, topbar, loadin
   const [drawer, setDrawer] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => { setOverride(null); }, [autoCollapse]);
-  const min = collapsed ?? (aside ? true : override ?? (autoCollapse ? true : pref));
+  const [narrow, setNarrow] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 1099px)').matches);
+  useEffect(() => { const m = window.matchMedia('(max-width: 1099px)'); const u = () => { setNarrow(m.matches); if (!m.matches) setDrawer(false); }; m.addEventListener('change', u); return () => m.removeEventListener('change', u); }, []);
+  const min = narrow || (collapsed ?? (aside ? true : override ?? (autoCollapse ? true : pref)));
   const toggle = () => {
     // Between 760 and 1099px the sidebar is always folded: its button opens the full menu as the drawer.
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1099px)').matches) { setDrawer(true); return; }
@@ -102,34 +105,37 @@ export function SidebarShell({ brand, nav, recent, account, help, topbar, loadin
   const wrap = (items: NavItem[]) => items.map((i) => ({ ...i, onSelect: go(i.onSelect) }));
   const recentSection: NavSection | null = recent?.length ? { label: 'Recent', items: recent.map((r) => ({ id: r.id, label: r.label, dot: r.dot, onSelect: r.onSelect })) } : null;
 
+  const folded = min;
   const sidebar = (inDrawer: boolean) => (
-    <aside className={`arlab-sidebar${min && !inDrawer ? ' collapsed' : ''}`} aria-label="Main navigation">
-      <div className="arlab-sidebar-brand">
-        <Brand {...brand} />
-        {!inDrawer && (
-          <button type="button" className="arlab-icon-btn bordered arlab-sidebar-collapse" onClick={toggle} aria-expanded={!min} aria-label={min ? 'Expand main navigation' : 'Collapse main navigation'} title={min ? 'Expand  ⌘\\' : 'Collapse  ⌘\\'}>
-            <Icon name={min ? 'PanelLeftOpen' : 'PanelLeftClose'} size={14} />
-          </button>
+    <aside className={`arlab-sidebar${folded && !inDrawer ? ' collapsed' : ''}`} aria-label="Main navigation">
+      <header className="arlab-sidebar-fixed-header">
+        <div className="arlab-sidebar-brand">
+          <Brand {...brand} />
+          {!inDrawer && (
+            <button type="button" className="arlab-icon-btn arlab-sidebar-collapse" onClick={toggle} aria-expanded={!folded} aria-label={folded ? 'Expand main navigation' : 'Collapse main navigation'} title={folded ? 'Expand  ⌘\\' : 'Collapse  ⌘\\'}>
+              <Icon name={folded ? 'PanelLeftOpen' : 'PanelLeftClose'} size={14} />
+            </button>
+          )}
+        </div>
+        {nav.label && <div className="arlab-sidebar-tool-name">{nav.label}</div>}
+      </header>
+      <ScrollArea className="arlab-sidebar-navigation-scroll" label="Main navigation sections">
+        {nav.apps && nav.apps.length > 0 && (
+          <section className="arlab-sidebar-section" aria-label="Applications">
+            <h2 className="arlab-nav-group-label">Applications</h2>
+            <div className="arlab-app-switcher">{wrap(nav.apps).map((i) => <NavButton key={i.id} item={i} kind="app" />)}</div>
+          </section>
         )}
-      </div>
-      {nav.label && <span className="arlab-workspace-label">{nav.label}</span>}
-      {nav.apps && nav.apps.length > 0 && (
-        <section className="arlab-sidebar-section" aria-label="Applications">
-          <h2 className="arlab-nav-group-label">Applications</h2>
-          <div className="arlab-app-switcher">{wrap(nav.apps).map((i) => <NavButton key={i.id} item={i} kind="app" />)}</div>
-        </section>
-      )}
-      <div className="arlab-sidebar-scroll">
         {nav.items.length > 0 && (
           <section className="arlab-sidebar-section" aria-label={nav.itemsLabel ?? 'Workspace'}>
             <h2 className="arlab-nav-group-label">{nav.itemsLabel ?? 'Workspace'}</h2>
-            <nav className="arlab-workspace-navigation">{wrap(nav.items).map((i) => <NavButton key={i.id} item={i} kind="nav" />)}</nav>
+            <nav className="arlab-workspace-navigation" aria-label={`${nav.itemsLabel ?? 'Workspace'} pages`}>{wrap(nav.items).map((i) => <NavButton key={i.id} item={i} kind="nav" />)}</nav>
           </section>
         )}
         {(nav.groups ?? []).filter((g) => g.items.length).map((g) => (
           <section key={g.label} className="arlab-sidebar-section" aria-label={g.label}>
             <h2 className="arlab-nav-group-label">{g.label}</h2>
-            <nav className="arlab-workspace-navigation">{wrap(g.items).map((i) => <NavButton key={i.id} item={i} kind="nav" />)}</nav>
+            <nav className="arlab-workspace-navigation" aria-label={g.label}>{wrap(g.items).map((i) => <NavButton key={i.id} item={i} kind="nav" />)}</nav>
           </section>
         ))}
         {[nav.spaces, recentSection].filter((x): x is NavSection => !!x && x.items.length > 0).map((g) => (
@@ -138,9 +144,11 @@ export function SidebarShell({ brand, nav, recent, account, help, topbar, loadin
             {wrap(g.items).map((i) => <NavButton key={i.id} item={i} kind="space" />)}
           </section>
         ))}
-      </div>
+      </ScrollArea>
       <div className="arlab-sidebar-bottom">
-        {help && <button type="button" className="arlab-help-link" onClick={go(help.onSelect)} title={help.label ?? 'Help & shortcuts'}><Icon name="CircleHelp" size={16} /><span>{help.label ?? 'Help & shortcuts'}</span></button>}
+        {help && (folded && !inDrawer
+          ? <button type="button" className="arlab-icon-btn arlab-sidebar-help" onClick={go(help.onSelect)} aria-label={help.label ?? 'Help and shortcuts'} data-tip={help.label ?? 'Help and shortcuts'}><Icon name="CircleHelp" size={14} /></button>
+          : <button type="button" className="arlab-help-link" onClick={go(help.onSelect)} title={help.label ?? 'Help & shortcuts'}><Icon name="CircleHelp" size={16} /><span>{help.label ?? 'Help & shortcuts'}</span></button>)}
         <DropdownMenu
           align="start"
           items={account.menu}
@@ -160,10 +168,7 @@ export function SidebarShell({ brand, nav, recent, account, help, topbar, loadin
     <div className={`arlab-app${min ? ' nav-collapsed' : ''}${aside ? ' has-aside' : ''}`}>
       {sidebar(false)}
       <dialog ref={dialog} className="arlab-nav-drawer" aria-label="Main navigation" onClose={() => setDrawer(false)} onClick={(e) => { if (e.target === e.currentTarget) setDrawer(false); }}>
-        <div className="arlab-nav-drawer-head">
-          <Brand {...brand} />
-          <button type="button" className="arlab-icon-btn bordered" onClick={() => setDrawer(false)} aria-label="Close navigation"><Icon name="X" size={14} /></button>
-        </div>
+        <button type="button" className="arlab-icon-btn arlab-nav-drawer-close" onClick={() => setDrawer(false)} aria-label="Close navigation"><Icon name="X" size={14} /></button>
         {drawer && sidebar(true)}
       </dialog>
       <div className="arlab-main">
