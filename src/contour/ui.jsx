@@ -135,7 +135,7 @@ export function Meter({ value, label }) {
     </span>
   );
 }
-/** @param {{open: boolean, onClose: () => void, title?: import('react').ReactNode, children?: import('react').ReactNode, sheet?: boolean, className?: string, footer?: import('react').ReactNode, description?: import('react').ReactNode}} props */
+/** @param {{open: boolean, onClose: () => void, title?: import('react').ReactNode, children?: import('react').ReactNode, sheet?: boolean, className?: string, footer?: import('react').ReactNode, description?: import('react').ReactNode, kicker?: import('react').ReactNode}} props */
 export function Modal({
   open,
   onClose,
@@ -145,6 +145,7 @@ export function Modal({
   className = "",
   footer,
   description,
+  kicker,
 }) {
   const ref = useRef(null),
     id = useId();
@@ -173,7 +174,7 @@ export function Modal({
       }}
     >
       <div className="modal-head">
-        <h2 id={id}>{title}</h2>
+        <div className="modal-titles">{kicker && <span className="modal-kicker">{kicker}</span>}<h2 id={id}>{title}</h2></div>
         <IconButton label="Close dialog" onClick={onClose}>
           <X size={18} />
         </IconButton>

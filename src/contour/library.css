@@ -2733,3 +2733,5 @@ button.lib-row:hover {
   --tracking-tight: -0.02em; --leading-relaxed: 1.75;
   --rhythm-sm: 12px; --rhythm: 24px; --gutter: 20px;
 }
+.modal .modal-titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.modal .modal-kicker { font-size: 11px; color: var(--dim); }

@@ -88,7 +88,7 @@ export function SidebarShell({ tool, sections = [], spaces, account, onHelp, cru
             <h2 className="nav-group-label">{s.label}</h2>
             <nav className="workspace-navigation" aria-label={`${s.label} pages`}>
               {s.items.map((i) => (
-                <button key={i.id} type="button" title={i.label} aria-label={i.label} className={i.active ? 'active' : ''} aria-current={i.active ? 'page' : undefined} onClick={pick(i.onSelect)}>
+                <button key={i.id} type="button" title={i.label} aria-label={i.label} className={i.active ? 'active' : ''} aria-current={i.active ? 'page' : undefined} data-tour={`nav-${i.id}`} onClick={pick(i.onSelect)}>
                   {i.icon}
                   <span>{i.label}</span>
                   {typeof i.count === 'number' && <span className="nav-count">{i.count}</span>}
@@ -101,7 +101,7 @@ export function SidebarShell({ tool, sections = [], spaces, account, onHelp, cru
           <section className="sidebar-secondary sidebar-section" aria-label={spaces.label}>
             <h2 className="nav-group-label">{spaces.label}</h2>
             {spaces.items.map((i) => (
-              <button key={i.id} type="button" title={i.label} aria-label={i.label} className={i.active ? 'active' : ''} aria-current={i.active ? 'page' : undefined} onClick={pick(i.onSelect)}>
+              <button key={i.id} type="button" title={i.label} aria-label={i.label} className={i.active ? 'active' : ''} aria-current={i.active ? 'page' : undefined} data-tour={`nav-${i.id}`} onClick={pick(i.onSelect)}>
                 <span className="space-dot" style={i.dot ? { background: i.dot } : undefined} />
                 {i.label}
               </button>

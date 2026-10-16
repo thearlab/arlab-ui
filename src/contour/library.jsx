@@ -76,12 +76,12 @@ export function Kbd({ children }) {
   return <kbd>{children}</kbd>;
 }
 /** @param {import('react').InputHTMLAttributes<HTMLInputElement>} props */
-export function Input(props) {
-  return <input className="lib-input" {...props} />;
+export function Input({ className = "", ...props }) {
+  return <input {...props} className={`lib-input ${className}`} />;
 }
 /** @param {import('react').TextareaHTMLAttributes<HTMLTextAreaElement>} props */
-export function Textarea(props) {
-  return <textarea className="lib-input" rows={3} {...props} />;
+export function Textarea({ className = "", ...props }) {
+  return <textarea rows={3} {...props} className={`lib-input ${className}`} />;
 }
 /** @param {{label: import('react').ReactNode, hint?: import('react').ReactNode, error?: import('react').ReactNode, required?: boolean, children?: import('react').ReactNode}} props */
 export function Field({ label, hint, error, required, children }) {
