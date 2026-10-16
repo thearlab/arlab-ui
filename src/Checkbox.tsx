@@ -12,7 +12,7 @@ export function Checkbox({ label, className = '', id, ...rest }: CheckboxProps) 
     <label className={['arlab-checkbox', className].filter(Boolean).join(' ')} htmlFor={id}>
       <input type="checkbox" id={id} {...rest} />
       <span className="arlab-checkbox-box">
-        <CheckIcon size={13} strokeWidth={2.5} />
+        <CheckIcon size={12} strokeWidth={2.25} />
       </span>
       {label}
     </label>

@@ -422,47 +422,36 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 }
 
 /* ---- Checkbox -------------------------------------------------------- */
-.arlab-checkbox { position: relative; display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); cursor: pointer; user-select: none; }
-.arlab-checkbox input { position: absolute; inset: 0; width: 20px; height: 20px; opacity: 0; margin: 0; cursor: pointer; }
+.arlab-checkbox, .arlab-radio { position: relative; display: inline-flex; align-items: center; gap: 9px; min-height: 32px; line-height: 20px; font-family: var(--font-sans); font-size: var(--text-xs); color: var(--ink); cursor: pointer; user-select: none; }
+.arlab-checkbox:has(input:disabled), .arlab-radio:has(input:disabled) { color: var(--dim); cursor: not-allowed; }
+.arlab-checkbox input, .arlab-radio input { position: absolute; left: 0; top: 50%; translate: 0 -50%; width: 16px; height: 16px; opacity: 0; margin: 0; cursor: pointer; }
 .arlab-checkbox-box {
-  width: 20px; height: 20px; border-radius: var(--radius-xs); border: 1.5px solid var(--line-hover); background: var(--raise);
-  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff;
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  width: 16px; height: 16px; border-radius: var(--radius-xs); border: 1px solid var(--strong); background: var(--raise); box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 16px; color: var(--action-ink);
 }
-.arlab-checkbox-box svg { opacity: 0; transform: scale(0.5); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
-.arlab-checkbox input:checked ~ .arlab-checkbox-box { background: var(--accent); border-color: var(--accent); }
-.arlab-checkbox input:checked ~ .arlab-checkbox-box svg { opacity: 1; transform: scale(1); }
-.arlab-checkbox input:focus-visible ~ .arlab-checkbox-box { outline: 2px solid var(--focus); outline-offset: 2px; }
-.arlab-checkbox input:disabled ~ .arlab-checkbox-box { opacity: 0.5; cursor: not-allowed; }
+.arlab-checkbox-box svg { opacity: 0; width: 12px; height: 12px; }
+.arlab-checkbox input:checked ~ .arlab-checkbox-box { background: var(--action); border-color: var(--action); }
+.arlab-checkbox input:checked ~ .arlab-checkbox-box svg { opacity: 1; }
+.arlab-checkbox input:focus-visible ~ .arlab-checkbox-box, .arlab-radio input:focus-visible ~ .arlab-radio-dot { outline: 2px solid var(--focus); outline-offset: 2px; }
+.arlab-checkbox input:disabled ~ .arlab-checkbox-box, .arlab-radio input:disabled ~ .arlab-radio-dot { background: var(--sunken); border-color: var(--line); }
 
-/* ---- Radio -------------------------------------------------------- */
-.arlab-radio { position: relative; display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); cursor: pointer; user-select: none; }
-.arlab-radio input { position: absolute; inset: 0; width: 20px; height: 20px; opacity: 0; margin: 0; cursor: pointer; }
-.arlab-radio-dot {
-  width: 20px; height: 20px; border-radius: var(--radius-pill); border: 1.5px solid var(--line-hover); background: var(--raise);
-  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-  transition: border-color var(--dur) var(--ease);
-}
-.arlab-radio-dot::after { content: ''; width: 9px; height: 9px; border-radius: var(--radius-pill); background: var(--accent); transform: scale(0); transition: transform var(--dur) var(--ease); }
-.arlab-radio input:checked ~ .arlab-radio-dot { border-color: var(--accent); }
-.arlab-radio input:checked ~ .arlab-radio-dot::after { transform: scale(1); }
-.arlab-radio input:focus-visible ~ .arlab-radio-dot { outline: 2px solid var(--focus); outline-offset: 2px; }
-.arlab-radio input:disabled ~ .arlab-radio-dot { opacity: 0.5; cursor: not-allowed; }
+/* Native checkboxes and radios anywhere take the action colour at 16px, as the spec's do. */
+input[type="checkbox"], input[type="radio"] { accent-color: var(--action); }
 
-/* ---- Switch (boolean toggle) ---------------------------------------- */
+/* ---- Radio: a filled ring, 4px of the surface between the edge and the dot. ---- */
+.arlab-radio-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--strong); background: var(--raise); flex: 0 0 16px; box-sizing: border-box; }
+.arlab-radio input:checked ~ .arlab-radio-dot { background: var(--action); border-color: var(--action); box-shadow: inset 0 0 0 4px var(--raise); }
+
+/* ---- Switch: applies at once (a setting), unlike a checkbox inside a form. ---- */
 .arlab-switch {
-  position: relative; display: inline-flex; align-items: center; width: 44px; height: 25px; flex-shrink: 0;
-  border-radius: var(--radius-pill); background: var(--sunken); border: 1px solid var(--line); cursor: pointer; padding: 0;
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  position: relative; display: inline-flex; align-items: center; width: 36px; height: 22px; flex-shrink: 0; box-sizing: border-box;
+  border-radius: 12px; background: var(--sunken); border: 1px solid var(--strong); cursor: pointer; padding: 0;
 }
-.arlab-switch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
-.arlab-switch-knob {
-  position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: var(--radius-pill);
-  background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); transition: transform var(--dur) var(--ease);
-}
-.arlab-switch[aria-checked="true"] .arlab-switch-knob { transform: translateX(19px); }
-.arlab-switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.arlab-switch:disabled { opacity: 0.5; cursor: not-allowed; }
+.arlab-switch[aria-checked="true"] { background: var(--action); border-color: var(--action); }
+.arlab-switch-knob { position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--dim); transition: transform var(--dur); }
+.arlab-switch[aria-checked="true"] .arlab-switch-knob { background: var(--action-ink); transform: translateX(14px); }
+.arlab-switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.arlab-switch:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* ---- SegmentedControl (tabs-as-buttons / pill toggle group) --------- */
 .arlab-segmented { display: inline-flex; padding: 3px; gap: 2px; background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius-md); }
