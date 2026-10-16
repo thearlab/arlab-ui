@@ -5,14 +5,14 @@
 /* shared: brand, account */
 .arlab-shell-brand { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: none; border: 0; color: var(--ink); font: inherit; cursor: default; text-align: left; border-radius: var(--radius-sm); }
 button.arlab-shell-brand { cursor: pointer; }
-button.arlab-shell-brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.arlab-shell-brand:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .arlab-shell-brand svg { height: 20px; width: auto; display: block; color: var(--ink); }
 .arlab-shell-brand b { font-weight: 600; font-size: var(--text-base); white-space: nowrap; }
 .arlab-shell-pulse { width: 7px; height: 7px; border-radius: var(--radius-pill); background: var(--accent); box-shadow: 0 0 0 0 var(--accent-line);  flex-shrink: 0; }
 @keyframes arlab-shell-pulse { 0% { box-shadow: 0 0 0 0 var(--accent-line); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 @media (prefers-reduced-motion: reduce) { .arlab-shell-pulse { animation: none; } }
 .arlab-shell-account { display: flex; align-items: center; gap: 10px; min-width: 0; background: none; border: 0; padding: 2px; cursor: pointer; color: inherit; text-align: left; font: inherit; border-radius: var(--radius-pill); }
-.arlab-shell-account:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.arlab-shell-account:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .arlab-shell-who { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; font-size: var(--text-sm); }
 .arlab-shell-who span, .arlab-shell-who small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .arlab-shell-who small { color: var(--ink-faint); font-size: 11.5px; }
@@ -26,7 +26,7 @@ button.arlab-shell-brand:focus-visible { outline: 2px solid var(--accent); outli
 .arlab-side-item:hover { background: var(--sunken-2); color: var(--ink); }
 .arlab-side-item.on { background: var(--raise); color: var(--ink); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
 .arlab-side-item.on .arlab-side-icon { color: var(--accent); }
-.arlab-side-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.arlab-side-item:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
 .arlab-side-icon { display: inline-flex; flex-shrink: 0; opacity: .9; }
 .arlab-side-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .arlab-side-count { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-faint); }
@@ -65,7 +65,7 @@ html { overscroll-behavior-y: none; }
 .arlab-topnav-link { padding: 7px 12px; border-radius: var(--radius-sm); color: var(--ink-dim); font: 500 14px var(--font-sans); background: none; border: 0; cursor: pointer; white-space: nowrap; }
 .arlab-topnav-link:hover { color: var(--ink); background: var(--sunken); }
 .arlab-topnav-link.on { color: var(--ink); background: var(--sunken); }
-.arlab-topnav-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-topnav-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .arlab-topnav-spacer { flex: 1 1 auto; }
 .arlab-topnav .arlab-search-btn { width: 220px; flex: 0 0 auto; }
 .arlab-topnav .arlab-shell-account.compact { gap: 8px; }

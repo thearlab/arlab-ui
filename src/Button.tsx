@@ -4,12 +4,11 @@ import type { ButtonHTMLAttributes } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * Left out, a button is the ordinary secondary action, which in this system is a bordered pill.
-   * `ghost` is the borderless one: right for a small action inside a panel heading, a "more" menu
-   * or a pane toggle, wrong for anything a person has to find. Ghost used to be the default, which
-   * is why "Register an app" and "Add a person" read as bare text wherever nobody said otherwise.
+   * Left out, a button is the ordinary secondary action: bordered, 5px corners. `quiet` is the
+   * visible-but-calm one (Cancel, Keep it): outline on the ground colour, never bare text. `ghost` is
+   * borderless, for small actions inside a panel heading or a pane toggle. `danger` is tinted red.
    */
-  variant?: 'primary' | 'ghost' | 'danger';
+  variant?: 'primary' | 'quiet' | 'ghost' | 'danger';
   size?: 'md' | 'sm';
 }
 

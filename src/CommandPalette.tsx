@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { SearchIcon } from './icons';
+import { SearchIcon, Icon } from './icons';
 
 export interface CommandItem {
   id: string;
@@ -113,7 +113,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search…'
                   {item.summary ? <span className="arlab-cmdk-row-summary">{item.summary}</span> : null}
                 </span>
                 {item.typeLabel ? <span className="arlab-cmdk-row-type">{item.typeLabel}</span> : null}
-                <svg className="arlab-cmdk-go" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+                <Icon name="ArrowRight" size={14} className="arlab-cmdk-go" />
               </button>
             ))
           )}

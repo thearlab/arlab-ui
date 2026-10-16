@@ -20,7 +20,7 @@
 }
 .arlab-item:hover { background: var(--surface-hover); }
 .arlab-item.on { background: var(--raise); border-left-color: var(--accent); box-shadow: var(--shadow); }
-.arlab-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-item:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .arlab-item-dot { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--ink-faint); }
 .arlab-item-title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .arlab-item-sub { grid-column: 2; color: var(--ink-faint); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -52,7 +52,7 @@
 }
 .arlab-tabstrip button:hover { color: var(--ink); }
 .arlab-tabstrip button.on { background: var(--raise); color: var(--ink); box-shadow: var(--shadow); }
-.arlab-tabstrip button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-tabstrip button:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .arlab-dbody { padding: 28px 36px 56px; overflow: auto; flex: 1; min-height: 0; container: arlab-pane / inline-size; }
 /* These columns live inside a pane, not inside the window: a 1440 screen leaves a detail pane of
    about 816px once the sidebar and the list have taken theirs, and a demo frame can be narrower
@@ -89,7 +89,7 @@
 .arlab-row-item:first-child { border-top: 0; }
 .arlab-row-item.link { cursor: pointer; }
 .arlab-row-item.link:hover { background: var(--surface-hover); }
-.arlab-row-item.link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-row-item.link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 /* `text-overflow` needs a block container with inline content: on an inline-flex box it is
    ignored, and a row that was too long got cut mid-word with no ellipsis at all. Block, with the
    children left inline, so a long row ends in a proper ellipsis. */
@@ -115,7 +115,7 @@
 .arlab-steprow:first-child { border-top: 0; }
 .arlab-steprow.link { cursor: pointer; }
 .arlab-steprow.link:hover { background: var(--surface-hover); }
-.arlab-steprow.link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.arlab-steprow.link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .arlab-steprow-n { width: 26px; height: 26px; border-radius: var(--radius-pill); border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 .arlab-steprow-n.marked { border-color: var(--accent-line); color: var(--accent-deep); background: var(--accent-tint); }
 .arlab-steprow-text { min-width: 0; display: flex; flex-direction: column; }

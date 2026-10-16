@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, type ReactNode } from 'react';
+import { Icon } from './icons';
 
 export interface SheetProps {
   open: boolean;
@@ -31,7 +32,7 @@ export function Sheet({ open, onClose, kicker, title, children, footer, width = 
       <aside className="arlab-sheet" style={{ width: `min(${width}px, 100vw)` }}>
         <div className="arlab-sheet-h">
           <div>{kicker && <span className="k">{kicker}</span>}<h2>{title}</h2></div>
-          <button type="button" className="arlab-icon-btn" onClick={onClose} aria-label="Close" data-tip="Close  Esc"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+          <button type="button" className="arlab-icon-btn" onClick={onClose} aria-label="Close" data-tip="Close  Esc"><Icon name="X" size={16} /></button>
         </div>
         <div className="arlab-sheet-body">{children}</div>
         {footer && <div className="arlab-sheet-f">{footer}</div>}

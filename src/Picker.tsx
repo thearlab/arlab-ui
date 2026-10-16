@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Icon } from './icons';
 
 export interface PickerOption { value: string; label: string; count?: number }
 
@@ -53,7 +54,7 @@ export function Picker({ label, value, options, onChange, searchFrom = 10, class
         <span className="k">{label}</span>
         <span className="v">{current?.label}</span>
         {current?.count !== undefined && <span className="n">{current.count}</span>}
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+        <Icon name="ChevronDown" size={16} />
       </button>
       {open && (
         <div className="arlab-picker-panel">

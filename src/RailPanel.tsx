@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { Icon } from './icons';
 
 export interface RailPanelProps {
   title: string;
@@ -19,7 +20,7 @@ export function RailPanel({ title, subtitle, onClose, children, footer }: RailPa
     <aside className="arlab-railpanel" aria-label={title}>
       <div className="arlab-railpanel-h">
         <div><b>{title}</b>{subtitle && <small>{subtitle}</small>}</div>
-        <button type="button" className="arlab-icon-btn" onClick={onClose} aria-label="Close" data-tip="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+        <button type="button" className="arlab-icon-btn" onClick={onClose} aria-label="Close" data-tip="Close"><Icon name="X" size={16} /></button>
       </div>
       <div className="arlab-railpanel-body">{children}</div>
       {footer && <div className="arlab-railpanel-f">{footer}</div>}
