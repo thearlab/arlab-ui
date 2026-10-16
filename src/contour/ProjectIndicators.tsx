@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
+import { ScrollArea } from "./scroll-area.js";
 export interface DeadlineCountdownProps {
   deadline: string | number | Date;
   label?: string;
@@ -140,22 +141,32 @@ const verdictLabels = {
   blocked: "Blocked",
   pending: "Pending",
 };
+export interface DailyVerdictStripProps {
+  days: DailyVerdict[];
+  label?: string;
+  onSelect?: (day: DailyVerdict) => void;
+  layout?: 'cards' | 'row';
+  dateStyle?: 'compact' | 'plain';
+  locale?: string;
+}
 export function DailyVerdictStrip({
   days,
   label = "Daily project status",
   onSelect,
-}: {
-  days: DailyVerdict[];
-  label?: string;
-  onSelect?: (day: DailyVerdict) => void;
-}) {
-  return (
-    <div className="ct-verdicts" role="group" aria-label={label}>
+  layout = 'cards',
+  dateStyle = layout === 'row' ? 'plain' : 'compact',
+  locale = 'en-GB',
+}: DailyVerdictStripProps) {
+  const strip = (
+    <div className={`ct-verdicts ${layout === 'row' ? 'ct-verdicts-row' : ''}`} data-date-style={dateStyle} role="group" aria-label={label}>
       {days.length ? (
         days.map((day) => {
+          const date = /^\d{4}-\d{2}-\d{2}$/.test(day.date) ? new Date(`${day.date}T12:00:00`) : null;
+          const valid = date && Number.isFinite(date.getTime()) && `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}` === day.date;
+          const fullDate = valid ? date.toLocaleDateString(locale, {weekday:'long',day:'numeric',month:'long',year:'numeric'}) : day.date || 'Date unavailable';
           const content = (
             <>
-              <time dateTime={day.date}>{day.date.slice(5)}</time>
+              <time dateTime={valid ? day.date : undefined} title={fullDate} aria-label={fullDate}>{dateStyle === 'plain' ? valid ? date.toLocaleDateString(locale, {day:'numeric',month:'short'}) : fullDate : valid ? day.date.slice(5) : fullDate}</time>
               <span>{day.label || verdictLabels[day.state]}</span>
             </>
           );
@@ -165,7 +176,7 @@ export function DailyVerdictStrip({
               type="button"
               data-state={day.state}
               onClick={() => onSelect(day)}
-              aria-label={`${day.date}: ${day.label || verdictLabels[day.state]}`}
+              aria-label={`${fullDate}: ${day.label || verdictLabels[day.state]}`}
             >
               {content}
             </button>
@@ -180,4 +191,5 @@ export function DailyVerdictStrip({
       )}
     </div>
   );
+  return layout === 'row' ? <ScrollArea axis="horizontal" label={label} className="ct-verdict-scroll">{strip}</ScrollArea> : strip;
 }

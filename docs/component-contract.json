@@ -69,7 +69,7 @@
       "placeholder",
       "disabled"
     ],
-    "behavior": "A 1px focus border with a faint 2px halo replaces the large offset outline."
+    "behavior": "Focus changes the existing 1px border without an outer halo or offset outline."
   },
   {
     "name": "Textarea",
@@ -79,9 +79,11 @@
       "value",
       "onChange",
       "rows",
-      "disabled"
+      "disabled",
+      "variant",
+      "size"
     ],
-    "behavior": "Preserve newlines and let the field grow vertically. Do not use placeholder text as the label."
+    "behavior": "Preserve newlines and let the field grow vertically. Code variant uses IBM Plex Mono and a 220px minimum; short size uses 96px. Use a visible label."
   },
   {
     "name": "Select",
@@ -477,6 +479,7 @@
       "title",
       "description",
       "action",
+      "tone",
       "children"
     ],
     "behavior": "Use a surface when the content has a distinct purpose, not around every individual item."
@@ -822,7 +825,10 @@
       "dirty",
       "onSave",
       "onDiscard",
-      "saving"
+      "saving",
+      "actions",
+      "message",
+      "sticky"
     ],
     "behavior": "Save is unavailable when nothing changed. A failed save should preserve the dirty state and user input."
   },
@@ -935,11 +941,23 @@
   {
     "name": "Calendar",
     "category": "Documents & operations",
-    "description": "A month grid with date selection and keyboard navigation.",
+    "description": "An application calendar with real dates, events and selectable periods.",
     "props": [
-      "onSelect"
+      "value",
+      "onSelect",
+      "month",
+      "onMonthChange",
+      "startDate",
+      "onStartDateChange",
+      "weeks",
+      "events",
+      "onEventSelect",
+      "min",
+      "max",
+      "weekStartsOn",
+      "locale"
     ],
-    "behavior": "Previous/next change the month. Arrow keys move by day or week and preserve focus."
+    "behavior": "Controlled month or rolling periods, including exactly five weeks. Month view expands to include every date. Arrow, Home/End and PageUp/PageDown preserve keyboard focus. Events come only from the application."
   },
   {
     "name": "DayTimeline",
@@ -972,7 +990,109 @@
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
   },
   {
+    "name": "CollectionLayout",
+    "category": "Dashboard & editors",
+    "description": "A full-width collection destination with search and optional filters.",
+    "props": [
+      "title",
+      "description",
+      "actions",
+      "search",
+      "filters",
+      "activeFilters",
+      "children"
+    ],
+    "behavior": "Results own the remaining height. Filters expand on request; changing filters remains application-owned."
+  },
+  {
+    "name": "RecordCollection",
+    "category": "Dashboard & editors",
+    "description": "A responsive collection with sortable desktop results and readable phone rows.",
+    "props": [
+      "records",
+      "onOpen",
+      "loading",
+      "label",
+      "emptyMessage"
+    ],
+    "behavior": "Records carry id, title, description, category, status, tone, meta and real href. Modifier-click preserves browser navigation."
+  },
+  {
+    "name": "RecordLayout",
+    "category": "Dashboard & editors",
+    "description": "A focused workspace for one selected record.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Keeps the record header fixed and the content scrollable without a competing browse rail."
+  },
+  {
+    "name": "RecordHeader",
+    "category": "Dashboard & editors",
+    "description": "A record title, publication state, actions and accessible sections.",
+    "props": [
+      "title",
+      "badges",
+      "actions",
+      "backLabel",
+      "onBack",
+      "metadata",
+      "tabs",
+      "value",
+      "onChange",
+      "idPrefix",
+      "panelId"
+    ],
+    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details stay in a disclosure. Back behavior belongs to the host."
+  },
+  {
+    "name": "RecordBody",
+    "category": "Dashboard & editors",
+    "description": "One labelled scrolling surface below a record header.",
+    "props": [
+      "children",
+      "id",
+      "labelledBy"
+    ],
+    "behavior": "Connects the active tab to its panel and delegates scrolling to the shared ScrollArea."
+  },
+  {
+    "name": "DetailSections",
+    "category": "Dashboard & editors",
+    "description": "Content proportions for reading, comparing and editing.",
+    "props": [
+      "layout",
+      "children"
+    ],
+    "behavior": "reading reserves a secondary column; split balances two tasks; stacked gives editors a focused full-width column."
+  },
+  {
+    "name": "FormGrid",
+    "category": "Dashboard & editors",
+    "description": "Responsive form columns with safe minimum widths.",
+    "props": [
+      "columns",
+      "children"
+    ],
+    "behavior": "One or two columns; shared responsive rules collapse paired fields on narrow screens."
+  },
+  {
+    "name": "FormFieldGroup",
+    "category": "Dashboard & editors",
+    "description": "A field label, control and contextual guidance.",
+    "props": [
+      "label",
+      "htmlFor",
+      "hint",
+      "error",
+      "required",
+      "children"
+    ],
+    "behavior": "Link htmlFor to the real control ID. Child state and attributes remain owned by the caller."
+  },
+  {
     "name": "FilterableTable",
+    "category": "Dashboard & editors",
     "description": "Reusable full-width table with sortable headers, custom cells and built-in pagination.",
     "props": [
       "title",
@@ -986,11 +1106,11 @@
       "loading",
       "emptyMessage"
     ],
-    "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data.",
-    "category": "Dashboard & editors"
+    "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data."
   },
   {
     "name": "FilterSidebar",
+    "category": "Dashboard & editors",
     "description": "A reusable right-side filter panel, compact version and collapsed vertical rail.",
     "props": [
       "title",
@@ -1003,11 +1123,11 @@
       "resultCount",
       "onClose"
     ],
-    "behavior": "Controlled filters support search, single selection and multiple selection. Active counts, reset and results stay visible while filter sections scroll.",
-    "category": "Dashboard & editors"
+    "behavior": "Controlled filters support search, single selection and multiple selection. Active counts, reset and results stay visible while filter sections scroll."
   },
   {
     "name": "DatePicker",
+    "category": "Dashboard & editors",
     "description": "A custom calendar with themed controls.",
     "props": [
       "label",
@@ -1020,11 +1140,11 @@
       "hint",
       "error"
     ],
-    "behavior": "Stores YYYY-MM-DD; arrow keys navigate dates, Escape closes, and date limits disable unavailable days.",
-    "category": "Dashboard & editors"
+    "behavior": "Stores YYYY-MM-DD; arrow keys navigate dates, Escape closes, and date limits disable unavailable days."
   },
   {
     "name": "TimePicker",
+    "category": "Dashboard & editors",
     "description": "Custom hour and minute selection.",
     "props": [
       "label",
@@ -1037,11 +1157,11 @@
       "disabled",
       "error"
     ],
-    "behavior": "Stores local HH:mm; themed dropdowns support keyboard selection. The application owns timezone conversion.",
-    "category": "Dashboard & editors"
+    "behavior": "Stores local HH:mm; themed dropdowns support keyboard selection. The application owns timezone conversion."
   },
   {
     "name": "DateRangePicker",
+    "category": "Dashboard & editors",
     "description": "Related start and end dates.",
     "props": [
       "label",
@@ -1054,11 +1174,11 @@
       "hint",
       "error"
     ],
-    "behavior": "An end before the start is marked invalid; existing values are never silently changed.",
-    "category": "Dashboard & editors"
+    "behavior": "An end before the start is marked invalid; existing values are never silently changed."
   },
   {
     "name": "NumberInput",
+    "category": "Dashboard & editors",
     "description": "A numeric field with discreet stepper controls.",
     "props": [
       "label",
@@ -1072,11 +1192,11 @@
       "readOnly",
       "error"
     ],
-    "behavior": "null is empty. Steppers respect limits; typed out-of-range values show an error.",
-    "category": "Dashboard & editors"
+    "behavior": "null is empty. Steppers respect limits; typed out-of-range values show an error."
   },
   {
     "name": "ColorPicker",
+    "category": "Dashboard & editors",
     "description": "Colour chooser, hex entry and presets.",
     "props": [
       "label",
@@ -1087,11 +1207,11 @@
       "hint",
       "error"
     ],
-    "behavior": "Only complete six-digit hex values are emitted; invalid drafts stay editable.",
-    "category": "Dashboard & editors"
+    "behavior": "Only complete six-digit hex values are emitted; invalid drafts stay editable."
   },
   {
     "name": "MediaGallery",
+    "category": "Dashboard & editors",
     "description": "Images and videos with replacement and removal.",
     "props": [
       "items",
@@ -1102,11 +1222,11 @@
       "disabled",
       "emptyLabel"
     ],
-    "behavior": "Application owns URLs and upload lifecycle; video has native playback controls.",
-    "category": "Dashboard & editors"
+    "behavior": "Application owns URLs and upload lifecycle; video has native playback controls."
   },
   {
     "name": "MediaUploadField",
+    "category": "Dashboard & editors",
     "description": "A bordered media field with drag-and-drop and browsing.",
     "props": [
       "label",
@@ -1121,11 +1241,11 @@
       "hint",
       "error"
     ],
-    "behavior": "Validates media MIME type and size. Async failures are announced; uploading remains application controlled.",
-    "category": "Dashboard & editors"
+    "behavior": "Validates media MIME type and size. Async failures are announced; uploading remains application controlled."
   },
   {
     "name": "PreviewFrame",
+    "category": "Dashboard & editors",
     "description": "A contained live page preview.",
     "props": [
       "title",
@@ -1137,11 +1257,11 @@
       "onRetry",
       "sandbox"
     ],
-    "behavior": "Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile.",
-    "category": "Dashboard & editors"
+    "behavior": "Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile."
   },
   {
     "name": "EditorLayout",
+    "category": "Dashboard & editors",
     "description": "A full-height editing workspace.",
     "props": [
       "title",
@@ -1152,11 +1272,11 @@
       "onExit",
       "style"
     ],
-    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens.",
-    "category": "Dashboard & editors"
+    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens."
   },
   {
     "name": "ReorderList",
+    "category": "Dashboard & editors",
     "description": "Direct dragging with insertion feedback and keyboard move controls.",
     "props": [
       "label",
@@ -1164,11 +1284,11 @@
       "onChange",
       "disabled"
     ],
-    "behavior": "Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging.",
-    "category": "Dashboard & editors"
+    "behavior": "Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging."
   },
   {
     "name": "InlineEdit",
+    "category": "Dashboard & editors",
     "description": "Edit a value in place, then explicitly save or cancel.",
     "props": [
       "label",
@@ -1179,11 +1299,11 @@
       "required",
       "maxLength"
     ],
-    "behavior": "Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft.",
-    "category": "Dashboard & editors"
+    "behavior": "Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft."
   },
   {
     "name": "CodeDisplay",
+    "category": "Dashboard & editors",
     "description": "QR or Snapcode image with download and copy link.",
     "props": [
       "imageSrc",
@@ -1193,22 +1313,22 @@
       "filename",
       "onDownload"
     ],
-    "behavior": "Displays an application-provided code, never generates one. Copy failure leaves a selectable URL.",
-    "category": "Dashboard & editors"
+    "behavior": "Displays an application-provided code, never generates one. Copy failure leaves a selectable URL."
   },
   {
     "name": "GuidedTour",
+    "category": "Dashboard & editors",
     "description": "An opt-in tour launched by a help action.",
     "props": [
       "steps",
       "open",
       "onClose"
     ],
-    "behavior": "Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener.",
-    "category": "Dashboard & editors"
+    "behavior": "Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener."
   },
   {
     "name": "DeadlineCountdown",
+    "category": "Dashboard & editors",
     "description": "A time remaining or overdue indicator.",
     "props": [
       "deadline",
@@ -1216,11 +1336,11 @@
       "showSeconds",
       "now"
     ],
-    "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests.",
-    "category": "Dashboard & editors"
+    "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests."
   },
   {
     "name": "PhaseBar",
+    "category": "Dashboard & editors",
     "description": "Seven labelled project phases with distinct muted colours.",
     "props": [
       "phases",
@@ -1229,22 +1349,25 @@
       "label",
       "disabled"
     ],
-    "behavior": "Completion and current step use text and aria-current, not colour alone.",
-    "category": "Dashboard & editors"
+    "behavior": "Completion and current step use text and aria-current, not colour alone."
   },
   {
     "name": "DailyVerdictStrip",
+    "category": "Dashboard & editors",
     "description": "Compact daily status history.",
     "props": [
       "days",
       "label",
-      "onSelect"
+      "onSelect",
+      "layout",
+      "dateStyle",
+      "locale"
     ],
-    "behavior": "Dates and written verdicts accompany semantic colour. Empty data has a visible fallback.",
-    "category": "Dashboard & editors"
+    "behavior": "Use row with plain dates for a single quiet line without boxed cards. Cards remain available. Full dates and written verdicts accompany semantic colour."
   },
   {
     "name": "ElementProgress",
+    "category": "Dashboard & editors",
     "description": "Progress along the bottom edge of its content.",
     "props": [
       "label",
@@ -1253,11 +1376,11 @@
       "children",
       "error"
     ],
-    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar.",
-    "category": "Dashboard & editors"
+    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar."
   },
   {
     "name": "InlineProgress",
+    "category": "Dashboard & editors",
     "description": "Alias for embedded element progress.",
     "props": [
       "label",
@@ -1266,22 +1389,22 @@
       "children",
       "error"
     ],
-    "behavior": "Uses the same accessible progress contract as ElementProgress.",
-    "category": "Dashboard & editors"
+    "behavior": "Uses the same accessible progress contract as ElementProgress."
   },
   {
     "name": "SectionHeader",
+    "category": "Dashboard & editors",
     "description": "A restrained section heading and trailing action.",
     "props": [
       "title",
       "count",
       "action"
     ],
-    "behavior": "Uses shared 13px semibold typography; optional count is secondary.",
-    "category": "Dashboard & editors"
+    "behavior": "Uses shared 13px semibold typography; optional count is secondary."
   },
   {
     "name": "CollectionGroup",
+    "category": "Dashboard & editors",
     "description": "A collection with individual, clearly actionable items.",
     "props": [
       "title",
@@ -1291,7 +1414,6 @@
       "onOpen",
       "more"
     ],
-    "behavior": "Each item has its own action. Long names truncate without widening the card.",
-    "category": "Dashboard & editors"
+    "behavior": "Each item has its own action. Long names truncate without widening the card."
   }
 ]

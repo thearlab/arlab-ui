@@ -29,3 +29,13 @@ Restore each consumer's previous package.json and lockfile commit, rebuild and r
 ## Beta.3 additions
 
 The dashboard request families are exported with application-owned state and callbacks. See [Dashboard components](docs/DASHBOARD-COMPONENTS.md) for integration details and native date/time picker limitations. Added typography weight tokens and the 10px/11px micro scales. NavigationItem supports router click handlers without removing real anchor destinations. Existing beta.2 navigation and v1 compatibility paths remain available.
+
+## Beta.7: application layouts and calendar
+
+Use CollectionLayout + RecordCollection for a collection destination, then RecordLayout + RecordHeader + RecordBody for a focused detail route. Applications own links, filters, selected tabs and unsaved-change guards. DetailSections provides reading, split and stacked proportions; FormGrid/FormFieldGroup own control spacing and typography. Avoid application CSS targeting shared component internals. Facts now uses an isolated ct-facts layout to prevent legacy flat-grid rules corrupting grouped rows.
+
+Textarea accepts variant="code" and size="short". Panel headings/body use the Contour type roles directly.
+
+Calendar now receives actual application events and dates. onSelect emits YYYY-MM-DD. Use controlled month/onMonthChange for months, or startDate/onStartDateChange with weeks={5} for exactly five rolling weeks. Month view expands if a requested week count would omit dates. Events default to empty; migrate any old demo callback expecting a bare day number to the ISO date string. Selection and events never write data automatically.
+
+DailyVerdictStrip preserves its default cards. Use layout="row" dateStyle="plain" locale="en-GB" for a single, horizontally scrollable line of dates such as 7 Oct. Full date labels remain accessible.

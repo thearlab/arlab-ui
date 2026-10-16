@@ -78,8 +78,9 @@ export function Kbd({ children }) {
 export function Input(props) {
   return <input className="lib-input" {...props} />;
 }
-export function Textarea(props) {
-  return <textarea className="lib-input" rows={3} {...props} />;
+/** @param {import('react').TextareaHTMLAttributes<HTMLTextAreaElement> & { variant?: 'default' | 'code', size?: 'default' | 'short' }} props */
+export function Textarea({ variant = "default", size = "default", className = "", ...props }) {
+  return <textarea rows={3} {...props} className={`lib-input ct-textarea ${variant === "code" ? "ct-textarea-code" : ""} ${size === "short" ? "ct-textarea-short" : ""} ${className}`} />;
 }
 export function Field({ label, hint, error, required, children }) {
   const id = useId();
@@ -309,15 +310,15 @@ export function LegendDot({ color = "var(--chart-1)", children }) {
     </span>
   );
 }
-export function Panel({ title, description, action, children }) {
+export function Panel({ title, description, action, children, className = "", tone = "default", ...props }) {
   return (
-    <section className="lib-panel">
+    <section {...props} data-tone={tone} className={`lib-panel ct-panel ${className}`}>
       {title && (
         <SectionHead title={title} sub={description}>
           {action}
         </SectionHead>
       )}
-      {children}
+      <div className="ct-panel-content">{children}</div>
     </section>
   );
 }
@@ -333,21 +334,17 @@ export function Row({ title, description, leading, trailing, onClick }) {
         <strong>{title}</strong>
         {description && <small>{description}</small>}
       </span>
-      {trailing}
-      {onClick && <ChevronRight size={16} />}
     </>
   );
   return onClick ? (
-    <button className="lib-row" onClick={onClick}>
-      {content}
-    </button>
+    <div className="lib-row lib-row-interactive"><button type="button" className="lib-row-open" onClick={onClick}>{content}<ChevronRight size={16}/></button>{trailing}</div>
   ) : (
-    <div className="lib-row">{content}</div>
+    <div className="lib-row">{content}{trailing}</div>
   );
 }
-export function Facts({ items }) {
+export function Facts({ items, className = "", ...props }) {
   return (
-    <dl className="facts">
+    <dl {...props} className={`ct-facts ${className}`}>
       {items.map(([label, value]) => (
         <div key={label}>
           <dt>{label}</dt>
@@ -779,11 +776,12 @@ export function Disclosure({
     </details>
   );
 }
-export function SaveBar({ dirty, onSave, onDiscard, saving = false }) {
+/** @param {{dirty:boolean,onSave?:()=>void|Promise<void>,onDiscard?:()=>void,saving?:boolean,actions?:import('react').ReactNode,message?:import('react').ReactNode,sticky?:boolean}} props */
+export function SaveBar({ dirty, onSave, onDiscard, saving = false, actions = undefined, message = undefined, sticky = false }) {
   return (
-    <div className="save-bar">
+    <div className="ct-save-bar" data-sticky={sticky || undefined}>
       <span>
-        {dirty ? (
+        {message !== undefined ? message : dirty ? (
           <>
             <span className="dirty-dot" />
             Unsaved changes
@@ -795,7 +793,7 @@ export function SaveBar({ dirty, onSave, onDiscard, saving = false }) {
           </>
         )}
       </span>
-      <div className="lib-inline">
+      {actions ? <div className="lib-inline">{actions}</div> : <div className="lib-inline">
         <Button variant="quiet" disabled={!dirty || saving} onClick={onDiscard}>
           Discard
         </Button>
@@ -807,7 +805,7 @@ export function SaveBar({ dirty, onSave, onDiscard, saving = false }) {
         >
           {saving ? "Saving…" : "Save changes"}
         </Button>
-      </div>
+      </div>}
     </div>
   );
 }
@@ -1461,106 +1459,7 @@ export function BarList({ data = chartData }) {
     </div>
   );
 }
-export function Calendar({ onSelect }) {
-  const [month, setMonth] = useState(new Date(2026, 9, 1)),
-    [selected, setSelected] = useState("2026-10-16");
-  const year = month.getFullYear(),
-    m = month.getMonth(),
-    days = new Date(year, m + 1, 0).getDate(),
-    offset = (new Date(year, m, 1).getDay() + 6) % 7,
-    id = useId();
-  const choose = (date) => {
-    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-    setSelected(key);
-    setMonth(new Date(date.getFullYear(), date.getMonth(), 1));
-    onSelect?.(key);
-  };
-  return (
-    <div className="lib-calendar">
-      <header>
-        <IconButton
-          label="Previous month"
-          onClick={() => setMonth(new Date(year, m - 1, 1))}
-        >
-          <ChevronLeft size={16} />
-        </IconButton>
-        <strong aria-live="polite">
-          {month.toLocaleDateString("en-GB", {
-            month: "long",
-            year: "numeric",
-          })}
-        </strong>
-        <IconButton
-          label="Next month"
-          onClick={() => setMonth(new Date(year, m + 1, 1))}
-        >
-          <ChevronRight size={16} />
-        </IconButton>
-      </header>
-      <div className="calendar-week">
-        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-          <span key={d}>{d}</span>
-        ))}
-      </div>
-      <div className="calendar-dates">
-        {Array.from({ length: offset }, (_, i) => (
-          <span key={`blank${i}`} />
-        ))}
-        {Array.from({ length: days }, (_, i) => {
-          const n = i + 1,
-            date = new Date(year, m, n),
-            key = `${year}-${String(m + 1).padStart(2, "0")}-${String(n).padStart(2, "0")}`;
-          return (
-            <button
-              id={`${id}-${key}`}
-              key={key}
-              aria-label={date.toLocaleDateString("en-GB", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-              aria-pressed={selected === key}
-              onClick={() => choose(date)}
-              onKeyDown={(e) => {
-                const delta = {
-                  ArrowLeft: -1,
-                  ArrowRight: 1,
-                  ArrowUp: -7,
-                  ArrowDown: 7,
-                }[e.key];
-                if (delta) {
-                  e.preventDefault();
-                  const d = new Date(year, m, n + delta);
-                  choose(d);
-                  setTimeout(
-                    () =>
-                      document
-                        .getElementById(
-                          `${id}-${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
-                        )
-                        ?.focus(),
-                    0,
-                  );
-                }
-              }}
-            >
-              {n}
-            </button>
-          );
-        })}
-      </div>
-      <footer aria-live="polite">
-        Selected:{" "}
-        {new Date(`${selected}T12:00:00`).toLocaleDateString("en-GB", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
-      </footer>
-    </div>
-  );
-}
+export { Calendar } from "./Calendar.js";
 export function DayTimeline({ onSelect }) {
   return (
     <div className="lib-day-timeline">

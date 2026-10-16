@@ -175,7 +175,7 @@ The generated sections below are synchronized with the live catalogue and token 
 
 ## Complete component contract
 
-109 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+119 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -185,7 +185,7 @@ A clear action with primary, secondary, quiet, ghost, or destructive emphasis.
 
 Use one primary action per decision. Cancel always has a subtle border and surface.
 
-Import: `import { Button } from './src/library';`
+Import: `import { Button } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -194,7 +194,7 @@ Import: `import { Button } from './src/library';`
 | `onClick` | Action callback. Use a link for navigation. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Button](http://127.0.0.1:5173/?view=catalogue&component=Button)
+Live example: [Button](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Button)
 
 #### IconButton
 
@@ -202,7 +202,7 @@ A compact, named action for familiar symbols.
 
 The accessible label describes the action. Touch targets expand to 44px.
 
-Import: `import { IconButton } from './src/library';`
+Import: `import { IconButton } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -211,7 +211,7 @@ Import: `import { IconButton } from './src/library';`
 | `onClick` | Action callback. Use a link for navigation. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [IconButton](http://127.0.0.1:5173/?view=catalogue&component=IconButton)
+Live example: [IconButton](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=IconButton)
 
 #### TextLink
 
@@ -219,7 +219,7 @@ An underlined destination within prose or supporting navigation.
 
 Use a link for navigation and a button for an action. Pink text uses the deeper accessible tone.
 
-Import: `import { TextLink } from './src/library';`
+Import: `import { TextLink } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -227,7 +227,7 @@ Import: `import { TextLink } from './src/library';`
 | `children` | React content. Keep text concise and accessible. |
 | `target` | Optional browsing context; use safe rel for external new windows. |
 
-Live example: [TextLink](http://127.0.0.1:5173/?view=catalogue&component=TextLink)
+Live example: [TextLink](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TextLink)
 
 #### PillButton
 
@@ -235,7 +235,7 @@ A labeled toggle for a small filter or preference.
 
 Uses aria-pressed. The check and border make selection visible without relying on color.
 
-Import: `import { PillButton } from './src/library';`
+Import: `import { PillButton } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -243,7 +243,7 @@ Import: `import { PillButton } from './src/library';`
 | `onClick` | Action callback. Use a link for navigation. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [PillButton](http://127.0.0.1:5173/?view=catalogue&component=PillButton)
+Live example: [PillButton](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PillButton)
 
 ### Inputs & choices
 
@@ -253,7 +253,7 @@ A complete field: persistent label, control, hint, and error.
 
 Label and helper IDs are connected to the control. Errors keep the original input.
 
-Import: `import { Field } from './src/library';`
+Import: `import { Field } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -263,15 +263,15 @@ Import: `import { Field } from './src/library';`
 | `required` | Boolean. Marks the field required and adds visible text. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Field](http://127.0.0.1:5173/?view=catalogue&component=Field)
+Live example: [Field](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Field)
 
 #### Input
 
 A single-line input with a quiet, contained focus treatment.
 
-A 1px focus border with a faint 2px halo replaces the large offset outline.
+Focus changes the existing 1px border without an outer halo or offset outline.
 
-Import: `import { Input } from './src/library';`
+Import: `import { Input } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -281,15 +281,15 @@ Import: `import { Input } from './src/library';`
 | `placeholder` | A brief example; never a replacement for a visible label. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [Input](http://127.0.0.1:5173/?view=catalogue&component=Input)
+Live example: [Input](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Input)
 
 #### Textarea
 
 A resizable multi-line field for longer content.
 
-Preserve newlines and let the field grow vertically. Do not use placeholder text as the label.
+Preserve newlines and let the field grow vertically. Code variant uses IBM Plex Mono and a 220px minimum; short size uses 96px. Use a visible label.
 
-Import: `import { Textarea } from './src/library';`
+Import: `import { Textarea } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -297,8 +297,10 @@ Import: `import { Textarea } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `rows` | DataTable: project records. Textarea: visible line count. Skeleton: placeholder row count. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `variant` | primary  /  secondary (default)  /  quiet  /  ghost  /  danger. |
+| `size` | Icon or loader size in pixels; loader default 24. |
 
-Live example: [Textarea](http://127.0.0.1:5173/?view=catalogue&component=Textarea)
+Live example: [Textarea](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Textarea)
 
 #### Select
 
@@ -306,7 +308,7 @@ A polished single-choice control for short form lists.
 
 Uses the shared custom dropdown. Selection changes only after the user commits an option.
 
-Import: `import { Select } from './src/library';`
+Import: `import { Select } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -316,7 +318,7 @@ Import: `import { Select } from './src/library';`
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `name` | Native form or radio-group name. |
 
-Live example: [Select](http://127.0.0.1:5173/?view=catalogue&component=Select)
+Live example: [Select](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Select)
 
 #### Dropdown
 
@@ -324,7 +326,7 @@ The shared dropdown surface, trigger, and keyboard interaction.
 
 Options support descriptions, counts, and disabled states. The popup chooses available viewport space.
 
-Import: `import { Dropdown } from './src/library';`
+Import: `import { Dropdown } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -335,7 +337,7 @@ Import: `import { Dropdown } from './src/library';`
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `name` | Native form or radio-group name. |
 
-Live example: [Dropdown](http://127.0.0.1:5173/?view=catalogue&component=Dropdown)
+Live example: [Dropdown](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Dropdown)
 
 #### Picker
 
@@ -343,7 +345,7 @@ A dropdown for filters, with optional counts.
 
 Use counts to explain a filter, and offer an explicit All option to reset it.
 
-Import: `import { Picker } from './src/library';`
+Import: `import { Picker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -352,7 +354,7 @@ Import: `import { Picker } from './src/library';`
 | `options` | Choice array. Dropdown uses { value, label, description?, count?, disabled? }; tabs use strings. |
 | `searchable` | Boolean. Dropdown enables search automatically at 8 options unless overridden. |
 
-Live example: [Picker](http://127.0.0.1:5173/?view=catalogue&component=Picker)
+Live example: [Picker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Picker)
 
 #### ComboboxPicker
 
@@ -360,7 +362,7 @@ A searchable choice list for larger collections.
 
 Search is local and case-insensitive. Empty results explain how to recover.
 
-Import: `import { ComboboxPicker } from './src/library';`
+Import: `import { ComboboxPicker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -369,7 +371,7 @@ Import: `import { ComboboxPicker } from './src/library';`
 | `options` | Choice array. Dropdown uses { value, label, description?, count?, disabled? }; tabs use strings. |
 | `searchable` | Boolean. Dropdown enables search automatically at 8 options unless overridden. |
 
-Live example: [ComboboxPicker](http://127.0.0.1:5173/?view=catalogue&component=ComboboxPicker)
+Live example: [ComboboxPicker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ComboboxPicker)
 
 #### Checkbox
 
@@ -377,7 +379,7 @@ An independent on/off choice that can accompany helper text.
 
 Uses a native checkbox. Clicking the label changes the value; Space toggles it.
 
-Import: `import { Checkbox } from './src/library';`
+Import: `import { Checkbox } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -387,7 +389,7 @@ Import: `import { Checkbox } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [Checkbox](http://127.0.0.1:5173/?view=catalogue&component=Checkbox)
+Live example: [Checkbox](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Checkbox)
 
 #### Radio
 
@@ -395,7 +397,7 @@ One choice within a mutually exclusive named group.
 
 Use a fieldset and legend for a related group. Native arrow-key behavior stays intact.
 
-Import: `import { Radio } from './src/library';`
+Import: `import { Radio } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -405,7 +407,7 @@ Import: `import { Radio } from './src/library';`
 | `checked` | Controlled boolean selection state. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 
-Live example: [Radio](http://127.0.0.1:5173/?view=catalogue&component=Radio)
+Live example: [Radio](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Radio)
 
 #### Switch
 
@@ -413,7 +415,7 @@ An immediate binary setting, with a label and optional hint.
 
 The switch applies directly. Use a checkbox for a selection that waits for form submission.
 
-Import: `import { Switch } from './src/library';`
+Import: `import { Switch } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -423,7 +425,7 @@ Import: `import { Switch } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [Switch](http://127.0.0.1:5173/?view=catalogue&component=Switch)
+Live example: [Switch](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Switch)
 
 #### SwitchRow
 
@@ -431,7 +433,7 @@ A setting name and explanation aligned with its switch.
 
 Keep the whole row large enough to click, without hiding the setting name.
 
-Import: `import { SwitchRow } from './src/library';`
+Import: `import { SwitchRow } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -440,7 +442,7 @@ Import: `import { SwitchRow } from './src/library';`
 | `checked` | Controlled boolean selection state. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 
-Live example: [SwitchRow](http://127.0.0.1:5173/?view=catalogue&component=SwitchRow)
+Live example: [SwitchRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SwitchRow)
 
 #### SearchField
 
@@ -448,7 +450,7 @@ A reusable search input with a visible clear action.
 
 Clearing the field resets the results. It does not discard unrelated filters.
 
-Import: `import { SearchField } from './src/library';`
+Import: `import { SearchField } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -457,7 +459,7 @@ Import: `import { SearchField } from './src/library';`
 | `label` | Visible or accessible name describing the control. |
 | `placeholder` | A brief example; never a replacement for a visible label. |
 
-Live example: [SearchField](http://127.0.0.1:5173/?view=catalogue&component=SearchField)
+Live example: [SearchField](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SearchField)
 
 #### TagInput
 
@@ -465,7 +467,7 @@ Editable tags with keyboard entry and removal.
 
 Enter or comma adds a trimmed, unique tag. Backspace on an empty input removes the last tag.
 
-Import: `import { TagInput } from './src/library';`
+Import: `import { TagInput } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -473,7 +475,7 @@ Import: `import { TagInput } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [TagInput](http://127.0.0.1:5173/?view=catalogue&component=TagInput)
+Live example: [TagInput](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TagInput)
 
 #### FileUpload
 
@@ -481,7 +483,7 @@ A document card with browse, drag-and-drop, validation, and file details.
 
 Accepts one PDF, Markdown, or text file up to 10 MB by default. This local component does not transmit files.
 
-Import: `import { FileUpload } from './src/library';`
+Import: `import { FileUpload } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -489,7 +491,7 @@ Import: `import { FileUpload } from './src/library';`
 | `maxSize` | Maximum file size in bytes; default 10 × 1024 × 1024. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [FileUpload](http://127.0.0.1:5173/?view=catalogue&component=FileUpload)
+Live example: [FileUpload](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FileUpload)
 
 #### Dropzone
 
@@ -497,7 +499,7 @@ The shared file-upload pattern, replacing local dashed boxes.
 
 This is the FileUpload implementation under the migration alias Dropzone.
 
-Import: `import { Dropzone } from './src/library';`
+Import: `import { Dropzone } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -505,7 +507,7 @@ Import: `import { Dropzone } from './src/library';`
 | `maxSize` | Maximum file size in bytes; default 10 × 1024 × 1024. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [Dropzone](http://127.0.0.1:5173/?view=catalogue&component=Dropzone)
+Live example: [Dropzone](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Dropzone)
 
 ### Navigation
 
@@ -515,14 +517,14 @@ A stable, labeled entry to Workspace, Agents Studio, and Knowledge.
 
 Changing apps preserves the surrounding navigation grammar.
 
-Import: `import { AppSwitcher } from './src/library';`
+Import: `import { AppSwitcher } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 
-Live example: [AppSwitcher](http://127.0.0.1:5173/?view=catalogue&component=AppSwitcher)
+Live example: [AppSwitcher](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AppSwitcher)
 
 #### Breadcrumbs
 
@@ -530,14 +532,14 @@ A compact path showing the current location and its parents.
 
 Only the final item is current. Parent items are actionable; separators are decorative.
 
-Import: `import { Breadcrumbs } from './src/library';`
+Import: `import { Breadcrumbs } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 | `onNavigate` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [Breadcrumbs](http://127.0.0.1:5173/?view=catalogue&component=Breadcrumbs)
+Live example: [Breadcrumbs](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Breadcrumbs)
 
 #### TabStrip
 
@@ -545,7 +547,7 @@ Keyboard-navigable tabs for sections of one object.
 
 Left/Right, Home, and End move between tabs. Selection uses aria-selected and a clear underline.
 
-Import: `import { TabStrip } from './src/library';`
+Import: `import { TabStrip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -554,7 +556,7 @@ Import: `import { TabStrip } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [TabStrip](http://127.0.0.1:5173/?view=catalogue&component=TabStrip)
+Live example: [TabStrip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TabStrip)
 
 #### SegmentedControl
 
@@ -562,7 +564,7 @@ A compact switch between related views of the same content.
 
 Uses a group of pressed buttons, not mixed tab semantics. Keep labels brief and meaningful.
 
-Import: `import { SegmentedControl } from './src/library';`
+Import: `import { SegmentedControl } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -571,7 +573,7 @@ Import: `import { SegmentedControl } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [SegmentedControl](http://127.0.0.1:5173/?view=catalogue&component=SegmentedControl)
+Live example: [SegmentedControl](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SegmentedControl)
 
 #### NavTree
 
@@ -579,7 +581,7 @@ Expandable document groups with a clear current page.
 
 Uses native disclosure navigation. Each document remains a normal keyboard-reachable button.
 
-Import: `import { NavTree } from './src/library';`
+Import: `import { NavTree } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -587,7 +589,7 @@ Import: `import { NavTree } from './src/library';`
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 
-Live example: [NavTree](http://127.0.0.1:5173/?view=catalogue&component=NavTree)
+Live example: [NavTree](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=NavTree)
 
 #### AccountMenu
 
@@ -595,7 +597,7 @@ A predictable menu for profile, workspace, and support actions.
 
 Keep account actions separate from project actions. The trigger includes a person’s name.
 
-Import: `import { AccountMenu } from './src/library';`
+Import: `import { AccountMenu } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -604,7 +606,7 @@ Import: `import { AccountMenu } from './src/library';`
 | `initials` | One or two letters identifying the person. |
 | `workspace` | Workspace name shown below the account identity. |
 
-Live example: [AccountMenu](http://127.0.0.1:5173/?view=catalogue&component=AccountMenu)
+Live example: [AccountMenu](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AccountMenu)
 
 #### Toc
 
@@ -612,13 +614,13 @@ A reading rail with direct links to document headings.
 
 Links move to actual anchors. Hide the rail only when the article retains its headings.
 
-Import: `import { Toc } from './src/library';`
+Import: `import { Toc } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 
-Live example: [Toc](http://127.0.0.1:5173/?view=catalogue&component=Toc)
+Live example: [Toc](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Toc)
 
 ### Data & identity
 
@@ -628,14 +630,14 @@ A small labeled state with a semantic color and dot.
 
 Use ok, warn, bad, info, or quiet. A color never replaces the written state.
 
-Import: `import { Pill } from './src/library';`
+Import: `import { Pill } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Pill](http://127.0.0.1:5173/?view=catalogue&component=Pill)
+Live example: [Pill](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Pill)
 
 #### StatusPill
 
@@ -643,14 +645,14 @@ The project-state vocabulary on the shared Pill.
 
 Planning, In progress, In review, and Completed map to one shared set of tones.
 
-Import: `import { StatusPill } from './src/library';`
+Import: `import { StatusPill } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [StatusPill](http://127.0.0.1:5173/?view=catalogue&component=StatusPill)
+Live example: [StatusPill](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StatusPill)
 
 #### Chip
 
@@ -658,14 +660,14 @@ A compact category or removable tag.
 
 Removable tags have a named remove button. Passive tags never look like interactive buttons.
 
-Import: `import { Chip } from './src/library';`
+Import: `import { Chip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 | `onRemove` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [Chip](http://127.0.0.1:5173/?view=catalogue&component=Chip)
+Live example: [Chip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Chip)
 
 #### Avatar
 
@@ -673,7 +675,7 @@ An initials marker supporting an identifiable person.
 
 Use a visible name nearby. The avatar alone should not be the only identification.
 
-Import: `import { Avatar } from './src/library';`
+Import: `import { Avatar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -681,7 +683,7 @@ Import: `import { Avatar } from './src/library';`
 | `name` | Native form or radio-group name. |
 | `color` | Avatar color key or chart/legend CSS color. |
 
-Live example: [Avatar](http://127.0.0.1:5173/?view=catalogue&component=Avatar)
+Live example: [Avatar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Avatar)
 
 #### DeptTile
 
@@ -689,13 +691,13 @@ A department label using the dedicated pink-harmonized color scale.
 
 Department colors describe ownership. They never indicate success, warning, or failure.
 
-Import: `import { DeptTile } from './src/library';`
+Import: `import { DeptTile } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `department` | Creative  /  Engineering  /  Client services  /  Company. |
 
-Live example: [DeptTile](http://127.0.0.1:5173/?view=catalogue&component=DeptTile)
+Live example: [DeptTile](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DeptTile)
 
 #### Timestamp
 
@@ -703,13 +705,13 @@ A human-readable date with a machine-readable datetime value.
 
 The title contains the complete localized date. Timezone context belongs in the surrounding screen.
 
-Import: `import { Timestamp } from './src/library';`
+Import: `import { Timestamp } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `date` | A valid date or ISO 8601 date-time string. |
 
-Live example: [Timestamp](http://127.0.0.1:5173/?view=catalogue&component=Timestamp)
+Live example: [Timestamp](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Timestamp)
 
 #### Kbd
 
@@ -717,13 +719,13 @@ A small keycap for a real, supported keyboard shortcut.
 
 Only show shortcuts that actually work. Keep the keycap visually secondary.
 
-Import: `import { Kbd } from './src/library';`
+Import: `import { Kbd } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Kbd](http://127.0.0.1:5173/?view=catalogue&component=Kbd)
+Live example: [Kbd](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Kbd)
 
 #### LegendDot
 
@@ -731,14 +733,14 @@ A labeled chart category with its matching color.
 
 Place the label beside the color. Never ask users to distinguish unlabeled colors.
 
-Import: `import { LegendDot } from './src/library';`
+Import: `import { LegendDot } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `color` | Avatar color key or chart/legend CSS color. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [LegendDot](http://127.0.0.1:5173/?view=catalogue&component=LegendDot)
+Live example: [LegendDot](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=LegendDot)
 
 #### Stat
 
@@ -746,7 +748,7 @@ A metric with its label and useful context.
 
 Use tabular numerals. A number needs a unit or explanation when its meaning is not obvious.
 
-Import: `import { Stat } from './src/library';`
+Import: `import { Stat } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -754,7 +756,7 @@ Import: `import { Stat } from './src/library';`
 | `value` | Controlled value. Update it from onChange. |
 | `hint` | Optional supporting text connected to the control. |
 
-Live example: [Stat](http://127.0.0.1:5173/?view=catalogue&component=Stat)
+Live example: [Stat](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Stat)
 
 #### StatRow
 
@@ -762,13 +764,13 @@ A responsive row of related metrics separated by quiet rules.
 
 Keep related metrics on one continuous surface, not a grid of identical floating cards.
 
-Import: `import { StatRow } from './src/library';`
+Import: `import { StatRow } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [StatRow](http://127.0.0.1:5173/?view=catalogue&component=StatRow)
+Live example: [StatRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StatRow)
 
 #### Facts
 
@@ -776,13 +778,13 @@ Aligned labels and values for object properties.
 
 Use a semantic definition list. Long values wrap instead of widening the page.
 
-Import: `import { Facts } from './src/library';`
+Import: `import { Facts } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 
-Live example: [Facts](http://127.0.0.1:5173/?view=catalogue&component=Facts)
+Live example: [Facts](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Facts)
 
 #### Meter
 
@@ -790,14 +792,14 @@ A measurable completion value with text and progress semantics.
 
 Expose the value and its range to assistive technology. Unknown progress uses a loading state instead.
 
-Import: `import { Meter } from './src/library';`
+Import: `import { Meter } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `value` | Controlled value. Update it from onChange. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [Meter](http://127.0.0.1:5173/?view=catalogue&component=Meter)
+Live example: [Meter](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Meter)
 
 #### DataTable
 
@@ -805,14 +807,14 @@ A complete collection table with search, filtering, sorting, selection, and pagi
 
 Selection, row actions, and sorting are explicit controls. The scroll container is keyboard accessible.
 
-Import: `import { DataTable } from './src/library';`
+Import: `import { DataTable } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `rows` | DataTable: project records. Textarea: visible line count. Skeleton: placeholder row count. |
 | `onOpen` | Receives the row record when its explicit action is activated. |
 
-Live example: [DataTable](http://127.0.0.1:5173/?view=catalogue&component=DataTable)
+Live example: [DataTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DataTable)
 
 #### FilterRow
 
@@ -820,7 +822,7 @@ A consistent search and status-filter arrangement with a reset.
 
 The clear action only appears when a filter is applied. Mobile controls wrap rather than shrink.
 
-Import: `import { FilterRow } from './src/library';`
+Import: `import { FilterRow } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -829,7 +831,7 @@ Import: `import { FilterRow } from './src/library';`
 | `status` | Current status value or object-state label. |
 | `onStatusChange` | Receives the selected status filter. |
 
-Live example: [FilterRow](http://127.0.0.1:5173/?view=catalogue&component=FilterRow)
+Live example: [FilterRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterRow)
 
 #### SortHead
 
@@ -837,7 +839,7 @@ A column heading button with a visible and announced sort direction.
 
 Use aria-sort on the enclosing column header and a button inside it.
 
-Import: `import { SortHead } from './src/library';`
+Import: `import { SortHead } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -845,7 +847,7 @@ Import: `import { SortHead } from './src/library';`
 | `direction` | ascending  /  descending  /  none. |
 | `onSort` | Requests a sort change for this column. |
 
-Live example: [SortHead](http://127.0.0.1:5173/?view=catalogue&component=SortHead)
+Live example: [SortHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SortHead)
 
 ### Surfaces & layout
 
@@ -855,7 +857,7 @@ Native scrolling with a short, transparent pink indicator flush to the container
 
 The 2px rectangular thumb is at most 28px long. Wheel, touch, keyboard, and thumb dragging work together. No indicator appears when content fits.
 
-Import: `import { ScrollArea } from './src/library';`
+Import: `import { ScrollArea } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -865,7 +867,7 @@ Import: `import { ScrollArea } from './src/library';`
 | `axis` | vertical  /  horizontal  /  both; default vertical. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [ScrollArea](http://127.0.0.1:5173/?view=catalogue&component=ScrollArea)
+Live example: [ScrollArea](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ScrollArea)
 
 #### Panel
 
@@ -873,16 +875,17 @@ A titled group of related content with an optional section action.
 
 Use a surface when the content has a distinct purpose, not around every individual item.
 
-Import: `import { Panel } from './src/library';`
+Import: `import { Panel } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `action` | An optional section-level action. |
+| `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Panel](http://127.0.0.1:5173/?view=catalogue&component=Panel)
+Live example: [Panel](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Panel)
 
 #### Card
 
@@ -890,7 +893,7 @@ The same surface contract as Panel, with optional content.
 
 Shares Panel geometry and spacing instead of introducing a second card family.
 
-Import: `import { Card } from './src/library';`
+Import: `import { Card } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -899,7 +902,7 @@ Import: `import { Card } from './src/library';`
 | `action` | An optional section-level action. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Card](http://127.0.0.1:5173/?view=catalogue&component=Card)
+Live example: [Card](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Card)
 
 #### CollectionCard
 
@@ -907,7 +910,7 @@ A selectable collection preview with a title, description, and metadata.
 
 The full card is one action. Do not nest interactive buttons inside it.
 
-Import: `import { CollectionCard } from './src/library';`
+Import: `import { CollectionCard } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -916,7 +919,7 @@ Import: `import { CollectionCard } from './src/library';`
 | `meta` | A short metadata summary for a collection. |
 | `onClick` | Action callback. Use a link for navigation. |
 
-Live example: [CollectionCard](http://127.0.0.1:5173/?view=catalogue&component=CollectionCard)
+Live example: [CollectionCard](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionCard)
 
 #### LinkTile
 
@@ -924,7 +927,7 @@ A compact shortcut with an icon, name, and explanation.
 
 Use for a destination or tool. Keep the title specific enough to predict what opens.
 
-Import: `import { LinkTile } from './src/library';`
+Import: `import { LinkTile } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -933,7 +936,7 @@ Import: `import { LinkTile } from './src/library';`
 | `icon` | A Lucide React icon component, using the shared stroke. |
 | `onClick` | Action callback. Use a link for navigation. |
 
-Live example: [LinkTile](http://127.0.0.1:5173/?view=catalogue&component=LinkTile)
+Live example: [LinkTile](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=LinkTile)
 
 #### Rows
 
@@ -941,13 +944,13 @@ A continuous container for related row items.
 
 Use dividers to separate items without giving every row its own card.
 
-Import: `import { Rows } from './src/library';`
+Import: `import { Rows } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Rows](http://127.0.0.1:5173/?view=catalogue&component=Rows)
+Live example: [Rows](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Rows)
 
 #### Row
 
@@ -955,7 +958,7 @@ A labeled content row with supporting text and optional action.
 
 Passive rows are not buttons. Actionable rows show a chevron and have one clear target.
 
-Import: `import { Row } from './src/library';`
+Import: `import { Row } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -965,7 +968,7 @@ Import: `import { Row } from './src/library';`
 | `trailing` | Optional supporting status or metadata. |
 | `onClick` | Action callback. Use a link for navigation. |
 
-Live example: [Row](http://127.0.0.1:5173/?view=catalogue&component=Row)
+Live example: [Row](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Row)
 
 #### SectionHead
 
@@ -973,7 +976,7 @@ A section title, optional description, and one related action.
 
 Keep the action aligned with its section rather than placing every action in the page header.
 
-Import: `import { SectionHead } from './src/library';`
+Import: `import { SectionHead } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -981,7 +984,7 @@ Import: `import { SectionHead } from './src/library';`
 | `sub` | Optional supporting text under the section title. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [SectionHead](http://127.0.0.1:5173/?view=catalogue&component=SectionHead)
+Live example: [SectionHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SectionHead)
 
 #### SidebarShell
 
@@ -989,7 +992,7 @@ Reusable application shell with fixed identity and account areas.
 
 Import navigation/styles.css. No provider or demo routes required. Main and secondary navigation collapse independently; mobile navigation uses a dialog.
 
-Import: `import { SidebarShell } from './src/library';`
+Import: `import { SidebarShell } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1005,7 +1008,7 @@ Import: `import { SidebarShell } from './src/library';`
 | `storageKey` | Optional pattern-specific value. Use the live example as the reference. |
 | `secondaryNavigation` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [SidebarShell](http://127.0.0.1:5173/?view=catalogue&component=SidebarShell)
+Live example: [SidebarShell](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SidebarShell)
 
 #### PageBar
 
@@ -1013,7 +1016,7 @@ The page title and its primary action in a shared layout.
 
 The page should explain where the user is before presenting controls.
 
-Import: `import { PageBar } from './src/library';`
+Import: `import { PageBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1021,7 +1024,7 @@ Import: `import { PageBar } from './src/library';`
 | `description` | Supporting explanation, kept separate from the heading. |
 | `actions` | Primary and supporting actions for the current page. |
 
-Live example: [PageBar](http://127.0.0.1:5173/?view=catalogue&component=PageBar)
+Live example: [PageBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageBar)
 
 #### PageGrid
 
@@ -1029,13 +1032,13 @@ The shared main-content and context-rail composition.
 
 The second column moves below the first when its minimum width is unavailable.
 
-Import: `import { PageGrid } from './src/library';`
+Import: `import { PageGrid } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [PageGrid](http://127.0.0.1:5173/?view=catalogue&component=PageGrid)
+Live example: [PageGrid](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageGrid)
 
 #### CardGrid
 
@@ -1043,13 +1046,13 @@ A responsive grid of collection cards.
 
 Cards use a consistent minimum width, never a screen-specific auto-fill rule.
 
-Import: `import { CardGrid } from './src/library';`
+Import: `import { CardGrid } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [CardGrid](http://127.0.0.1:5173/?view=catalogue&component=CardGrid)
+Live example: [CardGrid](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CardGrid)
 
 #### Stack
 
@@ -1057,14 +1060,14 @@ A vertical layout using a deliberate spacing value.
 
 Choose gaps from the 4px spacing scale. Use Stack instead of repeated margin overrides.
 
-Import: `import { Stack } from './src/library';`
+Import: `import { Stack } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 | `gap` | Spacing in pixels from the shared 4px scale. |
 
-Live example: [Stack](http://127.0.0.1:5173/?view=catalogue&component=Stack)
+Live example: [Stack](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Stack)
 
 #### DetailHeader
 
@@ -1072,7 +1075,7 @@ An object title, state, explanation, and supporting facts.
 
 Use the same order in project, agent, workflow, and document detail pages.
 
-Import: `import { DetailHeader } from './src/library';`
+Import: `import { DetailHeader } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1081,7 +1084,7 @@ Import: `import { DetailHeader } from './src/library';`
 | `status` | Current status value or object-state label. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [DetailHeader](http://127.0.0.1:5173/?view=catalogue&component=DetailHeader)
+Live example: [DetailHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DetailHeader)
 
 #### Inspector
 
@@ -1089,13 +1092,13 @@ A searchable list and its selected detail in one reusable component.
 
 The current selection remains visible. On narrow screens the list moves above the detail.
 
-Import: `import { Inspector } from './src/library';`
+Import: `import { Inspector } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 
-Live example: [Inspector](http://127.0.0.1:5173/?view=catalogue&component=Inspector)
+Live example: [Inspector](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Inspector)
 
 #### Gate
 
@@ -1103,13 +1106,13 @@ The shared access screen with one clear next action.
 
 The demonstration never sends authentication requests. Production sign-in must state the workspace and provider.
 
-Import: `import { Gate } from './src/library';`
+Import: `import { Gate } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `onContinue` | Requests the next access step. The demo stays local. |
 
-Live example: [Gate](http://127.0.0.1:5173/?view=catalogue&component=Gate)
+Live example: [Gate](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Gate)
 
 ### Feedback
 
@@ -1119,7 +1122,7 @@ A small geometric loader with a fine traveling stroke.
 
 Announces loading once. Uses no fabricated percentage. Reduced-motion preferences stop the animation.
 
-Import: `import { Loader } from './src/library';`
+Import: `import { Loader } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1127,7 +1130,7 @@ Import: `import { Loader } from './src/library';`
 | `size` | Icon or loader size in pixels; loader default 24. |
 | `decorative` | Suppresses a duplicate loading announcement when a parent already has role=status. |
 
-Live example: [Loader](http://127.0.0.1:5173/?view=catalogue&component=Loader)
+Live example: [Loader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Loader)
 
 #### PageLoading
 
@@ -1135,7 +1138,7 @@ A full-page loading state with clear context and a quiet animated loader.
 
 Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation.
 
-Import: `import { PageLoading } from './src/library';`
+Import: `import { PageLoading } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1143,7 +1146,7 @@ Import: `import { PageLoading } from './src/library';`
 | `description` | Supporting explanation, kept separate from the heading. |
 | `onCancel` | Callback for the safe cancellation action. |
 
-Live example: [PageLoading](http://127.0.0.1:5173/?view=catalogue&component=PageLoading)
+Live example: [PageLoading](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageLoading)
 
 #### Notice
 
@@ -1151,14 +1154,14 @@ A contained message with an icon, explanation, and semantic tone.
 
 Explain what happened and what to do next. Persistent messages belong inline, not in temporary toasts.
 
-Import: `import { Notice } from './src/library';`
+Import: `import { Notice } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Notice](http://127.0.0.1:5173/?view=catalogue&component=Notice)
+Live example: [Notice](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Notice)
 
 #### Toast
 
@@ -1166,14 +1169,14 @@ A short confirmation announced without moving keyboard focus.
 
 Use for successful actions. Critical failures stay inline until they are resolved.
 
-Import: `import { Toast } from './src/library';`
+Import: `import { Toast } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 
-Live example: [Toast](http://127.0.0.1:5173/?view=catalogue&component=Toast)
+Live example: [Toast](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Toast)
 
 #### Skeleton
 
@@ -1181,13 +1184,13 @@ Static placeholder rows matching the incoming content structure.
 
 Reserves space without a spinner. Announce loading once, not on every placeholder.
 
-Import: `import { Skeleton } from './src/library';`
+Import: `import { Skeleton } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `rows` | DataTable: project records. Textarea: visible line count. Skeleton: placeholder row count. |
 
-Live example: [Skeleton](http://127.0.0.1:5173/?view=catalogue&component=Skeleton)
+Live example: [Skeleton](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Skeleton)
 
 #### LoadingBar
 
@@ -1195,14 +1198,14 @@ A determinate progress indicator with a visible value.
 
 A real percentage is required. Do not invent progress when the amount of work is unknown.
 
-Import: `import { LoadingBar } from './src/library';`
+Import: `import { LoadingBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `value` | Controlled value. Update it from onChange. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [LoadingBar](http://127.0.0.1:5173/?view=catalogue&component=LoadingBar)
+Live example: [LoadingBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=LoadingBar)
 
 #### Refreshing
 
@@ -1210,14 +1213,14 @@ A subtle busy treatment over the existing, readable content.
 
 Keep previous data visible while refreshing. Use aria-busy and one status announcement.
 
-Import: `import { Refreshing } from './src/library';`
+Import: `import { Refreshing } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `busy` | Boolean refresh-in-progress state; preserves previous content. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Refreshing](http://127.0.0.1:5173/?view=catalogue&component=Refreshing)
+Live example: [Refreshing](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Refreshing)
 
 #### StateView
 
@@ -1225,7 +1228,7 @@ A unified empty, error, or loading state with a useful next action.
 
 Failed loads retain the user’s filters. Empty states invite a specific first action.
 
-Import: `import { StateView } from './src/library';`
+Import: `import { StateView } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1233,7 +1236,7 @@ Import: `import { StateView } from './src/library';`
 | `onRetry` | Retries the failed operation without dropping the current context. |
 | `onCreate` | Starts the first useful action from an empty state. |
 
-Live example: [StateView](http://127.0.0.1:5173/?view=catalogue&component=StateView)
+Live example: [StateView](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StateView)
 
 #### Tooltip
 
@@ -1241,14 +1244,14 @@ A brief explanation available on hover and keyboard focus.
 
 Never place essential instructions only in a tooltip. Use aria-describedby.
 
-Import: `import { Tooltip } from './src/library';`
+Import: `import { Tooltip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `label` | Visible or accessible name describing the control. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Tooltip](http://127.0.0.1:5173/?view=catalogue&component=Tooltip)
+Live example: [Tooltip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Tooltip)
 
 ### Overlays & editing
 
@@ -1258,7 +1261,7 @@ An anchored top-layer surface for a small contextual task.
 
 Escape and outside clicks close it. The surface stays within the viewport.
 
-Import: `import { Popover } from './src/library';`
+Import: `import { Popover } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1268,7 +1271,7 @@ Import: `import { Popover } from './src/library';`
 | `open` | Controlled overlay visibility. |
 | `onOpenChange` | Called with the next boolean open state. |
 
-Live example: [Popover](http://127.0.0.1:5173/?view=catalogue&component=Popover)
+Live example: [Popover](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Popover)
 
 #### DropdownMenu
 
@@ -1276,14 +1279,14 @@ A keyboard-navigable action menu with optional icons and shortcuts.
 
 Arrow keys move through enabled items. Escape returns to the trigger.
 
-Import: `import { DropdownMenu } from './src/library';`
+Import: `import { DropdownMenu } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 | `label` | Visible or accessible name describing the control. |
 
-Live example: [DropdownMenu](http://127.0.0.1:5173/?view=catalogue&component=DropdownMenu)
+Live example: [DropdownMenu](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DropdownMenu)
 
 #### Dialog
 
@@ -1291,7 +1294,7 @@ A modal decision or focused form using the native dialog layer.
 
 Focus stays inside. Escape closes; the opening control regains focus.
 
-Import: `import { Dialog } from './src/library';`
+Import: `import { Dialog } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1300,7 +1303,7 @@ Import: `import { Dialog } from './src/library';`
 | `title` | A concise visible heading describing this context. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Dialog](http://127.0.0.1:5173/?view=catalogue&component=Dialog)
+Live example: [Dialog](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Dialog)
 
 #### Sheet
 
@@ -1308,7 +1311,7 @@ A side panel for editing without losing the parent context.
 
 Shares Dialog focus behavior. It becomes full width on a phone.
 
-Import: `import { Sheet } from './src/library';`
+Import: `import { Sheet } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1317,7 +1320,7 @@ Import: `import { Sheet } from './src/library';`
 | `title` | A concise visible heading describing this context. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Sheet](http://127.0.0.1:5173/?view=catalogue&component=Sheet)
+Live example: [Sheet](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Sheet)
 
 #### ConfirmDialog
 
@@ -1325,7 +1328,7 @@ An explicit confirmation for a consequential operation.
 
 Initial focus starts on the safe Cancel action. Name the action instead of saying Yes.
 
-Import: `import { ConfirmDialog } from './src/library';`
+Import: `import { ConfirmDialog } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1336,7 +1339,7 @@ Import: `import { ConfirmDialog } from './src/library';`
 | `description` | Supporting explanation, kept separate from the heading. |
 | `confirmLabel` | Explicit action label, such as Archive project. |
 
-Live example: [ConfirmDialog](http://127.0.0.1:5173/?view=catalogue&component=ConfirmDialog)
+Live example: [ConfirmDialog](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ConfirmDialog)
 
 #### ConfirmStrip
 
@@ -1344,7 +1347,7 @@ A contained, in-place confirmation with two clear actions.
 
 Use only when the action can be understood in the surrounding context.
 
-Import: `import { ConfirmStrip } from './src/library';`
+Import: `import { ConfirmStrip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1352,7 +1355,7 @@ Import: `import { ConfirmStrip } from './src/library';`
 | `onConfirm` | Callback for the explicitly named confirmation action. |
 | `onCancel` | Callback for the safe cancellation action. |
 
-Live example: [ConfirmStrip](http://127.0.0.1:5173/?view=catalogue&component=ConfirmStrip)
+Live example: [ConfirmStrip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ConfirmStrip)
 
 #### Disclosure
 
@@ -1360,7 +1363,7 @@ The bordered information card with a clear header and expandable body.
 
 Native details/summary handles Enter and Space. Icon, title, and chevron share one target.
 
-Import: `import { Disclosure } from './src/library';`
+Import: `import { Disclosure } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1369,7 +1372,7 @@ Import: `import { Disclosure } from './src/library';`
 | `children` | React content. Keep text concise and accessible. |
 | `defaultOpen` | Whether a disclosure starts expanded. |
 
-Live example: [Disclosure](http://127.0.0.1:5173/?view=catalogue&component=Disclosure)
+Live example: [Disclosure](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Disclosure)
 
 #### SaveBar
 
@@ -1377,7 +1380,7 @@ A persistent editing summary with save and discard actions.
 
 Save is unavailable when nothing changed. A failed save should preserve the dirty state and user input.
 
-Import: `import { SaveBar } from './src/library';`
+Import: `import { SaveBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1385,8 +1388,11 @@ Import: `import { SaveBar } from './src/library';`
 | `onSave` | Receives the edited object or triggers a save operation. |
 | `onDiscard` | Restores the last saved value. |
 | `saving` | Boolean save-in-progress state; disables duplicate actions. |
+| `actions` | Primary and supporting actions for the current page. |
+| `message` | Optional pattern-specific value. Use the live example as the reference. |
+| `sticky` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [SaveBar](http://127.0.0.1:5173/?view=catalogue&component=SaveBar)
+Live example: [SaveBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SaveBar)
 
 #### FieldRow
 
@@ -1394,7 +1400,7 @@ A setting description aligned with its control.
 
 The label column has a consistent measure. On mobile the control stacks below the label.
 
-Import: `import { FieldRow } from './src/library';`
+Import: `import { FieldRow } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1402,7 +1408,7 @@ Import: `import { FieldRow } from './src/library';`
 | `hint` | Optional supporting text connected to the control. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [FieldRow](http://127.0.0.1:5173/?view=catalogue&component=FieldRow)
+Live example: [FieldRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FieldRow)
 
 #### SheetSection
 
@@ -1410,7 +1416,7 @@ A reusable section within a sheet or detail panel.
 
 Group a few related fields under a specific title. Avoid repeating a border around every field.
 
-Import: `import { SheetSection } from './src/library';`
+Import: `import { SheetSection } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1418,7 +1424,7 @@ Import: `import { SheetSection } from './src/library';`
 | `description` | Supporting explanation, kept separate from the heading. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [SheetSection](http://127.0.0.1:5173/?view=catalogue&component=SheetSection)
+Live example: [SheetSection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SheetSection)
 
 #### CopyBlock
 
@@ -1426,13 +1432,13 @@ A readable code or value block with a copy action.
 
 The control confirms a successful clipboard write. The text remains selectable when clipboard permission is unavailable.
 
-Import: `import { CopyBlock } from './src/library';`
+Import: `import { CopyBlock } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [CopyBlock](http://127.0.0.1:5173/?view=catalogue&component=CopyBlock)
+Live example: [CopyBlock](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CopyBlock)
 
 ### Documents & operations
 
@@ -1442,14 +1448,14 @@ A readable article with consistent headings and paragraph rhythm.
 
 Keep prose within 64 to 72 characters and use 1.75 line height.
 
-Import: `import { ReadableDoc } from './src/library';`
+Import: `import { ReadableDoc } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [ReadableDoc](http://127.0.0.1:5173/?view=catalogue&component=ReadableDoc)
+Live example: [ReadableDoc](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ReadableDoc)
 
 #### Markdown
 
@@ -1457,13 +1463,13 @@ An escaped renderer for headings, paragraphs, lists, and fenced code.
 
 This implementation supports a documented Markdown subset and never renders raw HTML.
 
-Import: `import { Markdown } from './src/library';`
+Import: `import { Markdown } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 
-Live example: [Markdown](http://127.0.0.1:5173/?view=catalogue&component=Markdown)
+Live example: [Markdown](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Markdown)
 
 #### Timeline
 
@@ -1471,13 +1477,13 @@ A sequence of updates with content and time labels.
 
 The order is meaningful. Do not rely on the connecting line to communicate chronology.
 
-Import: `import { Timeline } from './src/library';`
+Import: `import { Timeline } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 
-Live example: [Timeline](http://127.0.0.1:5173/?view=catalogue&component=Timeline)
+Live example: [Timeline](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Timeline)
 
 #### Steps
 
@@ -1485,7 +1491,7 @@ A visible sequence with current and completed states.
 
 Current step uses aria-current. Completion has a check icon and text label.
 
-Import: `import { Steps } from './src/library';`
+Import: `import { Steps } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1493,7 +1499,7 @@ Import: `import { Steps } from './src/library';`
 | `current` | Zero-based index of the current step. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 
-Live example: [Steps](http://127.0.0.1:5173/?view=catalogue&component=Steps)
+Live example: [Steps](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Steps)
 
 #### ColumnChart
 
@@ -1501,13 +1507,13 @@ A labeled comparison of values with a data-table alternative.
 
 Use a zero baseline. Values and category labels are visible; color is supplementary.
 
-Import: `import { ColumnChart } from './src/library';`
+Import: `import { ColumnChart } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
 
-Live example: [ColumnChart](http://127.0.0.1:5173/?view=catalogue&component=ColumnChart)
+Live example: [ColumnChart](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ColumnChart)
 
 #### Sparkline
 
@@ -1515,13 +1521,13 @@ A small trend line with an accessible data summary.
 
 Use it to support a metric, not as the only way to understand the numbers.
 
-Import: `import { Sparkline } from './src/library';`
+Import: `import { Sparkline } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
 
-Live example: [Sparkline](http://127.0.0.1:5173/?view=catalogue&component=Sparkline)
+Live example: [Sparkline](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Sparkline)
 
 #### StackedBar
 
@@ -1529,13 +1535,13 @@ A part-to-whole comparison with a labeled legend and data table.
 
 Categories use the dedicated chart palette. Totals and category values remain available as text.
 
-Import: `import { StackedBar } from './src/library';`
+Import: `import { StackedBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
 
-Live example: [StackedBar](http://127.0.0.1:5173/?view=catalogue&component=StackedBar)
+Live example: [StackedBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StackedBar)
 
 #### BarList
 
@@ -1543,27 +1549,39 @@ A ranked or ordered set of values with horizontal bars.
 
 Labels and values align consistently. The bar width is proportional to the maximum value.
 
-Import: `import { BarList } from './src/library';`
+Import: `import { BarList } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
 
-Live example: [BarList](http://127.0.0.1:5173/?view=catalogue&component=BarList)
+Live example: [BarList](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=BarList)
 
 #### Calendar
 
-A month grid with date selection and keyboard navigation.
+An application calendar with real dates, events and selectable periods.
 
-Previous/next change the month. Arrow keys move by day or week and preserve focus.
+Controlled month or rolling periods, including exactly five weeks. Month view expands to include every date. Arrow, Home/End and PageUp/PageDown preserve keyboard focus. Events come only from the application.
 
-Import: `import { Calendar } from './src/library';`
+Import: `import { Calendar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
+| `value` | Controlled value. Update it from onChange. |
 | `onSelect` | Receives the selected date, event, or menu action. |
+| `month` | Optional pattern-specific value. Use the live example as the reference. |
+| `onMonthChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `startDate` | Optional pattern-specific value. Use the live example as the reference. |
+| `onStartDateChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `weeks` | Optional pattern-specific value. Use the live example as the reference. |
+| `events` | Optional pattern-specific value. Use the live example as the reference. |
+| `onEventSelect` | Optional pattern-specific value. Use the live example as the reference. |
+| `min` | Optional pattern-specific value. Use the live example as the reference. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `weekStartsOn` | Optional pattern-specific value. Use the live example as the reference. |
+| `locale` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [Calendar](http://127.0.0.1:5173/?view=catalogue&component=Calendar)
+Live example: [Calendar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Calendar)
 
 #### DayTimeline
 
@@ -1571,13 +1589,13 @@ A time-based view of a day with selectable events.
 
 Display the timezone. Event details remain available through normal buttons.
 
-Import: `import { DayTimeline } from './src/library';`
+Import: `import { DayTimeline } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `onSelect` | Receives the selected date, event, or menu action. |
 
-Live example: [DayTimeline](http://127.0.0.1:5173/?view=catalogue&component=DayTimeline)
+Live example: [DayTimeline](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DayTimeline)
 
 #### KanbanBoard
 
@@ -1585,13 +1603,13 @@ A task board supporting pointer drag and an explicit move control.
 
 Every card can be moved with its dropdown, so drag-and-drop is never required.
 
-Import: `import { KanbanBoard } from './src/library';`
+Import: `import { KanbanBoard } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `none` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [KanbanBoard](http://127.0.0.1:5173/?view=catalogue&component=KanbanBoard)
+Live example: [KanbanBoard](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=KanbanBoard)
 
 #### ProjectStatusSheet
 
@@ -1599,7 +1617,7 @@ The shared project-status editor for Workspace and Knowledge.
 
 A single status vocabulary and shared sheet replace the duplicated project-status implementations.
 
-Import: `import { ProjectStatusSheet } from './src/library';`
+Import: `import { ProjectStatusSheet } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1608,17 +1626,203 @@ Import: `import { ProjectStatusSheet } from './src/library';`
 | `project` | Project object with name, client, status, owner, and due date. |
 | `onSave` | Receives the edited object or triggers a save operation. |
 
-Live example: [ProjectStatusSheet](http://127.0.0.1:5173/?view=catalogue&component=ProjectStatusSheet)
+Live example: [ProjectStatusSheet](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ProjectStatusSheet)
 
 ### Dashboard & editors
 
+#### CollectionLayout
+
+A full-width collection destination with search and optional filters.
+
+Results own the remaining height. Filters expand on request; changing filters remains application-owned.
+
+Import: `import { CollectionLayout } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `actions` | Primary and supporting actions for the current page. |
+| `search` | Optional pattern-specific value. Use the live example as the reference. |
+| `filters` | Optional pattern-specific value. Use the live example as the reference. |
+| `activeFilters` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [CollectionLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionLayout)
+
+#### RecordCollection
+
+A responsive collection with sortable desktop results and readable phone rows.
+
+Records carry id, title, description, category, status, tone, meta and real href. Modifier-click preserves browser navigation.
+
+Import: `import { RecordCollection } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `records` | Optional pattern-specific value. Use the live example as the reference. |
+| `onOpen` | Receives the row record when its explicit action is activated. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [RecordCollection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordCollection)
+
+#### RecordLayout
+
+A focused workspace for one selected record.
+
+Keeps the record header fixed and the content scrollable without a competing browse rail.
+
+Import: `import { RecordLayout } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [RecordLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordLayout)
+
+#### RecordHeader
+
+A record title, publication state, actions and accessible sections.
+
+Controlled tabs support arrow/Home/End navigation. Secondary details stay in a disclosure. Back behavior belongs to the host.
+
+Import: `import { RecordHeader } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `badges` | Optional pattern-specific value. Use the live example as the reference. |
+| `actions` | Primary and supporting actions for the current page. |
+| `backLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `onBack` | Optional pattern-specific value. Use the live example as the reference. |
+| `metadata` | Optional pattern-specific value. Use the live example as the reference. |
+| `tabs` | Optional pattern-specific value. Use the live example as the reference. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `idPrefix` | Optional pattern-specific value. Use the live example as the reference. |
+| `panelId` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [RecordHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordHeader)
+
+#### RecordBody
+
+One labelled scrolling surface below a record header.
+
+Connects the active tab to its panel and delegates scrolling to the shared ScrollArea.
+
+Import: `import { RecordBody } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+| `id` | Optional pattern-specific value. Use the live example as the reference. |
+| `labelledBy` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [RecordBody](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordBody)
+
+#### DetailSections
+
+Content proportions for reading, comparing and editing.
+
+reading reserves a secondary column; split balances two tasks; stacked gives editors a focused full-width column.
+
+Import: `import { DetailSections } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `layout` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [DetailSections](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DetailSections)
+
+#### FormGrid
+
+Responsive form columns with safe minimum widths.
+
+One or two columns; shared responsive rules collapse paired fields on narrow screens.
+
+Import: `import { FormGrid } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `columns` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [FormGrid](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FormGrid)
+
+#### FormFieldGroup
+
+A field label, control and contextual guidance.
+
+Link htmlFor to the real control ID. Child state and attributes remain owned by the caller.
+
+Import: `import { FormFieldGroup } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `htmlFor` | Optional pattern-specific value. Use the live example as the reference. |
+| `hint` | Optional supporting text connected to the control. |
+| `error` | An actionable validation message; sets aria-invalid. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [FormFieldGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FormFieldGroup)
+
+#### FilterableTable
+
+Reusable full-width table with sortable headers, custom cells and built-in pagination.
+
+Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data.
+
+Import: `import { FilterableTable } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `header` | Optional React content replacing the default table title. |
+| `headerActions` | Optional React content in the trailing header area. |
+| `columns` | Column definitions: key, accessible label, optional header content, width, align, sortable, sortValue accessor, value accessor and render callback. |
+| `rows` | Record array, sorted before pagination. Supply filtered records from your sidebar or host. |
+| `rowKey` | Unique record property or callback returning a stable string/number ID. |
+| `pageSize` | Initial number of visible rows, default 10. |
+| `pageSizes` | Available rows-per-page choices, default 10, 25 and 50. |
+| `loading` | Replaces rows with a loading state and announces aria-busy. |
+| `emptyMessage` | Message shown when no rows match. |
+
+Live example: [FilterableTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterableTable)
+
+#### FilterSidebar
+
+A reusable right-side filter panel, compact version and collapsed vertical rail.
+
+Controlled filters support search, single selection and multiple selection. Active counts, reset and results stay visible while filter sections scroll.
+
+Import: `import { FilterSidebar } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `filters` | Definitions with id, label and type: search, select or multi; choice filters accept options. |
+| `value` | Controlled map from filter IDs to strings or arrays of selected strings. |
+| `onChange` | Receives the complete next filter-value map. |
+| `variant` | full (280px) or compact (212px). |
+| `collapsed` | Shows a 52px vertical rail with active-filter count. |
+| `onCollapsedChange` | Receives true to collapse or false to expand. |
+| `resultCount` | Optional matching-result count in the fixed footer. |
+| `onClose` | Optional close action callback. |
+
+Live example: [FilterSidebar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterSidebar)
+
 #### DatePicker
 
-A labelled native calendar field.
+A custom calendar with themed controls.
 
-Stores YYYY-MM-DD; browser calendar and keyboard entry remain available.
+Stores YYYY-MM-DD; arrow keys navigate dates, Escape closes, and date limits disable unavailable days.
 
-Import: `import { DatePicker } from './src/library';`
+Import: `import { DatePicker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1632,15 +1836,15 @@ Import: `import { DatePicker } from './src/library';`
 | `hint` | Optional supporting text connected to the control. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [DatePicker](http://127.0.0.1:5173/?view=catalogue&component=DatePicker)
+Live example: [DatePicker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DatePicker)
 
 #### TimePicker
 
-A labelled native time field.
+Custom hour and minute selection.
 
-Stores local HH:mm; the application owns timezone conversion.
+Stores local HH:mm; themed dropdowns support keyboard selection. The application owns timezone conversion.
 
-Import: `import { TimePicker } from './src/library';`
+Import: `import { TimePicker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1654,7 +1858,7 @@ Import: `import { TimePicker } from './src/library';`
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [TimePicker](http://127.0.0.1:5173/?view=catalogue&component=TimePicker)
+Live example: [TimePicker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TimePicker)
 
 #### DateRangePicker
 
@@ -1662,7 +1866,7 @@ Related start and end dates.
 
 An end before the start is marked invalid; existing values are never silently changed.
 
-Import: `import { DateRangePicker } from './src/library';`
+Import: `import { DateRangePicker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1676,7 +1880,7 @@ Import: `import { DateRangePicker } from './src/library';`
 | `hint` | Optional supporting text connected to the control. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [DateRangePicker](http://127.0.0.1:5173/?view=catalogue&component=DateRangePicker)
+Live example: [DateRangePicker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DateRangePicker)
 
 #### NumberInput
 
@@ -1684,7 +1888,7 @@ A numeric field with discreet stepper controls.
 
 null is empty. Steppers respect limits; typed out-of-range values show an error.
 
-Import: `import { NumberInput } from './src/library';`
+Import: `import { NumberInput } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1699,15 +1903,15 @@ Import: `import { NumberInput } from './src/library';`
 | `readOnly` | Optional pattern-specific value. Use the live example as the reference. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [NumberInput](http://127.0.0.1:5173/?view=catalogue&component=NumberInput)
+Live example: [NumberInput](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=NumberInput)
 
 #### ColorPicker
 
-Native colour chooser, hex entry and presets.
+Colour chooser, hex entry and presets.
 
 Only complete six-digit hex values are emitted; invalid drafts stay editable.
 
-Import: `import { ColorPicker } from './src/library';`
+Import: `import { ColorPicker } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1719,7 +1923,7 @@ Import: `import { ColorPicker } from './src/library';`
 | `hint` | Optional supporting text connected to the control. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [ColorPicker](http://127.0.0.1:5173/?view=catalogue&component=ColorPicker)
+Live example: [ColorPicker](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ColorPicker)
 
 #### MediaGallery
 
@@ -1727,7 +1931,7 @@ Images and videos with replacement and removal.
 
 Application owns URLs and upload lifecycle; video has native playback controls.
 
-Import: `import { MediaGallery } from './src/library';`
+Import: `import { MediaGallery } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1739,7 +1943,7 @@ Import: `import { MediaGallery } from './src/library';`
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [MediaGallery](http://127.0.0.1:5173/?view=catalogue&component=MediaGallery)
+Live example: [MediaGallery](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=MediaGallery)
 
 #### MediaUploadField
 
@@ -1747,7 +1951,7 @@ A bordered media field with drag-and-drop and browsing.
 
 Validates media MIME type and size. Async failures are announced; uploading remains application controlled.
 
-Import: `import { MediaUploadField } from './src/library';`
+Import: `import { MediaUploadField } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1763,7 +1967,7 @@ Import: `import { MediaUploadField } from './src/library';`
 | `hint` | Optional supporting text connected to the control. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [MediaUploadField](http://127.0.0.1:5173/?view=catalogue&component=MediaUploadField)
+Live example: [MediaUploadField](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=MediaUploadField)
 
 #### PreviewFrame
 
@@ -1771,7 +1975,7 @@ A contained live page preview.
 
 Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile.
 
-Import: `import { PreviewFrame } from './src/library';`
+Import: `import { PreviewFrame } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1784,7 +1988,7 @@ Import: `import { PreviewFrame } from './src/library';`
 | `onRetry` | Retries the failed operation without dropping the current context. |
 | `sandbox` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [PreviewFrame](http://127.0.0.1:5173/?view=catalogue&component=PreviewFrame)
+Live example: [PreviewFrame](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PreviewFrame)
 
 #### EditorLayout
 
@@ -1792,7 +1996,7 @@ A full-height editing workspace.
 
 Fixed toolbar and footer; properties stack below the preview on narrow screens.
 
-Import: `import { EditorLayout } from './src/library';`
+Import: `import { EditorLayout } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1804,15 +2008,15 @@ Import: `import { EditorLayout } from './src/library';`
 | `onExit` | Optional pattern-specific value. Use the live example as the reference. |
 | `style` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [EditorLayout](http://127.0.0.1:5173/?view=catalogue&component=EditorLayout)
+Live example: [EditorLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=EditorLayout)
 
 #### ReorderList
 
-Drag handles with explicit keyboard move controls.
+Direct dragging with insertion feedback and keyboard move controls.
 
 Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging.
 
-Import: `import { ReorderList } from './src/library';`
+Import: `import { ReorderList } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1821,7 +2025,7 @@ Import: `import { ReorderList } from './src/library';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [ReorderList](http://127.0.0.1:5173/?view=catalogue&component=ReorderList)
+Live example: [ReorderList](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ReorderList)
 
 #### InlineEdit
 
@@ -1829,7 +2033,7 @@ Edit a value in place, then explicitly save or cancel.
 
 Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft.
 
-Import: `import { InlineEdit } from './src/library';`
+Import: `import { InlineEdit } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1841,7 +2045,7 @@ Import: `import { InlineEdit } from './src/library';`
 | `required` | Boolean. Marks the field required and adds visible text. |
 | `maxLength` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [InlineEdit](http://127.0.0.1:5173/?view=catalogue&component=InlineEdit)
+Live example: [InlineEdit](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=InlineEdit)
 
 #### CodeDisplay
 
@@ -1849,7 +2053,7 @@ QR or Snapcode image with download and copy link.
 
 Displays an application-provided code, never generates one. Copy failure leaves a selectable URL.
 
-Import: `import { CodeDisplay } from './src/library';`
+Import: `import { CodeDisplay } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1860,7 +2064,7 @@ Import: `import { CodeDisplay } from './src/library';`
 | `filename` | Optional pattern-specific value. Use the live example as the reference. |
 | `onDownload` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [CodeDisplay](http://127.0.0.1:5173/?view=catalogue&component=CodeDisplay)
+Live example: [CodeDisplay](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CodeDisplay)
 
 #### GuidedTour
 
@@ -1868,7 +2072,7 @@ An opt-in tour launched by a help action.
 
 Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener.
 
-Import: `import { GuidedTour } from './src/library';`
+Import: `import { GuidedTour } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1876,7 +2080,7 @@ Import: `import { GuidedTour } from './src/library';`
 | `open` | Controlled overlay visibility. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 
-Live example: [GuidedTour](http://127.0.0.1:5173/?view=catalogue&component=GuidedTour)
+Live example: [GuidedTour](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=GuidedTour)
 
 #### DeadlineCountdown
 
@@ -1884,7 +2088,7 @@ A time remaining or overdue indicator.
 
 Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests.
 
-Import: `import { DeadlineCountdown } from './src/library';`
+Import: `import { DeadlineCountdown } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1893,7 +2097,7 @@ Import: `import { DeadlineCountdown } from './src/library';`
 | `showSeconds` | Optional pattern-specific value. Use the live example as the reference. |
 | `now` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [DeadlineCountdown](http://127.0.0.1:5173/?view=catalogue&component=DeadlineCountdown)
+Live example: [DeadlineCountdown](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DeadlineCountdown)
 
 #### PhaseBar
 
@@ -1901,7 +2105,7 @@ Seven labelled project phases with distinct muted colours.
 
 Completion and current step use text and aria-current, not colour alone.
 
-Import: `import { PhaseBar } from './src/library';`
+Import: `import { PhaseBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1911,23 +2115,26 @@ Import: `import { PhaseBar } from './src/library';`
 | `label` | Visible or accessible name describing the control. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 
-Live example: [PhaseBar](http://127.0.0.1:5173/?view=catalogue&component=PhaseBar)
+Live example: [PhaseBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PhaseBar)
 
 #### DailyVerdictStrip
 
 Compact daily status history.
 
-Dates and written verdicts accompany semantic colour. Empty data has a visible fallback.
+Use row with plain dates for a single quiet line without boxed cards. Cards remain available. Full dates and written verdicts accompany semantic colour.
 
-Import: `import { DailyVerdictStrip } from './src/library';`
+Import: `import { DailyVerdictStrip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `days` | Optional pattern-specific value. Use the live example as the reference. |
 | `label` | Visible or accessible name describing the control. |
 | `onSelect` | Receives the selected date, event, or menu action. |
+| `layout` | Optional pattern-specific value. Use the live example as the reference. |
+| `dateStyle` | Optional pattern-specific value. Use the live example as the reference. |
+| `locale` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [DailyVerdictStrip](http://127.0.0.1:5173/?view=catalogue&component=DailyVerdictStrip)
+Live example: [DailyVerdictStrip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DailyVerdictStrip)
 
 #### ElementProgress
 
@@ -1935,7 +2142,7 @@ Progress along the bottom edge of its content.
 
 Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar.
 
-Import: `import { ElementProgress } from './src/library';`
+Import: `import { ElementProgress } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1945,7 +2152,7 @@ Import: `import { ElementProgress } from './src/library';`
 | `children` | React content. Keep text concise and accessible. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [ElementProgress](http://127.0.0.1:5173/?view=catalogue&component=ElementProgress)
+Live example: [ElementProgress](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ElementProgress)
 
 #### InlineProgress
 
@@ -1953,7 +2160,7 @@ Alias for embedded element progress.
 
 Uses the same accessible progress contract as ElementProgress.
 
-Import: `import { InlineProgress } from './src/library';`
+Import: `import { InlineProgress } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1963,7 +2170,7 @@ Import: `import { InlineProgress } from './src/library';`
 | `children` | React content. Keep text concise and accessible. |
 | `error` | An actionable validation message; sets aria-invalid. |
 
-Live example: [InlineProgress](http://127.0.0.1:5173/?view=catalogue&component=InlineProgress)
+Live example: [InlineProgress](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=InlineProgress)
 
 #### SectionHeader
 
@@ -1971,7 +2178,7 @@ A restrained section heading and trailing action.
 
 Uses shared 13px semibold typography; optional count is secondary.
 
-Import: `import { SectionHeader } from './src/library';`
+Import: `import { SectionHeader } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1979,7 +2186,7 @@ Import: `import { SectionHeader } from './src/library';`
 | `count` | Optional pattern-specific value. Use the live example as the reference. |
 | `action` | An optional section-level action. |
 
-Live example: [SectionHeader](http://127.0.0.1:5173/?view=catalogue&component=SectionHeader)
+Live example: [SectionHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SectionHeader)
 
 #### CollectionGroup
 
@@ -1987,7 +2194,7 @@ A collection with individual, clearly actionable items.
 
 Each item has its own action. Long names truncate without widening the card.
 
-Import: `import { CollectionGroup } from './src/library';`
+Import: `import { CollectionGroup } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
@@ -1998,7 +2205,7 @@ Import: `import { CollectionGroup } from './src/library';`
 | `onOpen` | Receives the row record when its explicit action is activated. |
 | `more` | Optional pattern-specific value. Use the live example as the reference. |
 
-Live example: [CollectionGroup](http://127.0.0.1:5173/?view=catalogue&component=CollectionGroup)
+Live example: [CollectionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionGroup)
 
 ## Complete token reference
 
@@ -2247,6 +2454,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Sun | Interface | [Download](icons/Sun.svg) |
 | Moon | Interface | [Download](icons/Moon.svg) |
 | Monitor | Interface | [Download](icons/Monitor.svg) |
+| Tablet | Interface | [Download](icons/Tablet.svg) |
 | Smartphone | Interface | [Download](icons/Smartphone.svg) |
 | Laptop | Interface | [Download](icons/Laptop.svg) |
 | GripVertical | Interface | [Download](icons/GripVertical.svg) |

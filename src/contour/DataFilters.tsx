@@ -38,6 +38,8 @@ export interface FilterableTableProps<Row extends Record<string, unknown>> {
   pageSizes?: number[];
   loading?: boolean;
   emptyMessage?: string;
+  /** Fill the bounded height supplied by a collection layout. */
+  fill?: boolean;
 }
 export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
@@ -50,6 +52,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   pageSizes = [10, 25, 50],
   loading,
   emptyMessage = "No results match these filters.",
+  fill = false,
 }: FilterableTableProps<Row>) {
   const [sort, setSort] = useState<{
     key: string;
@@ -114,7 +117,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
           <div className="ct-table-header-actions">{headerActions}</div>
         )}
       </header>
-      <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={520}>
+      <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
         <table>
           <thead>
             <tr>

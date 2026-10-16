@@ -2685,3 +2685,117 @@ button.lib-row:hover {
     animation: none;
   }
 }
+
+/* Application form compositions: isolated selectors, semantic tokens and natural wrapping. */
+.ct-panel.lib-panel {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+.ct-panel.lib-panel > .section-head h3 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+.ct-panel.lib-panel > .section-head p {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+dl.ct-facts {
+  display: block;
+  grid-template-columns: none;
+  gap: 0;
+  min-width: 0;
+  margin: var(--space-4) 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+dl.ct-facts > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3) 0;
+  border-bottom: var(--line-width) solid var(--line);
+}
+dl.ct-facts dt, dl.ct-facts dd {
+  min-width: 0;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-size: inherit;
+  font-weight: inherit;
+}
+dl.ct-facts dt {color: var(--dim);}
+dl.ct-facts dd {display:block;color:var(--ink);}
+.ct-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-5) var(--space-4);
+  min-width: 0;
+}
+.ct-form-grid-2 {grid-template-columns: repeat(2, minmax(0, 1fr));}
+.ct-form-grid > * {min-width:0;}
+.ct-form-field-group {display:grid;gap:var(--space-2);min-width:0;align-content:start;}
+.ct-form-field-label {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--space-2);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:var(--text-sm);
+  font-weight:var(--weight-medium);
+  line-height:var(--leading-normal);
+}
+.ct-form-field-control {min-width:0;}
+.ct-panel[data-tone="accent"] {border-color:var(--accent-line);}
+.ct-panel[data-tone="danger"] {border-color:var(--bad);}
+.ct-panel-content {display:flex;flex-direction:column;gap:var(--space-4);min-width:0;}
+.ct-panel-content > * {min-width:0;}
+.ct-save-bar {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-4);border-top:var(--line-width) solid var(--line);padding-top:var(--space-4);margin-top:var(--space-4);font-family:var(--font-sans);}
+.ct-save-bar > span {display:flex;align-items:center;gap:var(--space-2);color:var(--dim);font-size:var(--text-xs);}
+.ct-save-bar[data-sticky] {position:sticky;bottom:0;z-index:3;padding-block:var(--space-4);margin-top:0;background:var(--raise);}
+.lib-row-open {display:flex;align-items:center;gap:var(--space-3);flex:1;min-width:0;padding:0;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;}
+.lib-row-open:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:var(--space-1);}
+.lib-row-open:hover {color:var(--link);}
+.ct-form-field-control > :is(.dropdown,.lib-input) {display:block;width:100%;min-width:0;}
+.ct-form-field-control .dropdown-trigger {display:flex;width:100%;min-width:0;}
+.ct-form-field-control .dropdown-trigger > span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ct-form-field-required, .ct-form-field-hint, .ct-form-field-error {
+  margin:0;
+  font-family:var(--font-sans);
+  font-size:var(--text-xs);
+  font-weight:var(--weight-regular);
+  line-height:var(--leading-normal);
+  overflow-wrap:anywhere;
+}
+.ct-form-field-required, .ct-form-field-hint {color:var(--dim);}
+.ct-form-field-error {color:var(--bad);}
+textarea.lib-input.ct-textarea-code {
+  min-height:220px;
+  font-family:var(--font-mono);
+  font-size:var(--text-xs);
+  font-weight:var(--weight-regular);
+  line-height:var(--leading-normal);
+  tab-size:2;
+}
+textarea.lib-input.ct-textarea-short {min-height:96px;}
+@media (max-width: 640px) {
+  .ct-form-grid-2 {grid-template-columns:minmax(0, 1fr);}
+  dl.ct-facts > div {grid-template-columns:minmax(0, 1fr);gap:var(--space-1);}
+}

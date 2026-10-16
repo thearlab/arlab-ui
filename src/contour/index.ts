@@ -16,3 +16,7 @@ export * from './ProjectIndicators.js';
 export * from './GuidedTour.js';
 export * from './WorkspaceComponents.js';
 export * from './DataFilters.js';
+export * from './RecordLayouts.js';
+export * from './FormLayout.js';
+
+export type { CalendarProps, CalendarEvent } from './Calendar.js';
