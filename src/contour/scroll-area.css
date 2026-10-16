@@ -1,0 +1,78 @@
+/* Standalone scroll area. Import once in any app, without a theme provider. */
+.contour-scroll-area {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+}
+.contour-scroll-area .scroll-viewport {
+  min-width: 0;
+  min-height: 0;
+  max-height: inherit;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none !important;
+  scrollbar-gutter: auto;
+}
+.contour-scroll-area .scroll-viewport::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.contour-scroll-area[data-axis="vertical"] > .scroll-viewport {
+  overflow-x: hidden;
+}
+.contour-scroll-area[data-axis="horizontal"] > .scroll-viewport {
+  overflow-y: hidden;
+}
+.contour-scroll-area .scroll-thumb {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  touch-action: none;
+  user-select: none;
+}
+.contour-scroll-area .scroll-thumb.vertical {
+  width: 10px;
+  right: 0;
+  cursor: ns-resize;
+}
+.contour-scroll-area .scroll-thumb.horizontal {
+  height: 10px;
+  bottom: 0;
+  cursor: ew-resize;
+}
+.contour-scroll-area .scroll-thumb::after {
+  content: "";
+  position: absolute;
+  background: var(--scrollbar-thumb, rgba(228, 20, 219, .35));
+  transition: background var(--dur-fast, 120ms);
+}
+.contour-scroll-area .scroll-thumb.vertical::after {
+  width: 2px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.contour-scroll-area .scroll-thumb.horizontal::after {
+  height: 2px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.contour-scroll-area .scroll-thumb:hover::after,
+.contour-scroll-area .scroll-thumb:active::after {
+  background: var(--scrollbar-hover, rgba(228, 20, 219, .6));
+}
+
+.contour-scroll-area, .contour-scroll-area * { box-sizing: border-box; }
+@media (forced-colors: active) { .contour-scroll-area .scroll-thumb::after { background: ButtonText; } }
+
+:where([data-mode="dark"], [data-theme="dark"]) .contour-scroll-area { --scrollbar-thumb: rgba(240,78,232,.35); --scrollbar-hover: rgba(240,78,232,.6); }
+@media (prefers-reduced-motion: reduce) { .contour-scroll-area .scroll-thumb::after { transition: none; } }
+
+.contour-scroll-area .scroll-viewport:focus-visible { outline: 1px solid var(--focus, var(--cn-accent, #a80fa3)); outline-offset: -1px; }

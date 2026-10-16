@@ -950,53 +950,7 @@ export function DetailHeader({ title, description, status, children }) {
     </div>
   );
 }
-export function SidebarShell({ children }) {
-  const [collapsed, setCollapsed] = useState(false),
-    [page, setPage] = useState("Overview");
-  return (
-    <div className={`lib-shell ${collapsed ? "folded" : ""}`}>
-      <aside>
-        <div>
-          <Logo />
-          <IconButton
-            label={collapsed ? "Expand navigation" : "Collapse navigation"}
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            {collapsed ? <ChevronRight size={17} /> : <ChevronLeft size={17} />}
-          </IconButton>
-        </div>
-        {[
-          ["Overview", Folder],
-          ["Projects", FileText],
-          ["Knowledge", BookOpen],
-        ].map(([x, I]) => (
-          <button
-            key={x}
-            title={x}
-            aria-label={x}
-            aria-current={page === x ? "page" : undefined}
-            onClick={() => setPage(x)}
-          >
-            <I size={17} />
-            <span>{x}</span>
-          </button>
-        ))}
-      </aside>
-      <section>
-        <Breadcrumbs
-          items={["Workspace", page]}
-          onNavigate={() => setPage("Overview")}
-        />
-        {children || (
-          <>
-            <h3>{page}</h3>
-            <p>Your content keeps its place when the navigation collapses.</p>
-          </>
-        )}
-      </section>
-    </div>
-  );
-}
+export { SidebarShell } from "./SidebarShell.js";
 export function Gate({ onContinue }) {
   return (
     <div className="lib-gate">

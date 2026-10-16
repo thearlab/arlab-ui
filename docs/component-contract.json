@@ -295,7 +295,7 @@
       "initials",
       "workspace"
     ],
-    "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
+    "behavior": "Keep account actions separate from project actions. The trigger includes a person\u2019s name."
   },
   {
     "name": "Toc",
@@ -553,11 +553,23 @@
   {
     "name": "SidebarShell",
     "category": "Surfaces & layout",
-    "description": "The main layout with a togglable, labeled sidebar.",
+    "description": "Reusable application shell with fixed header/footer and independently scrolling navigation.",
     "props": [
-      "children"
+      "brand",
+      "toolName",
+      "navigation",
+      "children",
+      "account",
+      "help",
+      "header",
+      "collapsed",
+      "onCollapsedChange",
+      "storageKey",
+      "secondaryNavigation",
+      "secondaryLabel",
+      "mode"
     ],
-    "behavior": "Collapsed navigation retains accessible names and tooltips. The full application example adds a mobile drawer."
+    "behavior": "Router independent; no demo routes. Standalone navigation/styles.css needs no provider. Mobile modal drawers and independent main/context collapse."
   },
   {
     "name": "PageBar",
@@ -708,7 +720,7 @@
       "onRetry",
       "onCreate"
     ],
-    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
+    "behavior": "Failed loads retain the user\u2019s filters. Empty states invite a specific first action."
   },
   {
     "name": "Tooltip",

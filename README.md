@@ -3,7 +3,7 @@
 The shared design system for ARLAB internal tools. Manrope, IBM Plex Mono, restrained geometry, a porcelain/graphite foundation and ARLAB pink. This is the V2 integration beta; Studio is the first migration target.
 
 ```json
-"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.1"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.2"
 ```
 
 ```jsx
@@ -28,3 +28,7 @@ Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase 
 V1 remains available at the immutable v1 tags. Temporary `/legacy` and `/legacy/styles.css` entry points support staged application migration. New application work belongs in Contour; reusable additions must be showcased in the same release.
 
 See MIGRATION-V2.md for beta limitations and remaining stable-release gates.
+
+## Standalone navigation
+
+[Navigation integration guide](docs/NAVIGATION.md): SidebarShell, AppNavigation, NavigationSection, NavigationItem and ScrollArea can be used without a provider or showcase styles.

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import postcss from 'postcss';
-const source = ['styles.css', 'contour.css', 'library.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
+const source = ['styles.css', 'contour.css', 'library.css', 'navigation.css', 'scroll-area.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
 const css = postcss.parse(source);
 css.walkRules(rule => {
   for (let parent = rule.parent; parent; parent = parent.parent) {
@@ -17,3 +17,8 @@ css.append(postcss.parse(`
 `));
 fs.writeFileSync('dist/contour/styles.css', css.toString());
 console.log('Contour stylesheet built with an explicit theme boundary.');
+const scrollCSS = fs.readFileSync('src/contour/scroll-area.css', 'utf8');
+const navigationCSS = fs.readFileSync('src/contour/navigation.css', 'utf8');
+postcss.parse(scrollCSS); postcss.parse(navigationCSS);
+fs.writeFileSync('dist/contour/scroll-area.css', scrollCSS);
+fs.writeFileSync('dist/contour/navigation.css', scrollCSS + '\n' + navigationCSS);

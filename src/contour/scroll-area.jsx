@@ -19,6 +19,9 @@ export function scrollThumbMetrics(viewport, content, position) {
   };
 }
 
+/**
+ * @param {{children: import('react').ReactNode, label?: string, height?: import('react').CSSProperties['height'], maxHeight?: import('react').CSSProperties['maxHeight'], axis?: 'vertical' | 'horizontal' | 'both', className?: string, contentClassName?: string, tabIndex?: number}} props
+ */
 export function ScrollArea({
   children,
   label = "Scrollable content",
@@ -139,7 +142,7 @@ export function ScrollArea({
   };
   return (
     <div
-      className={`scroll-shell ${className}`}
+      className={`contour-scroll-area scroll-shell ${className}`}
       style={{ height, maxHeight }}
       data-axis={axis}
     >

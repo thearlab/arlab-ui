@@ -985,15 +985,25 @@ Live example: [SectionHead](http://127.0.0.1:5173/?view=catalogue&component=Sect
 
 #### SidebarShell
 
-The main layout with a togglable, labeled sidebar.
+Reusable application shell with fixed identity and account areas.
 
-Collapsed navigation retains accessible names and tooltips. The full application example adds a mobile drawer.
+Import navigation/styles.css. No provider or demo routes required. Main and secondary navigation collapse independently; mobile navigation uses a dialog.
 
 Import: `import { SidebarShell } from './src/library';`
 
 | Prop | Contract |
 | --- | --- |
+| `brand` | Optional pattern-specific value. Use the live example as the reference. |
+| `toolName` | Optional pattern-specific value. Use the live example as the reference. |
+| `navigation` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
+| `account` | Optional pattern-specific value. Use the live example as the reference. |
+| `help` | Optional pattern-specific value. Use the live example as the reference. |
+| `header` | Optional pattern-specific value. Use the live example as the reference. |
+| `collapsed` | Optional pattern-specific value. Use the live example as the reference. |
+| `onCollapsedChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `storageKey` | Optional pattern-specific value. Use the live example as the reference. |
+| `secondaryNavigation` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [SidebarShell](http://127.0.0.1:5173/?view=catalogue&component=SidebarShell)
 

@@ -15,3 +15,12 @@ postcss.parse(fs.readFileSync('dist/contour/styles.css','utf8')).walkRules(rule 
   count++;
 });
 console.log(`Verified ${entries.length} component exports, 145 icons and ${count} scoped CSS rules.`);
+
+for (const file of ['navigation.css', 'scroll-area.css']) {
+  const standalone = fs.readFileSync(`dist/contour/${file}`, 'utf8');
+  assert.ok(!standalone.includes('.themed-preview') && !standalone.includes('.arlab-contour'), `${file} has no provider dependency`);
+  postcss.parse(standalone).walkRules(rule => {
+    for (const selector of rule.selectors) assert.ok(selector.includes('.contour-'), `Unscoped standalone selector: ${selector}`);
+  });
+}
+console.log('Standalone navigation and scrollbar styles are isolated from application globals.');

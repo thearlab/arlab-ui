@@ -1,6 +1,6 @@
 {
   "name": "@arlab/ui",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "private": true,
   "type": "module",
   "description": "Shared design tokens and UI primitives for ARLAB's internal tools (Agents Studio, ARLAB Knowledge, and future apps).",
@@ -20,10 +20,18 @@
     "./tokens": "./dist/contour/system.js",
     "./legacy": "./dist/index.js",
     "./legacy/styles.css": "./dist/styles.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./navigation": {
+      "types": "./dist/contour/navigation.d.ts",
+      "import": "./dist/contour/navigation.js"
+    },
+    "./navigation/styles.css": "./dist/contour/navigation.css",
+    "./scroll-area/styles.css": "./dist/contour/scroll-area.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "docs",
+    "MIGRATION-V2.md"
   ],
   "scripts": {
     "check:css": "node scripts/check-css.mjs",

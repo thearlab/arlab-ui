@@ -12,13 +12,13 @@ Known consumers: internal dashboard, internal tool template, Studio, Reader and 
 
 1. Pin the published V2 tag, install, verify the lockfile commit and installed package version.
 2. Load `@arlab/ui/styles.css`, Manrope and IBM Plex Mono. Wrap the app in `ContourProvider mode="light"` or `mode="dark"`. The provider owns the theme boundary; v1 initTheme alone does not configure it.
-3. Migrate props and compositions, not just the dependency version. IconButton uses label (aria-label is still forwarded); Avatar uses initials/color/name; SortHead uses direction none/ascending/descending; Dropdown/Picker use the new documented options API. Card is now a Panel composition. SidebarShell and specialized gallery compositions need real application data and callbacks before adoption.
+3. Migrate props and compositions, not just the dependency version. IconButton uses label (aria-label is still forwarded); Avatar uses initials/color/name; SortHead uses direction none/ascending/descending; Dropdown/Picker use the new documented options API. Card is now a Panel composition. SidebarShell now accepts application-owned navigation and content; see docs/NAVIGATION.md for the beta.2 contract. Other specialized gallery compositions still require real data and callbacks.
 4. Replace removed root exports using the new contract. Temporary `@arlab/ui/legacy` and `@arlab/ui/legacy/styles.css` retain the old implementation for staged migrations only. They are not the final unified design.
 5. Validate navigation, forms, dialogs, permissions, empty/loading/error states and light/dark responsive layouts with the application's actual data. Preserve backend behavior and deploy separately from the dependency change.
 
 ## Beta limitations and release gates
 
-89 showcased entries and 145 icons are packaged. Some complex compositions (calendar, timeline, board, sidebar) still carry showcase defaults and require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18 integration must be checked before migrating React 18 consumers. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
+89 showcased entries and 145 icons are packaged. Some complex compositions (calendar, timeline, board) still carry showcase defaults and require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18 integration must be checked before migrating React 18 consumers. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
 
 V2 CSS is scoped to `.arlab-contour`. Legacy CSS remains separately available. Do not mix legacy and V2 components in the same theme boundary without checking their visual interaction.
 
