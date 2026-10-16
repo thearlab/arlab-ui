@@ -33,8 +33,43 @@ dashboard, branch `design/contour` (worktree `subapps/arlab-internal-dashboard-c
 - Icons the apps needed that the registry lacks (added from Lucide, same stroke, group "Added for the apps"):
   Building2 (Company department), Presentation (prototypes, decks), Briefcase, ShoppingCart, Megaphone, Sparkles, Github.
 
+### 3. Fields
+- Select is the reference Dropdown (moved from the dashboard into @arlab/ui): hidden native select for forms, trigger
+  with the strong border, panel at 8px with 5px padding, 37px options, search row from 8 options, type-ahead, Escape.
+- Picker (labelled filters with counts) draws exactly like the dropdown. New SearchField. Field, Label (with the dim
+  side note), Hint, Input and Textarea at the reference values (13px input, 10px 12px padding, 5px corners).
+
+### 4. Choices
+- 16px checkbox and radio on the strong border (radio: action fill with a 4px inset ring), 36x22 switch with a 14px knob,
+  12px labels with a 9px gap. Native checkboxes take the action colour everywhere.
+
+### 5. Navigation
+- SidebarShell is the reference workspace shell, ported rule by rule from the Layouts view: brand and collapse button,
+  workspace label, optional Applications switcher, contextual sections under 9px uppercase labels with rules and the
+  selected left bar, team spaces as coloured dots, Help & shortcuts, the account row; 68px folded state remembered;
+  760-1099px folded with a drawer; native dialog drawer under 760px. Top bar 60px with breadcrumbs, search and theme.
+- Tabs: the reference app-switcher strip, for page tabs (tablist, arrow keys) and filter segments (pressed); counts boxed.
+  SegmentedControl renders Tabs. Every tab strip in the dashboard uses it.
+- IconButton: bordered by default (raise fill, line border, strong border on hover), 32px, 14px icon at 1.5 stroke,
+  `ghost` variant for dense rows, tooltip defaults to the aria-label.
+- Type and weight roles (`--type-*`, `--weight-*`) measured from the reference; the dashboard's 600/700 weights became 500
+  and its sizes moved one step down to the reference's density (body 12, meta 11, section titles 15/600).
+- deptColor lives in @arlab/ui on the department tokens (departments no longer borrow status colours).
+
 ## Deliberate differences from the spec
-- None yet.
+- Tabs scroll sideways on small screens instead of stacking into a column (Laure asked for no wrapping).
+- `--dept-strategy` (#497b8f light, #8fb7c8 dark): the reference has four departments, ARLAB has five; the chart teal.
+- Checkbox tick drawn at stroke 2.25 inside the 16px box (the reference uses the native checkbox; 1.65 reads too thin).
+- The dashboard sidebar has no Applications group (Laure); Knowledge and Agents Studio stay as top bar links.
+
+## Pending
+- Groups 6-16 (Selection/Chips, Data, Collections, Status, Overlays, Feedback, Documents, Editing, Operations, Identity,
+  Scheduling) and the per-page pass, including the page redesigns Laure asked for (every Website page, Tool requests,
+  Services, Presentations).
+- v2 structure: src/tokens, src/components/<Group>/, MIGRATION.md (1.x to 2.0), README, CHANGELOG, version 2.0.0, the
+  literal-value check script; remove ScrollIndicator and the other 1.x leftovers.
+- The departments self-check in the dashboard (`npx tsx src/departments.ts`) fails until the dashboard depends on 2.0
+  (it imports deptColor from the installed 1.8.1).
 
 ## Notes
 - Live preview: dashboard worktree on 127.0.0.1:5193 (`vite --mode local-ui`), back end on 5192.

@@ -248,19 +248,21 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 
 /* ---- IconButton -------------------------------------------------------- */
 .arlab-icon-btn {
-  display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
-  border-radius: var(--radius-md); border: 0; background: transparent; color: var(--ink-dim);
+  display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; position: relative;
+  border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--raise); color: var(--dim);
   cursor: pointer; flex-shrink: 0; padding: 0;
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
-.arlab-icon-btn:hover:not(:disabled) { background: var(--sunken); color: var(--ink); }
+.arlab-icon-btn:hover:not(:disabled) { border-color: var(--strong); background: var(--sunken); color: var(--ink); }
+.arlab-icon-btn:active:not(:disabled) { background: var(--sunken-2); }
+/* ghost: a borderless icon button inside a dense row or a toolbar. */
+.arlab-icon-btn.ghost { border-color: transparent; background: transparent; }
+.arlab-icon-btn.ghost:hover:not(:disabled) { border-color: transparent; background: var(--sunken); }
 .arlab-icon-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .arlab-icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .arlab-icon-btn.sm { width: 28px; height: 28px; }
 
-/* Bordered icon button: the top bar and sidebar variant (raise fill, line border; strong border on hover). */
-.arlab-icon-btn.bordered { border: 1px solid var(--line); background: var(--raise); }
-.arlab-icon-btn.bordered:hover:not(:disabled) { border-color: var(--strong); background: var(--sunken); }
+/* `.bordered` is the default since 2.0; the class is kept so 1.x markup stays valid. */
 .arlab-icon-btn > svg { width: 14px; height: 14px; stroke-width: 1.5; }
 
 /* ---- Card + composable header/body/footer ------------------------------ */
