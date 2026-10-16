@@ -19,7 +19,7 @@ The root entry now exports Contour. Do not upgrade a v1 app by changing its depe
 
 ## Showcase
 
-Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 89 component entries and 145 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
+Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 111 component entries and 146 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
 
 ## Development
 

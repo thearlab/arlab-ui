@@ -44,8 +44,8 @@ summary:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--accent, #873475);
-  outline-offset: 3px;
+  outline: 1px solid var(--focus, #A80FA3);
+  outline-offset: 1px;
 }
 button {
   transition:
@@ -717,8 +717,8 @@ select {
   padding: 0 11px;
 }
 .search-field:focus-within {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 1px solid var(--focus);
+  outline-offset: 1px;
 }
 .search-field input {
   width: 100%;
@@ -1132,15 +1132,7 @@ select {
   font-weight: 600;
   background: var(--sunken);
 }
-.workspace-navigation button.active:before {
-  content: "";
-  position: absolute;
-  top: 11px;
-  bottom: 11px;
-  left: 0;
-  width: 2px;
-  background: var(--accent);
-}
+.workspace-navigation button.active:before { content: none; }
 .workspace-navigation button > span:not(.nav-count) {
   flex: 1;
 }
@@ -3436,8 +3428,8 @@ select {
   transform: translateX(14px);
 }
 .switch-row input:focus-visible + .switch-visual {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 1px solid var(--focus);
+  outline-offset: 1px;
 }
 .choice-row {
   display: flex;
@@ -3639,8 +3631,8 @@ select {
   cursor: pointer;
 }
 .dropzone:focus-within {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 1px solid var(--focus);
+  outline-offset: 1px;
 }
 .disclosure {
   border-bottom: 1px solid var(--line);

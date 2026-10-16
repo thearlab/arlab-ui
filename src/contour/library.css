@@ -31,7 +31,7 @@
   width: 100%;
   min-height: var(--control-h);
   padding: 10px 12px;
-  border: 1px solid var(--strong);
+  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--raise);
   font: 13px/1.5 var(--font-sans);
@@ -47,7 +47,7 @@ textarea.lib-input {
 .lib-input:focus {
   outline: none;
   border-color: var(--focus);
-  box-shadow: 0 0 0 2px var(--accent-soft);
+  box-shadow: none;
 }
 .lib-input[aria-invalid="true"] {
   border-color: var(--bad);
@@ -156,7 +156,7 @@ textarea.lib-input {
 }
 .tag-input:focus-within {
   border-color: var(--focus);
-  box-shadow: 0 0 0 2px var(--accent-soft);
+  box-shadow: none;
 }
 .tag-input > input {
   flex: 1;

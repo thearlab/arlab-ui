@@ -972,9 +972,41 @@
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
   },
   {
+    "name": "FilterableTable",
+    "description": "Full-width data table with per-column filters and built-in pagination.",
+    "props": [
+      "title",
+      "columns",
+      "rows",
+      "rowKey",
+      "pageSize",
+      "pageSizes",
+      "loading",
+      "emptyMessage"
+    ],
+    "behavior": "Every header can filter its column. Filters combine, reset pagination, and preserve row identity. Numeric columns align right; the table scrolls horizontally on narrow screens.",
+    "category": "Dashboard & editors"
+  },
+  {
+    "name": "FilterSidebar",
+    "description": "A reusable right-side filter panel, compact version and collapsed vertical rail.",
+    "props": [
+      "title",
+      "filters",
+      "value",
+      "onChange",
+      "variant",
+      "collapsed",
+      "onCollapsedChange",
+      "resultCount",
+      "onClose"
+    ],
+    "behavior": "Controlled filters support search, single selection and multiple selection. Active counts, reset and results stay visible while filter sections scroll.",
+    "category": "Dashboard & editors"
+  },
+  {
     "name": "DatePicker",
-    "category": "Dashboard & editors",
-    "description": "A labelled native calendar field.",
+    "description": "A custom calendar with themed controls.",
     "props": [
       "label",
       "value",
@@ -986,12 +1018,12 @@
       "hint",
       "error"
     ],
-    "behavior": "Stores YYYY-MM-DD; browser calendar and keyboard entry remain available."
+    "behavior": "Stores YYYY-MM-DD; arrow keys navigate dates, Escape closes, and date limits disable unavailable days.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "TimePicker",
-    "category": "Dashboard & editors",
-    "description": "A labelled native time field.",
+    "description": "Custom hour and minute selection.",
     "props": [
       "label",
       "value",
@@ -1003,11 +1035,11 @@
       "disabled",
       "error"
     ],
-    "behavior": "Stores local HH:mm; the application owns timezone conversion."
+    "behavior": "Stores local HH:mm; themed dropdowns support keyboard selection. The application owns timezone conversion.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "DateRangePicker",
-    "category": "Dashboard & editors",
     "description": "Related start and end dates.",
     "props": [
       "label",
@@ -1020,11 +1052,11 @@
       "hint",
       "error"
     ],
-    "behavior": "An end before the start is marked invalid; existing values are never silently changed."
+    "behavior": "An end before the start is marked invalid; existing values are never silently changed.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "NumberInput",
-    "category": "Dashboard & editors",
     "description": "A numeric field with discreet stepper controls.",
     "props": [
       "label",
@@ -1038,12 +1070,12 @@
       "readOnly",
       "error"
     ],
-    "behavior": "null is empty. Steppers respect limits; typed out-of-range values show an error."
+    "behavior": "null is empty. Steppers respect limits; typed out-of-range values show an error.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "ColorPicker",
-    "category": "Dashboard & editors",
-    "description": "Native colour chooser, hex entry and presets.",
+    "description": "Colour chooser, hex entry and presets.",
     "props": [
       "label",
       "value",
@@ -1053,11 +1085,11 @@
       "hint",
       "error"
     ],
-    "behavior": "Only complete six-digit hex values are emitted; invalid drafts stay editable."
+    "behavior": "Only complete six-digit hex values are emitted; invalid drafts stay editable.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "MediaGallery",
-    "category": "Dashboard & editors",
     "description": "Images and videos with replacement and removal.",
     "props": [
       "items",
@@ -1068,11 +1100,11 @@
       "disabled",
       "emptyLabel"
     ],
-    "behavior": "Application owns URLs and upload lifecycle; video has native playback controls."
+    "behavior": "Application owns URLs and upload lifecycle; video has native playback controls.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "MediaUploadField",
-    "category": "Dashboard & editors",
     "description": "A bordered media field with drag-and-drop and browsing.",
     "props": [
       "label",
@@ -1087,11 +1119,11 @@
       "hint",
       "error"
     ],
-    "behavior": "Validates media MIME type and size. Async failures are announced; uploading remains application controlled."
+    "behavior": "Validates media MIME type and size. Async failures are announced; uploading remains application controlled.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "PreviewFrame",
-    "category": "Dashboard & editors",
     "description": "A contained live page preview.",
     "props": [
       "title",
@@ -1103,11 +1135,11 @@
       "onRetry",
       "sandbox"
     ],
-    "behavior": "Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile."
+    "behavior": "Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "EditorLayout",
-    "category": "Dashboard & editors",
     "description": "A full-height editing workspace.",
     "props": [
       "title",
@@ -1118,23 +1150,23 @@
       "onExit",
       "style"
     ],
-    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens."
+    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "ReorderList",
-    "category": "Dashboard & editors",
-    "description": "Drag handles with explicit keyboard move controls.",
+    "description": "Direct dragging with insertion feedback and keyboard move controls.",
     "props": [
       "label",
       "items",
       "onChange",
       "disabled"
     ],
-    "behavior": "Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging."
+    "behavior": "Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "InlineEdit",
-    "category": "Dashboard & editors",
     "description": "Edit a value in place, then explicitly save or cancel.",
     "props": [
       "label",
@@ -1145,11 +1177,11 @@
       "required",
       "maxLength"
     ],
-    "behavior": "Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft."
+    "behavior": "Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "CodeDisplay",
-    "category": "Dashboard & editors",
     "description": "QR or Snapcode image with download and copy link.",
     "props": [
       "imageSrc",
@@ -1159,22 +1191,22 @@
       "filename",
       "onDownload"
     ],
-    "behavior": "Displays an application-provided code, never generates one. Copy failure leaves a selectable URL."
+    "behavior": "Displays an application-provided code, never generates one. Copy failure leaves a selectable URL.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "GuidedTour",
-    "category": "Dashboard & editors",
     "description": "An opt-in tour launched by a help action.",
     "props": [
       "steps",
       "open",
       "onClose"
     ],
-    "behavior": "Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener."
+    "behavior": "Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "DeadlineCountdown",
-    "category": "Dashboard & editors",
     "description": "A time remaining or overdue indicator.",
     "props": [
       "deadline",
@@ -1182,11 +1214,11 @@
       "showSeconds",
       "now"
     ],
-    "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests."
+    "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "PhaseBar",
-    "category": "Dashboard & editors",
     "description": "Seven labelled project phases with distinct muted colours.",
     "props": [
       "phases",
@@ -1195,22 +1227,22 @@
       "label",
       "disabled"
     ],
-    "behavior": "Completion and current step use text and aria-current, not colour alone."
+    "behavior": "Completion and current step use text and aria-current, not colour alone.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "DailyVerdictStrip",
-    "category": "Dashboard & editors",
     "description": "Compact daily status history.",
     "props": [
       "days",
       "label",
       "onSelect"
     ],
-    "behavior": "Dates and written verdicts accompany semantic colour. Empty data has a visible fallback."
+    "behavior": "Dates and written verdicts accompany semantic colour. Empty data has a visible fallback.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "ElementProgress",
-    "category": "Dashboard & editors",
     "description": "Progress along the bottom edge of its content.",
     "props": [
       "label",
@@ -1219,11 +1251,11 @@
       "children",
       "error"
     ],
-    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar."
+    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "InlineProgress",
-    "category": "Dashboard & editors",
     "description": "Alias for embedded element progress.",
     "props": [
       "label",
@@ -1232,22 +1264,22 @@
       "children",
       "error"
     ],
-    "behavior": "Uses the same accessible progress contract as ElementProgress."
+    "behavior": "Uses the same accessible progress contract as ElementProgress.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "SectionHeader",
-    "category": "Dashboard & editors",
     "description": "A restrained section heading and trailing action.",
     "props": [
       "title",
       "count",
       "action"
     ],
-    "behavior": "Uses shared 13px semibold typography; optional count is secondary."
+    "behavior": "Uses shared 13px semibold typography; optional count is secondary.",
+    "category": "Dashboard & editors"
   },
   {
     "name": "CollectionGroup",
-    "category": "Dashboard & editors",
     "description": "A collection with individual, clearly actionable items.",
     "props": [
       "title",
@@ -1257,6 +1289,7 @@
       "onOpen",
       "more"
     ],
-    "behavior": "Each item has its own action. Long names truncate without widening the card."
+    "behavior": "Each item has its own action. Long names truncate without widening the card.",
+    "category": "Dashboard & editors"
   }
 ]

@@ -1,5 +1,5 @@
 import { useRef, useState, useId, type ReactNode } from "react";
-import { Upload, X, RefreshCw, Image as ImageIcon } from "lucide-react";
+import { Upload, X, RefreshCw, Plus, Image as ImageIcon } from "lucide-react";
 export interface ElementProgressProps {
   value?: number;
   label: string;
@@ -236,54 +236,104 @@ export function MediaUploadField({
   };
   return (
     <div className="ct-media-field">
-      <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        ref={input}
-        type="file"
-        accept="image/*,video/*"
-        multiple={multiple}
-        disabled={disabled || busy}
-        className="ct-sr-only"
-        onChange={(event) => {
-          void receive(Array.from(event.target.files || []));
-          event.target.value = "";
-        }}
-      />
       <div
-        className="ct-media-drop"
-        data-dragging={dragging || undefined}
-        aria-disabled={disabled || busy}
-        onDragOver={(event) => {
-          event.preventDefault();
-          if (!disabled && !busy) setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(event) => {
-          event.preventDefault();
-          setDragging(false);
-          void receive(Array.from(event.dataTransfer.files));
-        }}
+        className={`file-card ${dragging ? "dragging" : ""} ${disabled ? "disabled" : ""}`}
       >
-        <Upload size={20} />
-        <div>
-          <strong>
-            {busy ? "Adding your media…" : "Drop images or videos here"}
-          </strong>
-          <small>
-            {hint || `Up to ${Math.round(maxSize / 1024 / 1024)} MB per file`}
-          </small>
+        <div className="file-card-head">
+          <span className="file-card-icon">
+            <ImageIcon size={20} />
+          </span>
+          <div>
+            <h4>
+              <label htmlFor={id}>{label}</label>
+            </h4>
+            <p>Add images and videos to your project.</p>
+          </div>
+          <span className="quiet-tag">Media</span>
         </div>
-        <button
-          type="button"
+        <input
+          id={id}
+          ref={input}
+          type="file"
+          accept="image/*,video/*"
+          multiple={multiple}
           disabled={disabled || busy}
-          onClick={() => input.current?.click()}
+          className="ct-sr-only"
+          onChange={(event) => {
+            void receive(Array.from(event.target.files || []));
+            event.target.value = "";
+          }}
+        />
+        <div
+          className="file-drop-target ct-media-drop"
+          data-dragging={dragging || undefined}
+          aria-disabled={disabled || busy}
+          onDragOver={(event) => {
+            event.preventDefault();
+            if (!disabled && !busy) setDragging(true);
+          }}
+          onDragLeave={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node))
+              setDragging(false);
+          }}
+          onDrop={(event) => {
+            event.preventDefault();
+            setDragging(false);
+            void receive(Array.from(event.dataTransfer.files));
+          }}
         >
-          Browse files
-        </button>
+          <div className="document-outline" aria-hidden="true">
+            <ImageIcon size={29} />
+            <span>
+              <Plus size={10} />
+            </span>
+          </div>
+          <div>
+            <strong>
+              {busy
+                ? "Adding your media…"
+                : dragging
+                  ? "Release to add your media"
+                  : "Drop images or videos here"}
+            </strong>
+            <small>
+              {hint || `Up to ${Math.round(maxSize / 1024 / 1024)} MB per file`}
+            </small>
+          </div>
+          <button
+            type="button"
+            className="btn"
+            disabled={disabled || busy}
+            onClick={() => input.current?.click()}
+          >
+            Browse files
+          </button>
+        </div>
+        {(error || message) && (
+          <div className="file-error" role="alert">
+            {error || message}
+          </div>
+        )}
+        <div className="file-card-foot">
+          <span>
+            {multiple ? "Multiple files supported" : "One file at a time"} ·
+            Images and videos · Up to {Math.round(maxSize / 1024 / 1024)} MB
+            each
+          </span>
+        </div>
       </div>
-      {(error || message) && <small role="alert">{error || message}</small>}
-      <MediaGallery {...gallery} disabled={disabled || busy} />
+      {gallery.items.length > 0 && (
+        <div className="ct-media-attached">
+          <div className="ct-media-attached-heading">
+            <strong>Attached media</strong>
+            <span>
+              {gallery.items.length}{" "}
+              {gallery.items.length === 1 ? "file" : "files"}
+            </span>
+          </div>
+          <MediaGallery {...gallery} disabled={disabled || busy} />
+        </div>
+      )}
     </div>
   );
 }

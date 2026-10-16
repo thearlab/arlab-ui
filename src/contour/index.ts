@@ -15,3 +15,4 @@ export * from './MediaComponents.js';
 export * from './ProjectIndicators.js';
 export * from './GuidedTour.js';
 export * from './WorkspaceComponents.js';
+export * from './DataFilters.js';

@@ -1,49 +1,17 @@
+import { TemporalPicker } from "./TemporalPicker.js";
 import { useId, useState, useEffect, type InputHTMLAttributes } from "react";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Check } from "lucide-react";
 type FieldBase = { label: string; hint?: string; error?: string };
 export type DatePickerProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "type" | "onChange"
 > &
   FieldBase & { onChange: (value: string) => void };
-function TemporalField({
-  type,
-  label,
-  hint,
-  error,
-  id: suppliedId,
-  onChange,
-  ...props
-}: DatePickerProps & { type: "date" | "time" }) {
-  const generatedId = useId();
-  const id = suppliedId || generatedId;
-  return (
-    <div className="ct-field">
-      <label htmlFor={id}>
-        {label}
-        {props.required && <span>Required</span>}
-      </label>
-      <input
-        {...props}
-        id={id}
-        type={type}
-        onChange={(event) => onChange(event.target.value)}
-        aria-invalid={!!error}
-        aria-describedby={error || hint ? `${id}-message` : undefined}
-      />
-      {(error || hint) && (
-        <small id={`${id}-message`} role={error ? "alert" : undefined}>
-          {error || hint}
-        </small>
-      )}
-    </div>
-  );
-}
 export function DatePicker(props: DatePickerProps) {
-  return <TemporalField {...props} type="date" />;
+  return <TemporalPicker {...props} type="date" />;
 }
 export function TimePicker(props: DatePickerProps) {
-  return <TemporalField {...props} type="time" />;
+  return <TemporalPicker {...props} type="time" />;
 }
 export interface DateRangePickerProps extends FieldBase {
   value: { start: string; end: string };
@@ -264,9 +232,18 @@ export function ColorPicker({
                 aria-label={`Use ${color}`}
                 aria-pressed={value.toLowerCase() === color.toLowerCase()}
                 disabled={disabled}
-                style={{ background: color }}
                 onClick={() => onChange(color)}
-              />
+              >
+                <span style={{ background: color }} />
+                <Check
+                  size={10}
+                  aria-hidden="true"
+                  style={{
+                    opacity:
+                      value.toLowerCase() === color.toLowerCase() ? 1 : 0,
+                  }}
+                />
+              </button>
             ))}
         </div>
       )}

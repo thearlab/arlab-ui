@@ -16,7 +16,7 @@ import '@arlab/ui/styles.css';
 
 ## Field contracts
 
-- `DatePicker` and `TimePicker` use native browser date/time controls with explicit labels, limits, validation messages and disabled/required states. Calendar appearance follows the browser; the surrounding field follows Contour. Values remain local date/time strings. The host chooses timezone semantics.
+- `DatePicker` uses a custom Contour calendar with month navigation, arrow-key day navigation, date bounds and Escape dismissal. `TimePicker` uses custom hour/minute dropdowns. Icons inherit the theme and focus uses a thin border. Values remain local date/time strings. The host chooses timezone semantics.
 - `DateRangePicker` receives `{start, end}` and reports invalid ranges without discarding either value.
 - `NumberInput` uses `number | null`, finite step increments, bounded stepper actions, and visible validation for typed values outside limits. Null means empty, not zero.
 - `ColorPicker` accepts six-digit hex colours. A partial draft stays editable; only valid complete values reach `onChange`. It includes optional labelled preset swatches.
@@ -31,7 +31,7 @@ import '@arlab/ui/styles.css';
 
 ## Editing and navigation
 
-`ReorderList` emits reordered items with the same IDs. Desktop users can drag the handle; keyboard and touch users have explicit move-up/down actions. Reordering announces the new position. Persist changes in the host and report failures there.
+`ReorderList` emits reordered items with the same IDs. Mouse and touch users drag the handle with a lifted row and insertion marker; keyboard users have explicit move-up/down actions. Escape cancels a drag. Reordering announces the new position. Persist changes in the host and report failures there.
 
 `InlineEdit` does not save on blur. Enter or Save invokes `onSave`, including async saves. Escape or Cancel discards the draft. A rejected save keeps the editor and draft open; pending saves disable both actions. Focus returns to the edit trigger after closing.
 
@@ -53,3 +53,9 @@ Shared tokens: `text-micro` 10px, `text-2xs` 11px, `text-xs` 12px, `text-sm` 13p
 ## Integration boundary
 
 This release adds components and preserves the V2 navigation and existing V1 compatibility entry point. The dashboard's `window.confirm` calls still need to be replaced in the dashboard repository using the existing `ConfirmDialog`; publishing this library cannot change those call sites automatically. Studio uses shared navigation, fields, dropdowns, switches, dialogs, action menus, tour, overview statistics, collection groups and scrolling regions. Remaining legacy-specific screens can migrate incrementally through `@arlab/ui/legacy` without copying these components locally.
+
+## Filterable tables and right-side filters
+
+`FilterableTable` owns client-side column filtering and pagination. Pass `columns`, `rows` and a stable `rowKey`. A column defines `key`, `label`, optional `render(row)` and `value(row)` for filter values, optional choice `options`, `width`, `align`, and `filterable`. Filter changes reset to page one. Footer includes result range, rows per page and previous/next controls. Use `loading` and `emptyMessage` for retrieval states. Large remote datasets should be filtered/paginated by their host before rendering; this component does not fetch data.
+
+`FilterSidebar` is controlled independently of the list it filters. Definitions support search, select and multi-select inputs; `value` maps IDs to strings or arrays and `onChange` emits the complete new map. `variant="full"` is 280px, `variant="compact"` is 212px, and `collapsed` renders a 52px rail. Provide `onCollapsedChange` to toggle. Header and reset/results footer are fixed while options use the shared ScrollArea. Place it in a bounded-height parent; on small screens the host may stack the panel or put it in a dialog.

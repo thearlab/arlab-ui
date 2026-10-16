@@ -33,15 +33,13 @@ export function CollectionGroup({
   return (
     <section className="ct-collection-group">
       <header>
-        {onOpen ? (
-          <button type="button" onClick={onOpen}>
-            <span>{title}</span>
-            <ArrowUpRight size={13} />
-          </button>
-        ) : (
-          <h3>{title}</h3>
-        )}
+        <h3>{title}</h3>
         {count !== undefined && <span>{count}</span>}
+        {onOpen && (
+          <button type="button" className="ct-collection-open" onClick={onOpen}>
+            View all <ArrowUpRight size={13} />
+          </button>
+        )}
       </header>
       {meta && <div className="ct-collection-meta">{meta}</div>}
       <ul>

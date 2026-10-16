@@ -1,3 +1,4 @@
+import { ScrollArea } from "./scroll-area.js";
 import {
   useState,
   useRef,
@@ -136,7 +137,14 @@ export function ReorderList({
   onChange,
   disabled,
 }: ReorderListProps) {
-  const dragging = useRef<string | null>(null);
+  const list = useRef<HTMLOListElement>(null);
+  const [drag, setDrag] = useState<{
+    id: string;
+    start: number;
+    y: number;
+    insert: number;
+  } | null>(null);
+  const [settled, setSettled] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const move = (id: string, to: number) => {
     const from = items.findIndex((item) => item.id === id);
@@ -145,40 +153,111 @@ export function ReorderList({
     const [item] = next.splice(from, 1);
     next.splice(to, 0, item);
     onChange(next);
+    setSettled(id);
     setAnnouncement(
       `${item.label} moved to position ${to + 1} of ${items.length}.`,
     );
   };
+  useEffect(() => {
+    if (!settled) return;
+    const timer = setTimeout(() => setSettled(null), 220);
+    return () => clearTimeout(timer);
+  }, [settled]);
+  useEffect(() => {
+    if (disabled) setDrag(null);
+  }, [disabled]);
   return (
     <div className="ct-reorder">
-      <ol aria-label={label}>
+      <ol ref={list} aria-label={label} data-dragging={drag ? true : undefined}>
         {items.map((item, index) => (
           <li
             key={item.id}
-            onDragOver={(event) => {
-              if (!disabled && dragging.current) event.preventDefault();
-            }}
-            onDrop={(event) => {
-              event.preventDefault();
-              if (!disabled && dragging.current) move(dragging.current, index);
-              dragging.current = null;
-            }}
+            data-item-id={item.id}
+            data-dragged={drag?.id === item.id || undefined}
+            data-settled={settled === item.id || undefined}
+            data-insertion={
+              drag && drag.id !== item.id && drag.insert === index
+                ? "before"
+                : drag &&
+                    drag.id !== item.id &&
+                    drag.insert === items.length &&
+                    index === items.length - 1
+                  ? "after"
+                  : undefined
+            }
+            style={
+              drag?.id === item.id
+                ? {
+                    transform: `translateY(${drag.y - drag.start}px) scale(1.015)`,
+                  }
+                : undefined
+            }
           >
             <button
               type="button"
               className="ct-drag-handle"
               aria-label={`Drag ${item.label}. Use the move buttons to reorder with a keyboard.`}
               disabled={disabled}
-              draggable={!disabled}
-              onDragStart={(event) => {
-                dragging.current = item.id;
-                event.dataTransfer.effectAllowed = "move";
-                event.dataTransfer.setData("text/plain", item.id);
+              onPointerDown={(event) => {
+                if (event.button !== 0) return;
+                event.currentTarget.setPointerCapture(event.pointerId);
+                setDrag({
+                  id: item.id,
+                  start: event.clientY,
+                  y: event.clientY,
+                  insert: index,
+                });
+                setAnnouncement(
+                  `Picked up ${item.label}. Drag to a new position.`,
+                );
               }}
-              onDragEnd={() => (dragging.current = null)}
+              onPointerMove={(event) => {
+                if (!drag || drag.id !== item.id) return;
+                const rows = Array.from(
+                  list.current?.children || [],
+                ) as HTMLElement[];
+                let insert = items.length;
+                for (let i = 0; i < rows.length; i++) {
+                  if (items[i].id === item.id) continue;
+                  const r = rows[i].getBoundingClientRect();
+                  if (event.clientY < r.top + r.height / 2) {
+                    insert = i;
+                    break;
+                  }
+                }
+                setDrag({ ...drag, y: event.clientY, insert });
+              }}
+              onPointerUp={(event) => {
+                if (!drag) return;
+                const from = items.findIndex((i) => i.id === drag.id);
+                move(
+                  drag.id,
+                  Math.max(
+                    0,
+                    Math.min(
+                      items.length - 1,
+                      drag.insert > from ? drag.insert - 1 : drag.insert,
+                    ),
+                  ),
+                );
+                setDrag(null);
+                if (event.currentTarget.hasPointerCapture(event.pointerId))
+                  event.currentTarget.releasePointerCapture(event.pointerId);
+              }}
+              onPointerCancel={() => setDrag(null)}
+              onLostPointerCapture={() => setDrag(null)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setDrag(null);
+                  setAnnouncement("Reordering cancelled.");
+                }
+              }}
             >
               <GripVertical size={14} />
             </button>
+            <span className="ct-reorder-position" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
             <div>{item.content ?? item.label}</div>
             <button
               type="button"
@@ -199,13 +278,14 @@ export function ReorderList({
           </li>
         ))}
       </ol>
-      {items.length === 0 && <p>No items to arrange.</p>}
+      {!items.length && <p>No items to arrange.</p>}
       <span className="ct-sr-only" role="status">
         {announcement}
       </span>
     </div>
   );
 }
+
 export interface PreviewFrameProps {
   title: string;
   src?: string;
@@ -289,10 +369,14 @@ export function EditorLayout({
           </button>
         )}
       </header>
-      <div className="ct-editor-workspace">
+      <ScrollArea
+        label="Editor workspace"
+        className="ct-editor-workspace"
+        contentClassName="ct-editor-columns"
+      >
         <div className="ct-editor-preview">{children}</div>
         {sidebar && <aside aria-label="Editor properties">{sidebar}</aside>}
-      </div>
+      </ScrollArea>
       {footer && <footer>{footer}</footer>}
     </section>
   );
@@ -341,24 +425,42 @@ export function CodeDisplay({
   };
   return (
     <figure className="ct-code">
-      <div className="ct-code-image">
-        {failed ? (
-          <span role="alert">Code image unavailable.</span>
-        ) : (
-          <img
-            key={imageSrc}
-            src={imageSrc}
-            alt={`${kind} for ${label}`}
-            onLoad={() => setFailed(false)}
-            onError={() => setFailed(true)}
-          />
-        )}
-      </div>
       <figcaption>
-        <strong>{label}</strong>
         <span>{kind}</span>
+        <strong>{label}</strong>
+        <p>Scan to open, or share the link below.</p>
       </figcaption>
+      <div className="ct-code-stage">
+        <div className="ct-code-image">
+          {failed ? (
+            <span role="alert">Code image unavailable.</span>
+          ) : (
+            <img
+              key={imageSrc}
+              src={imageSrc}
+              alt={`${kind} for ${label}`}
+              onLoad={() => setFailed(false)}
+              onError={() => setFailed(true)}
+            />
+          )}
+        </div>
+      </div>
+      <div className="ct-code-destination">
+        <label>
+          Destination
+          <input
+            aria-label={`${label} link`}
+            readOnly
+            value={link}
+            onFocus={(event) => event.target.select()}
+          />
+        </label>
+      </div>
       <div className="ct-code-actions">
+        <button type="button" onClick={() => void copy()}>
+          <Copy size={13} />
+          Copy link
+        </button>
         {onDownload ? (
           <button
             type="button"
@@ -366,7 +468,12 @@ export function CodeDisplay({
             disabled={busy || failed}
           >
             <Download size={13} />
-            Download
+            {busy ? "Downloading…" : "Download code"}
+          </button>
+        ) : failed ? (
+          <button type="button" disabled>
+            <Download size={13} />
+            Download code
           </button>
         ) : (
           <a
@@ -375,21 +482,11 @@ export function CodeDisplay({
             aria-label={`Download ${kind}`}
           >
             <Download size={13} />
-            Download
+            Download code
           </a>
         )}
-        <button type="button" onClick={() => void copy()}>
-          <Copy size={13} />
-          Copy link
-        </button>
       </div>
-      <input
-        aria-label={`${label} link`}
-        readOnly
-        value={link}
-        onFocus={(event) => event.target.select()}
-      />
-      <small role="status">{message}</small>
+      {message && <small role="status">{message}</small>}
     </figure>
   );
 }
