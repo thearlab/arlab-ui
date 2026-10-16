@@ -295,7 +295,7 @@
       "initials",
       "workspace"
     ],
-    "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
+    "behavior": "Keep account actions separate from project actions. The trigger includes a person\u2019s name."
   },
   {
     "name": "Toc",
@@ -708,7 +708,7 @@
       "onRetry",
       "onCreate"
     ],
-    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
+    "behavior": "Failed loads retain the user\u2019s filters. Empty states invite a specific first action."
   },
   {
     "name": "Tooltip",
@@ -960,5 +960,82 @@
       "onSave"
     ],
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
+  },
+  {
+    "name": "PageHeader",
+    "category": "Navigation",
+    "description": "The page heading: context line, title, description, one main action.",
+    "props": "context, title, description, actions, meta",
+    "behavior": ""
+  },
+  {
+    "name": "PageFrame",
+    "category": "Navigation",
+    "description": "A page: heading, then a tabs row, then a filter row, then the content.",
+    "props": "PageHeader props, tabs, filters, children, wide",
+    "behavior": ""
+  },
+  {
+    "name": "FilterBar",
+    "category": "Navigation",
+    "description": "A row of filters: search first, then dropdowns.",
+    "props": "children",
+    "behavior": ""
+  },
+  {
+    "name": "Tabs",
+    "category": "Navigation",
+    "description": "The app switcher strip for page tabs or segments, with counts.",
+    "props": "options[{value,label,count,icon,disabled}|string], value, onChange(value), kind tabs|segments, label",
+    "behavior": "tabs: tablist with arrow keys; segments: aria-pressed. Scrolls sideways when narrow."
+  },
+  {
+    "name": "ToastProvider",
+    "category": "Feedback",
+    "description": "Toast host; useToast().toast(message) announces without stealing focus.",
+    "props": "children",
+    "behavior": ""
+  },
+  {
+    "name": "Table",
+    "category": "Data",
+    "description": "A data table with the reference table styling, in a horizontal scroll container.",
+    "props": "table attributes",
+    "behavior": ""
+  },
+  {
+    "name": "Col",
+    "category": "Collections",
+    "description": "A column of a 12-column PageGrid (columns={12}).",
+    "props": "span, children",
+    "behavior": ""
+  },
+  {
+    "name": "useContourTheme",
+    "category": "Identity",
+    "description": "The light or dark choice, remembered, else the system; feed it to ContourProvider.",
+    "props": "returns [mode, setMode]",
+    "behavior": ""
+  },
+  {
+    "name": "formatRelativeTime",
+    "category": "Status",
+    "description": "\"3 min ago\", \"2 days ago\", \"on 4 Oct\".",
+    "props": "date, now",
+    "behavior": ""
+  },
+  {
+    "name": "deptColor",
+    "category": "Identity",
+    "description": "The department colour token for a department id.",
+    "props": "id",
+    "behavior": ""
+  },
+  {
+    "name": "deptIcon",
+    "category": "Identity",
+    "description": "The registry icon for a department id.",
+    "props": "id, size",
+    "behavior": ""
   }
 ]

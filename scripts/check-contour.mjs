@@ -5,7 +5,7 @@ import * as ui from '../dist/contour/index.js';
 const contract = JSON.parse(fs.readFileSync('docs/component-contract.json','utf8'));
 const entries = Array.isArray(contract) ? contract : contract.components;
 for (const entry of entries) assert.equal(typeof ui[entry.name], 'function', `${entry.name} exports`);
-assert.equal(ui.iconRegistry.length, 145);
+assert.equal(ui.iconRegistry.length, 150); // 145 from the reference + 5 the apps use (beta.2)
 let count = 0;
 postcss.parse(fs.readFileSync('dist/contour/styles.css','utf8')).walkRules(rule => {
   for (let parent = rule.parent; parent; parent = parent.parent) {
@@ -14,4 +14,4 @@ postcss.parse(fs.readFileSync('dist/contour/styles.css','utf8')).walkRules(rule 
   for (const selector of rule.selectors) assert.ok(selector.includes('.arlab-contour'), `Unscoped CSS: ${selector}`);
   count++;
 });
-console.log(`Verified ${entries.length} component exports, 145 icons and ${count} scoped CSS rules.`);
+console.log(`Verified ${entries.length} component exports, 150 icons and ${count} scoped CSS rules.`);
