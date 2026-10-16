@@ -50,6 +50,7 @@
   --dept-engineering: #6c62a6;
   --dept-client: #8d617d;
   --dept-company: #676171;
+  --dept-strategy: #497b8f;   /* not in the reference (it has four departments): the chart teal, logged */
   --chart-1: #b344a6; --chart-2: #7563b2; --chart-3: #9476ad; --chart-4: #497b8f; --chart-5: #a46b87; --chart-6: #6e6878;
 
   --scrollbar-thumb: #8b8794; --scrollbar-track: #efedf1; --scrollbar-hover: #625c6c;
@@ -157,7 +158,7 @@
   --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.40); --accent-secondary: #e8823a;
   --link: #f47cee; --focus: #f47cee; --tint: #452b49;
   --live: #98d7b4; --live-tint: #223f34; --warn: #f0ca83; --warn-tint: #493b24; --crit: #ffabb0; --crit-tint: #4b2b33; --info: #a7caff; --info-tint: #263d58; --code-bg: #19161f;
-  --dept-creative: #d27ac7; --dept-engineering: #a49be0; --dept-client: #c597b4; --dept-company: #aaa3b4;
+  --dept-creative: #d27ac7; --dept-engineering: #a49be0; --dept-client: #c597b4; --dept-company: #aaa3b4; --dept-strategy: #8fb7c8;
   --scrollbar-thumb: #827c8e; --scrollbar-track: #19161f; --scrollbar-hover: #b0a5ba;
   --nav: #231f28; --nav-ink: #b8afbf; --nav-active: #452b49; --nav-selected: #f47cee;
   --surface-nav: #231f28; --surface-hover: #332e39;
@@ -174,7 +175,7 @@
   --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.40); --accent-secondary: #e8823a;
   --link: #f47cee; --focus: #f47cee; --tint: #452b49;
   --live: #98d7b4; --live-tint: #223f34; --warn: #f0ca83; --warn-tint: #493b24; --crit: #ffabb0; --crit-tint: #4b2b33; --info: #a7caff; --info-tint: #263d58; --code-bg: #19161f;
-  --dept-creative: #d27ac7; --dept-engineering: #a49be0; --dept-client: #c597b4; --dept-company: #aaa3b4;
+  --dept-creative: #d27ac7; --dept-engineering: #a49be0; --dept-client: #c597b4; --dept-company: #aaa3b4; --dept-strategy: #8fb7c8;
   --scrollbar-thumb: #827c8e; --scrollbar-track: #19161f; --scrollbar-hover: #b0a5ba;
   --nav: #231f28; --nav-ink: #b8afbf; --nav-active: #452b49; --nav-selected: #f47cee;
   --surface-nav: #231f28; --surface-hover: #332e39;
@@ -256,6 +257,11 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 .arlab-icon-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .arlab-icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .arlab-icon-btn.sm { width: 28px; height: 28px; }
+
+/* Bordered icon button: the top bar and sidebar variant (raise fill, line border; strong border on hover). */
+.arlab-icon-btn.bordered { border: 1px solid var(--line); background: var(--raise); }
+.arlab-icon-btn.bordered:hover:not(:disabled) { border-color: var(--strong); background: var(--sunken); }
+.arlab-icon-btn > svg { width: 14px; height: 14px; stroke-width: 1.5; }
 
 /* ---- Card + composable header/body/footer ------------------------------ */
 .arlab-card {

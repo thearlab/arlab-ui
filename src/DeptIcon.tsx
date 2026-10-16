@@ -14,3 +14,7 @@ const NAMES: Record<string, string> = {
 export function deptIcon(id: string, size = 14): ReactNode | undefined {
   return NAMES[id] ? <Icon name={NAMES[id]} size={size} /> : undefined;
 }
+
+/** One colour per department, from the department tokens (never a status colour). */
+const TOKENS: Record<string, string> = { company: 'dept-company', creative: 'dept-creative', engineering: 'dept-engineering', 'clients-servicing': 'dept-client', 'strategy-growth': 'dept-strategy' };
+export const deptColor = (id: string) => `var(--${TOKENS[id] || 'strong'})`;
