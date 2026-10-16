@@ -19,7 +19,7 @@ export interface PickerProps {
 /** The dropdown for filters and form choices: a button that names the current choice and its
  * count, and a panel of options with counts. Long lists get a search. Arrow keys, Enter, Escape.
  * Use it instead of a native <select> wherever the options carry counts or need to be found. */
-export function Picker({ label, value, options, onChange, searchFrom = 10, className = '' }: PickerProps) {
+export function Picker({ label, value, options, onChange, searchFrom = 8, className = '' }: PickerProps) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const [active, setActive] = useState(0);

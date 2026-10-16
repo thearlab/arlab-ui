@@ -337,18 +337,19 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 .arlab-row-trailing { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
 
 /* ---- Field / Label / Input / Textarea / Select ---------------------- */
-.arlab-field { display: flex; flex-direction: column; gap: 6px; }
-.arlab-label { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 500; color: var(--ink); }
-.arlab-hint { font-family: var(--font-sans); font-size: var(--text-xs); color: var(--ink-dim); }
-.arlab-hint.error { color: var(--crit); }
+.arlab-field { display: flex; flex-direction: column; gap: 8px; }
+.arlab-label { font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--ink); display: flex; justify-content: space-between; gap: 20px; }
+.arlab-label > span { font-size: 10px; font-weight: var(--weight-regular); color: var(--dim); }
+.arlab-hint { font-family: var(--font-sans); font-size: var(--text-2xs); line-height: 1.7; color: var(--dim); }
+.arlab-hint.error { color: var(--bad); }
 
 .arlab-input, .arlab-textarea, .arlab-select {
-  font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); background: var(--raise); width: 100%;
-  border: 1px solid var(--strong); border-radius: var(--radius-md); padding: 8px 12px; line-height: var(--leading-normal);
+  font-family: var(--font-sans); font-size: var(--text-sm); color: var(--ink); background: var(--raise); width: 100%;
+  border: 1px solid var(--strong); border-radius: var(--radius-sm); padding: 10px 12px; line-height: var(--leading-normal);
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-.arlab-input, .arlab-select { height: var(--control-h); }
-.arlab-input::placeholder, .arlab-textarea::placeholder { color: var(--ink-inactive); }
+.arlab-input { min-height: var(--control-h); height: auto; }
+.arlab-input::placeholder, .arlab-textarea::placeholder { color: var(--dim); }
 .arlab-input:hover, .arlab-textarea:hover, .arlab-select:hover { border-color: var(--ink-dim); }
 .arlab-input:focus-visible, .arlab-textarea:focus-visible, .arlab-select:focus-visible {
   outline: none; border-color: var(--focus); box-shadow: 0 0 0 2px var(--accent-soft);
@@ -357,9 +358,20 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 .arlab-input.error:focus-visible, .arlab-textarea.error:focus-visible, .arlab-select.error:focus-visible {
   border-color: var(--crit); box-shadow: 0 0 0 3px color-mix(in srgb, var(--crit) 16%, transparent);
 }
-.arlab-input:disabled, .arlab-textarea:disabled, .arlab-select:disabled { opacity: 0.55; cursor: not-allowed; }
+.arlab-input:disabled, .arlab-textarea:disabled { background: var(--sunken); color: var(--dim); cursor: not-allowed; }
+@media (max-width: 559px) { .arlab-input, .arlab-textarea { font-size: var(--text-md); min-height: var(--control-h-touch); } }
 
-.arlab-textarea { resize: vertical; min-height: 88px; line-height: var(--leading-normal); }
+.arlab-textarea { resize: vertical; min-height: 100px; line-height: var(--leading-normal); }
+
+/* ---- SearchField: a search input with its icon and a clear button ---- */
+.arlab-search-field { display: flex; align-items: center; gap: 8px; min-height: var(--control-h); border: 1px solid var(--strong); background: var(--raise); border-radius: var(--radius-sm); color: var(--dim); padding: 0 11px; box-sizing: border-box; font-family: var(--font-sans); }
+.arlab-search-field:focus-within { outline: none; border-color: var(--focus); box-shadow: 0 0 0 2px var(--accent-soft); }
+.arlab-search-field > svg { flex-shrink: 0; color: var(--dim); }
+.arlab-search-field input { flex: 1; width: 100%; min-width: 0; background: none; border: 0; outline: none; color: var(--ink); font: var(--text-xs) var(--font-sans); padding: 0; }
+.arlab-search-field input::placeholder { color: var(--dim); }
+.arlab-search-field button { border: 0; display: flex; align-items: center; padding: 2px; background: none; color: var(--dim); cursor: pointer; border-radius: var(--radius-xs); }
+.arlab-search-field button:hover { color: var(--ink); }
+@media (max-width: 559px) { .arlab-search-field { min-height: 40px; } .arlab-search-field input { font-size: var(--text-base); } }
 
 /* ---- Select (Contour dropdown) -----------------------------------------
    A hidden native <select> carries the value for forms; the trigger and the panel are what people use. */
@@ -898,27 +910,37 @@ html { scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
 .arlab-segment[aria-selected="true"] { box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
 .arlab-segment-n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 
-/* ---- picker ---- */
+/* ---- Picker: a labelled filter with counts. Same visuals as the Select dropdown (trigger, panel, options,
+   search row from 8 options); the key label sits before the value in the dim colour. ---- */
 .arlab-picker-x { position: relative; min-width: 0; }
-.arlab-picker-btn { display: flex; align-items: center; gap: 8px; width: 100%; height: 36px; padding: 0 10px 0 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--raise); color: var(--ink); font: inherit; cursor: pointer; text-align: left; box-sizing: border-box; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
-.arlab-picker-btn:hover { border-color: var(--line-hover); }
-.arlab-picker-btn[aria-expanded="true"], .arlab-picker-btn:focus-visible { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
-.arlab-picker-btn .k { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); flex-shrink: 0; }
-.arlab-picker-btn .v { flex: 1; min-width: 0; font-size: var(--text-sm); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.arlab-picker-btn .n { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); flex-shrink: 0; }
-.arlab-picker-btn svg { width: 15px; height: 15px; fill: none; stroke: var(--ink-faint); stroke-width: 2; stroke-linecap: round; flex-shrink: 0; transition: transform var(--dur) var(--ease); }
+.arlab-picker-btn {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: var(--control-h); padding: 8px 11px; border: 1px solid var(--strong);
+  border-radius: var(--radius-sm); background: var(--raise); color: var(--ink); font: 400 var(--text-xs)/1.5 var(--font-sans); cursor: pointer; text-align: left; box-sizing: border-box;
+}
+.arlab-picker-btn:hover { border-color: var(--accent); background: var(--ground); }
+.arlab-picker-btn[aria-expanded="true"] { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+.arlab-picker-btn:focus-visible { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+.arlab-picker-btn .k { color: var(--dim); flex-shrink: 0; }
+.arlab-picker-btn .v { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arlab-picker-btn .n { font-size: var(--text-2xs); color: var(--dim); background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-xs); padding: 0 5px; flex-shrink: 0; }
+.arlab-picker-btn svg { color: var(--dim); flex-shrink: 0; transition: transform var(--dur); }
 .arlab-picker-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
-.arlab-picker-panel { position: absolute; z-index: 30; left: 0; min-width: 100%; width: max-content; max-width: 320px; top: calc(100% + 6px); background: var(--raise); border: 1px solid var(--line); border-radius: 11px; box-shadow: var(--shadow-pop); padding: 6px; display: grid; gap: 6px; box-sizing: border-box; animation: arlab-picker-in .12s var(--ease); }
-@keyframes arlab-picker-in { from { opacity: 0; transform: translateY(-4px); } }
-.arlab-picker-search { height: 32px; border: 1px solid var(--line); border-radius: 7px; background: var(--ground); color: var(--ink); font: inherit; font-size: var(--text-sm); padding: 0 10px; }
-.arlab-picker-search:focus { outline: none; border-color: var(--accent-line); }
-.arlab-picker-opts { max-height: 300px; overflow: auto; display: grid; gap: 1px; }
-.arlab-picker-opt { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 0; border-radius: 7px; background: none; color: var(--ink-dim); font: inherit; font-size: var(--text-sm); text-align: left; cursor: pointer; }
+.arlab-picker-panel {
+  position: absolute; z-index: var(--z-popover); left: 0; min-width: max(100%, 180px); width: max-content; max-width: 320px; top: calc(100% + 6px);
+  background: var(--raise); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-pop); padding: 5px; box-sizing: border-box;
+}
+.arlab-picker-search {
+  display: block; width: calc(100% + 10px); position: sticky; top: -5px; z-index: 1; margin: -5px -5px 5px; padding: 11px; box-sizing: border-box;
+  border: 0; border-bottom: 1px solid var(--line); background: var(--raise); color: var(--ink); font: var(--text-xs) var(--font-sans); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.arlab-picker-search:focus { outline: none; box-shadow: inset 0 -1px 0 var(--focus); }
+.arlab-picker-opts { max-height: 300px; overflow: auto; display: flex; flex-direction: column; scrollbar-gutter: stable; overscroll-behavior: contain; }
+.arlab-picker-opt { display: flex; align-items: center; gap: 14px; min-height: 37px; padding: 9px 10px; border: 0; border-radius: var(--radius-xs); background: none; color: var(--ink); font: 400 var(--text-xs)/1.5 var(--font-sans); text-align: left; cursor: pointer; }
 .arlab-picker-opt .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.arlab-picker-opt .n { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); }
-.arlab-picker-opt.active { background: var(--surface-hover); color: var(--ink); }
-.arlab-picker-opt.on, .arlab-picker-opt.on .n { color: var(--accent-deep); font-weight: 600; }
-.arlab-picker-none { padding: 10px; font-size: var(--text-xs); color: var(--ink-faint); }
+.arlab-picker-opt .n { font-size: var(--text-2xs); color: var(--dim); background: var(--raise); border: 1px solid var(--line); border-radius: var(--radius-xs); padding: 0 5px; }
+.arlab-picker-opt.active { outline: 1px solid var(--line); outline-offset: -1px; background: var(--sunken); }
+.arlab-picker-opt.on { color: var(--link); background: var(--tint); font-weight: var(--weight-medium); }
+.arlab-picker-none { padding: 20px 12px; text-align: center; font-size: var(--text-xs); color: var(--ink); }
 
 /* ---- page bar and section head ---- */
 .arlab-pagebar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 28px 32px 22px; border-bottom: 1px solid var(--line); background: var(--raise); position: sticky; top: 0; z-index: 5; flex-shrink: 0; }

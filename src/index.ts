@@ -17,6 +17,8 @@ export type { FieldProps } from './Field';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 export { Select } from './Select';
+export { SearchField } from './SearchField';
+export type { SearchFieldProps } from './SearchField';
 export type { SelectProps } from './Select';
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
