@@ -1,14 +1,15 @@
 import {
+  useEffect,
   useId,
   useRef,
   useState,
   type ReactNode,
   type KeyboardEvent,
 } from "react";
-import { ArrowLeft, SlidersHorizontal } from "lucide-react";
+import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
 import { Button, PageBar } from "./library.js";
 import { FilterableTable } from "./DataFilters.js";
-import { Status } from "./ui.js";
+import { Modal, Status } from "./ui.js";
 import { ScrollArea } from "./scroll-area.js";
 
 export interface CollectionRecord extends Record<string, unknown> {
@@ -26,12 +27,14 @@ export function RecordCollection({
   onOpen,
   loading = false,
   label = "Records",
+  variant = "contained",
   emptyMessage = "No records match your filters.",
 }: {
   records: CollectionRecord[];
   onOpen: (id: string) => void;
   loading?: boolean;
   label?: string;
+  variant?: "contained" | "flush";
   emptyMessage?: string;
 }) {
   const [visible, setVisible] = useState(25);
@@ -51,10 +54,11 @@ export function RecordCollection({
     }
   };
   return (
-    <div className="ct-record-collection">
+    <div className="ct-record-collection" data-variant={variant}>
       <div className="ct-record-collection-table">
         <FilterableTable
           fill
+          variant={variant}
           title={label}
           rows={records}
           loading={loading}
@@ -125,54 +129,26 @@ export function RecordCollection({
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({
-  title,
-  description,
-  actions,
-  search,
-  filters,
-  activeFilters = 0,
-  children,
-}: {
-  title: string;
-  description?: string;
-  actions?: ReactNode;
-  search: ReactNode;
-  filters?: ReactNode;
-  activeFilters?: number;
-  children: ReactNode;
+export function CollectionLayout({title,description,actions,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
+ title:string;description?:string;actions?:ReactNode;search:ReactNode;filters?:ReactNode;
+ sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
+ variant?:'contained'|'flush';activeFilters?:number;children:ReactNode;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const id = useId();
-  return (
-    <section className="ct-collection-layout" aria-label={title}>
-      <PageBar
-        title={title}
-        description={description}
-        actions={actions}
-        heading="h1"
-      />
-      <div className="ct-collection-toolbar">
-        <div>{search}</div>
-        {filters && (
-          <Button
-            aria-expanded={expanded}
-            aria-controls={id}
-            onClick={() => setExpanded(!expanded)}
-          >
-            <SlidersHorizontal size={14} />
-            Filters{activeFilters > 0 ? ` (${activeFilters})` : ""}
-          </Button>
-        )}
-      </div>
-      {filters && (
-        <div id={id} className="ct-collection-filter-fields" hidden={!expanded}>
-          {filters}
-        </div>
-      )}
-      <div className="ct-collection-results">{children}</div>
-    </section>
-  );
+ const [expanded,setExpanded]=useState(false);
+ const [mobile,setMobile]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(max-width:760px)').matches);
+ const id=useId();
+ useEffect(()=>{const media=window.matchMedia('(max-width:760px)');const update=()=>{setMobile(media.matches);setExpanded(false);};media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
+ const close=()=>setExpanded(false);
+ return <section className="ct-collection-layout" data-variant={variant} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
+  <div className="ct-collection-main">
+   <PageBar title={title} description={description} actions={actions} heading="h1"/>
+   <div className="ct-collection-toolbar"><div>{search}</div>{(filters||sidebar&&mobile)&&<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>}</div>
+   {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
+   <div className="ct-collection-results">{children}</div>
+  </div>
+  {sidebar&&!mobile&&<div className="ct-collection-sidebar">{sidebar({mobile:false,close})}</div>}
+  {sidebar&&mobile&&<Modal open={expanded} onClose={close} title={sidebarLabel} sheet className="ct-collection-filter-sheet"><div id={id} className="ct-collection-filter-content">{sidebar({mobile:true,close})}</div></Modal>}
+ </section>;
 }
 
 export function RecordLayout({ children }: { children: ReactNode }) {
@@ -248,6 +224,7 @@ export function RecordHeader({
   panelId,
 }: RecordHeaderProps) {
   const strip = useRef<HTMLDivElement>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const active = tabs.some((t) => t.id === value) ? value : tabs[0]?.id;
   const move = (event: KeyboardEvent<HTMLDivElement>) => {
     const at = tabs.findIndex((t) => t.id === active);
@@ -277,16 +254,16 @@ export function RecordHeader({
           {backLabel}
         </Button>
         {metadata && (
-          <details className="ct-record-metadata">
-            <summary>Record details</summary>
-            <ScrollArea
-              label="Record details"
-              className="ct-record-metadata-panel"
-              maxHeight="40dvh"
-            >
-              {metadata}
-            </ScrollArea>
-          </details>
+          <>
+            <Button onClick={() => setDetailsOpen(true)} aria-haspopup="dialog" aria-expanded={detailsOpen}>
+              <Info size={14} />Record details
+            </Button>
+            <Modal open={detailsOpen} onClose={() => setDetailsOpen(false)} title="Record details" sheet className="ct-record-details-sheet">
+              <div className="ct-record-details-context"><span>About this record</span><h3>{title}</h3></div>
+              <ScrollArea label="Record information" className="ct-record-details-content">{metadata}</ScrollArea>
+              <div className="ct-record-details-footer"><Button onClick={() => setDetailsOpen(false)}>Done</Button></div>
+            </Modal>
+          </>
         )}
       </div>
       <div className="ct-record-heading">

@@ -1,3 +1,4 @@
+import { Input } from "./BaseFields.js";
 import React, { useState } from "react";
 import {
   Search,
@@ -367,7 +368,8 @@ export function IconsPage({ notify }) {
       <div className="icon-tools">
         <label className="search-field">
           <Search size={16} />
-          <input
+          <Input
+            variant="embedded"
             value={query}
             aria-label="Search icons"
             placeholder="Search icons by name"

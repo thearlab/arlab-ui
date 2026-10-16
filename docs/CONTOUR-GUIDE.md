@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 0.1 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.8 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -173,9 +173,13 @@ Run `npm test`, `npm run check:colors`, `npm run docs`, and `npm run build`. Com
 
 The generated sections below are synchronized with the live catalogue and token source.
 
+## Shared form typography
+
+Form values, placeholders, dropdown options and embedded fields use `--text-field: 12px` at regular weight in both themes. Touch controls retain 44px minimum targets. A searchable dropdown uses a soft half-pixel separator, including on focus. All nested text controls compose Input or Textarea.
+
 ## Complete component contract
 
-119 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+124 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -280,6 +284,8 @@ Import: `import { Input } from '@arlab/ui';`
 | `type` | A supported native input type. |
 | `placeholder` | A brief example; never a replacement for a visible label. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `variant` | default (bordered) or embedded (parent owns the surface). Both use 12px regular form text. |
+| `inputRef` | Ref to the native input; standard input attributes and event behavior are preserved. |
 
 Live example: [Input](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Input)
 
@@ -297,8 +303,9 @@ Import: `import { Textarea } from '@arlab/ui';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `rows` | DataTable: project records. Textarea: visible line count. Skeleton: placeholder row count. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
-| `variant` | primary  /  secondary (default)  /  quiet  /  ghost  /  danger. |
-| `size` | Icon or loader size in pixels; loader default 24. |
+| `variant` | default or code. Both use 12px regular text; code uses IBM Plex Mono. |
+| `size` | default or short. Short sets a 96px minimum. |
+| `textareaRef` | Ref to the native textarea. |
 
 Live example: [Textarea](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Textarea)
 
@@ -605,6 +612,9 @@ Import: `import { AccountMenu } from '@arlab/ui';`
 | `name` | Visible account name; defaults to Alex Morgan. |
 | `initials` | One or two letters identifying the person. |
 | `workspace` | Workspace name shown below the account identity. |
+| `items` | Application-owned account action definitions. Omit to use the showcase defaults. |
+| `roleCaption` | Secondary account line, such as the actual user role. |
+| `collapsed` | Show the shared compact avatar trigger without clipping the menu. |
 
 Live example: [AccountMenu](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AccountMenu)
 
@@ -1599,15 +1609,25 @@ Live example: [DayTimeline](https://arlab-ui-showcase.pages.dev/?view=catalogue&
 
 #### KanbanBoard
 
-A task board supporting pointer drag and an explicit move control.
+A controlled board with independent column scrolling, collapse and phone column navigation.
 
-Every card can be moved with its dropdown, so drag-and-drop is never required.
+The host owns cards and persistence. Move by pointer/touch handle, keyboard pickup/arrows/drop or Move to menu. Omit onMove for read-only. Destination index excludes the moved card. Phone supports tabs and swipe; loading, error, empty and limited columns have explicit states.
 
 Import: `import { KanbanBoard } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `none` | Optional pattern-specific value. Use the live example as the reference. |
+| `columns` | Optional pattern-specific value. Use the live example as the reference. |
+| `cards` | Optional pattern-specific value. Use the live example as the reference. |
+| `renderCard` | Optional pattern-specific value. Use the live example as the reference. |
+| `onCardOpen` | Optional pattern-specific value. Use the live example as the reference. |
+| `onMove` | Optional pattern-specific value. Use the live example as the reference. |
+| `onColumnToggle` | Optional pattern-specific value. Use the live example as the reference. |
+| `getCardLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `error` | An actionable validation message; sets aria-invalid. |
+| `columnWidth` | Optional pattern-specific value. Use the live example as the reference. |
+| `density` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [KanbanBoard](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=KanbanBoard)
 
@@ -1630,6 +1650,143 @@ Live example: [ProjectStatusSheet](https://arlab-ui-showcase.pages.dev/?view=cat
 
 ### Dashboard & editors
 
+#### InfiniteTable
+
+A virtualized sortable table that continues loading as you scroll.
+
+Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry.
+
+Import: `import { InfiniteTable } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `header` | Optional React content replacing the title. |
+| `headerActions` | Optional pattern-specific value. Use the live example as the reference. |
+| `columns` | Optional pattern-specific value. Use the live example as the reference. |
+| `rows` | Loaded records. Remote mode preserves their server-provided order. |
+| `rowKey` | Optional pattern-specific value. Use the live example as the reference. |
+| `mode` | local (default) sorts the full provided array; remote delegates ordering and fetching to the host. |
+| `initialSort` | Local initial {key,direction} or null. |
+| `sort` | Remote controlled {key,direction:ascending / descending} or null. |
+| `onSortChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `hasMore` | Optional pattern-specific value. Use the live example as the reference. |
+| `onLoadMore` | Remote callback (AbortSignal) => Promise<void>. Resolve after appending rows; reject to expose Retry loading. Ignore aborted requests in the host. |
+| `loadingMore` | Optional pattern-specific value. Use the live example as the reference. |
+| `error` | An actionable validation message; sets aria-invalid. |
+| `totalCount` | Remote optional matching count. Unknown counts use aria-rowcount=-1. |
+| `filterKey` | Change when the host query changes; retain when appending to the same query. |
+| `rowHeight` | Fixed row height, default 64px, minimum 44px. Custom cells must fit within two lines. |
+| `overscan` | Extra virtual rows around the viewport, default 6. |
+| `chunkSize` | Local rows disclosed per load, default 50. |
+| `height` | Optional scroll viewport height in pixels or a CSS length. |
+| `variant` | contained (default) or flush. Dividers in flush touch the enclosing container edges. |
+
+Live example: [InfiniteTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=InfiniteTable)
+
+#### FacetList
+
+A vertical filter group with baseline counts and soft selection.
+
+13px labels use 32px rows or compact 28px rows. Radio and checkbox semantics support arrow navigation. Phone filters open a shared side panel. Long names keep a tooltip.
+
+Import: `import { FacetList } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `groups` | Grouped API: {id,label,items,limit?}[]. Each item has id,label,count?,mark?,tone?,dept?,avatar?,disabled?. |
+| `items` | Flat API alternative to groups. Items use stable id, full label and optional count or mark. |
+| `value` | Grouped API uses Record<groupId,string / string[]>; flat single mode uses a string. |
+| `onChange` | Grouped: (groupId,nextStringOrArray). Flat single: (nextId). Values remain host-owned. |
+| `multiple` | Grouped API: true for all groups, or an array of group IDs with checkbox selection. |
+| `allLabel` | Optional reset-to-all row label within each group. |
+| `mode` | Optional pattern-specific value. Use the live example as the reference. |
+| `values` | Optional pattern-specific value. Use the live example as the reference. |
+| `onValuesChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `showAllCount` | Optional pattern-specific value. Use the live example as the reference. |
+| `density` | regular: 32px rows; compact: 28px rows. Labels remain 13px. |
+| `compact` | Optional pattern-specific value. Use the live example as the reference. |
+| `responsive` | Default true. Phone uses a Filters button opening one sheet; false keeps inline groups. |
+| `height` | Optional scroll viewport height in pixels or a CSS length. |
+| `maxHeight` | Maximum scroll viewport height; content may use less space. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [FacetList](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FacetList)
+
+#### RankList
+
+A selectable ranked list with muted 4px share bars and right-aligned values.
+
+Rows announce name, metadata, value and rank. Roving keyboard selection and shared scrolling support longer lists. Marks are decorative; numeric values determine bar geometry.
+
+Import: `import { RankList } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `items` | {id,name,meta?,value,display?,subValue?,mark?,tone?,dept?,avatar?,status?}[]; value controls relative 4px share bars. |
+| `selected` | Controlled selected ID. value is retained as an alias. |
+| `value` | Controlled value. Update it from onChange. |
+| `onSelect` | Receives the selected row ID. Omitting it gives a read-only list. |
+| `label` | Visible or accessible name describing the control. |
+| `format` | Optional numeric value-to-label callback; per-item display takes priority. |
+| `limit` | Initial number of visible items. Show more expands without changing selection. |
+| `showMoreLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `density` | regular or compact. |
+| `header` | Optional pattern-specific value. Use the live example as the reference. |
+| `barTone` | chart (default, muted), quiet or accent. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `height` | Optional scroll viewport height in pixels or a CSS length. |
+| `maxHeight` | Maximum scroll viewport height; content may use less space. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [RankList](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RankList)
+
+#### StatNote
+
+A neutral metric with a separate semantic status and supporting context.
+
+The figure always stays neutral. Note is a pill or tone dot; trend direction and good/bad meaning are independent. View accepts a link or callback.
+
+Import: `import { StatNote } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `note` | String or {tone,label,variant?:pill / dot}. The figure always stays neutral. |
+| `caption` | Optional pattern-specific value. Use the live example as the reference. |
+| `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
+| `presentation` | Optional pattern-specific value. Use the live example as the reference. |
+| `format` | Optional number-to-label callback. |
+| `size` | regular or large. |
+| `trend` | {label,direction?:up / down / flat,good?:up / down,tone?:good / bad / neutral}. Meaning follows outcome, not arrow direction. |
+| `view` | Optional pattern-specific value. Use the live example as the reference. |
+| `href` | Makes the whole stat a navigation link. |
+| `onClick` | Makes the whole stat one action button; no nested action is created. |
+| `actionLabel` | Accessible and visible whole-stat action label. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [StatNote](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StatNote)
+
+#### StatNoteRow
+
+Aligned labels, figures, captions and actions across status metrics.
+
+Shared grid rows align captions and figures even when another metric has a long note. Responsive columns preserve readable text.
+
+Import: `import { StatNoteRow } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [StatNoteRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StatNoteRow)
+
 #### CollectionLayout
 
 A full-width collection destination with search and optional filters.
@@ -1647,6 +1804,9 @@ Import: `import { CollectionLayout } from '@arlab/ui';`
 | `filters` | Optional pattern-specific value. Use the live example as the reference. |
 | `activeFilters` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
+| `variant` | contained (default) or flush. Flush results extend to the container edges. |
+| `sidebar` | Optional render callback receiving {mobile, close}. Desktop sits on the right; phone opens a Filters sheet. |
+| `sidebarLabel` | Accessible phone filter-sheet title, default Filters. |
 
 Live example: [CollectionLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionLayout)
 
@@ -1665,6 +1825,7 @@ Import: `import { RecordCollection } from '@arlab/ui';`
 | `loading` | Optional pattern-specific value. Use the live example as the reference. |
 | `label` | Visible or accessible name describing the control. |
 | `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
+| `variant` | contained or flush. Flush header, row and footer lines meet the container edges. |
 
 Live example: [RecordCollection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordCollection)
 
@@ -1686,7 +1847,7 @@ Live example: [RecordLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 A record title, publication state, actions and accessible sections.
 
-Controlled tabs support arrow/Home/End navigation. Secondary details stay in a disclosure. Back behavior belongs to the host.
+Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host.
 
 Import: `import { RecordHeader } from '@arlab/ui';`
 
@@ -1697,7 +1858,7 @@ Import: `import { RecordHeader } from '@arlab/ui';`
 | `actions` | Primary and supporting actions for the current page. |
 | `backLabel` | Optional pattern-specific value. Use the live example as the reference. |
 | `onBack` | Optional pattern-specific value. Use the live example as the reference. |
-| `metadata` | Optional pattern-specific value. Use the live example as the reference. |
+| `metadata` | React content presented in a shared side sheet with fixed heading, record context, scrolling content and Done action. |
 | `tabs` | Optional pattern-specific value. Use the live example as the reference. |
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
@@ -1791,6 +1952,8 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `pageSizes` | Available rows-per-page choices, default 10, 25 and 50. |
 | `loading` | Replaces rows with a loading state and announces aria-busy. |
 | `emptyMessage` | Message shown when no rows match. |
+| `variant` | contained (default) or flush. Flush dividers reach container edges with cell padding retained. |
+| `fill` | Allows the bounded results scroll to occupy the available layout height. |
 
 Live example: [FilterableTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterableTable)
 
@@ -1805,7 +1968,7 @@ Import: `import { FilterSidebar } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
-| `filters` | Definitions with id, label and type: search, select or multi; choice filters accept options. |
+| `filters` | Definitions with id, label and type: search, select, multi or facet; choice filters accept options. |
 | `value` | Controlled map from filter IDs to strings or arrays of selected strings. |
 | `onChange` | Receives the complete next filter-value map. |
 | `variant` | full (280px) or compact (212px). |
@@ -1813,6 +1976,7 @@ Import: `import { FilterSidebar } from '@arlab/ui';`
 | `onCollapsedChange` | Receives true to collapse or false to expand. |
 | `resultCount` | Optional matching-result count in the fixed footer. |
 | `onClose` | Optional close action callback. |
+| `showHeader` | Default true; false avoids a duplicate title when placed in a phone sheet. |
 
 Live example: [FilterSidebar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterSidebar)
 
@@ -2221,6 +2385,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--weight-bold` | `700` | `700` |
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
+| `--text-field` | `12px` | `12px` |
 | `--text-base` | `14px` | `14px` |
 | `--text-md` | `16px` | `16px` |
 | `--text-lg` | `18px` | `18px` |

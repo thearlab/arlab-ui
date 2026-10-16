@@ -1,3 +1,4 @@
+import { Input } from "./BaseFields.js";
 import React, {
   useEffect,
   useLayoutEffect,
@@ -550,8 +551,9 @@ export function Dropdown({
             {withSearch && (
               <div className="dropdown-search">
                 <Search size={15} />
-                <input
-                  ref={search}
+                <Input
+                  variant="embedded"
+                  inputRef={search}
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);

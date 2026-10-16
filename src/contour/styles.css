@@ -710,26 +710,16 @@ select {
   align-items: center;
   gap: 8px;
   min-height: var(--control-h);
-  border: 1px solid var(--strong);
+  border: var(--line-width) solid var(--line);
   background: var(--raise);
   border-radius: var(--radius-sm);
   color: var(--dim);
   padding: 0 11px;
 }
 .search-field:focus-within {
-  outline: 1px solid var(--focus);
-  outline-offset: 1px;
-}
-.search-field input {
-  width: 100%;
-  background: none;
-  border: 0;
   outline: none;
-  color: var(--ink);
-  font-size: 12px;
-}
-.search-field input:focus-visible {
-  outline: none;
+  border-color: var(--focus);
+  box-shadow: none;
 }
 .search-field button {
   border: 0;
@@ -740,15 +730,6 @@ select {
 .search-field input::placeholder {
   color: var(--dim);
 }
-.themed-preview select {
-  border: 1px solid var(--strong);
-  color: var(--ink);
-  background: var(--raise);
-  padding: 8px 28px 8px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  min-height: var(--control-h);
-}
 .field {
   display: flex;
   flex-direction: column;
@@ -757,31 +738,6 @@ select {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 18px;
-}
-.field input,
-.field textarea,
-.field select {
-  border: 1px solid var(--strong);
-  background: var(--raise);
-  border-radius: var(--radius-sm);
-  min-height: var(--control-h);
-  padding: 10px 12px;
-  width: 100%;
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-.field textarea {
-  resize: vertical;
-  min-height: 90px;
-}
-.field input::placeholder,
-.field textarea::placeholder {
-  color: var(--dim);
-}
-.field input[aria-invalid="true"] {
-  border-color: var(--bad);
 }
 .required-label {
   position: absolute;
@@ -2270,9 +2226,6 @@ select {
   padding: 0 8px;
   min-height: 33px;
   margin: 0 3px 25px;
-}
-.knowledge-tree .search-field input {
-  font-size: 10px;
 }
 .tree-label {
   font-size: 9px;
@@ -5392,13 +5345,10 @@ select {
     min-height: 44px;
   }
   .search-field {
-    min-height: 40px;
-  }
-  .search-field input {
-    font-size: 14px;
+    min-height: var(--control-h-touch);
   }
   .themed-preview select {
-    min-height: 40px;
+    min-height: var(--control-h-touch);
   }
   .modal-body {
     padding: 22px;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent } from "react";
 import {
   Filter,
   X,
@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Dropdown } from "./ui.js";
 import { ScrollArea } from "./scroll-area.js";
+import { FacetList } from './DataLists.js';
+import { Input, Checkbox, Button, IconButton } from './library.js';
 
 export interface FilterColumn<Row> {
   key: string;
@@ -27,40 +29,8 @@ export interface FilterColumn<Row> {
   value?: (row: Row) => string | number;
   render?: (row: Row) => ReactNode;
 }
-export interface FilterableTableProps<Row extends Record<string, unknown>> {
-  title?: string;
-  header?: ReactNode;
-  headerActions?: ReactNode;
-  columns: FilterColumn<Row>[];
-  rows: Row[];
-  rowKey: keyof Row | ((row: Row) => string | number);
-  pageSize?: number;
-  pageSizes?: number[];
-  loading?: boolean;
-  emptyMessage?: string;
-  /** Fill the bounded height supplied by a collection layout. */
-  fill?: boolean;
-}
-export function FilterableTable<Row extends Record<string, unknown>>({
-  title = "Records",
-  header,
-  headerActions,
-  columns,
-  rows,
-  rowKey,
-  pageSize = 10,
-  pageSizes = [10, 25, 50],
-  loading,
-  emptyMessage = "No results match these filters.",
-  fill = false,
-}: FilterableTableProps<Row>) {
-  const [sort, setSort] = useState<{
-    key: string;
-    direction: "ascending" | "descending";
-  } | null>(null);
-  const [page, setPage] = useState(1),
-    [size, setSize] = useState(pageSize);
-  const ordered = useMemo(() => {
+export interface TableSort {key:string;direction:'ascending'|'descending'}
+export function sortTableRows<Row extends Record<string,unknown>>(rows:Row[],columns:FilterColumn<Row>[],sort:TableSort|null):Row[] {
     if (!sort) return rows;
     const column = columns.find((c) => c.key === sort.key);
     if (!column) return rows;
@@ -86,40 +56,11 @@ export function FilterableTable<Row extends Record<string, unknown>>({
             });
       return sort.direction === "ascending" ? comparison : -comparison;
     });
-  }, [rows, columns, sort]);
-  const pages = Math.max(1, Math.ceil(ordered.length / size)),
-    current = Math.min(page, pages),
-    start = (current - 1) * size;
-  const toggleSort = (key: string) => {
-    setSort((previous) => ({
-      key,
-      direction:
-        previous?.key === key && previous.direction === "ascending"
-          ? "descending"
-          : "ascending",
-    }));
-    setPage(1);
-  };
-  return (
-    <section
-      className="ct-data-table"
-      aria-label={title}
-      aria-busy={loading || undefined}
-    >
-      <header>
-        <div>
-          {header || <h3>{title}</h3>}
-          <span role="status">
-            {ordered.length} {ordered.length === 1 ? "record" : "records"}
-          </span>
-        </div>
-        {headerActions && (
-          <div className="ct-table-header-actions">{headerActions}</div>
-        )}
-      </header>
-      <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
-        <table>
-          <thead>
+  }
+
+/** The shared header for paginated and virtualized tables. */
+export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false}:{columns:FilterColumn<Row>[];sort:TableSort|null;onSort:(key:string)=>void;sortingDisabled?:boolean}) {
+ return (<thead>
             <tr>
               {columns.map((column) => (
                 <th
@@ -138,9 +79,10 @@ export function FilterableTable<Row extends Record<string, unknown>>({
                   ) : (
                     <button
                       type="button"
+                      disabled={sortingDisabled}
                       className="ct-table-sort"
                       aria-label={`Sort ${column.label} ${sort?.key === column.key && sort.direction === "ascending" ? "descending" : "ascending"}`}
-                      onClick={() => toggleSort(column.key)}
+                      onClick={() => onSort(column.key)}
                     >
                       <span>{column.header ?? column.label}</span>
                       <span className="ct-sort-arrows" aria-hidden="true">
@@ -166,7 +108,79 @@ export function FilterableTable<Row extends Record<string, unknown>>({
                 </th>
               ))}
             </tr>
-          </thead>
+          </thead>);
+}
+
+export interface FilterableTableProps<Row extends Record<string, unknown>> {
+  title?: string;
+  header?: ReactNode;
+  headerActions?: ReactNode;
+  columns: FilterColumn<Row>[];
+  rows: Row[];
+  rowKey: keyof Row | ((row: Row) => string | number);
+  pageSize?: number;
+  pageSizes?: number[];
+  loading?: boolean;
+  emptyMessage?: string;
+  /** Fill the bounded height supplied by a collection layout. */
+  fill?: boolean;
+  variant?: "contained" | "flush";
+}
+export function FilterableTable<Row extends Record<string, unknown>>({
+  title = "Records",
+  header,
+  headerActions,
+  columns,
+  rows,
+  rowKey,
+  pageSize = 10,
+  pageSizes = [10, 25, 50],
+  loading,
+  emptyMessage = "No results match these filters.",
+  fill = false,
+  variant = "contained",
+}: FilterableTableProps<Row>) {
+  const [sort, setSort] = useState<{
+    key: string;
+    direction: "ascending" | "descending";
+  } | null>(null);
+  const [page, setPage] = useState(1),
+    [size, setSize] = useState(pageSize);
+  const ordered = useMemo(()=>sortTableRows(rows,columns,sort),[rows,columns,sort]);
+  const pages = Math.max(1, Math.ceil(ordered.length / size)),
+    current = Math.min(page, pages),
+    start = (current - 1) * size;
+  const toggleSort = (key: string) => {
+    setSort((previous) => ({
+      key,
+      direction:
+        previous?.key === key && previous.direction === "ascending"
+          ? "descending"
+          : "ascending",
+    }));
+    setPage(1);
+  };
+  return (
+    <section
+      className="ct-data-table"
+      data-variant={variant}
+      aria-label={title}
+      aria-busy={loading || undefined}
+    >
+      <header>
+        <div>
+          {header || <h3>{title}</h3>}
+          <span role="status">
+            {ordered.length} {ordered.length === 1 ? "record" : "records"}
+          </span>
+        </div>
+        {headerActions && (
+          <div className="ct-table-header-actions">{headerActions}</div>
+        )}
+      </header>
+      <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
+        <table>
+          <SharedTableHead columns={columns} sort={sort} onSort={toggleSort}/>
           <tbody>
             {loading ? (
               <tr>
@@ -241,25 +255,25 @@ export function FilterableTable<Row extends Record<string, unknown>>({
           />
         </div>
         <nav aria-label={`${title} pages`}>
-          <button
-            type="button"
-            aria-label="Previous page"
+          <IconButton
+
+            label="Previous page"
             disabled={current === 1 || loading}
             onClick={() => setPage(current - 1)}
           >
             <ChevronLeft size={14} />
-          </button>
+          </IconButton>
           <span>
             Page {current} of {pages}
           </span>
-          <button
-            type="button"
-            aria-label="Next page"
+          <IconButton
+
+            label="Next page"
             disabled={current === pages || loading}
             onClick={() => setPage(current + 1)}
           >
             <ChevronRight size={14} />
-          </button>
+          </IconButton>
         </nav>
       </footer>
     </section>
@@ -268,7 +282,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
 export interface DataFilter {
   id: string;
   label: string;
-  type: "search" | "select" | "multi";
+  type: "search" | "select" | "multi" | "facet";
   options?: { value: string; label: string; count?: number }[];
   placeholder?: string;
 }
@@ -282,6 +296,7 @@ export interface FilterSidebarProps {
   onCollapsedChange?: (collapsed: boolean) => void;
   resultCount?: number;
   onClose?: () => void;
+  showHeader?: boolean;
 }
 export function FilterSidebar({
   title = "Filters",
@@ -293,6 +308,7 @@ export function FilterSidebar({
   onCollapsedChange,
   resultCount,
   onClose,
+  showHeader = true,
 }: FilterSidebarProps) {
   const active = Object.values(value).filter((v) =>
     Array.isArray(v) ? v.length : v,
@@ -302,15 +318,15 @@ export function FilterSidebar({
   if (collapsed)
     return (
       <aside className="ct-filter-rail" aria-label={title}>
-        <button
-          type="button"
+        <IconButton
+
           className="ct-filter-icon"
-          aria-label="Expand filters"
+          label="Expand filters"
           aria-expanded={false}
           onClick={() => onCollapsedChange?.(false)}
         >
           <PanelRightOpen size={15} />
-        </button>
+        </IconButton>
         <span className="ct-filter-rail-label">Filters</span>
         {active > 0 && (
           <span
@@ -328,41 +344,41 @@ export function FilterSidebar({
       data-variant={variant}
       aria-label={title}
     >
-      <header>
+      {showHeader && <header>
         <Filter size={14} />
         <h3>{title}</h3>
         {active > 0 && <span className="ct-filter-count">{active}</span>}
         <div>
           {onCollapsedChange && (
-            <button
-              type="button"
+            <IconButton
+
               className="ct-filter-icon"
-              aria-label="Collapse filters"
+              label="Collapse filters"
               aria-expanded={true}
               onClick={() => onCollapsedChange(true)}
             >
               <PanelRightClose size={14} />
-            </button>
+            </IconButton>
           )}
           {onClose && (
-            <button
-              type="button"
+            <IconButton
+
               className="ct-filter-icon"
-              aria-label="Close filters"
+              label="Close filters"
               onClick={onClose}
             >
               <X size={14} />
-            </button>
+            </IconButton>
           )}
         </div>
-      </header>
+      </header>}
       <ScrollArea label="Filter options" className="ct-filter-sidebar-scroll">
         <div className="ct-filter-sections">
           {filters.map((filter) => (
             <section key={filter.id}>
               <h4>{filter.label}</h4>
-              {filter.type === "search" ? (
-                <input
+              {filter.type === "facet" ? <FacetList label={filter.label} responsive={false} value={String(value[filter.id] || '')} items={(filter.options || []).map(option=>({id:option.value,label:option.label,count:option.count}))} onChange={id=>update(filter.id,id)}/> : filter.type === "search" ? (
+                <Input
                   aria-label={filter.label}
                   value={String(value[filter.id] || "")}
                   placeholder={filter.placeholder || "Search…"}
@@ -393,11 +409,10 @@ export function FilterSidebar({
                       ? (value[filter.id] as string[])
                       : [];
                     return (
-                      <label key={option.value}>
-                        <input
-                          type="checkbox"
+                      <Checkbox key={option.value}
+                          hint={undefined}
                           checked={selected.includes(option.value)}
-                          onChange={(e) =>
+                          onChange={(e:ChangeEvent<HTMLInputElement>) =>
                             update(
                               filter.id,
                               e.target.checked
@@ -405,12 +420,7 @@ export function FilterSidebar({
                                 : selected.filter((v) => v !== option.value),
                             )
                           }
-                        />
-                        <span>{option.label}</span>
-                        {option.count !== undefined && (
-                          <small>{option.count}</small>
-                        )}
-                      </label>
+                        label={<>{option.label}{option.count !== undefined && <small>{option.count}</small>}</>}/>
                     );
                   })}
                 </div>
@@ -423,9 +433,9 @@ export function FilterSidebar({
         {resultCount !== undefined && (
           <span role="status">{resultCount} results</span>
         )}
-        <button type="button" disabled={!active} onClick={() => onChange({})}>
+        <Button disabled={!active} onClick={() => onChange({})}>
           Reset filters
-        </button>
+        </Button>
       </footer>
     </aside>
   );

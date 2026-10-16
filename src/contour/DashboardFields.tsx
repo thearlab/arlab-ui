@@ -1,3 +1,4 @@
+import { Input } from "./BaseFields.js";
 import { TemporalPicker } from "./TemporalPicker.js";
 import { useId, useState, useEffect, type InputHTMLAttributes } from "react";
 import { Minus, Plus, Check } from "lucide-react";
@@ -116,7 +117,7 @@ export function NumberInput({
         {props.required && <span>Required</span>}
       </label>
       <div className="ct-number">
-        <button
+        <button className="ct-control-action"
           type="button"
           aria-label={`Decrease ${label}`}
           onClick={() => move(-1)}
@@ -124,7 +125,7 @@ export function NumberInput({
         >
           <Minus size={13} />
         </button>
-        <input
+        <Input
           {...props}
           id={id}
           type="number"
@@ -146,7 +147,7 @@ export function NumberInput({
           aria-invalid={!!invalid}
           aria-describedby={invalid || hint ? `${id}-message` : undefined}
         />
-        <button
+        <button className="ct-control-action"
           type="button"
           aria-label={`Increase ${label}`}
           onClick={() => move(1)}
@@ -201,7 +202,7 @@ export function ColorPicker({
             onChange(event.target.value.toUpperCase());
           }}
         />
-        <input
+        <Input
           id={id}
           value={draft}
           disabled={disabled}

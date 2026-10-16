@@ -67,7 +67,9 @@
       "onChange",
       "type",
       "placeholder",
-      "disabled"
+      "disabled",
+      "variant",
+      "inputRef"
     ],
     "behavior": "Focus changes the existing 1px border without an outer halo or offset outline."
   },
@@ -81,7 +83,8 @@
       "rows",
       "disabled",
       "variant",
-      "size"
+      "size",
+      "textareaRef"
     ],
     "behavior": "Preserve newlines and let the field grow vertically. Code variant uses IBM Plex Mono and a 220px minimum; short size uses 96px. Use a visible label."
   },
@@ -295,7 +298,10 @@
       "onSelect",
       "name",
       "initials",
-      "workspace"
+      "workspace",
+      "items",
+      "roleCaption",
+      "collapsed"
     ],
     "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
   },
@@ -971,11 +977,21 @@
   {
     "name": "KanbanBoard",
     "category": "Documents & operations",
-    "description": "A task board supporting pointer drag and an explicit move control.",
+    "description": "A controlled board with independent column scrolling, collapse and phone column navigation.",
     "props": [
-      "none"
+      "columns",
+      "cards",
+      "renderCard",
+      "onCardOpen",
+      "onMove",
+      "onColumnToggle",
+      "getCardLabel",
+      "loading",
+      "error",
+      "columnWidth",
+      "density"
     ],
-    "behavior": "Every card can be moved with its dropdown, so drag-and-drop is never required."
+    "behavior": "The host owns cards and persistence. Move by pointer/touch handle, keyboard pickup/arrows/drop or Move to menu. Omit onMove for read-only. Destination index excludes the moved card. Phone supports tabs and swipe; loading, error, empty and limited columns have explicit states."
   },
   {
     "name": "ProjectStatusSheet",
@@ -990,6 +1006,118 @@
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
   },
   {
+    "name": "InfiniteTable",
+    "category": "Dashboard & editors",
+    "description": "A virtualized sortable table that continues loading as you scroll.",
+    "props": [
+      "title",
+      "header",
+      "headerActions",
+      "columns",
+      "rows",
+      "rowKey",
+      "mode",
+      "initialSort",
+      "sort",
+      "onSortChange",
+      "hasMore",
+      "onLoadMore",
+      "loadingMore",
+      "error",
+      "totalCount",
+      "filterKey",
+      "rowHeight",
+      "overscan",
+      "chunkSize",
+      "height",
+      "variant"
+    ],
+    "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
+  },
+  {
+    "name": "FacetList",
+    "category": "Dashboard & editors",
+    "description": "A vertical filter group with baseline counts and soft selection.",
+    "props": [
+      "groups",
+      "items",
+      "value",
+      "onChange",
+      "multiple",
+      "allLabel",
+      "mode",
+      "values",
+      "onValuesChange",
+      "label",
+      "showAllCount",
+      "density",
+      "compact",
+      "responsive",
+      "height",
+      "maxHeight",
+      "loading",
+      "emptyLabel",
+      "emptyMessage"
+    ],
+    "behavior": "13px labels use 32px rows or compact 28px rows. Radio and checkbox semantics support arrow navigation. Phone filters open a shared side panel. Long names keep a tooltip."
+  },
+  {
+    "name": "RankList",
+    "category": "Dashboard & editors",
+    "description": "A selectable ranked list with muted 4px share bars and right-aligned values.",
+    "props": [
+      "items",
+      "selected",
+      "value",
+      "onSelect",
+      "label",
+      "format",
+      "limit",
+      "showMoreLabel",
+      "density",
+      "header",
+      "barTone",
+      "max",
+      "height",
+      "maxHeight",
+      "loading",
+      "emptyLabel",
+      "emptyMessage"
+    ],
+    "behavior": "Rows announce name, metadata, value and rank. Roving keyboard selection and shared scrolling support longer lists. Marks are decorative; numeric values determine bar geometry."
+  },
+  {
+    "name": "StatNote",
+    "category": "Dashboard & editors",
+    "description": "A neutral metric with a separate semantic status and supporting context.",
+    "props": [
+      "label",
+      "value",
+      "note",
+      "caption",
+      "tone",
+      "presentation",
+      "format",
+      "size",
+      "trend",
+      "view",
+      "href",
+      "onClick",
+      "actionLabel",
+      "loading"
+    ],
+    "behavior": "The figure always stays neutral. Note is a pill or tone dot; trend direction and good/bad meaning are independent. View accepts a link or callback."
+  },
+  {
+    "name": "StatNoteRow",
+    "category": "Dashboard & editors",
+    "description": "Aligned labels, figures, captions and actions across status metrics.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Shared grid rows align captions and figures even when another metric has a long note. Responsive columns preserve readable text."
+  },
+  {
     "name": "CollectionLayout",
     "category": "Dashboard & editors",
     "description": "A full-width collection destination with search and optional filters.",
@@ -1000,7 +1128,10 @@
       "search",
       "filters",
       "activeFilters",
-      "children"
+      "children",
+      "variant",
+      "sidebar",
+      "sidebarLabel"
     ],
     "behavior": "Results own the remaining height. Filters expand on request; changing filters remains application-owned."
   },
@@ -1013,7 +1144,8 @@
       "onOpen",
       "loading",
       "label",
-      "emptyMessage"
+      "emptyMessage",
+      "variant"
     ],
     "behavior": "Records carry id, title, description, category, status, tone, meta and real href. Modifier-click preserves browser navigation."
   },
@@ -1043,7 +1175,7 @@
       "idPrefix",
       "panelId"
     ],
-    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details stay in a disclosure. Back behavior belongs to the host."
+    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host."
   },
   {
     "name": "RecordBody",
@@ -1104,7 +1236,9 @@
       "pageSize",
       "pageSizes",
       "loading",
-      "emptyMessage"
+      "emptyMessage",
+      "variant",
+      "fill"
     ],
     "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data."
   },
@@ -1121,7 +1255,8 @@
       "collapsed",
       "onCollapsedChange",
       "resultCount",
-      "onClose"
+      "onClose",
+      "showHeader"
     ],
     "behavior": "Controlled filters support search, single selection and multiple selection. Active counts, reset and results stay visible while filter sections scroll."
   },

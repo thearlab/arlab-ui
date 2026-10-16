@@ -123,7 +123,7 @@ export function MediaGallery({
               ) : onOpen ? (
                 <button
                   type="button"
-                  className="ct-media-open"
+                  className="ct-control-action ct-media-open"
                   disabled={disabled}
                   onClick={() => onOpen(item)}
                   aria-label={`Preview ${item.name}`}
@@ -145,7 +145,7 @@ export function MediaGallery({
               )}
               <div>
                 {item.status === "error" && onRetry && (
-                  <button
+                  <button className="ct-control-action"
                     type="button"
                     disabled={disabled}
                     aria-label={`Retry ${item.name}`}
@@ -155,7 +155,7 @@ export function MediaGallery({
                   </button>
                 )}
                 {onReplace && (
-                  <button
+                  <button className="ct-control-action"
                     type="button"
                     disabled={disabled || item.status === "uploading"}
                     aria-label={`Replace ${item.name}`}
@@ -168,7 +168,7 @@ export function MediaGallery({
                   </button>
                 )}
                 {onRemove && (
-                  <button
+                  <button className="ct-control-action"
                     type="button"
                     disabled={disabled}
                     aria-label={`Remove ${item.name}`}

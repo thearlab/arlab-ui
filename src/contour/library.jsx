@@ -1,3 +1,5 @@
+import { Input, Textarea } from "./BaseFields.js";
+export { Input, Textarea } from "./BaseFields.js";
 import React, {
   useState,
   useRef,
@@ -75,13 +77,6 @@ export function TextLink({ children, ...props }) {
 export function Kbd({ children }) {
   return <kbd>{children}</kbd>;
 }
-export function Input(props) {
-  return <input className="lib-input" {...props} />;
-}
-/** @param {import('react').TextareaHTMLAttributes<HTMLTextAreaElement> & { variant?: 'default' | 'code', size?: 'default' | 'short' }} props */
-export function Textarea({ variant = "default", size = "default", className = "", ...props }) {
-  return <textarea rows={3} {...props} className={`lib-input ct-textarea ${variant === "code" ? "ct-textarea-code" : ""} ${size === "short" ? "ct-textarea-short" : ""} ${className}`} />;
-}
 export function Field({ label, hint, error, required, children }) {
   const id = useId();
   return (
@@ -151,7 +146,7 @@ export function SearchField({
   return (
     <div className="search-field">
       <Search size={16} />
-      <input
+      <Input variant="embedded"
         aria-label={label}
         placeholder={placeholder}
         value={value}
@@ -247,7 +242,7 @@ export function TagInput({ value, onChange, label = "Tags" }) {
             {t}
           </Chip>
         ))}
-        <input
+        <Input variant="embedded"
           id={id}
           placeholder="Add a tag"
           value={draft}
@@ -441,27 +436,19 @@ export function Refreshing({ busy, children }) {
     </div>
   );
 }
-export function StateView({ state = "empty", onRetry, onCreate }) {
+/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, onRetry?: () => void, onCreate?: () => void}} props */
+export function StateView({ state = "empty", title, description, onRetry, onCreate }) {
   if (state === "loading") return <Skeleton />;
+  const error = state === "error";
+  const action = error ? onRetry : onCreate;
   return (
     <EmptyState
-      title={
-        state === "error"
-          ? "We couldn’t load your projects"
-          : "A place for your next idea"
-      }
-      description={
-        state === "error"
-          ? "Your work is safe. Check your connection and try again."
-          : "Create a project to bring your team and ideas together."
-      }
+      title={title ?? (error ? "We couldn’t load your projects" : "A place for your next idea")}
+      description={description ?? (error ? "Your work is safe. Check your connection and try again." : "Create a project to bring your team and ideas together.")}
     >
-      <Button
-        variant={state === "error" ? "" : "primary"}
-        onClick={state === "error" ? onRetry : onCreate}
-      >
-        {state === "error" ? "Try again" : "Create project"}
-      </Button>
+      {action && <Button variant={error ? "" : "primary"} onClick={action}>
+        {error ? "Try again" : "Create project"}
+      </Button>}
     </EmptyState>
   );
 }
@@ -701,57 +688,41 @@ export function ConfirmStrip({ children, onConfirm, onCancel }) {
     </div>
   );
 }
+/** App-owned actions run through each item's onSelect; omitted items retain demo compatibility.
+ * roleCaption overrides workspace in both the trigger and signed-in menu header.
+ * collapsed retains the accessible name and full menu while hiding trigger copy.
+ * @param {{onSelect?:(label:string)=>void,name?:string,initials?:string,workspace?:string,roleCaption?:string,collapsed?:boolean,items?:Array<{id?:string,label?:string,icon?:React.ElementType,onSelect?:()=>void,disabled?:boolean,danger?:boolean,separator?:boolean}>}} props
+ */
 export function AccountMenu({
   onSelect,
   name = "Alex Morgan",
   initials = "AM",
   workspace = "ARLAB workspace",
+  roleCaption,
+  collapsed = false,
+  items,
 }) {
+  const caption = roleCaption ?? workspace;
+  const actions = items ?? [
+    { label: "Your profile", icon: User, onSelect: () => onSelect?.("Your profile") },
+    { label: "Workspace settings", icon: Settings2, onSelect: () => onSelect?.("Workspace settings") },
+    { label: "Help and support", icon: BookOpen, onSelect: () => onSelect?.("Help and support") },
+  ];
   return (
+    <span className="ct-account-menu" data-collapsed={collapsed || undefined}>
     <DropdownMenu
       label="Account menu"
       trigger={
-        <button
-          type="button"
-          className="account-trigger"
-          aria-label={`Account menu for ${name}`}
-          aria-haspopup="menu"
-        >
+        <button type="button" className="account-trigger" aria-label={`Account menu for ${name}`} aria-haspopup="menu" title={collapsed ? name : undefined}>
           <Avatar initials={initials} name={name} />
-          <span className="account-identity">
-            <strong>{name}</strong>
-            <small>{workspace}</small>
-          </span>
-          <span className="account-chevron">
-            <ChevronDown size={12} aria-hidden="true" />
-          </span>
+          {!collapsed && <><span className="account-identity"><strong>{name}</strong>{caption && <small>{caption}</small>}</span>
+          <span className="account-chevron"><ChevronDown size={12} aria-hidden="true" /></span></>}
         </button>
       }
-      header={
-        <>
-          <span>Signed in as</span>
-          <strong>{name}</strong>
-          <small>{workspace}</small>
-        </>
-      }
-      items={[
-        {
-          label: "Your profile",
-          icon: User,
-          onSelect: () => onSelect?.("Your profile"),
-        },
-        {
-          label: "Workspace settings",
-          icon: Settings2,
-          onSelect: () => onSelect?.("Workspace settings"),
-        },
-        {
-          label: "Help and support",
-          icon: BookOpen,
-          onSelect: () => onSelect?.("Help and support"),
-        },
-      ]}
+      header={<><span>Signed in as</span><strong>{name}</strong>{caption && <small>{caption}</small>}</>}
+      items={actions}
     />
+    </span>
   );
 }
 export function Disclosure({
@@ -1509,66 +1480,7 @@ export function DayTimeline({ onSelect }) {
     </div>
   );
 }
-export function KanbanBoard() {
-  const [cards, setCards] = useState([
-      { id: 1, name: "Align on the brief", stage: "To do" },
-      { id: 2, name: "Build the prototype", stage: "In progress" },
-      { id: 3, name: "Review references", stage: "Done" },
-    ]),
-    [message, setMessage] = useState("");
-  const stages = ["To do", "In progress", "Done"];
-  const move = (id, stage) => {
-    setCards(cards.map((c) => (c.id === id ? { ...c, stage } : c)));
-    setMessage(`${cards.find((c) => c.id === id)?.name} moved to ${stage}`);
-  };
-  return (
-    <>
-      <div className="lib-kanban">
-        {stages.map((stage) => (
-          <section
-            key={stage}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              e.preventDefault();
-              const id = Number(e.dataTransfer.getData("text/plain"));
-              if (cards.some((c) => c.id === id)) move(id, stage);
-            }}
-          >
-            <h4>
-              {stage}
-              <span>{cards.filter((c) => c.stage === stage).length}</span>
-            </h4>
-            {cards
-              .filter((c) => c.stage === stage)
-              .map((c) => (
-                <article
-                  key={c.id}
-                  draggable
-                  onDragStart={(e) =>
-                    e.dataTransfer.setData("text/plain", String(c.id))
-                  }
-                >
-                  <div>
-                    <GripVertical size={14} />
-                    <strong>{c.name}</strong>
-                  </div>
-                  <Dropdown
-                    aria-label={`Move ${c.name}`}
-                    value={c.stage}
-                    onChange={(e) => move(c.id, e.target.value)}
-                    options={stages.map((label) => ({ label, value: label }))}
-                  />
-                </article>
-              ))}
-          </section>
-        ))}
-      </div>
-      <span className="sr-only" role="status">
-        {message}
-      </span>
-    </>
-  );
-}
+export { KanbanBoard } from './KanbanBoard.js';
 export function ProjectStatusSheet({ open, onClose, project, onSave }) {
   const [status, setStatus] = useState(project.status);
   useEffect(() => {

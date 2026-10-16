@@ -204,6 +204,7 @@ export const scale = {
   "weight-bold": "700",
   "text-xs": "12px",
   "text-sm": "13px",
+  "text-field": "12px",
   "text-base": "14px",
   "text-md": "16px",
   "text-lg": "18px",

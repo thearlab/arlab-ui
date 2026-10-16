@@ -1,3 +1,4 @@
+import { Input } from "./BaseFields.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
   useState,
@@ -67,7 +68,7 @@ export function InlineEdit({
         <button
           type="button"
           ref={trigger}
-          className="ct-edit-trigger"
+          className="ct-control-action ct-edit-trigger"
           disabled={disabled}
           aria-label={`Edit ${label}`}
           onClick={() => {
@@ -81,7 +82,7 @@ export function InlineEdit({
         </button>
       ) : (
         <div className="ct-edit-controls">
-          <input
+          <Input
             aria-label={label}
             value={draft}
             autoFocus
@@ -97,7 +98,7 @@ export function InlineEdit({
               if (event.key === "Escape" && !saving) close();
             }}
           />
-          <button
+          <button className="ct-control-action"
             type="button"
             aria-label={`Save ${label}`}
             disabled={saving}
@@ -105,7 +106,7 @@ export function InlineEdit({
           >
             <Check size={13} />
           </button>
-          <button
+          <button className="ct-control-action"
             type="button"
             aria-label={`Cancel editing ${label}`}
             disabled={saving}
@@ -195,7 +196,7 @@ export function ReorderList({
           >
             <button
               type="button"
-              className="ct-drag-handle"
+              className="ct-control-action ct-drag-handle"
               aria-label={`Drag ${item.label}. Use the move buttons to reorder with a keyboard.`}
               disabled={disabled}
               onPointerDown={(event) => {
@@ -259,7 +260,7 @@ export function ReorderList({
               {String(index + 1).padStart(2, "0")}
             </span>
             <div>{item.content ?? item.label}</div>
-            <button
+            <button className="ct-control-action"
               type="button"
               aria-label={`Move ${item.label} up`}
               disabled={disabled || index === 0}
@@ -267,7 +268,7 @@ export function ReorderList({
             >
               <ArrowUp size={13} />
             </button>
-            <button
+            <button className="ct-control-action"
               type="button"
               aria-label={`Move ${item.label} down`}
               disabled={disabled || index === items.length - 1}
@@ -316,7 +317,7 @@ export function PreviewFrame({
         <div role="alert">
           <p>{error}</p>
           {onRetry && (
-            <button type="button" onClick={onRetry}>
+            <button className="ct-control-action" type="button" onClick={onRetry}>
               Retry preview
             </button>
           )}
@@ -364,7 +365,7 @@ export function EditorLayout({
         <strong>{title}</strong>
         <div>{toolbar}</div>
         {onExit && (
-          <button type="button" aria-label="Close editor" onClick={onExit}>
+          <button className="ct-control-action" type="button" aria-label="Close editor" onClick={onExit}>
             <X size={14} />
           </button>
         )}
@@ -448,7 +449,7 @@ export function CodeDisplay({
       <div className="ct-code-destination">
         <label>
           Destination
-          <input
+          <Input
             aria-label={`${label} link`}
             readOnly
             value={link}
@@ -457,12 +458,12 @@ export function CodeDisplay({
         </label>
       </div>
       <div className="ct-code-actions">
-        <button type="button" onClick={() => void copy()}>
+        <button className="ct-control-action" type="button" onClick={() => void copy()}>
           <Copy size={13} />
           Copy link
         </button>
         {onDownload ? (
-          <button
+          <button className="ct-control-action"
             type="button"
             onClick={() => void download()}
             disabled={busy || failed}
@@ -471,12 +472,12 @@ export function CodeDisplay({
             {busy ? "Downloading…" : "Download code"}
           </button>
         ) : failed ? (
-          <button type="button" disabled>
+          <button className="ct-control-action" type="button" disabled>
             <Download size={13} />
             Download code
           </button>
         ) : (
-          <a
+          <a className="ct-control-action"
             href={imageSrc}
             download={filename}
             aria-label={`Download ${kind}`}
