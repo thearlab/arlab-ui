@@ -114,7 +114,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
           <div className="ct-table-header-actions">{headerActions}</div>
         )}
       </header>
-      <ScrollArea label={`${title} table`} axis="both" maxHeight={520}>
+      <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={520}>
         <table>
           <thead>
             <tr>
