@@ -26,6 +26,8 @@ export { Radio } from './Radio';
 export type { RadioProps } from './Radio';
 export { Switch } from './Switch';
 export type { SwitchProps } from './Switch';
+export { Tabs } from './Tabs';
+export type { TabsProps, TabOption } from './Tabs';
 export { SegmentedControl } from './SegmentedControl';
 export type { SegmentedControlProps, SegmentOption } from './SegmentedControl';
 export { Dropzone } from './Dropzone';

@@ -1,40 +1,22 @@
 'use client';
 
-export interface SegmentOption {
-  value: string;
+import { Tabs, type TabOption } from './Tabs';
+
+export interface SegmentOption extends Omit<TabOption, 'label'> {
   label: string;
-  /** A count after the label, in mono. */
-  count?: number;
-  disabled?: boolean;
 }
 
 export interface SegmentedControlProps {
   options: SegmentOption[];
   value: string;
   onChange: (value: string) => void;
+  /** 2.0: `segments` (default, pressed buttons) for a filter or view switch, `tabs` for page tabs. */
+  kind?: 'tabs' | 'segments';
+  'aria-label'?: string;
   className?: string;
 }
 
-/** A small fixed set of mutually exclusive choices, shown inline instead
- * of as a dropdown — for view/layout toggles, not long option lists (use
- * Select or Radio for those). */
-export function SegmentedControl({ options, value, onChange, className = '' }: SegmentedControlProps) {
-  return (
-    <div className={['arlab-segmented', className].filter(Boolean).join(' ')} role="tablist">
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          type="button"
-          role="tab"
-          aria-selected={opt.value === value}
-          disabled={opt.disabled}
-          className="arlab-segment"
-          onClick={() => onChange(opt.value)}
-        >
-          {opt.label}
-          {opt.count !== undefined && <span className="arlab-segment-n">{opt.count}</span>}
-        </button>
-      ))}
-    </div>
-  );
+/** 1.x name for the Contour Tabs in their segments role. Prefer `Tabs` in new code. */
+export function SegmentedControl({ kind = 'segments', ...props }: SegmentedControlProps) {
+  return <Tabs kind={kind} {...props} />;
 }

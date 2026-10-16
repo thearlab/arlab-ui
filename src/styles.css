@@ -460,16 +460,16 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--action); }
 .arlab-switch:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* ---- SegmentedControl (tabs-as-buttons / pill toggle group) --------- */
-.arlab-segmented { display: inline-flex; padding: 3px; gap: 2px; background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius-md); }
-.arlab-segment {
-  font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-dim);
-  padding: 5px 12px; border-radius: var(--radius-sm); border: none; background: transparent; cursor: pointer;
-  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); white-space: nowrap;
-}
-.arlab-segment:hover { color: var(--ink); }
-.arlab-segment[aria-selected="true"] { background: var(--raise); color: var(--ink); box-shadow: var(--shadow); }
-.arlab-segment:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.arlab-segment:disabled { opacity: 0.5; cursor: not-allowed; }
+.arlab-tabs { display: flex; align-items: center; gap: 5px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--ground); width: max-content; max-width: 100%; box-sizing: border-box; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+.arlab-tabs::-webkit-scrollbar { display: none; }
+.arlab-tabs > button { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font: 400 var(--text-xs)/1.5 var(--font-sans); border: 1px solid transparent; border-radius: var(--radius-xs); color: var(--dim); background: none; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.arlab-tabs > button:hover:not(:disabled) { color: var(--ink); }
+.arlab-tabs > button[aria-pressed="true"], .arlab-tabs > button[aria-selected="true"] { background: var(--raise); border-color: var(--line); color: var(--link); }
+.arlab-tabs > button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.arlab-tabs > button:disabled { opacity: 0.55; cursor: not-allowed; }
+.arlab-tabs > button > svg { flex-shrink: 0; }
+.arlab-tabs-count { font-size: 9px; background: var(--raise); border: 1px solid var(--line); color: var(--dim); padding: 0 5px; line-height: 16px; border-radius: 2px; }
+@media (max-width: 559px) { .arlab-tabs > button { min-height: var(--control-h-touch); } }
 
 /* ---- Dropzone (file upload) ------------------------------------------
    No dashed border — a dashed rectangle with a centered upload glyph is
@@ -900,10 +900,6 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--action); }
 .arlab-icon-btn[data-tip]:hover:not(:disabled)::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; background: var(--ink); color: var(--raise); font: 500 12px var(--font-sans); padding: 4px 8px; border-radius: 6px; white-space: nowrap; pointer-events: none; z-index: 40; }
 
 /* ---- segmented tabs: counts in mono ---- */
-.arlab-segmented { border: 0; border-radius: 10px; }
-.arlab-segment { display: inline-flex; align-items: center; gap: 7px; border-radius: 8px; }
-.arlab-segment[aria-selected="true"] { box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
-.arlab-segment-n { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 
 /* ---- Picker: a labelled filter with counts. Same visuals as the Select dropdown (trigger, panel, options,
    search row from 8 options); the key label sits before the value in the dim colour. ---- */
