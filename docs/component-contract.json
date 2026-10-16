@@ -973,9 +973,11 @@
   },
   {
     "name": "FilterableTable",
-    "description": "Full-width data table with per-column filters and built-in pagination.",
+    "description": "Reusable full-width table with sortable headers, custom cells and built-in pagination.",
     "props": [
       "title",
+      "header",
+      "headerActions",
       "columns",
       "rows",
       "rowKey",
@@ -984,7 +986,7 @@
       "loading",
       "emptyMessage"
     ],
-    "behavior": "Every header can filter its column. Filters combine, reset pagination, and preserve row identity. Numeric columns align right; the table scrolls horizontally on narrow screens.",
+    "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data.",
     "category": "Dashboard & editors"
   },
   {
