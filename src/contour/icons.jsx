@@ -145,6 +145,11 @@ import {
   Ruler,
   MousePointer2,
   Accessibility,
+  Presentation,
+  Github,
+  ShoppingCart,
+  Megaphone,
+  Sparkles,
 } from "lucide-react";
 import { Button, Dropdown, Status } from "./ui.js";
 
@@ -310,11 +315,13 @@ const groups = {
     Keyboard,
     MousePointer2,
   },
+  "Added for apps": { Presentation, Github, ShoppingCart, Megaphone, Sparkles },
 };
 export const iconRegistry = Object.entries(groups).flatMap(
   ([category, icons]) =>
     Object.entries(icons).map(([name, icon]) => ({ name, icon, category })),
 );
+/** @param {{name: string, size?: number, label?: string, className?: string, [key: string]: any}} props */
 export function Icon({ name, size = 20, label, ...props }) {
   const Glyph = iconRegistry.find((x) => x.name === name)?.icon || CircleHelp;
   return (

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { ChevronDown, ChevronRight, CircleHelp, PanelLeftClose, PanelLeftOpen, Search, X, Check } from 'lucide-react';
 import { IconButton, Logo, Modal } from './ui.js';
 import { ScrollArea } from './scroll-area.js';
+import { Icon } from './icons.js';
 
 /* Application compositions added in 2.0.0-beta.2 for real apps (first: the internal dashboard). They emit the
    reference markup (workspace.jsx) so the published Contour CSS styles them exactly; data and callbacks come
@@ -291,3 +292,42 @@ export function Table({ className = '', ...rest }: TableHTMLAttributes<HTMLTable
 
 const DEPT: Record<string, string> = { company: 'dept-company', creative: 'dept-creative', engineering: 'dept-engineering', 'clients-servicing': 'dept-client', 'strategy-growth': 'dept-strategy' };
 export const deptColor = (id: string) => `var(--${DEPT[id] || 'strong'})`;
+
+// ---------------------------------------------------------------------------------------------------------------
+// Layout: 12-column page grid columns (PageGrid is the reference's .lib-page-grid).
+
+export function Col({ span = 12, children, className = '' }: { span?: number; children?: ReactNode; className?: string }) {
+  return <div className={`page-col ${className}`} style={{ gridColumn: `span ${span}` }}>{children}</div>;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Theme: the person's light or dark choice, remembered, else the system's. Feed `mode` to ContourProvider.
+
+export function useContourTheme(): ['light' | 'dark', (m: 'light' | 'dark') => void] {
+  const sys = () => (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const [mode, setMode] = useState<'light' | 'dark'>(() => { try { const v = localStorage.getItem('contour:mode'); return v === 'dark' || v === 'light' ? v : sys(); } catch { return sys(); } });
+  const set = (m: 'light' | 'dark') => { setMode(m); try { localStorage.setItem('contour:mode', m); } catch { /* storage unavailable */ } document.documentElement.dataset.theme = m; };
+  useEffect(() => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; }, [mode]);
+  return [mode, set];
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Time: "3 min ago", "2 days ago", "on 4 Oct".
+
+export function formatRelativeTime(at: string | number | Date, now = Date.now()) {
+  const t = new Date(at).getTime();
+  if (!Number.isFinite(t)) return '';
+  const s = Math.round((now - t) / 1000), abs = Math.abs(s), fut = s < 0;
+  const say = (n: number, u: string) => (fut ? `in ${n} ${u}${n === 1 ? '' : 's'}` : `${n} ${u}${n === 1 ? '' : 's'} ago`);
+  if (abs < 45) return 'just now';
+  if (abs < 3600) return say(Math.round(abs / 60), 'min');
+  if (abs < 86400) return say(Math.round(abs / 3600), 'hour');
+  if (abs < 86400 * 7) return say(Math.round(abs / 86400), 'day');
+  return `on ${new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+}
+
+export type PillTone = 'ok' | 'warn' | 'bad' | 'info' | 'quiet' | 'default' | 'strong' | 'fresh';
+
+/** One registry icon per department, for department tiles. */
+const DEPT_ICON: Record<string, string> = { company: 'Building2', engineering: 'Code2', creative: 'Palette', 'clients-servicing': 'Contact', 'strategy-growth': 'TrendingUp' };
+export const deptIcon = (id: string, size = 14) => (DEPT_ICON[id] ? <Icon name={DEPT_ICON[id]} size={size} /> : undefined);

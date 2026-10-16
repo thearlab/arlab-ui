@@ -81,6 +81,7 @@ export function Input(props) {
 export function Textarea(props) {
   return <textarea className="lib-input" rows={3} {...props} />;
 }
+/** @param {{label: import('react').ReactNode, hint?: import('react').ReactNode, error?: import('react').ReactNode, required?: boolean, children?: import('react').ReactNode}} props */
 export function Field({ label, hint, error, required, children }) {
   const id = useId();
   return (
@@ -109,6 +110,7 @@ export function Field({ label, hint, error, required, children }) {
     </div>
   );
 }
+/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode, [key: string]: any}} props */
 export function Checkbox({ label, hint, ...props }) {
   return (
     <label className="lib-choice">
@@ -128,19 +130,21 @@ export function Radio({ label, ...props }) {
     </label>
   );
 }
+/** @param {{label?: import('react').ReactNode, hint?: import('react').ReactNode, [key: string]: any}} props */
 export function Switch({ label, hint, ...props }) {
   return (
     <label className="switch-row">
-      <span>
-        <strong>{label}</strong>
+      {(label || hint) && <span>
+        {label && <strong>{label}</strong>}
         {hint && <small>{hint}</small>}
-      </span>
+      </span>}
       <input type="checkbox" role="switch" {...props} />
       <span className="switch-visual" />
     </label>
   );
 }
 export const SwitchRow = Switch;
+/** @param {{value: string, onChange: (e: {target: {value: string}}) => void, label?: string, placeholder?: string}} props */
 export function SearchField({
   value,
   onChange,
@@ -211,6 +215,7 @@ export function TabStrip({ options, value, onChange, label = "Sections" }) {
     </div>
   );
 }
+/** @param {{children?: import('react').ReactNode, onRemove?: () => void}} props */
 export function Chip({ children, onRemove }) {
   return (
     <span className="removable-tag">
@@ -223,6 +228,7 @@ export function Chip({ children, onRemove }) {
     </span>
   );
 }
+/** @param {{children?: import('react').ReactNode, selected?: boolean, onClick?: () => void}} props */
 export function PillButton({ children, selected, onClick }) {
   return (
     <button
@@ -282,6 +288,7 @@ export function DeptTile({ department = "Creative" }) {
     </span>
   );
 }
+/** @param {{date: string|number|Date}} props */
 export function Timestamp({ date }) {
   const d = new Date(date);
   return (
@@ -309,6 +316,7 @@ export function LegendDot({ color = "var(--chart-1)", children }) {
     </span>
   );
 }
+/** @param {{title?: import('react').ReactNode, description?: import('react').ReactNode, action?: import('react').ReactNode, children?: import('react').ReactNode}} props */
 export function Panel({ title, description, action, children }) {
   return (
     <section className="lib-panel">
@@ -322,9 +330,11 @@ export function Panel({ title, description, action, children }) {
   );
 }
 export const Card = Panel;
+/** @param {{children?: import('react').ReactNode}} props */
 export function Rows({ children }) {
   return <div className="lib-rows">{children}</div>;
 }
+/** @param {{title: import('react').ReactNode, description?: import('react').ReactNode, leading?: import('react').ReactNode, trailing?: import('react').ReactNode, onClick?: () => void}} props */
 export function Row({ title, description, leading, trailing, onClick }) {
   const content = (
     <>
@@ -345,6 +355,7 @@ export function Row({ title, description, leading, trailing, onClick }) {
     <div className="lib-row">{content}</div>
   );
 }
+/** @param {{items: [import('react').ReactNode, import('react').ReactNode][]}} props */
 export function Facts({ items }) {
   return (
     <dl className="facts">
@@ -357,6 +368,7 @@ export function Facts({ items }) {
     </dl>
   );
 }
+/** @param {{label: import('react').ReactNode, value: import('react').ReactNode, hint?: import('react').ReactNode}} props */
 export function Stat({ label, value, hint }) {
   return (
     <div className="lib-stat">
@@ -366,9 +378,11 @@ export function Stat({ label, value, hint }) {
     </div>
   );
 }
+/** @param {{children?: import('react').ReactNode}} props */
 export function StatRow({ children }) {
   return <div className="lib-stat-row">{children}</div>;
 }
+/** @param {{title: import('react').ReactNode, description?: import('react').ReactNode, meta?: import('react').ReactNode, onClick?: () => void}} props */
 export function CollectionCard({ title, description, meta, onClick }) {
   return (
     <button className="lib-collection-card" onClick={onClick}>
@@ -401,6 +415,7 @@ export function LinkTile({
     </button>
   );
 }
+/** @param {{rows?: number}} props */
 export function Skeleton({ rows = 3 }) {
   return (
     <div className="lib-skeleton" role="status" aria-label="Loading content">
@@ -479,6 +494,7 @@ export function Toast({ children, onClose }) {
     </div>
   );
 }
+/** @param {{label: string, children?: import('react').ReactNode}} props */
 export function Tooltip({ label, children }) {
   const id = useId();
   const [dismissed, setDismissed] = useState(false);
@@ -502,6 +518,7 @@ export function Tooltip({ label, children }) {
     </span>
   );
 }
+/** @param {{trigger: import('react').ReactNode, children?: import('react').ReactNode, label?: string, open?: boolean, onOpenChange?: (open: boolean) => void}} props */
 export function Popover({
   trigger,
   children,
@@ -757,6 +774,7 @@ export function AccountMenu({
     />
   );
 }
+/** @param {{title: import('react').ReactNode, description?: import('react').ReactNode, children?: import('react').ReactNode, defaultOpen?: boolean}} props */
 export function Disclosure({
   title,
   description,
@@ -822,10 +840,11 @@ export function FieldRow({ label, hint, children }) {
     </div>
   );
 }
+/** @param {{title?: import('react').ReactNode, description?: import('react').ReactNode, children?: import('react').ReactNode}} props */
 export function SheetSection({ title, description, children }) {
   return (
     <section className="lib-sheet-section">
-      <h3>{title}</h3>
+      {title && <h3>{title}</h3>}
       {description && <p>{description}</p>}
       {children}
     </section>
@@ -855,6 +874,7 @@ export function CopyBlock({ children }) {
     </div>
   );
 }
+/** @param {{items: string[], onNavigate?: (item: string) => void}} props */
 export function Breadcrumbs({ items, onNavigate }) {
   return (
     <nav className="lib-breadcrumbs" aria-label="Breadcrumb">
@@ -925,12 +945,15 @@ export function PageBar({ title, description, actions }) {
     </header>
   );
 }
-export function PageGrid({ children }) {
-  return <div className="lib-page-grid">{children}</div>;
+/** @param {{children?: import('react').ReactNode, columns?: 12}} props */
+export function PageGrid({ children, columns }) {
+  return <div className={`lib-page-grid ${columns === 12 ? "cols-12" : ""}`}>{children}</div>;
 }
+/** @param {{children?: import('react').ReactNode}} props */
 export function CardGrid({ children }) {
   return <div className="lib-card-grid">{children}</div>;
 }
+/** @param {{children?: import('react').ReactNode, gap?: number}} props */
 export function Stack({ children, gap = 16 }) {
   return (
     <div className="lib-stack" style={{ gap }}>
@@ -1041,6 +1064,7 @@ export function FilterRow({ query, onQueryChange, status, onStatusChange }) {
     </div>
   );
 }
+/** @param {{label: import('react').ReactNode, direction?: 'none'|'ascending'|'descending', onSort?: () => void}} props */
 export function SortHead({ label, direction = "none", onSort }) {
   return (
     <th aria-sort={direction}>
@@ -1293,6 +1317,7 @@ export function Timeline({ items }) {
     </ol>
   );
 }
+/** @param {{steps: string[], current?: number, onChange?: (i: number) => void}} props */
 export function Steps({ steps, current = 0, onChange }) {
   return (
     <ol className="lib-steps">
@@ -1310,6 +1335,7 @@ export function Steps({ steps, current = 0, onChange }) {
     </ol>
   );
 }
+/** @param {{title: import('react').ReactNode, children?: import('react').ReactNode}} props */
 export function ReadableDoc({ title, children }) {
   return (
     <article className="lib-readable">

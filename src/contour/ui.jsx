@@ -68,7 +68,7 @@ export function Avatar({ initials, color = "lilac", name, size }) {
     </span>
   );
 }
-/** @param {{children?: import('react').ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet', dot?: boolean, className?: string, title?: string}} props */
+/** @param {{children?: import('react').ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet'|'default'|'strong'|'fresh', dot?: boolean, className?: string, title?: string}} props */
 /** Initials from a name or an email ("laure@thearlab.com" -> "L"). */
 export function initialsFrom(name) {
   const base = String(name).includes("@") ? String(name).split("@")[0].replace(/[._-]+/g, " ") : String(name);
@@ -85,7 +85,9 @@ export function Status({ children, tone, dot = true, className = "", title }) {
     Failed: "bad",
     Running: "info",
   };
-  const t = tone || tones[children] || "quiet";
+  // 1.x tones keep working: default and strong read as quiet, fresh as info.
+  const aliases = { default: "quiet", strong: "quiet", fresh: "info" };
+  const t = aliases[tone] || tone || tones[children] || "quiet";
   return (
     <span className={`status ${t} ${className}`} title={title}>
       {dot && <span className="status-dot" />}
