@@ -295,7 +295,7 @@
       "initials",
       "workspace"
     ],
-    "behavior": "Keep account actions separate from project actions. The trigger includes a person\u2019s name."
+    "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
   },
   {
     "name": "Toc",
@@ -553,7 +553,7 @@
   {
     "name": "SidebarShell",
     "category": "Surfaces & layout",
-    "description": "Reusable application shell with fixed header/footer and independently scrolling navigation.",
+    "description": "Reusable application shell with fixed identity and account areas.",
     "props": [
       "brand",
       "toolName",
@@ -565,11 +565,9 @@
       "collapsed",
       "onCollapsedChange",
       "storageKey",
-      "secondaryNavigation",
-      "secondaryLabel",
-      "mode"
+      "secondaryNavigation"
     ],
-    "behavior": "Router independent; no demo routes. Standalone navigation/styles.css needs no provider. Mobile modal drawers and independent main/context collapse."
+    "behavior": "Import navigation/styles.css. No provider or demo routes required. Main and secondary navigation collapse independently; mobile navigation uses a dialog."
   },
   {
     "name": "PageBar",
@@ -720,7 +718,7 @@
       "onRetry",
       "onCreate"
     ],
-    "behavior": "Failed loads retain the user\u2019s filters. Empty states invite a specific first action."
+    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
   },
   {
     "name": "Tooltip",
@@ -972,5 +970,293 @@
       "onSave"
     ],
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
+  },
+  {
+    "name": "DatePicker",
+    "category": "Dashboard & editors",
+    "description": "A labelled native calendar field.",
+    "props": [
+      "label",
+      "value",
+      "onChange",
+      "min",
+      "max",
+      "required",
+      "disabled",
+      "hint",
+      "error"
+    ],
+    "behavior": "Stores YYYY-MM-DD; browser calendar and keyboard entry remain available."
+  },
+  {
+    "name": "TimePicker",
+    "category": "Dashboard & editors",
+    "description": "A labelled native time field.",
+    "props": [
+      "label",
+      "value",
+      "onChange",
+      "min",
+      "max",
+      "step",
+      "required",
+      "disabled",
+      "error"
+    ],
+    "behavior": "Stores local HH:mm; the application owns timezone conversion."
+  },
+  {
+    "name": "DateRangePicker",
+    "category": "Dashboard & editors",
+    "description": "Related start and end dates.",
+    "props": [
+      "label",
+      "value",
+      "onChange",
+      "min",
+      "max",
+      "required",
+      "disabled",
+      "hint",
+      "error"
+    ],
+    "behavior": "An end before the start is marked invalid; existing values are never silently changed."
+  },
+  {
+    "name": "NumberInput",
+    "category": "Dashboard & editors",
+    "description": "A numeric field with discreet stepper controls.",
+    "props": [
+      "label",
+      "value",
+      "onChange",
+      "min",
+      "max",
+      "step",
+      "required",
+      "disabled",
+      "readOnly",
+      "error"
+    ],
+    "behavior": "null is empty. Steppers respect limits; typed out-of-range values show an error."
+  },
+  {
+    "name": "ColorPicker",
+    "category": "Dashboard & editors",
+    "description": "Native colour chooser, hex entry and presets.",
+    "props": [
+      "label",
+      "value",
+      "onChange",
+      "swatches",
+      "disabled",
+      "hint",
+      "error"
+    ],
+    "behavior": "Only complete six-digit hex values are emitted; invalid drafts stay editable."
+  },
+  {
+    "name": "MediaGallery",
+    "category": "Dashboard & editors",
+    "description": "Images and videos with replacement and removal.",
+    "props": [
+      "items",
+      "onOpen",
+      "onRemove",
+      "onReplace",
+      "onRetry",
+      "disabled",
+      "emptyLabel"
+    ],
+    "behavior": "Application owns URLs and upload lifecycle; video has native playback controls."
+  },
+  {
+    "name": "MediaUploadField",
+    "category": "Dashboard & editors",
+    "description": "A bordered media field with drag-and-drop and browsing.",
+    "props": [
+      "label",
+      "items",
+      "onFiles",
+      "multiple",
+      "maxSize",
+      "onRemove",
+      "onReplace",
+      "onRetry",
+      "disabled",
+      "hint",
+      "error"
+    ],
+    "behavior": "Validates media MIME type and size. Async failures are announced; uploading remains application controlled."
+  },
+  {
+    "name": "PreviewFrame",
+    "category": "Dashboard & editors",
+    "description": "A contained live page preview.",
+    "props": [
+      "title",
+      "src",
+      "srcDoc",
+      "viewport",
+      "loading",
+      "error",
+      "onRetry",
+      "sandbox"
+    ],
+    "behavior": "Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile."
+  },
+  {
+    "name": "EditorLayout",
+    "category": "Dashboard & editors",
+    "description": "A full-height editing workspace.",
+    "props": [
+      "title",
+      "toolbar",
+      "sidebar",
+      "children",
+      "footer",
+      "onExit",
+      "style"
+    ],
+    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens."
+  },
+  {
+    "name": "ReorderList",
+    "category": "Dashboard & editors",
+    "description": "Drag handles with explicit keyboard move controls.",
+    "props": [
+      "label",
+      "items",
+      "onChange",
+      "disabled"
+    ],
+    "behavior": "Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging."
+  },
+  {
+    "name": "InlineEdit",
+    "category": "Dashboard & editors",
+    "description": "Edit a value in place, then explicitly save or cancel.",
+    "props": [
+      "label",
+      "value",
+      "onSave",
+      "placeholder",
+      "disabled",
+      "required",
+      "maxLength"
+    ],
+    "behavior": "Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft."
+  },
+  {
+    "name": "CodeDisplay",
+    "category": "Dashboard & editors",
+    "description": "QR or Snapcode image with download and copy link.",
+    "props": [
+      "imageSrc",
+      "link",
+      "label",
+      "kind",
+      "filename",
+      "onDownload"
+    ],
+    "behavior": "Displays an application-provided code, never generates one. Copy failure leaves a selectable URL."
+  },
+  {
+    "name": "GuidedTour",
+    "category": "Dashboard & editors",
+    "description": "An opt-in tour launched by a help action.",
+    "props": [
+      "steps",
+      "open",
+      "onClose"
+    ],
+    "behavior": "Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener."
+  },
+  {
+    "name": "DeadlineCountdown",
+    "category": "Dashboard & editors",
+    "description": "A time remaining or overdue indicator.",
+    "props": [
+      "deadline",
+      "label",
+      "showSeconds",
+      "now"
+    ],
+    "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests."
+  },
+  {
+    "name": "PhaseBar",
+    "category": "Dashboard & editors",
+    "description": "Seven labelled project phases with distinct muted colours.",
+    "props": [
+      "phases",
+      "current",
+      "onChange",
+      "label",
+      "disabled"
+    ],
+    "behavior": "Completion and current step use text and aria-current, not colour alone."
+  },
+  {
+    "name": "DailyVerdictStrip",
+    "category": "Dashboard & editors",
+    "description": "Compact daily status history.",
+    "props": [
+      "days",
+      "label",
+      "onSelect"
+    ],
+    "behavior": "Dates and written verdicts accompany semantic colour. Empty data has a visible fallback."
+  },
+  {
+    "name": "ElementProgress",
+    "category": "Dashboard & editors",
+    "description": "Progress along the bottom edge of its content.",
+    "props": [
+      "label",
+      "value",
+      "state",
+      "children",
+      "error"
+    ],
+    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar."
+  },
+  {
+    "name": "InlineProgress",
+    "category": "Dashboard & editors",
+    "description": "Alias for embedded element progress.",
+    "props": [
+      "label",
+      "value",
+      "state",
+      "children",
+      "error"
+    ],
+    "behavior": "Uses the same accessible progress contract as ElementProgress."
+  },
+  {
+    "name": "SectionHeader",
+    "category": "Dashboard & editors",
+    "description": "A restrained section heading and trailing action.",
+    "props": [
+      "title",
+      "count",
+      "action"
+    ],
+    "behavior": "Uses shared 13px semibold typography; optional count is secondary."
+  },
+  {
+    "name": "CollectionGroup",
+    "category": "Dashboard & editors",
+    "description": "A collection with individual, clearly actionable items.",
+    "props": [
+      "title",
+      "count",
+      "meta",
+      "items",
+      "onOpen",
+      "more"
+    ],
+    "behavior": "Each item has its own action. Long names truncate without widening the card."
   }
 ]

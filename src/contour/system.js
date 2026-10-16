@@ -196,6 +196,12 @@ export const semantic = {
 };
 
 export const scale = {
+  "text-micro": "10px",
+  "text-2xs": "11px",
+  "weight-regular": "400",
+  "weight-medium": "500",
+  "weight-semibold": "600",
+  "weight-bold": "700",
   "text-xs": "12px",
   "text-sm": "13px",
   "text-base": "14px",
@@ -240,6 +246,7 @@ export const scale = {
   "chart-4": "#497B8F",
   "chart-5": "#A46B87",
   "chart-6": "#6E6878",
+  "chart-7": "#9C7B64",
   "chart-trend": "#8D617D",
   "icon-button-size": "14px",
   "scrollbar-size": "2px",
@@ -263,6 +270,7 @@ export function tokensFor(id, mode = "light") {
           "chart-4": "#8AB7C8",
           "chart-5": "#D6A0BC",
           "chart-6": "#B6ADBF",
+          "chart-7": "#C9B19E",
           "chart-trend": "#CAA1BB",
         }
       : {}),
@@ -294,7 +302,7 @@ export function cssTokens(id) {
     )
       .map(([k, v]) => `  --${k}: ${v};`)
       .join("\n")}\n}`;
-  return `/* ARLAB ${directions[id].name} design tokens. Proposed system v0.1. */\n/* Breakpoints: 560px mobile, 900px split-view, 1100px expanded shell. */\n${block("light")}\n\n${block("dark")}\n`;
+  return `/* ARLAB ${directions[id].name} design tokens. Contour V2. */\n/* Breakpoints: 560px mobile, 900px split-view, 1100px expanded shell. */\n${block("light")}\n\n${block("dark")}\n`;
 }
 
 export function downloadFile(name, content, type = "text/plain") {

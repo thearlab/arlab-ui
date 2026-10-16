@@ -18,10 +18,14 @@ Known consumers: internal dashboard, internal tool template, Studio, Reader and 
 
 ## Beta limitations and release gates
 
-89 showcased entries and 145 icons are packaged. Some complex compositions (calendar, timeline, board) still carry showcase defaults and require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18 integration must be checked before migrating React 18 consumers. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
+109 showcased entries and 145 icons are packaged. Some complex compositions (calendar, timeline, board) still carry showcase defaults and require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18.3.1 is exercised by Studio integration and the isolated navigation smoke test. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
 
 V2 CSS is scoped to `.arlab-contour`. Legacy CSS remains separately available. Do not mix legacy and V2 components in the same theme boundary without checking their visual interaction.
 
 ## Rollback
 
 Restore each consumer's previous package.json and lockfile commit, rebuild and redeploy its previous artifact. Do not retag releases. Backend migrations are outside this design-system change.
+
+## Beta.3 additions
+
+The dashboard request families are exported with application-owned state and callbacks. See [Dashboard components](docs/DASHBOARD-COMPONENTS.md) for integration details and native date/time picker limitations. Added typography weight tokens and the 10px/11px micro scales. NavigationItem supports router click handlers without removing real anchor destinations. Existing beta.2 navigation and v1 compatibility paths remain available.

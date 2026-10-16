@@ -128,7 +128,7 @@ export function Radio({ label, ...props }) {
     </label>
   );
 }
-export function Switch({ label, hint, ...props }) {
+export function Switch({ label = undefined, hint = undefined, ...props }) {
   return (
     <label className="switch-row">
       <span>
@@ -558,7 +558,7 @@ export function Popover({
   }, [open]);
   return (
     <span className="lib-popover-anchor" ref={anchor}>
-      {React.cloneElement(trigger, {
+      {React.cloneElement(typeof trigger === "function" ? trigger({onClick: () => change(!open), "aria-expanded": open}) : trigger, {
         "aria-expanded": open,
         "aria-controls": id,
         onClick: () => change(!open),
@@ -597,7 +597,7 @@ export function Popover({
     </span>
   );
 }
-export function DropdownMenu({ items, label = "Actions", trigger, header }) {
+export function DropdownMenu({ items, label = "Actions", trigger, header = undefined }) {
   return (
     <Popover
       label={label}
@@ -640,7 +640,7 @@ export function DropdownMenu({ items, label = "Actions", trigger, header }) {
               {header}
             </div>
           )}
-          {items.map((x) => (
+          {items.map((x, index) => x.separator ? <div key={`separator-${index}`} role="separator" className="ct-menu-separator"/> : (
             <button
               role="menuitem"
               key={x.label}
@@ -651,7 +651,7 @@ export function DropdownMenu({ items, label = "Actions", trigger, header }) {
                 close();
               }}
             >
-              {x.icon && <x.icon size={16} />}
+              {x.icon && (React.isValidElement(x.icon) ? x.icon : <x.icon size={14} />)}
               <span>{x.label}</span>
               {x.shortcut && <kbd>{x.shortcut}</kbd>}
             </button>
@@ -914,12 +914,13 @@ export function NavTree({ items, value, onChange }) {
     </nav>
   );
 }
-export function PageBar({ title, description, actions }) {
+export function PageBar({ title, description, actions, pills = undefined, heading: Heading = "h2" }) {
   return (
     <header className="lib-pagebar">
       <div>
-        <h2>{title}</h2>
+        <Heading>{title}</Heading>
         {description && <p>{description}</p>}
+        {pills && <div className="ct-pagebar-pills">{pills}</div>}
       </div>
       {actions}
     </header>

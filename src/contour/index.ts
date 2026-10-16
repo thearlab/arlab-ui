@@ -8,3 +8,10 @@ export { NavigationSection, NavigationItem } from './navigation.js';
 export type { SidebarShellProps } from './SidebarShell.js';
 export type { AppNavigationProps, NavigationSlot } from './AppNavigation.js';
 export type { NavigationItemProps } from './navigation.js';
+
+export * from './DashboardFields.js';
+export * from './EditorComponents.js';
+export * from './MediaComponents.js';
+export * from './ProjectIndicators.js';
+export * from './GuidedTour.js';
+export * from './WorkspaceComponents.js';

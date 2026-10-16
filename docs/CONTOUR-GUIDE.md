@@ -175,7 +175,7 @@ The generated sections below are synchronized with the live catalogue and token 
 
 ## Complete component contract
 
-89 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+109 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -1610,12 +1610,408 @@ Import: `import { ProjectStatusSheet } from './src/library';`
 
 Live example: [ProjectStatusSheet](http://127.0.0.1:5173/?view=catalogue&component=ProjectStatusSheet)
 
+### Dashboard & editors
+
+#### DatePicker
+
+A labelled native calendar field.
+
+Stores YYYY-MM-DD; browser calendar and keyboard entry remain available.
+
+Import: `import { DatePicker } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `min` | Optional pattern-specific value. Use the live example as the reference. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `hint` | Optional supporting text connected to the control. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [DatePicker](http://127.0.0.1:5173/?view=catalogue&component=DatePicker)
+
+#### TimePicker
+
+A labelled native time field.
+
+Stores local HH:mm; the application owns timezone conversion.
+
+Import: `import { TimePicker } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `min` | Optional pattern-specific value. Use the live example as the reference. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `step` | Optional pattern-specific value. Use the live example as the reference. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [TimePicker](http://127.0.0.1:5173/?view=catalogue&component=TimePicker)
+
+#### DateRangePicker
+
+Related start and end dates.
+
+An end before the start is marked invalid; existing values are never silently changed.
+
+Import: `import { DateRangePicker } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `min` | Optional pattern-specific value. Use the live example as the reference. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `hint` | Optional supporting text connected to the control. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [DateRangePicker](http://127.0.0.1:5173/?view=catalogue&component=DateRangePicker)
+
+#### NumberInput
+
+A numeric field with discreet stepper controls.
+
+null is empty. Steppers respect limits; typed out-of-range values show an error.
+
+Import: `import { NumberInput } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `min` | Optional pattern-specific value. Use the live example as the reference. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `step` | Optional pattern-specific value. Use the live example as the reference. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `readOnly` | Optional pattern-specific value. Use the live example as the reference. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [NumberInput](http://127.0.0.1:5173/?view=catalogue&component=NumberInput)
+
+#### ColorPicker
+
+Native colour chooser, hex entry and presets.
+
+Only complete six-digit hex values are emitted; invalid drafts stay editable.
+
+Import: `import { ColorPicker } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `swatches` | Optional pattern-specific value. Use the live example as the reference. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `hint` | Optional supporting text connected to the control. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [ColorPicker](http://127.0.0.1:5173/?view=catalogue&component=ColorPicker)
+
+#### MediaGallery
+
+Images and videos with replacement and removal.
+
+Application owns URLs and upload lifecycle; video has native playback controls.
+
+Import: `import { MediaGallery } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `items` | Structured items appropriate to the pattern; see the working example. |
+| `onOpen` | Receives the row record when its explicit action is activated. |
+| `onRemove` | Optional pattern-specific value. Use the live example as the reference. |
+| `onReplace` | Optional pattern-specific value. Use the live example as the reference. |
+| `onRetry` | Retries the failed operation without dropping the current context. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [MediaGallery](http://127.0.0.1:5173/?view=catalogue&component=MediaGallery)
+
+#### MediaUploadField
+
+A bordered media field with drag-and-drop and browsing.
+
+Validates media MIME type and size. Async failures are announced; uploading remains application controlled.
+
+Import: `import { MediaUploadField } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `items` | Structured items appropriate to the pattern; see the working example. |
+| `onFiles` | Optional pattern-specific value. Use the live example as the reference. |
+| `multiple` | Optional pattern-specific value. Use the live example as the reference. |
+| `maxSize` | Maximum file size in bytes; default 10 × 1024 × 1024. |
+| `onRemove` | Optional pattern-specific value. Use the live example as the reference. |
+| `onReplace` | Optional pattern-specific value. Use the live example as the reference. |
+| `onRetry` | Retries the failed operation without dropping the current context. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `hint` | Optional supporting text connected to the control. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [MediaUploadField](http://127.0.0.1:5173/?view=catalogue&component=MediaUploadField)
+
+#### PreviewFrame
+
+A contained live page preview.
+
+Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile.
+
+Import: `import { PreviewFrame } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `src` | Optional pattern-specific value. Use the live example as the reference. |
+| `srcDoc` | Optional pattern-specific value. Use the live example as the reference. |
+| `viewport` | Optional pattern-specific value. Use the live example as the reference. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `error` | An actionable validation message; sets aria-invalid. |
+| `onRetry` | Retries the failed operation without dropping the current context. |
+| `sandbox` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [PreviewFrame](http://127.0.0.1:5173/?view=catalogue&component=PreviewFrame)
+
+#### EditorLayout
+
+A full-height editing workspace.
+
+Fixed toolbar and footer; properties stack below the preview on narrow screens.
+
+Import: `import { EditorLayout } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `toolbar` | Optional pattern-specific value. Use the live example as the reference. |
+| `sidebar` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+| `footer` | Optional pattern-specific value. Use the live example as the reference. |
+| `onExit` | Optional pattern-specific value. Use the live example as the reference. |
+| `style` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [EditorLayout](http://127.0.0.1:5173/?view=catalogue&component=EditorLayout)
+
+#### ReorderList
+
+Drag handles with explicit keyboard move controls.
+
+Stable IDs retain item identity. Move results are announced; the keyboard never requires dragging.
+
+Import: `import { ReorderList } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `items` | Structured items appropriate to the pattern; see the working example. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+
+Live example: [ReorderList](http://127.0.0.1:5173/?view=catalogue&component=ReorderList)
+
+#### InlineEdit
+
+Edit a value in place, then explicitly save or cancel.
+
+Enter saves, Escape cancels. Pending saves disable controls; rejected saves preserve the draft.
+
+Import: `import { InlineEdit } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `onSave` | Receives the edited object or triggers a save operation. |
+| `placeholder` | A brief example; never a replacement for a visible label. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `required` | Boolean. Marks the field required and adds visible text. |
+| `maxLength` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [InlineEdit](http://127.0.0.1:5173/?view=catalogue&component=InlineEdit)
+
+#### CodeDisplay
+
+QR or Snapcode image with download and copy link.
+
+Displays an application-provided code, never generates one. Copy failure leaves a selectable URL.
+
+Import: `import { CodeDisplay } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `imageSrc` | Optional pattern-specific value. Use the live example as the reference. |
+| `link` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `kind` | Optional pattern-specific value. Use the live example as the reference. |
+| `filename` | Optional pattern-specific value. Use the live example as the reference. |
+| `onDownload` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [CodeDisplay](http://127.0.0.1:5173/?view=catalogue&component=CodeDisplay)
+
+#### GuidedTour
+
+An opt-in tour launched by a help action.
+
+Highlights visible targets, skips missing ones, supports Escape and arrows, returns focus to its opener.
+
+Import: `import { GuidedTour } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `steps` | Ordered array of step labels. |
+| `open` | Controlled overlay visibility. |
+| `onClose` | Called on Escape, close action, or backdrop dismissal. |
+
+Live example: [GuidedTour](http://127.0.0.1:5173/?view=catalogue&component=GuidedTour)
+
+#### DeadlineCountdown
+
+A time remaining or overdue indicator.
+
+Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests.
+
+Import: `import { DeadlineCountdown } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `deadline` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `showSeconds` | Optional pattern-specific value. Use the live example as the reference. |
+| `now` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [DeadlineCountdown](http://127.0.0.1:5173/?view=catalogue&component=DeadlineCountdown)
+
+#### PhaseBar
+
+Seven labelled project phases with distinct muted colours.
+
+Completion and current step use text and aria-current, not colour alone.
+
+Import: `import { PhaseBar } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `phases` | Optional pattern-specific value. Use the live example as the reference. |
+| `current` | Zero-based index of the current step. |
+| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `label` | Visible or accessible name describing the control. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+
+Live example: [PhaseBar](http://127.0.0.1:5173/?view=catalogue&component=PhaseBar)
+
+#### DailyVerdictStrip
+
+Compact daily status history.
+
+Dates and written verdicts accompany semantic colour. Empty data has a visible fallback.
+
+Import: `import { DailyVerdictStrip } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `days` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `onSelect` | Receives the selected date, event, or menu action. |
+
+Live example: [DailyVerdictStrip](http://127.0.0.1:5173/?view=catalogue&component=DailyVerdictStrip)
+
+#### ElementProgress
+
+Progress along the bottom edge of its content.
+
+Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar.
+
+Import: `import { ElementProgress } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `state` | empty  /  loading  /  error. |
+| `children` | React content. Keep text concise and accessible. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [ElementProgress](http://127.0.0.1:5173/?view=catalogue&component=ElementProgress)
+
+#### InlineProgress
+
+Alias for embedded element progress.
+
+Uses the same accessible progress contract as ElementProgress.
+
+Import: `import { InlineProgress } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+| `state` | empty  /  loading  /  error. |
+| `children` | React content. Keep text concise and accessible. |
+| `error` | An actionable validation message; sets aria-invalid. |
+
+Live example: [InlineProgress](http://127.0.0.1:5173/?view=catalogue&component=InlineProgress)
+
+#### SectionHeader
+
+A restrained section heading and trailing action.
+
+Uses shared 13px semibold typography; optional count is secondary.
+
+Import: `import { SectionHeader } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `count` | Optional pattern-specific value. Use the live example as the reference. |
+| `action` | An optional section-level action. |
+
+Live example: [SectionHeader](http://127.0.0.1:5173/?view=catalogue&component=SectionHeader)
+
+#### CollectionGroup
+
+A collection with individual, clearly actionable items.
+
+Each item has its own action. Long names truncate without widening the card.
+
+Import: `import { CollectionGroup } from './src/library';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `count` | Optional pattern-specific value. Use the live example as the reference. |
+| `meta` | A short metadata summary for a collection. |
+| `items` | Structured items appropriate to the pattern; see the working example. |
+| `onOpen` | Receives the row record when its explicit action is activated. |
+| `more` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [CollectionGroup](http://127.0.0.1:5173/?view=catalogue&component=CollectionGroup)
+
 ## Complete token reference
 
 Names correspond exactly to exported CSS custom properties. Color values are theme-specific; geometry and spacing remain shared.
 
 | Token | Light | Dark |
 | --- | --- | --- |
+| `--text-micro` | `10px` | `10px` |
+| `--text-2xs` | `11px` | `11px` |
+| `--weight-regular` | `400` | `400` |
+| `--weight-medium` | `500` | `500` |
+| `--weight-semibold` | `600` | `600` |
+| `--weight-bold` | `700` | `700` |
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
 | `--text-base` | `14px` | `14px` |
@@ -1660,6 +2056,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--chart-4` | `#497B8F` | `#8AB7C8` |
 | `--chart-5` | `#A46B87` | `#D6A0BC` |
 | `--chart-6` | `#6E6878` | `#B6ADBF` |
+| `--chart-7` | `#9C7B64` | `#C9B19E` |
 | `--chart-trend` | `#8D617D` | `#CAA1BB` |
 | `--icon-button-size` | `14px` | `14px` |
 | `--scrollbar-size` | `2px` | `2px` |

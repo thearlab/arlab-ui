@@ -315,7 +315,7 @@ export const iconRegistry = Object.entries(groups).flatMap(
   ([category, icons]) =>
     Object.entries(icons).map(([name, icon]) => ({ name, icon, category })),
 );
-export function Icon({ name, size = 20, label, ...props }) {
+export function Icon({ name, size = 20, label = undefined, ...props }) {
   const Glyph = iconRegistry.find((x) => x.name === name)?.icon || CircleHelp;
   return (
     <Glyph
