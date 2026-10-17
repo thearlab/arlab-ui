@@ -866,7 +866,7 @@
 }
 .icon-inspector h3 {
   font-size: 18px;
-  font-weight: 500;
+  font-weight: var(--weight-heading,600);
   overflow-wrap: anywhere;
 }
 .icon-inspector > p {
@@ -1089,7 +1089,7 @@
 }
 .file-card-head h4 {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: var(--weight-heading,600);
 }
 .file-card-head p {
   font-size: 11px;
