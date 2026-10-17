@@ -1164,6 +1164,9 @@
       "title",
       "header",
       "headerActions",
+      "countLabel",
+      "formatCount",
+      "searchWidth",
       "search",
       "footerActions",
       "condensedHeaderActions",
@@ -1311,6 +1314,9 @@
       "emptyMessage",
       "variant",
       "progressive",
+      "countLabel",
+      "formatCount",
+      "searchWidth",
       "search",
       "headerActions",
       "footerActions",
@@ -1351,7 +1357,7 @@
       "idPrefix",
       "panelId"
     ],
-    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation."
+    "behavior": "Tabs and their control props are optional together; omitted or empty tabs render no tab strip. Supplied tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation."
   },
   {
     "name": "RecordBody",
@@ -1408,6 +1414,9 @@
       "title",
       "header",
       "headerActions",
+      "countLabel",
+      "formatCount",
+      "searchWidth",
       "search",
       "columns",
       "rows",
@@ -1424,7 +1433,7 @@
       "tableLayout",
       "sortIndicators"
     ],
-    "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data."
+    "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data. fill bounds the row scroll between the fixed header and pager. countLabel appends a noun; formatCount overrides the visible/accessibility label. searchWidth defaults to 220px and adapts to phones."
   },
   {
     "name": "FilterSidebar",

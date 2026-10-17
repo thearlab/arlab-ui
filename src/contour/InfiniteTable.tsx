@@ -2,10 +2,10 @@ import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } from './DataFilters.js';
 import { ScrollArea } from './scroll-area.js';
-import { TableHeader } from './TableChrome.js';
+import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { Button } from './library.js';
 
-export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row> {
+export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row>, TableChromeOptions {
   columns: FilterColumn<Row>[];
   rows: Row[];
   rowKey: keyof Row | ((row: Row) => string | number);
@@ -205,7 +205,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const colspan = Math.max(1, columns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
-    <TableHeader title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
+    <TableHeader countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
       <table aria-label={title} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>

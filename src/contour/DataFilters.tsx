@@ -1,4 +1,4 @@
-import { TableHeader } from './TableChrome.js';
+import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties } from "react";
 import {
@@ -117,7 +117,7 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false,
           </thead>);
 }
 
-export interface FilterableTableProps<Row extends Record<string, unknown>> extends TableRowActivation<Row> {
+export interface FilterableTableProps<Row extends Record<string, unknown>> extends TableRowActivation<Row>, TableChromeOptions {
   title?: string;
   header?: ReactNode;
   headerActions?: ReactNode;
@@ -141,7 +141,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
   header,
   headerActions,
-  search,
+  search, countLabel, formatCount, searchWidth,
   columns,
   rows,
   rowKey,
@@ -180,11 +180,12 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   return (
     <section
       className="ct-data-table"
+      data-fill={fill || undefined}
       data-variant={variant}
       aria-label={title}
       aria-busy={loading || undefined}
     >
-      <TableHeader title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
+      <TableHeader countLabel={countLabel} formatCount={formatCount} searchWidth={searchWidth} title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
       <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
         <table aria-label={title} style={{tableLayout}}>
           <SharedTableHead columns={columns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>

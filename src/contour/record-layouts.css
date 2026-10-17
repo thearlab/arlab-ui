@@ -376,12 +376,12 @@
 .ct-record-header .ct-record-tabs-scroll {margin:0;padding:0 var(--space-6);}
 .ct-record-header .ct-record-tabs > button {padding-block:var(--space-3);}
 @container(max-width:720px){
- .ct-record-header-main {padding:var(--space-3) var(--space-4);gap:var(--space-2);}
+ .ct-record-header-main {padding:var(--space-4) var(--space-4);gap:var(--space-2);}
  .ct-record-header-tools {flex:1 1 100%;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
  .ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}
  .ct-record-header-context-tools[data-separated] {padding-right:var(--space-2);margin-right:0;}
 }
-@media(max-width:600px){.ct-record-header-main {padding:var(--space-3) var(--space-4);}.ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}}
+@media(max-width:600px){.ct-record-header-main {padding:var(--space-4) var(--space-4);}.ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}}
 
 /* Record actions remain visible independently of the tab's content scroll. */
 .ct-record-body-footer {flex:0 0 auto;min-width:0;padding:var(--space-3) var(--space-6);border-top:var(--line-width) solid var(--line);background:var(--raise);}

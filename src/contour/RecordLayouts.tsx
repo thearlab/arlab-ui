@@ -10,6 +10,7 @@ import {
 import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
 import { Button, IconButton, PageBar } from "./library.js";
 import { InfiniteTable } from './InfiniteTable.js';
+import type { TableChromeOptions } from "./TableChrome.js";
 import { FilterableTable } from "./DataFilters.js";
 import { Modal, Status } from "./ui.js";
 import { ScrollArea } from "./scroll-area.js";
@@ -30,9 +31,9 @@ export function RecordCollection({
   loading = false,
   label = "Records",
   variant = "contained",
-  progressive = false, search, headerActions, footerActions, condensedHeaderActions, condensedFooterActions, filterKey, selectedId,
+  progressive = false, countLabel, formatCount, searchWidth, search, headerActions, footerActions, condensedHeaderActions, condensedFooterActions, filterKey, selectedId,
   emptyMessage = "No records match your filters.",
-}: {
+}: TableChromeOptions & {
   progressive?: boolean;
   selectedId?: string;
   filterKey?: string | number;
@@ -69,6 +70,7 @@ export function RecordCollection({
     <div data-progressive={progressive||undefined} className="ct-record-collection" data-variant={variant}>
       <div className="ct-record-collection-table">
         <Table
+          countLabel={countLabel} formatCount={formatCount} searchWidth={searchWidth}
           selectedRowKey={selectedId}
           search={search}
           headerActions={headerActions}
@@ -231,7 +233,7 @@ export function DetailSections({
   );
 }
 
-export interface RecordHeaderProps {
+interface RecordHeaderBaseProps {
   title: ReactNode;
   showTitle?: boolean;
   showBack?: boolean;
@@ -242,12 +244,12 @@ export interface RecordHeaderProps {
   backLabel: string;
   onBack: () => void;
   metadata?: ReactNode;
-  tabs: { id: string; label: string }[];
-  value: string;
-  onChange: (id: string) => void;
-  idPrefix: string;
-  panelId: string;
 }
+/** Omit the entire tab contract for records without sections. */
+export type RecordHeaderProps = RecordHeaderBaseProps & (
+ {tabs?: undefined; value?: undefined; onChange?: undefined; idPrefix?: undefined; panelId?: undefined} |
+ {tabs: {id:string;label:string}[]; value:string; onChange:(id:string)=>void; idPrefix:string; panelId:string}
+);
 export function RecordHeader({
   title,
   showTitle = true,
@@ -259,7 +261,7 @@ export function RecordHeader({
   backLabel,
   onBack,
   metadata,
-  tabs,
+  tabs = [],
   value,
   onChange,
   idPrefix,
@@ -282,7 +284,7 @@ export function RecordHeader({
               : -1;
     if (next < 0) return;
     event.preventDefault();
-    onChange(tabs[next].id);
+    onChange?.(tabs[next].id);
     const target =
       strip.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next];
     target?.focus();
@@ -305,7 +307,7 @@ export function RecordHeader({
           {actions&&<div className="ct-record-header-primary-actions">{actions}</div>}
         </div>}
       </div>
-      <ScrollArea
+      {tabs.length > 0 && <ScrollArea
         label="Record sections"
         axis="horizontal"
         className="ct-record-tabs-scroll"
@@ -326,13 +328,13 @@ export function RecordHeader({
               aria-controls={panelId}
               aria-selected={tab.id === active}
               tabIndex={tab.id === active ? 0 : -1}
-              onClick={() => onChange(tab.id)}
+              onClick={() => onChange?.(tab.id)}
             >
               {tab.label}
             </button>
           ))}
         </div>
-      </ScrollArea>
+      </ScrollArea>}
       {metadata&&<Modal open={detailsOpen} onClose={()=>setDetailsOpen(false)} title="Record details" sheet className="ct-record-details-sheet">
         <div className="ct-record-details-context"><span>About this record</span><h3>{title}</h3></div>
         <ScrollArea label="Record information" className="ct-record-details-content">{metadata}</ScrollArea>

@@ -14,8 +14,8 @@
 .ct-infinite-table[data-fill] > .ct-infinite-scroll {flex:1;min-height:0;}
 .ct-data-table > .ct-table-header {flex-wrap:wrap;gap:var(--space-3);padding:var(--space-3) var(--space-4);}
 .ct-data-table > .ct-table-header > .ct-table-heading {display:flex;align-items:center;gap:var(--space-2);min-width:0;}
-.ct-data-table > .ct-table-header > .ct-table-controls {display:flex;align-items:center;gap:var(--space-2);flex:1;justify-content:flex-end;min-width:0;}
-.ct-table-search {flex:1;min-width:120px;max-width:360px;}
+.ct-data-table > .ct-table-header > .ct-table-controls {display:flex;align-items:center;gap:var(--space-2);flex:1 0 auto;flex-wrap:wrap;justify-content:flex-end;min-width:0;max-width:100%;}
+.ct-table-search {flex:1 0 var(--ct-table-search-width,220px);min-width:min(100%,var(--ct-table-search-width,220px));max-width:360px;}
 .ct-table-search :is(.search-field,.lib-search,.lib-search-field) {width:100%;}
 .ct-table-header-actions,.ct-table-footer-actions {display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap;}
 .ct-table-footer-actions {margin-left:auto;}
@@ -42,3 +42,11 @@
 
 /* Compact control slots are inactive in a normal table. */
 .ct-table-heading .ct-table-condensed-heading,.ct-table-header > .ct-table-condensed-header-actions,.ct-data-table > footer > .ct-table-condensed-footer-actions {display:none;}
+
+/* Fill is shared by paginated and progressive tables, independently of their host. */
+.ct-data-table[data-fill] {display:flex;flex-direction:column;flex:1;min-height:0;}
+.ct-data-table[data-fill] > :is(header,footer) {flex-shrink:0;}
+.ct-data-table[data-fill] > .ct-table-scroll {flex:1;min-height:0;}
+.ct-data-table[data-fill] > .ct-table-scroll > .scroll-viewport {height:100%;}
+.ct-data-table > .ct-table-header {font-size:var(--text-table);}
+.ct-table-expanded-heading {min-width:0;overflow-wrap:anywhere;}

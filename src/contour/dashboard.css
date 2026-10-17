@@ -1366,7 +1366,7 @@
   align-items: baseline;
   gap: 12px;
 }
-.ct-data-table > header span,
+.ct-data-table .ct-table-count,
 .ct-data-table > footer,
 .ct-filter-sidebar > footer {
   color: var(--dim);

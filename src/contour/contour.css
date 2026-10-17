@@ -103,12 +103,14 @@
 :where(button, a, input, textarea, select, summary):focus-visible {
   outline-color: var(--focus, #a80fa3);
 }
-.btn.quiet {
+.btn.quiet,
+.ct-data-table > .ct-table-header .btn.quiet {
   color: var(--dim);
   border: 1px solid var(--line);
   background: var(--ground);
 }
-.btn.quiet:hover {
+.btn.quiet:hover,
+.ct-data-table > .ct-table-header .btn.quiet:hover {
   background: var(--sunken);
   border-color: var(--strong);
   color: var(--ink);

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0-beta.17
+
+- Completed dashboard requests 6–12: bounded paginated fill, scoped header typography, countLabel/formatCount and responsive searchWidth across table variants, consistent quiet toolbar buttons, tab-free RecordHeader and aligned condensed headings. Existing tabbed records and default numeric counts remain compatible.
+- Shared controls, tokens, virtual row behavior and immutable earlier tags are preserved.
+
 ## 2.0.0-beta.16
 
 - Added optional CommandPalette groups, quiet status/count PillButton filters, counted/disabled TabStrip options and AppHeader pageActions. Existing plain options and default button APIs remain supported.
