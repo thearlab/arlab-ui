@@ -26,3 +26,18 @@
   .ct-app-header:has(.ct-app-header-search-content) .ct-app-header-actions {flex:1 1 100%;min-width:0;max-width:100%;}
   .ct-app-header:has(.ct-app-header-search-content) .ct-app-header-search-content {flex:1;min-width:0;width:auto;}
 }
+
+/* Application identity belongs to the shared header rather than app-local chrome. */
+.ct-app-header-identity {display:flex;align-items:center;gap:var(--space-3);flex:1;min-width:0;}
+.ct-app-header-brand {display:flex;align-items:center;gap:var(--space-2);min-width:0;flex-shrink:1;max-width:100%;}
+.ct-app-header-brand strong {display:flex;align-items:center;gap:var(--space-2);min-width:0;margin:0;color:var(--ink);font-family:var(--font-display);font-size:var(--text-md);font-weight:var(--weight-heading);line-height:var(--leading-tight);letter-spacing:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ct-app-header-brand strong::before {content:'';flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+.ct-app-header-app-icon {display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;color:var(--dim);}
+.ct-app-header-app-icon > svg {width:var(--icon-button-size);height:var(--icon-button-size);stroke-width:var(--icon-stroke);}
+.ct-app-header-identity > .ct-app-header-context {border-inline-start:var(--line-width) solid var(--line);padding-inline-start:var(--space-3);}
+@media(max-width:640px) {
+  .ct-app-header[data-app-name] .ct-app-header-context {display:none;}
+  .ct-app-header[data-app-name]:has(.ct-app-header-search-content) .ct-app-header-identity {flex:1 1 100%;}
+}
+
+.ct-app-header-brand strong > span {min-width:0;overflow:hidden;text-overflow:ellipsis;}

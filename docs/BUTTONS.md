@@ -12,3 +12,12 @@ Labels determine natural text-button width. Use `ActionGroup equalWidth` for pai
 ```
 
 The shared tokens are `--button-height`, `--button-padding-inline`, `--button-font-size` and `--button-line-height`. Navigation, tabs and fields retain their own component contracts.
+
+For related page actions, AppHeader can reuse the same group with pageActionsEqualWidth. This matches the widths of Export and Add project without forcing icon controls or unrelated actions to become wider. Default pageActions preserves application-owned composition.
+
+```tsx
+<AppHeader context="Projects" pageActionsEqualWidth
+  pageActions={<><Button>Export</Button><Button variant="primary">Add project</Button></>} />
+```
+
+AppHeader also accepts appName and appIcon to render the application identity using the shared heading face, 16px type and 600 weight. Context remains beside the name on desktop. On phones the application name stays visible and the secondary context is hidden when this identity mode is used.
