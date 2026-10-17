@@ -10,6 +10,7 @@ import {
   X,
   ChevronRight,
   ChevronDown,
+  ArrowUpRight,
   Check,
   Circle,
   AlertTriangle,
@@ -21,13 +22,22 @@ import {
 } from "lucide-react";
 import { ScrollArea } from "./scroll-area.js";
 
-/** @param {React.ButtonHTMLAttributes<HTMLButtonElement> & {variant?: string}} props */
-export function Button({ children, variant = "", className = "", ...props }) {
-  return (
-    <button type="button" className={`btn ${variant} ${className}`} {...props} data-button="text">
-      {children}
-    </button>
+/** @typedef {{variant?: string, external?: boolean, disabled?: boolean}} ButtonAppearance
+ * @typedef {(React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonAppearance & {href?: never}) | (React.AnchorHTMLAttributes<HTMLAnchorElement> & ButtonAppearance & {href: string})} ButtonProps
+ */
+/** @param {ButtonProps} props */
+export function Button({ children, variant = "", className = "", href, external = false, disabled = false, ...props }) {
+  const classes = `btn ${variant} ${className}`;
+  if (href !== undefined) return (
+    <a {...props} href={disabled ? undefined : href} className={classes} data-button="text"
+      aria-disabled={disabled || undefined} tabIndex={disabled ? -1 : props.tabIndex}
+      target={external ? "_blank" : props.target}
+      rel={external ? `${props.rel || ""} noopener noreferrer`.trim() : props.rel}
+      onClick={disabled ? event => event.preventDefault() : props.onClick}>
+      {children}{external && <ArrowUpRight size={14} aria-hidden="true" />}
+    </a>
   );
+  return <button type="button" className={classes} disabled={disabled} {...props} data-button="text">{children}</button>;
 }
 /** @param {React.ButtonHTMLAttributes<HTMLButtonElement> & {label: string}} props */
 export function IconButton({ label, children, className = "", ...props }) {
@@ -346,7 +356,7 @@ function PlusSymbol() {
 /** An event-shaped selection notification. This is not a browser ChangeEvent.
  * @typedef {{target: {value: string, name?: string}, currentTarget: {value: string, name?: string}}} DropdownChangeEvent
  * @typedef {{value: string, label: React.ReactNode, disabled?: boolean, count?: number, description?: React.ReactNode}} DropdownOption
- * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, searchable?: boolean, name?: string}} DropdownProps
+ * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, prefix?: React.ReactNode, searchable?: boolean, name?: string}} DropdownProps
  */
 /** @param {DropdownProps} props */
 export function Dropdown({
@@ -356,6 +366,7 @@ export function Dropdown({
   defaultValue,
   onChange,
   placeholder = "Choose an option",
+  prefix,
   searchable,
   disabled = false,
   name,
@@ -528,6 +539,7 @@ export function Dropdown({
           }
         }}
       >
+        {prefix != null && <small className="dropdown-prefix">{prefix}</small>}
         <span>{selected?.label || placeholder}</span>
         <ChevronDown size={15} className={open ? "rotated" : ""} />
       </button>

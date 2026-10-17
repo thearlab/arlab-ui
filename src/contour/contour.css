@@ -2344,3 +2344,7 @@
 .btn.danger-quiet {background:transparent;border-color:transparent;color:var(--bad);}
 .btn.danger-quiet:hover:not(:disabled) {background:transparent;border-color:transparent;color:var(--bad);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;}
 .btn.danger-quiet:disabled {background:transparent;border-color:transparent;color:var(--dim);}
+
+/* Inline filter labels share the same Dropdown/Picker trigger. */
+.dropdown-prefix {flex-shrink:0;color:var(--dim);font-size:var(--text-xs);font-weight:var(--weight-regular);}
+.dropdown-trigger:has(> .dropdown-prefix) > span {flex:1;min-width:0;}

@@ -239,6 +239,7 @@ export function DetailSections({
 
 interface RecordHeaderBaseProps {
   title: ReactNode;
+  label?: ReactNode;
   showTitle?: boolean;
   showBack?: boolean;
   badges?: ReactNode;
@@ -256,6 +257,7 @@ export type RecordHeaderProps = RecordHeaderBaseProps & (
 );
 export function RecordHeader({
   title,
+  label,
   showTitle = true,
   showBack = true,
   badges,
@@ -299,6 +301,7 @@ export function RecordHeader({
       <div className="ct-record-header-main">
         {showBack&&<Button onClick={onBack}><ArrowLeft size={14}/>{backLabel}</Button>}
         <div className="ct-record-header-identity">
+          {label && <span className="ct-record-header-label">{label}</span>}
           <h1 className={showTitle?'ct-record-header-title':'sr-only'}>{title}</h1>
           {badges&&<div className="ct-record-header-badges">{badges}</div>}
           {description&&<p className="ct-record-header-description">{description}</p>}

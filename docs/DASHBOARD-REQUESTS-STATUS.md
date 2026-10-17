@@ -30,18 +30,18 @@ Review changes are implemented locally and are not a new published release. This
 | Request | Status |
 | --- | --- |
 | Small Button size or one-size decision | Published decision: one text-button height, 38px desktop and 44px touch. |
-| Button / LinkTile href or to | Open. No link-rendering API added in this review. |
+| Button / LinkTile href or to | Implemented href links, safe external targets and disabled Button links in this review. No router dependency; apps can intercept normal link clicks through onClick. LinkTile also accepts meta/badge and registry icon names. |
 | StateView custom action | Implemented in this review: actionLabel, onAction, and optional action content. Existing retry/create callbacks remain compatible. |
-| Picker inline prefix and option counts | Option count runtime and declarations covered. Inline prefix remains open. |
+| Picker inline prefix and option counts | Option count runtime and declarations covered. Inline prefix implemented inside the shared Dropdown/Picker trigger. |
 | SegmentedControl value / label options | Implemented in this review, preserving string options and adding disabled options, arrow/Home/End keyboard selection and explicit non-submit buttons. |
 | Toast queue / provider | Open. Presentational Toast is not a queue service. |
 | Missing icons | Published in beta.19. |
 | Real optional prop types | Published in beta.19, guarded by fresh strict consumer compilation. |
-| RecordHeader small label | Open. |
+| RecordHeader small label | Implemented in this review. |
 | GuidedTour hook, arrow, spaces data-tour | Open as a complete request; existing navigation data-tour support is not a substitute for all requested tour APIs. |
-| Gate / DayTimeline real data | Open. Existing demo components do not satisfy this. |
+| Gate / DayTimeline real data | Gate title/description/action/fine and agenda date/items/day-strip/empty content implemented. DayTimeline onSelect preserves the original title first argument and adds the full item second. Full timesheet week-grid drag/resize engine remains open. |
 | Markdown bold / links; ReadableDoc structured values | Open. |
-| DailyVerdictStrip six states; compact PhaseBar | Open. Plain-date row layout exists, but only four verdict states exist and there is no compact PhaseBar API. |
+| DailyVerdictStrip six states; compact PhaseBar | Implemented the six dashboard meanings: blocked, due-today, at-risk, delayed, on-track, no-update. Original attention/pending values remain supported. PhaseBar density=compact retains full labels and step semantics. |
 | PreviewFrame ref, onLoad, auto-height, overlay hooks | Open. Existing loading/error overlays do not satisfy these app-owned APIs. |
 | MediaUploadField PDF/file and link mode | Open. |
 | Timeline tone, meta and actions | Open. |
@@ -57,3 +57,5 @@ Review changes are implemented locally and are not a new published release. This
 - DOM check of Dropdown counts (12 and 0) and Avatar image-error fallback.
 
 Run `npm run build` then `node --test tests/dashboard-contracts.test.mjs` to check this review's additions. No new foundation or release tag has been published.
+
+Additional validation: five layout/data contract tests pass, covering link safety/disabled navigation, Picker prefix, RecordHeader label, production verdict meanings, compact phases and application-owned Gate/DayTimeline content.

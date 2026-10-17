@@ -1743,3 +1743,11 @@
 
 .ct-data-table > header:has(.detail-tabs) {padding-block:0;}
 .ct-data-table > header .detail-tabs {border:0;padding-inline:0;}
+.ct-phases[data-density="compact"] li {min-width:64px;}
+.ct-phases[data-density="compact"] li > :is(div,button) {padding:var(--space-2);gap:var(--space-1);}
+.ct-verdicts > [data-state="at-risk"] {border-left-color:var(--bad);}
+.ct-verdicts > [data-state="delayed"] {border-left-color:var(--warn);}
+.ct-verdicts > [data-state="due-today"] {border-left-color:var(--info);}
+.ct-verdicts.ct-verdicts-row > [data-state="at-risk"] > span {color:var(--bad);}
+.ct-verdicts.ct-verdicts-row > [data-state="delayed"] > span {color:var(--warn);}
+.ct-verdicts.ct-verdicts-row > [data-state="due-today"] > span {color:var(--info);}

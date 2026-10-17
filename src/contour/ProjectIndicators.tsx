@@ -71,6 +71,7 @@ export interface Phase {
   color?: string;
 }
 export interface PhaseBarProps {
+  density?: "regular" | "compact";
   phases: Phase[];
   current: string;
   onChange?: (id: string) => void;
@@ -82,11 +83,12 @@ export function PhaseBar({
   current,
   onChange,
   label = "Project phases",
+  density = "regular",
   disabled,
 }: PhaseBarProps) {
   const selected = phases.findIndex((phase) => phase.id === current);
   return (
-    <ol className="ct-phases" aria-label={label}>
+    <ol className="ct-phases" data-density={density} aria-label={label}>
       {phases.map((phase, index) => {
         const content = (
           <>
@@ -132,7 +134,7 @@ export function PhaseBar({
 }
 export interface DailyVerdict {
   date: string;
-  state: "on-track" | "attention" | "blocked" | "pending";
+  state: "on-track" | "attention" | "blocked" | "pending" | "due-today" | "at-risk" | "delayed" | "no-update";
   label?: string;
 }
 const verdictLabels = {
@@ -140,6 +142,10 @@ const verdictLabels = {
   attention: "Needs attention",
   blocked: "Blocked",
   pending: "Pending",
+  "due-today": "Due today",
+  "at-risk": "At risk",
+  delayed: "Delayed",
+  "no-update": "No update",
 };
 export interface DailyVerdictStripProps {
   days: DailyVerdict[];
