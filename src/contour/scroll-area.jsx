@@ -20,11 +20,15 @@ export function scrollThumbMetrics(viewport, content, position) {
 }
 
 /**
- * @param {{children: import('react').ReactNode, label?: string, height?: import('react').CSSProperties['height'], maxHeight?: import('react').CSSProperties['maxHeight'], axis?: 'vertical' | 'horizontal' | 'both', className?: string, contentClassName?: string, tabIndex?: number}} props
+ * @param {{children: import('react').ReactNode, label?: string, height?: import('react').CSSProperties['height'], maxHeight?: import('react').CSSProperties['maxHeight'], axis?: 'vertical' | 'horizontal' | 'both', className?: string, contentClassName?: string, tabIndex?: number, title?: import('react').ReactNode, description?: import('react').ReactNode, actions?: import('react').ReactNode, header?: import('react').ReactNode}} props
  */
 export function ScrollArea({
   children,
-  label = "Scrollable content",
+  label,
+  title,
+  description,
+  actions,
+  header,
   height,
   maxHeight,
   axis = "vertical",
@@ -32,6 +36,8 @@ export function ScrollArea({
   contentClassName = "",
   tabIndex = 0,
 }) {
+  const framed = title != null || description != null || actions != null || header != null;
+  const accessibleLabel = label ?? (typeof title === "string" ? title : "Scrollable content");
   const viewport = useRef(null),
     content = useRef(null),
     drag = useRef(null),
@@ -55,14 +61,14 @@ export function ScrollArea({
           node.scrollLeft,
         ),
       });
-    const observer = new ResizeObserver(measure);
-    observer.observe(node);
-    observer.observe(content.current);
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(node);
+    observer?.observe(content.current);
     node.addEventListener("scroll", measure, { passive: true });
     window.addEventListener("resize", measure);
     measure();
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
       node.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
@@ -78,7 +84,7 @@ export function ScrollArea({
         key={orientation}
         className={`scroll-thumb ${orientation}`}
         role="scrollbar"
-        aria-label={`${label}: ${orientation} scroll`}
+        aria-label={`${accessibleLabel}: ${orientation} scroll`}
         aria-controls={id}
         aria-orientation={orientation}
         aria-valuemin={0}
@@ -140,26 +146,25 @@ export function ScrollArea({
       />
     );
   };
+  const scrollContent = <>
+      <div className="scroll-viewport" ref={viewport} id={id} role="region" aria-label={accessibleLabel} tabIndex={tabIndex}>
+        <div className={`scroll-content ${contentClassName}`} ref={content}>{children}</div>
+      </div>
+      {thumb("vertical")}
+      {thumb("horizontal")}
+    </>;
   return (
     <div
       className={`contour-scroll-area scroll-shell ${className}`}
       style={{ height, maxHeight }}
       data-axis={axis}
+      data-framed={framed || undefined}
     >
-      <div
-        className="scroll-viewport"
-        ref={viewport}
-        id={id}
-        role="region"
-        aria-label={label}
-        tabIndex={tabIndex}
-      >
-        <div className={`scroll-content ${contentClassName}`} ref={content}>
-          {children}
-        </div>
-      </div>
-      {thumb("vertical")}
-      {thumb("horizontal")}
+      {framed && <header className="contour-scroll-header">
+        {header ?? <div className="contour-scroll-heading">{title != null && <h3>{title}</h3>}{description != null && <p>{description}</p>}</div>}
+        {actions != null && <div className="contour-scroll-actions">{actions}</div>}
+      </header>}
+      {framed ? <div className="contour-scroll-body">{scrollContent}</div> : scrollContent}
     </div>
   );
 }

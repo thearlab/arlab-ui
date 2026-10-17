@@ -19,12 +19,14 @@
   width: 0;
   height: 0;
 }
-.contour-scroll-area[data-axis="vertical"] > .scroll-viewport {
+.contour-scroll-area[data-axis="vertical"] > .scroll-viewport,
+.contour-scroll-area[data-axis="vertical"] > .contour-scroll-body > .scroll-viewport {
   overflow-x: hidden;
   overscroll-behavior-x: auto;
   overscroll-behavior-y: contain;
 }
-.contour-scroll-area[data-axis="horizontal"] > .scroll-viewport {
+.contour-scroll-area[data-axis="horizontal"] > .scroll-viewport,
+.contour-scroll-area[data-axis="horizontal"] > .contour-scroll-body > .scroll-viewport {
   overflow-y: hidden;
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
@@ -80,3 +82,42 @@
 @media (prefers-reduced-motion: reduce) { .contour-scroll-area .scroll-thumb::after { transition: none; } }
 
 .contour-scroll-area .scroll-viewport:focus-visible { outline: 1px solid var(--focus, var(--cn-accent, #a80fa3)); outline-offset: -1px; }
+
+/* Opt-in framed composition. Internal primitive instances keep their existing geometry. */
+.contour-scroll-area[data-framed] {
+  --scroll-panel-padding: 22px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--surface-border-color, var(--line, #DDD4E5));
+  border-radius: var(--radius-panel, 14px);
+  background-color: var(--raise, var(--cn-raise, #FFFDFF));
+  background-image: var(--surface-gradient, none);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  color: var(--ink, var(--cn-ink, #2C2532));
+  box-shadow: var(--shadow-surface, 0 2px 4px #00000006);
+  font-family: var(--font-sans, 'Urbanist', sans-serif);
+  overflow: hidden;
+}
+.contour-scroll-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px var(--scroll-panel-padding);
+  border-bottom: 1px solid var(--chrome-divider, var(--line, #DDD4E5));
+  background-color: var(--raise, var(--cn-raise, #FFFDFF));
+  background-image: var(--chrome-subtle-gradient, none);
+}
+.contour-scroll-heading {min-width:0;}
+.contour-scroll-heading h3 {display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-display,'Urbanist',sans-serif);font-size:var(--text-base,14px);font-weight:var(--weight-heading,600);line-height:var(--leading-tight,1.4);letter-spacing:0;}
+.contour-scroll-heading h3::before {content:'';display:block;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--accent,#E414DB);}
+.contour-scroll-heading p {margin:4px 0 0;color:var(--dim,var(--cn-dim,#665C70));font-size:var(--text-xs,12px);line-height:var(--leading-normal,1.5);}
+.contour-scroll-actions {display:flex;align-items:center;gap:8px;flex:0 0 auto;}
+.contour-scroll-body {position:relative;display:grid;grid-template-rows:minmax(0,1fr);flex:1 1 0;min-height:0;min-width:0;}
+.contour-scroll-body > .scroll-viewport > .scroll-content {padding:var(--scroll-panel-padding);}
+@media(max-width:640px) {.contour-scroll-area[data-framed] {--scroll-panel-padding:17px;}.contour-scroll-header {flex-wrap:wrap;}}
+.contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows {margin-inline:calc(-1 * var(--scroll-panel-padding));}
+.contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows > .lib-row {padding-inline:var(--scroll-panel-padding);}
