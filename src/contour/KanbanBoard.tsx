@@ -24,6 +24,8 @@ export interface KanbanBoardProps<T extends KanbanCard> {
   height?:CSSProperties['height'];
   /** Fill a bounded flex/grid parent. Still capped to the visible viewport/container. */
   fill?:boolean;
+  /** Flush removes only the board's outer inset when the parent already owns it. */
+  inset?:'default'|'flush';
 }
 interface Drag {id:string;from:string;original:number;to:string;index:number;mode:'pointer'|'keyboard';pointerId?:number;x?:number;y?:number}
 /** Column cards follow host array order. Used by all movement paths, including the menu. */
@@ -34,7 +36,7 @@ export function kanbanDestination<T extends KanbanCard>(cards:T[],cardId:string,
 /** Controlled reusable board. Only presentation state (phone tab, disclosure, drag preview) is local.
  * Arbitrary card content is never wrapped in a button. Open/drag/menu controls are sibling actions.
  */
-export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCard=(card:T)=>card.id,onCardOpen,onMove,onColumnToggle,getCardLabel,loading=false,error,columnWidth=280,density='regular',height,fill=false}:KanbanBoardProps<T>) {
+export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCard=(card:T)=>card.id,onCardOpen,onMove,onColumnToggle,getCardLabel,loading=false,error,columnWidth=280,density='regular',height,fill=false,inset='default'}:KanbanBoardProps<T>) {
   const board=useRef<HTMLDivElement>(null),dragRef=useRef<Drag|null>(null);
   const [availableHeight,setAvailableHeight]=useState<number|null>(null);
   useLayoutEffect(()=>{
@@ -183,7 +185,7 @@ export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCar
   const width=Number.isFinite(columnWidth)?Math.max(220,columnWidth):280;
   const boardStyle={'--ct-kanban-column-width':`${width}px`,height:height??(fill?'100%':Math.min(640,availableHeight??640)),maxHeight:availableHeight??undefined} as CSSProperties;
   const marker=(columnId:string,index:number)=>drag?.to===columnId&&drag.index===index?<li className="ct-kanban-insertion" aria-hidden="true" key={`insert-${index}`}/>:null;
-  return <div ref={board} className="ct-kanban-board" data-fill={fill||undefined} data-density={density} style={boardStyle} aria-busy={loading}
+  return <div ref={board} className="ct-kanban-board" data-fill={fill||undefined} data-inset={inset} data-density={density} style={boardStyle} aria-busy={loading}
     onKeyDown={event=>{if(event.key==='Escape'&&dragRef.current){event.preventDefault();cancel();}}}
     onPointerDown={event=>{if(event.pointerType==='touch'&&!(event.target as HTMLElement).closest('button,a,input,select,textarea,[role="button"]'))swipe.current={x:event.clientX,y:event.clientY};}}
     onPointerUp={event=>{const origin=swipe.current;swipe.current=null;if(!origin||dragRef.current)return;const dx=event.clientX-origin.x,dy=event.clientY-origin.y;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){const index=columns.findIndex(column=>column.id===active);setActiveId(columns[Math.max(0,Math.min(columns.length-1,index+(dx<0?1:-1)))]?.id||active||'');}}} onPointerCancel={()=>{swipe.current=null;}}>

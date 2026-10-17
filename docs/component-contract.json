@@ -420,7 +420,10 @@
     "props": [
       "label",
       "value",
-      "hint"
+      "hint",
+      "href",
+      "onClick",
+      "actionLabel"
     ],
     "behavior": "Use tabular numerals. A number needs a unit or explanation when its meaning is not obvious."
   },
@@ -757,6 +760,17 @@
       "className"
     ],
     "behavior": "Choose gaps from the 4px spacing scale. Use Stack instead of repeated margin overrides."
+  },
+  {
+    "name": "Separator",
+    "category": "Surfaces & layout",
+    "description": "An optional quiet dividing line between related content groups.",
+    "props": [
+      "orientation",
+      "decorative",
+      "label"
+    ],
+    "behavior": "Add it only when a visible boundary improves scanning. FieldRow has no automatic divider."
   },
   {
     "name": "DetailHeader",
@@ -1284,7 +1298,8 @@
       "columnWidth",
       "density",
       "height",
-      "fill"
+      "fill",
+      "inset"
     ],
     "behavior": "The host owns cards and persistence. Move by pointer/touch handle, keyboard pickup/arrows/drop or Move to menu. Omit onMove for read-only. Destination index excludes the moved card. Phone supports tabs and swipe; loading, error, empty and limited columns have explicit states."
   },
@@ -1524,7 +1539,7 @@
       "sidebarLabel",
       "scroll"
     ],
-    "behavior": "Use scroll=content for ordinary cards or prose, and the default scroll=child for a table that owns its rows. Heading, tabs and search remain fixed. Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
+    "behavior": "Use scroll=content for ordinary cards or prose, and the default scroll=child for a table that owns its rows. Heading, search above tabs, and filters remain fixed. Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
   },
   {
     "name": "RecordCollection",

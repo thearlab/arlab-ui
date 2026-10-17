@@ -14,13 +14,13 @@ test('Active runtime components inherit font families from foundation tokens',()
   for(const file of files){const source=fs.readFileSync(new URL(file,root),'utf8');assert.doesNotMatch(source,/["'](?:Urbanist|Manrope|IBM Plex Mono|Inter)["']/,file);}
   console.log(`${files.length} active runtime source files checked for obsolete font family literals.`);
 });
-test('Invalid ColorPicker values use the active mode brand token without overwriting valid colors',()=>{
+test('Custom ColorPicker preview uses the active brand token without overwriting valid colors',()=>{
   for(const mode of ['light','dark']){
     const render=value=>renderToStaticMarkup(React.createElement(ContourProvider,{mode},React.createElement(ColorPicker,{label:'Brand color',value,onChange:()=>{}})));
     const invalid=render('invalid');const accent=tokensFor('contour',mode).accent;
-    assert.match(invalid,new RegExp(`type="color"[^>]*value="${accent}"`));
+    assert.match(invalid,new RegExp(`ct-color-trigger[^>]*><span style="background:${accent}`));
     assert.match(invalid,new RegExp(`such as ${accent}`));
-    assert.match(render('#123ABC'),/type="color"[^>]*value="#123ABC"/);
+    assert.match(render('#123ABC'),/ct-color-trigger[^>]*><span style="background:#123ABC/);
   }
 });
 test('Phase indicators use shared chart/accent tokens while accepting application-owned phase colors',()=>{

@@ -124,3 +124,7 @@
 
 /* Scroll content measures across its complete intrinsic width. Row dividers travel with it. */
 .contour-scroll-area > .scroll-viewport > .scroll-content {min-width:100%;display:flow-root;}
+
+/* List rows meet the frame without a blank strip above or below. */
+.contour-scroll-body > .scroll-viewport > .scroll-content:has(> :is(.lib-rows,.ct-facet,.ct-ranked-list)) {padding-block:0;}
+.contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows > .lib-row {border-radius:0;}

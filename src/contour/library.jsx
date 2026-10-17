@@ -308,14 +308,17 @@ export function Facts({ items, className = "", ...props }) {
     </dl>
   );
 }
-/** @param {{label: React.ReactNode, value: React.ReactNode, hint?: React.ReactNode}} props */
-export function Stat({ label, value, hint }) {
+/** Whole-metric actions use a native link or button; passive metrics retain their existing markup.
+ * @param {{label: React.ReactNode, value: React.ReactNode, hint?: React.ReactNode, href?: string, onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>, actionLabel?: string}} props */
+export function Stat({ label, value, hint, href, onClick, actionLabel }) {
+  const interactive = href !== undefined || onClick !== undefined;
+  const Tag = href !== undefined ? 'a' : onClick !== undefined ? 'button' : 'div';
   return (
-    <div className="lib-stat">
+    <Tag className="lib-stat" data-interactive={interactive || undefined} href={href} type={Tag === 'button' ? 'button' : undefined} onClick={onClick} aria-label={interactive ? actionLabel : undefined}>
       <span>{label}</span>
       <strong>{value}</strong>
       {hint && <small>{hint}</small>}
-    </div>
+    </Tag>
   );
 }
 /** @param {{children?: React.ReactNode}} props */
@@ -733,6 +736,11 @@ export function SaveBar({ dirty, onSave, onDiscard, saving = false, actions = un
     </div>
   );
 }
+/** An opt-in divider between content groups. Decorative by default.
+ * @param {{orientation?: "horizontal" | "vertical", label?: string, decorative?: boolean, className?: string}} props */
+export function Separator({orientation="horizontal",label,decorative=true,className=""}) {
+ return <div className={`ct-separator ${className}`} data-orientation={orientation} role={decorative?undefined:"separator"} aria-hidden={decorative||undefined} aria-orientation={!decorative&&orientation==="vertical"?"vertical":undefined} aria-label={!decorative?label:undefined}/>;
+}
 /** @param {{label: React.ReactNode, hint?: React.ReactNode, children?: React.ReactNode}} props */
 export function FieldRow({ label, hint, children }) {
   return (
@@ -869,10 +877,10 @@ export function Stack({ children, gap = 16, className = '', style, ...props }) {
 export function DetailHeader({ title, description, status, children }) {
   return (
     <div className="lib-detail-header">
-      <div>
+      <div className="ct-detail-heading-line">
         <h2>{title}</h2>
         {status && (React.isValidElement(status) ? status : <Status>{status}</Status>)}
-        <p>{description}</p>
+        {description && <p>{description}</p>}
       </div>
       {children}
     </div>
@@ -991,7 +999,7 @@ export function DataTable({ rows, onOpen }) {
         <table>
           <thead>
             <tr>
-              <th>
+              <th className="ct-table-select-cell">
                 <Checkbox
                   label={<span className="sr-only">Select visible rows</span>}
                   checked={
@@ -1036,7 +1044,7 @@ export function DataTable({ rows, onOpen }) {
                 className={selected.includes(r.id) ? "selected" : ""}
                 {...tableRowProps(r,{onRowClick:onOpen?(row)=>onOpen(row):undefined,rowLabel:row=>`Open ${row.name}`},r.id)}
               >
-                <td>
+                <td className="ct-table-select-cell">
                   <Checkbox
                     label={<span className="sr-only">Select {r.name}</span>}
                     checked={selected.includes(r.id)}

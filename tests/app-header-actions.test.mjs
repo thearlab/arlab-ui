@@ -43,7 +43,7 @@ test('Context styles cannot resize public Button or IconButton instances',()=>{
 test('AppHeader owns application identity while preserving context and independent actions',()=>{
  const result=renderToStaticMarkup(React.createElement(AppHeader,{appName:'Agents Studio',appIcon:React.createElement('svg',{'data-glyph':'workflow'}),context:'Agents',pageActions:actions,pageActionsEqualWidth:true}));
  assert.match(result,/data-app-name="true"/);assert.match(result,/ct-app-header-brand/);
- assert.match(result,/ct-app-header-app-icon[^>]*aria-hidden="true"/);assert.match(result,/<strong title="Agents Studio"><span>Agents Studio<\/span><\/strong>/);
+ assert.doesNotMatch(result,/ct-app-header-app-icon|data-glyph="workflow"/);assert.match(result,/<strong title="Agents Studio"><span>Agents Studio<\/span><\/strong>/);
  assert.match(result,/ct-app-header-context">Agents/);assert.match(result,/data-equal-width="true"/);
  const css=fs.readFileSync(new URL('../src/contour/app-header.css',import.meta.url),'utf8');
  assert.match(css,/font-size:var\(--text-md\)/);assert.match(css,/font-weight:var\(--weight-heading\)/);

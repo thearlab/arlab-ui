@@ -1,5 +1,5 @@
 import { useRef, useState, useId, type ReactNode } from "react";
-import { Upload, X, RefreshCw, Plus, Image as ImageIcon, FileText, ChevronLeft, ChevronRight } from "lucide-react";
+import { ImagePlus, X, RefreshCw, Plus, Image as ImageIcon, FileText, ChevronLeft, ChevronRight } from "lucide-react";
 import {Input} from './BaseFields.js';
 import {Button} from './ui.js';
 export interface ElementProgressProps {
@@ -179,7 +179,7 @@ export function MediaGallery({
                       replacement.current?.click();
                     }}
                   >
-                    <Upload size={13} />
+                    <ImagePlus size={13} />
                   </button>
                 )}
                 {onRemove && (

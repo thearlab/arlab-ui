@@ -399,3 +399,7 @@
 .ct-collection-results-content {padding:var(--space-4) var(--space-8) var(--space-6);min-width:0;}
 .ct-collection-layout[data-scroll="content"][data-variant="flush"] .ct-collection-results-content {padding:0;}
 @media(max-width:600px){.ct-collection-results-content {padding:var(--space-4);}}
+
+/* Search stays above tabs; the toolbar keeps a consistent header gutter. */
+.ct-collection-layout[data-tabs] .ct-collection-toolbar {padding-block:var(--space-4);padding-inline:var(--space-8);gap:var(--space-3);}
+@media(max-width:600px){.ct-collection-layout[data-tabs] .ct-collection-toolbar {padding-inline:var(--space-4);}}

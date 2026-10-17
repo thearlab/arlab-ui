@@ -167,10 +167,10 @@ export function CollectionLayout({title,description,pills,updated,actions,tabs,s
  const results=renderChildren?children({filterTrigger}):children;
  return <section className="ct-collection-layout" data-scroll={scroll} data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
   {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>:<h1 className="sr-only">{title}</h1>}
+  {(search||!renderChildren&&filterTrigger)&&<div className="ct-collection-toolbar" data-position="header"><div>{search}</div>{!renderChildren&&filterTrigger}</div>}
   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
   <div className="ct-collection-body">
   <div className="ct-collection-main">
-   {(search||!renderChildren&&filterTrigger)&&<div className="ct-collection-toolbar"><div>{search}</div>{!renderChildren&&filterTrigger}</div>}
    {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
    <div className="ct-collection-results">{scroll==='content'?<ScrollArea label={`${title} results`} className="ct-collection-results-scroll" contentClassName="ct-collection-results-content">{results}</ScrollArea>:results}</div>
   </div>
@@ -302,7 +302,7 @@ export function RecordHeader({
   return (
     <header className="ct-record-header" data-title-hidden={!showTitle||undefined}>
       <div className="ct-record-header-main">
-        {showBack&&<Button onClick={onBack}><ArrowLeft size={14}/>{backLabel}</Button>}
+        {showBack&&<IconButton label={backLabel} onClick={onBack}><ArrowLeft size={14}/></IconButton>}
         <div className="ct-record-header-identity">
           {label && <span className="ct-record-header-label">{label}</span>}
           <h1 className={showTitle?'ct-record-header-title':'sr-only'}>{title}</h1>

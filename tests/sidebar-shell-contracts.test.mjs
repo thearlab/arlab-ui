@@ -11,7 +11,7 @@ test('spaces shell defaults to compact outer rail and keeps its inner navigation
  const rail=html.match(/<aside[^>]+class="contour-spaces-rail"[\s\S]*?<\/aside>/)[0];
  assert.match(rail,/viewBox="0 -48 842 842"/);assert.doesNotMatch(rail,/data-account-state/);
  assert.match(html,/<footer class="contour-space-panel-footer"><span data-account-state="false">Maya/);
- assert.ok(rail.indexOf('aria-label="Help"')<rail.indexOf('aria-label="Settings"'));assert.ok(rail.indexOf('aria-label="Settings"')<rail.indexOf('aria-label="Expand spaces rail"'));
+ assert.doesNotMatch(rail,/aria-label="Help"/);assert.ok(rail.indexOf('aria-label="Settings"')<rail.indexOf('aria-label="Expand spaces rail"'));
 });
 
 test('expanded rail uses the supplied full wordmark and neutral glyph tiles separate from labels',()=>{
@@ -30,6 +30,6 @@ test('single shell stays expanded and has no collapse control, even with legacy 
   const html=render({spaces:undefined,collapsed,defaultCollapsed:true});
   assert.doesNotMatch(html,/data-collapsed|Collapse navigation|Expand navigation|contour-navigation-toggle|contour-navigation-name/);
   const footer=html.slice(html.indexOf('<footer'));
-  assert.match(footer,/aria-label="Help"/);assert.match(footer,/aria-label="Settings"/);assert.match(footer,/data-account-state="false"/);
+  assert.doesNotMatch(footer,/aria-label="Help"/);assert.match(footer,/aria-label="Settings"/);assert.match(footer,/data-account-state="false"/);
  }
 });

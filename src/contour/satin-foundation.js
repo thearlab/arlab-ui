@@ -50,7 +50,7 @@ export function satinLiftTokens(mode) {
     'surface-elevation':'var(--shadow-surface)','surface-overlay-elevation':'var(--shadow-pop)',
     'surface-hover-elevation':dark?'inset 0 1px 0 #FFFFFF08,0 2px 4px #00000030,0 14px 30px -16px #00000099':'inset 0 1px 0 #FFFFFF,0 2px 4px #2028380C,0 14px 30px -16px #20283840',
     'text-kbd':'var(--text-2xs)','radius-bar':'1px',
-    'panel-inset':'22px','panel-inset-compact':'17px','panel-header-block':'var(--space-4)','panel-header-gap':'18px','panel-body-gap':'var(--space-4)',
+    'z-tour':'2200','panel-inset':'22px','panel-inset-compact':'17px','panel-header-block':'var(--space-4)','panel-header-gap':'18px','panel-body-gap':'var(--space-4)',
     'workspace-padding':'28px','text-workspace-heading':'26px',
     'loading-sheen':dark?'#FFFFFF0D':'#FFFFFFCC','loading-sheen-duration':'6.4s',
     'surface-gradient':`linear-gradient(150deg,${blend(raise,accent,dark?.018:.012)},${blend(raise,accent,dark?.004:.002)}),${dark?'linear-gradient(135deg,#48484E,#38383D 32%,#414146 65%,#46464B)':'linear-gradient(135deg,#E3DCE9,#D2C9DB 32%,#F4EFF7 65%,#D8CEDE)'}`,

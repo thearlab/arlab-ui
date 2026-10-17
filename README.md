@@ -3,7 +3,7 @@
 The shared design system for ARLAB internal tools. Satin Lift: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
 
 ```json
-"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.26"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.27"
 ```
 
 ```jsx
@@ -19,7 +19,7 @@ The root entry now exports Contour. Do not upgrade a v1 app by changing its depe
 
 ## Showcase
 
-Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 147 component entries and 164 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
+Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 148 component entries and 164 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
 
 ## Development
 

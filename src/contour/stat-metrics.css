@@ -1,0 +1,46 @@
+/* A metric is one click target. Passive standalone metrics keep their existing
+   layout; rows containing an action give every sibling the same useful inset. */
+:is(.lib-stat[data-interactive],a.ct-status-stat,button.ct-status-stat) {
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  min-height:var(--control-h-touch);
+  padding:var(--space-4) var(--space-6);
+  border:0;
+  border-radius:var(--radius-control);
+  background:transparent;
+  box-shadow:none;
+  color:var(--ink);
+  font-family:var(--font-sans);
+  text-align:left;
+  text-decoration:none;
+  cursor:pointer;
+}
+:is(.lib-stat[data-interactive],a.ct-status-stat,button.ct-status-stat):hover {
+  background:var(--chrome-row-hover);
+  border-color:transparent;
+  box-shadow:none;
+  text-decoration:none;
+}
+:is(.lib-stat[data-interactive],a.ct-status-stat,button.ct-status-stat):focus-visible {
+  outline:var(--line-width) solid var(--focus);
+  outline-offset:calc(-1 * var(--line-width));
+  box-shadow:none;
+}
+:is(.lib-stat-row,.ct-stat-note-row):has(> :is([data-interactive],a.ct-status-stat,button.ct-status-stat)) {
+  column-gap:0;
+  border-radius:var(--radius-panel);
+  overflow:hidden;
+}
+.lib-stat-row:has(> :is([data-interactive],a.ct-status-stat,button.ct-status-stat)) > :is(.lib-stat,.ct-status-stat),
+.ct-stat-note-row:has(> :is(a.ct-status-stat,button.ct-status-stat)) > .ct-status-stat {
+  box-sizing:border-box;
+  padding:var(--space-4) var(--space-6);
+  border:0;
+  border-radius:0;
+}
+@media(max-width:640px) {
+  :is(.lib-stat[data-interactive],a.ct-status-stat,button.ct-status-stat) {padding:var(--space-3) var(--space-4);}
+  .lib-stat-row:has(> :is([data-interactive],a.ct-status-stat,button.ct-status-stat)) > :is(.lib-stat,.ct-status-stat),
+  .ct-stat-note-row:has(> :is(a.ct-status-stat,button.ct-status-stat)) > .ct-status-stat {padding:var(--space-3) var(--space-4);}
+}

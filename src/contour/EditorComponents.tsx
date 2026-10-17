@@ -1,3 +1,4 @@
+import {useReorderMotion} from "./useReorderMotion.js";
 import {Button, IconButton, Modal} from "./ui.js";
 import {ActionGroup} from "./CollectionWorkspace.js";
 import {GroupedReorderList, type GroupedReorderListProps} from "./GroupedReorderList.js";
@@ -18,7 +19,6 @@ import {
 import {
   Check,
   Monitor,
-  Tablet,
   Smartphone,
   SlidersHorizontal,
   FileText,
@@ -156,6 +156,7 @@ function FlatReorderList({
   disabled,
 }: FlatReorderListProps) {
   const list = useRef<HTMLOListElement>(null);
+  const captureLayout=useReorderMotion(list,JSON.stringify(items.map(item=>item.id)));
   const [drag, setDrag] = useState<{
     id: string;
     start: number;
@@ -170,6 +171,7 @@ function FlatReorderList({
     const next = [...items];
     const [item] = next.splice(from, 1);
     next.splice(to, 0, item);
+    captureLayout();
     onChange(next);
     setSettled(id);
     setAnnouncement(
@@ -413,7 +415,7 @@ export function EditorLayout({
     if(controlledViewport===undefined)setLocalViewport(next);
     onViewportChange?.(next);
   };
-  const viewports=[{value:'desktop' as const,label:'Desktop',icon:Monitor},{value:'tablet' as const,label:'Tablet',icon:Tablet},{value:'mobile' as const,label:'Phone',icon:Smartphone}];
+  const viewports=[{value:'desktop' as const,label:'Desktop',icon:Monitor},{value:'mobile' as const,label:'Phone',icon:Smartphone}];
   return <section className="ct-editor" ref={root} aria-label={title} style={style} data-viewport={viewport} data-compact={compact||undefined}>
     <header className="ct-editor-header">
       <div className="ct-editor-document"><span className="ct-editor-document-mark" aria-hidden="true"><FileText size={16}/></span><div><h2>{title}</h2>{description && <p>{description}</p>}</div></div>
@@ -443,9 +445,9 @@ export function CodeDisplay({imageSrc,link,label,kind="QR code",filename="code.p
  const copy=async()=>{try{await navigator.clipboard.writeText(link);setCopied(true);setMessage('Link copied.');}catch{setMessage('Could not copy. Select and copy the destination link.');}};
  const download=async()=>{setBusy(true);try{await onDownload?.();setMessage('Download requested.');}catch{setMessage('Download failed. Try again.');}finally{setBusy(false);}};
  return <figure className="ct-code">
-  <figcaption><span className="ct-code-kind">{kind}</span><strong>{label}</strong><p>Scan the code or share its destination link.</p></figcaption>
-  <div className="ct-code-body"><div className="ct-code-stage"><div className="ct-code-image">{failed?<span role="alert">Code image unavailable.</span>:<img key={imageSrc} src={imageSrc} alt={`${kind} for ${label}`} onLoad={()=>setFailed(false)} onError={()=>setFailed(true)}/>}</div><span className="ct-code-scan-note">Scan to open</span></div>
-   <div className="ct-code-details"><div className="ct-code-copy-heading"><strong>Ready to share</strong><p>Keep the code visible, or send the link directly.</p></div><label className="ct-code-destination">Destination<Input aria-label={`${label} link`} readOnly value={link} onFocus={event=>event.target.select()}/></label>
+  <figcaption><span className="ct-code-kind">{kind}</span><strong>{label}</strong></figcaption>
+  <div className="ct-code-body"><div className="ct-code-stage"><div className="ct-code-image">{failed?<span role="alert">Code image unavailable.</span>:<img key={imageSrc} src={imageSrc} alt={`${kind} for ${label}`} onLoad={()=>setFailed(false)} onError={()=>setFailed(true)}/>}</div></div>
+   <div className="ct-code-details"><label className="ct-code-destination">Destination<Input aria-label={`${label} link`} readOnly value={link} onFocus={event=>event.target.select()}/></label>
     <ActionGroup equalWidth label="Share code"><Button onClick={()=>void copy()}>{copied?<Check size={14}/>:<Copy size={14}/>}Copy link</Button>{onDownload?<Button onClick={()=>void download()} disabled={busy||failed}><Download size={14}/>{busy?'Downloading…':'Download code'}</Button>:<Button href={failed?undefined:imageSrc} download={filename} disabled={failed} aria-label={`Download ${kind}`}><Download size={14}/>Download code</Button>}</ActionGroup>
     <span className="ct-code-feedback" role="status" aria-live="polite">{message}</span>
    </div>

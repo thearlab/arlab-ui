@@ -11,6 +11,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "./ui.js";
+import { Surface } from "./Surface.js";
 import { ContourThemeContext } from "./ThemeContext.js";
 import { ContourProvider } from "./provider.js";
 import {
@@ -80,6 +81,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
   const [list, setList] = useState<TourStep[] | null>(null);
   const [i, setI] = useState(0);
   const pop = useRef<HTMLDivElement>(null);
+  const layer = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const arrow = useRef<HTMLSpanElement>(null);
   const target = useRef<HTMLElement | null>(null);
@@ -124,6 +126,15 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
     poll();
     return () => clearTimeout(timer);
   }, [open]);
+
+  // A native top-layer popover stays above dialogs, sticky chrome and app stacking contexts.
+  useLayoutEffect(() => {
+    const node=layer.current;
+    if(!list||!node)return;
+    node.setAttribute("popover","manual");
+    try{node.showPopover?.();}catch{/* Older browsers retain the tokenized stacking fallback. */}
+    return ()=>{try{node.hidePopover?.();}catch{/* Already closed. */}};
+  },[list]);
 
   const end = useCallback((why: TourEnd) => {
     setList(null);
@@ -196,7 +207,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
     if (!list) return;
     const next = () => (i < list.length - 1 ? setI(i + 1) : end("done"));
     const onKey = (e: KeyboardEvent) => {
-      if (typing(document.activeElement)) return;
+      if (typing(document.activeElement) && e.key !== "Escape") return;
       if (e.key === "Escape") {
         e.preventDefault();
         end("skip");
@@ -235,6 +246,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
       }
       className="ct-guided-tour"
     >
+      <div ref={layer} className="ct-tour-layer">
       <div ref={ring} className="arlab-tour-ring" aria-hidden="true" />
       <div
         key={i}
@@ -245,6 +257,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
         aria-describedby={`${id}b`}
         tabIndex={-1}
       >
+        <Surface as="div" elevation="overlay" className="ct-tour-card">
         <span ref={arrow} className="arlab-tour-arrow" aria-hidden="true" />
         <div className="arlab-tour-head">
           <span className="arlab-tour-count">
@@ -280,6 +293,8 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
             {last ? "Done" : "Next"}
           </Button>
         </div>
+        </Surface>
+      </div>
       </div>
     </ContourProvider>,
     document.body,

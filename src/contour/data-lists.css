@@ -123,3 +123,9 @@ button.ct-rank-row:focus-visible {outline:var(--line-width) solid var(--focus);o
  .ct-stat-note-row[data-mobile-layout="compact"] > .ct-status-stat > .ct-status-stat-caption {padding-top:var(--space-1);}
  .ct-stat-note-row[data-mobile-layout="compact"] > .ct-status-stat > :is(.ct-status-stat-caption,.ct-status-stat-footer):empty {display:none;}
 }
+
+/* Full-bleed row feedback; labels retain the shared panel inset. */
+.ct-panel-content > .ct-facet {margin-inline:calc(-1 * var(--panel-padding));width:calc(100% + 2 * var(--panel-padding));}
+.ct-panel-content > .ct-facet .ct-facet-list > button {padding-inline:var(--panel-padding);box-sizing:border-box;}
+.ct-panel-content > .ct-facet .ct-facet-group > h3 {padding-inline:var(--panel-padding);}
+.ct-facet-list > button {box-sizing:border-box;}

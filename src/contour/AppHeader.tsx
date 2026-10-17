@@ -18,7 +18,6 @@ export function AppHeader({appName,appIcon,context,actions,pageActions,pageActio
   return <div className="ct-app-header" data-page-actions={!!pageActions||undefined} data-app-name={!!appName||undefined}>
     {appName?<div className="ct-app-header-identity">
       <div className="ct-app-header-brand">
-        {appIcon&&<span className="ct-app-header-app-icon" aria-hidden="true">{appIcon}</span>}
         <strong title={appName}><span>{appName}</span></strong>
       </div>
       <div className="ct-app-header-context">{context}</div>

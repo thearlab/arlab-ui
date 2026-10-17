@@ -57,3 +57,5 @@
 }
 .ct-infinite-table .ct-infinite-group {height:var(--ct-infinite-row-height);}
 .ct-infinite-table .ct-infinite-group > th {box-sizing:border-box;height:var(--ct-infinite-row-height);padding:var(--space-3) var(--space-4);text-align:left;background:var(--ground);color:var(--dim);font-size:var(--text-table-meta);font-weight:var(--weight-medium);border-bottom:var(--line-width) solid var(--line);}
+
+.ct-data-table > .ct-table-header > .ct-table-heading {justify-content:flex-start;}

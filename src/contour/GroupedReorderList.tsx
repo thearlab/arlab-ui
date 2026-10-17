@@ -1,3 +1,4 @@
+import {useReorderMotion} from "./useReorderMotion.js";
 import {useEffect,useRef,useState,type ReactNode} from 'react';
 import {ArrowDown,ArrowUp,GripVertical} from 'lucide-react';
 import {Dropdown} from './ui.js';
@@ -22,6 +23,7 @@ export function moveGroupedItem(groups: ReorderGroup[], itemId: string, destinat
 }
 export function GroupedReorderList({label,groups,onGroupsChange,disabled}: GroupedReorderListProps) {
   const root=useRef<HTMLDivElement>(null);
+  const captureLayout=useReorderMotion(root,JSON.stringify(groups.map(group=>[group.id,...group.items.map(item=>item.id)])));
   const [drag,setDrag]=useState<{id:string;x:number;y:number;startX:number;startY:number;groupId:string;index:number}|null>(null);
   const [announcement,setAnnouncement]=useState('');
   const focusItem=useRef<string | null>(null);
@@ -37,6 +39,7 @@ export function GroupedReorderList({label,groups,onGroupsChange,disabled}: Group
     const next=moveGroupedItem(groups,id,groupId,index);
     if(next===groups)return;
     focusItem.current=id;
+    captureLayout();
     onGroupsChange(next);
     const group=next.find(group=>group.id===groupId)!;
     const item=group.items.find(item=>item.id===id)!;

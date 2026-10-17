@@ -28,9 +28,9 @@ test('editor keeps canvas and inspector in separate scroll regions with the save
  assert.match(html,/aria-label="Campaign preview"/);assert.match(html,/aria-label="Properties settings"/);
  assert.match(html,/<\/aside><\/div><footer class="ct-editor-footer">/);
  assert.match(html,/data-viewport="tablet"/);
- for(const name of ['Desktop','Tablet','Phone','Close editor'])assert.match(html,new RegExp(`type="button"[^>]*aria-label="${name}"`));
- assert.match(html,/aria-label="Tablet"[^>]*aria-pressed="true"/);
+ for(const name of ['Desktop','Phone','Close editor'])assert.match(html,new RegExp(`type="button"[^>]*aria-label="${name}"`));
  assert.match(html,/aria-label="Desktop"[^>]*aria-pressed="false"/);
+ assert.doesNotMatch(html,/aria-label="Tablet"/);
 });
 test('existing custom editor toolbar can opt out of built-in viewport controls',()=>{
  const html=render(EditorLayout,{title:'Script',children:'Content',toolbar:React.createElement('button',{type:'button'},'Run'),showViewportControls:false});
