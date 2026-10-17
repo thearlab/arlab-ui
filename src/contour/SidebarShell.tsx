@@ -19,6 +19,8 @@ export interface SidebarShellProps {
   /** Route key used to dismiss mobile drawers when custom router links navigate. */
   navigationKey?: string;
   children: ReactNode;
+  /** Bounded application surfaces own their inner scrolling. Default preserves document scrolling. */
+  contentLayout?: 'scroll' | 'fill';
   account?: NavigationSlot; help?: NavigationSlot; header?: ReactNode;
   /** Rail utility actions use the shared neutral tile and an external label. */
   onHelp?: () => void;
@@ -28,6 +30,7 @@ export interface SidebarShellProps {
   railCollapsed?: boolean;
   defaultRailCollapsed?: boolean;
   onRailCollapsedChange?: (collapsed: boolean) => void;
+  /** @deprecated Single navigation is permanently expanded. Use railCollapsed for the outer spaces rail. */
   collapsed?: boolean; defaultCollapsed?: boolean; onCollapsedChange?: (collapsed: boolean) => void;
   /** Opt-in browser persistence, unique per application. Outer rail uses `${storageKey}:rail`. */
   storageKey?: string;
@@ -44,16 +47,15 @@ export interface SidebarShellProps {
 export function SidebarShell({brand,toolName,navigation,children,account,help,header,navigationKey,
   collapsed,defaultCollapsed=false,onCollapsedChange,railCollapsed,defaultRailCollapsed=true,onRailCollapsedChange,onHelp,onSettings,settings,storageKey,secondaryNavigation,secondaryLabel='Context navigation',defaultSecondaryCollapsed=false,
   spaces,activeSpace,onSpaceChange,brandMark,brandHref='/',panelLabel,panelCollapsed,onPanelCollapsedChange,defaultPanelCollapsed=false,railFooter,
-  mode,className='',style}:SidebarShellProps) {
+  mode,className='',style,contentLayout='scroll'}:SidebarShellProps) {
   const hasSpaces=spaces!==undefined;
-  const [ownCollapsed,setOwnCollapsed]=useState(defaultCollapsed);
   const [ownRailCollapsed,setOwnRailCollapsed]=useState(defaultRailCollapsed);
   const [secondaryCollapsed,setSecondaryCollapsed]=useState(defaultSecondaryCollapsed);
   const [drawer,setDrawer]=useState<'main'|'secondary'|'spaces'|null>(null);
   const dialog=useRef<HTMLDialogElement>(null);
   const titleId=useId(), panelId=useId(), railId=useId(), tooltipId=useId();
   const [tooltip,setTooltip]=useState<{label:string;x:number;y:number}|null>(null);
-  const isCollapsed=collapsed??ownCollapsed;
+  const isCollapsed=false;
   const isPanelCollapsed=panelCollapsed??defaultPanelCollapsed;
   const isRailCollapsed=railCollapsed??ownRailCollapsed;
   const active=spaces?.find(space=>space.id===activeSpace);
@@ -65,16 +67,9 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
   useEffect(()=>{
     if(!storageKey)return;
     try {
-      if(collapsed===undefined){const saved=localStorage.getItem(storageKey);if(saved!==null)setOwnCollapsed(saved==='true');}
       if(railCollapsed===undefined){const saved=localStorage.getItem(`${storageKey}:rail`);if(saved!==null)setOwnRailCollapsed(saved==='true');}
     } catch { /* optional storage */ }
   },[storageKey,collapsed,railCollapsed]);
-  const toggle=()=>{
-    if(collapsed!==undefined&&!onCollapsedChange)return;
-    const next=!isCollapsed;if(collapsed===undefined)setOwnCollapsed(next);
-    if(storageKey)try{localStorage.setItem(storageKey,String(next));}catch{/* optional storage */}
-    onCollapsedChange?.(next);
-  };
   const toggleRail=()=>{
     if(railDisabled)return;
     const next=!isRailCollapsed;
@@ -83,7 +78,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     onRailCollapsedChange?.(next);
   };
   useEffect(()=>{
-    const key=(event:globalThis.KeyboardEvent)=>{if(event.key==='Escape')setTooltip(null);if((event.metaKey||event.ctrlKey)&&event.key==='\\'&&!event.altKey&&window.matchMedia('(min-width: 760px)').matches){event.preventDefault();if(hasSpaces)toggleRail();else toggle();}};
+    const key=(event:globalThis.KeyboardEvent)=>{if(event.key==='Escape')setTooltip(null);if((event.metaKey||event.ctrlKey)&&event.key==='\\'&&!event.altKey&&window.matchMedia('(min-width: 760px)').matches){event.preventDefault();if(hasSpaces)toggleRail();}};
     window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
   });
   useEffect(()=>{const media=window.matchMedia('(min-width: 760px)');const close=()=>{if(media.matches)setDrawer(null);};media.addEventListener('change',close);return()=>media.removeEventListener('change',close);},[]);
@@ -95,7 +90,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     return()=>{if(node.open)node.close();if(previous?.isConnected)previous.focus();};
   },[drawer]);
   useEffect(()=>{setDrawer(null);},[navigationKey,activeSpace]);
-  const mainNav=(mobile=false)=><AppNavigation brand={brand} compactBrand={brandLink} toolName={toolName} collapsed={mobile?false:isCollapsed} onToggle={mobile?()=>setDrawer(null):toggle} toggleDisabled={!mobile&&collapsed!==undefined&&!onCollapsedChange} toggleLabel={mobile?'Close navigation':undefined} footer={account} help={help || onHelp || settings || onSettings ? ({collapsed})=><>{help ? slot(help,collapsed) : railAction('help',collapsed)}{railAction('settings',collapsed)}</> : undefined}>
+  const mainNav=(mobile=false)=><AppNavigation brand={brand} compactBrand={brandLink} toolName={toolName} showToolName={false} collapsed={false} footer={account} help={help || onHelp || settings || onSettings ? ({collapsed})=><>{help ? slot(help,collapsed) : railAction('help',collapsed)}{railAction('settings',collapsed)}</> : undefined}>
     <NavigationDismissContext.Provider value={mobile?()=>setDrawer(null):undefined}>{navigation}</NavigationDismissContext.Provider>
   </AppNavigation>;
   const tile=(space:Space)=>space.dept?<DeptTile compact department={space.dept} icon={space.icon} color={space.color}/>:<span className="contour-rail-action-glyph" aria-hidden="true">{space.icon || <LayoutGrid size={14}/>}</span>;
@@ -129,7 +124,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     {secondaryNavigation&&<aside className="contour-shell-secondary" aria-label={secondaryLabel}><header><span>{secondaryLabel}</span><button type="button" className="contour-nav-toggle" aria-label={`${secondaryCollapsed?'Expand':'Collapse'} ${secondaryLabel}`} aria-expanded={!secondaryCollapsed} onClick={()=>setSecondaryCollapsed(!secondaryCollapsed)}>{secondaryCollapsed?<PanelLeftOpen size={14}/>:<PanelLeftClose size={14}/>}</button></header>{!secondaryCollapsed&&<div className="contour-shell-secondary-content">{secondaryNavigation}</div>}</aside>}
     <div className="contour-shell-workspace"><header className="contour-shell-topbar" data-empty={!header||undefined}>
       <div className="contour-shell-mobile-actions">{hasSpaces&&<>{brandLink}<button type="button" className="contour-mobile-space" aria-label={`Choose space: ${label}`} aria-haspopup="dialog" aria-expanded={drawer==='spaces'} onClick={()=>setDrawer('spaces')}>{active&&tile(active)}<span>{label}</span></button></>}<button type="button" className="contour-nav-toggle" aria-label={hasSpaces?'Open space navigation':'Open navigation'} aria-haspopup="dialog" aria-expanded={drawer==='main'} onClick={()=>setDrawer('main')}><Menu size={14}/></button>{secondaryNavigation&&<button type="button" className="contour-nav-toggle" aria-label={`Open ${secondaryLabel}`} aria-expanded={drawer==='secondary'} onClick={()=>setDrawer('secondary')}><PanelLeftOpen size={14}/></button>}</div>{header}
-    </header><main className="contour-shell-content">{children}</main></div>
+    </header><main className="contour-shell-content" data-content-layout={contentLayout}>{children}</main></div>
     {tooltip&&<div className="contour-space-tooltip" role="tooltip" id={tooltipId} style={{left:tooltip.x,top:tooltip.y}}>{tooltip.label}</div>}
     <dialog className="contour-navigation-drawer" ref={dialog} aria-labelledby={titleId} onCancel={()=>setDrawer(null)} onClose={()=>setDrawer(null)}><div className="contour-navigation-drawer-heading"><span id={titleId}>{drawer==='spaces'?'Spaces':drawer==='secondary'?secondaryLabel:hasSpaces?label:toolName}</span><button type="button" className="contour-nav-toggle" aria-label="Close navigation drawer" onClick={()=>setDrawer(null)}><X size={14}/></button></div>
       {drawer==='spaces'?<><ScrollArea className="contour-space-panel-scroll" label="Available spaces" height={undefined} maxHeight={undefined}>{spaceList(true)}</ScrollArea><footer className="contour-spaces-mobile-footer">{railAction('help',false)}{railAction('settings',false)}</footer></>:drawer==='main'?hasSpaces?panel(true):mainNav(true):drawer==='secondary'?<div className="contour-shell-secondary-content"><NavigationDismissContext.Provider value={()=>setDrawer(null)}>{secondaryNavigation}</NavigationDismissContext.Provider></div>:null}

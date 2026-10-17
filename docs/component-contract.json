@@ -32,7 +32,7 @@
       "children",
       "target"
     ],
-    "behavior": "Use a link for navigation and a button for an action. Pink text uses the deeper accessible tone."
+    "behavior": "Use a link for navigation and a button for an action. Links use the main ARLAB pink and a thin underline."
   },
   {
     "name": "PillButton",
@@ -484,6 +484,81 @@
       "onSort"
     ],
     "behavior": "Use aria-sort on the enclosing column header and a button inside it."
+  },
+  {
+    "name": "WorkspaceContent",
+    "category": "Surfaces & layout",
+    "description": "The approved workspace scroll boundary and fixed footer.",
+    "props": [
+      "children",
+      "footer",
+      "label"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "WorkspaceGrid",
+    "category": "Surfaces & layout",
+    "description": "Responsive equal or main-and-sidebar workspace columns.",
+    "props": [
+      "layout",
+      "children"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "WorkspaceIntro",
+    "category": "Surfaces & layout",
+    "description": "Approved workspace greeting, summary and aligned actions.",
+    "props": [
+      "title",
+      "description",
+      "actions"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "RecordCell",
+    "category": "Surfaces & layout",
+    "description": "Shared table record name, metadata and optional leading mark.",
+    "props": [
+      "title",
+      "description",
+      "leading"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "UsageValue",
+    "category": "Surfaces & layout",
+    "description": "An aligned usage value with a discreet neutral share bar.",
+    "props": [
+      "value",
+      "max",
+      "display"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "DateStatus",
+    "category": "Surfaces & layout",
+    "description": "A legible date with its milestone status.",
+    "props": [
+      "date",
+      "status",
+      "tone"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
+  },
+  {
+    "name": "ProgressSummary",
+    "category": "Surfaces & layout",
+    "description": "A separated label and progress meter.",
+    "props": [
+      "label",
+      "value"
+    ],
+    "behavior": "The shared package owns all visual styling and responsive behaviour."
   },
   {
     "name": "AppHeader",
@@ -959,6 +1034,116 @@
       "onCopyError"
     ],
     "behavior": "The control confirms a successful clipboard write. The text remains selectable when clipboard permission is unavailable."
+  },
+  {
+    "name": "Surface",
+    "category": "Documents & operations",
+    "description": "The approved shared Satin Lift container used by Panel and framed surfaces.",
+    "props": [
+      "as",
+      "interactive",
+      "elevation",
+      "variant",
+      "children"
+    ],
+    "behavior": "Foundation tokens own the radius, satin rim and elevation. Applications reuse this component instead of local container CSS."
+  },
+  {
+    "name": "PageFrame",
+    "category": "Documents & operations",
+    "description": "A bounded page with one content scroll area and fixed framing.",
+    "props": [
+      "header",
+      "footer",
+      "label",
+      "padding",
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "ReadingLayout",
+    "category": "Documents & operations",
+    "description": "A document and responsive outline sharing a scroll boundary.",
+    "props": [
+      "outline",
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "DocumentContent",
+    "category": "Documents & operations",
+    "description": "Shared rich-document presentation and keyboard image preview.",
+    "props": [
+      "html",
+      "label"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "DocumentOutline",
+    "category": "Documents & operations",
+    "description": "Collapsible heading links and active section tracking.",
+    "props": [
+      "headings",
+      "label"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "Inline",
+    "category": "Documents & operations",
+    "description": "A wrapping horizontal composition on shared spacing.",
+    "props": [
+      "justify",
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "ContentInset",
+    "category": "Documents & operations",
+    "description": "Shared content padding for reusable compositions.",
+    "props": [
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "Table",
+    "category": "Documents & operations",
+    "description": "A semantic table for application-owned row structures.",
+    "props": [
+      "label",
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "FileDropzone",
+    "category": "Documents & operations",
+    "description": "File selection and drag feedback without upload side effects.",
+    "props": [
+      "onFiles",
+      "accept",
+      "multiple",
+      "disabled",
+      "title",
+      "description"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
+  },
+  {
+    "name": "DropRegion",
+    "category": "Documents & operations",
+    "description": "Shared drag and drop feedback for application-owned organising.",
+    "props": [
+      "active",
+      "dragging",
+      "children"
+    ],
+    "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
   },
   {
     "name": "ReadableDoc",

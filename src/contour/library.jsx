@@ -1,3 +1,4 @@
+import {Surface} from './Surface.js';
 import { tableRowProps } from './table-row.js';
 import { SortControl } from './SortControl.js';
 import { Input, Textarea } from "./BaseFields.js";
@@ -37,7 +38,7 @@ import {
 } from "lucide-react";
 export { ScrollArea } from "./scroll-area.js";
 export { Loader, PageLoading } from "./loading.js";
-import { Loader } from "./loading.js";
+import { Loader, PageLoading } from "./loading.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
   Button,
@@ -86,7 +87,7 @@ export function TextLink({ children, ...props }) {
 }
 /** @param {{children?: React.ReactNode}} props */
 export function Kbd({ children }) {
-  return <kbd>{children}</kbd>;
+  return <kbd className="ct-kbd">{children}</kbd>;
 }
 /** @param {{label: React.ReactNode, hint?: React.ReactNode, error?: React.ReactNode, required?: boolean, children?: React.ReactNode}} props */
 export function Field({ label, hint, error, required, children }) {
@@ -262,14 +263,14 @@ export function LegendDot({ color = "var(--chart-1)", children }) {
 /** @param {Omit<React.HTMLAttributes<HTMLElement>, 'title'> & {title?: React.ReactNode, description?: React.ReactNode, action?: React.ReactNode, tone?: string}} props */
 export function Panel({ title, description, action, children, className = "", tone = "default", ...props }) {
   return (
-    <section {...props} data-tone={tone} className={`lib-panel ct-panel ${className}`}>
+    <Surface as="section" {...props} data-tone={tone} className={`lib-panel ct-panel ${className}`}>
       {title && (
         <SectionHead title={title} sub={description}>
           {action}
         </SectionHead>
       )}
       <div className="ct-panel-content">{children}</div>
-    </section>
+    </Surface>
   );
 }
 export const Card = Panel;
@@ -414,6 +415,7 @@ export function Refreshing({ busy, children }) {
 export function StateView({ state = "empty", title, description, actionLabel, action, icon, onAction, onRetry, onCreate }) {
   const id = useId();
   const loading = state === "loading", error = state === "error";
+  if (loading) return <PageLoading title={title} description={description}/>;
   const handleAction = onAction ?? (error ? onRetry : onCreate);
   const heading = title ?? (loading ? "Loading content" : error ? "We couldn’t load this view" : "Nothing here yet");
   const message = description ?? (loading ? "Please wait while we prepare this view." : error ? "Your changes are safe. Try again in a moment." : "Items will appear here when they are added.");
@@ -701,7 +703,7 @@ export function Disclosure({
 /** @param {{dirty:boolean,onSave?:()=>void|Promise<void>,onDiscard?:()=>void,saving?:boolean,actions?:import('react').ReactNode,message?:import('react').ReactNode,sticky?:boolean}} props */
 export function SaveBar({ dirty, onSave, onDiscard, saving = false, actions = undefined, message = undefined, sticky = false }) {
   return (
-    <div className="ct-save-bar" data-sticky={sticky || undefined}>
+    <div className="ct-save-bar" role="region" aria-label="Changes" data-sticky={sticky || undefined}>
       <span>
         {message !== undefined ? message : dirty ? (
           <>
@@ -715,7 +717,7 @@ export function SaveBar({ dirty, onSave, onDiscard, saving = false, actions = un
           </>
         )}
       </span>
-      {actions ? <div className="lib-inline">{actions}</div> : <div className="lib-inline">
+      {actions ? <div className="ct-save-bar-actions" role="group" aria-label="Change actions">{actions}</div> : <div className="ct-save-bar-actions" role="group" aria-label="Change actions">
         <Button variant="quiet" disabled={!dirty || saving} onClick={onDiscard}>
           Discard
         </Button>

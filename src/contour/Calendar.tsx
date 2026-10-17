@@ -7,6 +7,7 @@ import {
   type CSSProperties,
 } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ScrollArea } from './scroll-area.js';
 import { IconButton, Button } from "./ui.js";
 
 export interface CalendarEvent {
@@ -47,6 +48,12 @@ export interface CalendarProps {
   locale?: string;
   label?: string;
   className?: string;
+  /** Fill a bounded parent and scroll the dates/agenda below a fixed period header. */
+  fill?: boolean;
+  /** Embedded in an edge-to-edge workspace; keeps calendar grid dividers. */
+  variant?: 'contained'|'flush';
+  /** Explicit bounded calendar height, such as 560 or 100%. */
+  height?: CSSProperties['height'];
 }
 function parseDate(value?: string | null): Date | null {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
@@ -101,6 +108,9 @@ export function Calendar({
   locale = "en-GB",
   label = "Calendar",
   className = "",
+  fill = false,
+  variant = 'contained',
+  height,
 }: CalendarProps) {
   const today = keyOf(new Date()),
     id = useId();
@@ -297,6 +307,10 @@ export function Calendar({
       ref={root}
       className={`ct-event-calendar ${className}`}
       aria-label={label}
+      data-variant={variant}
+      data-fill={fill || undefined}
+      data-bounded={fill || height !== undefined || undefined}
+      style={height === undefined ? undefined : {height}}
     >
       <header className="ct-event-calendar-heading">
         <div className="ct-calendar-period">
@@ -348,6 +362,7 @@ export function Calendar({
           </IconButton>
         </div>
       </header>
+      <ScrollArea label={`${label} dates and agenda`} className="ct-calendar-scroll">
       {!valid ? (
         <p role="alert">
           Provide valid dates and a week count between 1 and 12.
@@ -526,6 +541,7 @@ export function Calendar({
           </section>
         </>
       )}
+      </ScrollArea>
     </section>
   );
 }

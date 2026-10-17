@@ -7,7 +7,7 @@ const contrast=(a,b)=>(Math.max(luminance(a),luminance(b))+.05)/(Math.min(lumina
 
 test('Satin Lift uses the approved brand, typography, corners and neutral dark surfaces',()=>{
   const light=tokensFor('contour','light'),dark=tokensFor('contour','dark');
-  assert.equal(light.action,'#E414DB');assert.equal(light.actionInk,'#FFFFFF');assert.equal(light['action-gradient'],'none');
+  assert.equal(light.action,'#E414DB');assert.equal(light.actionInk,'#FFFFFF');assert.match(light['action-gradient'],/^linear-gradient/);assert.doesNotMatch(light['action-gradient'],/251,146,60/);
   assert.deepEqual(['ground','raise','sunken','ink','dim','line'].map(key=>dark[key]),['#202022','#29292C','#1B1B1E','#F4F4F6','#BDBDC5','#414146']);
   for(const tokens of [light,dark]) {
     assert.equal(tokens['font-sans'],"'Satoshi', sans-serif");assert.equal(tokens['font-display'],"'Satoshi', sans-serif");

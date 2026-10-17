@@ -52,3 +52,15 @@ a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
 
 .btn.ghost[data-button="text"] {border-color:transparent;background:transparent;background-image:none;box-shadow:none;}
 .btn.ghost[data-button="text"]:hover:not(:disabled) {border-color:transparent;background:var(--sunken);box-shadow:none;}
+
+/* Approved chrome finish for text, link and icon actions. Geometry is unchanged. */
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(:disabled) {border-color:var(--chrome-line);background-color:var(--chrome-control-surface);background-image:var(--button-chrome-gradient);box-shadow:var(--chrome-control-shadow);}
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):hover:not(:disabled) {border-color:var(--chrome-line-hover);background-image:var(--button-chrome-hover-gradient);box-shadow:var(--chrome-control-hover-shadow);}
+.btn.primary[data-button="text"],.btn.primary[data-button="text"]:hover:not(:disabled) {background-color:var(--action);background-image:var(--action-gradient);color:var(--actionInk);}
+.btn.danger[data-button="text"],.btn.danger[data-button="text"]:hover:not(:disabled) {background-image:var(--button-chrome-gradient);}
+.icon-btn[data-button="icon"] {background-image:var(--button-chrome-gradient);}
+.icon-btn[data-button="icon"]:hover:not(:disabled) {background-image:var(--button-chrome-hover-gradient);}
+.btn[data-button="text"]:disabled,.icon-btn[data-button="icon"]:disabled {background-image:none;}
+
+/* Compact tags receive a lighter sheen without changing their semantic tint or size. */
+.removable-tag,.quiet-tag,.dept-title {background-image:var(--tag-gradient);box-shadow:var(--tag-shadow);}

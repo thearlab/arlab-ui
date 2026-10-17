@@ -1146,7 +1146,7 @@
   font-size: 12px;
   font-weight: 500;
 }
-.file-drop-target > div > span {
+.file-drop-target > div:nth-child(2) > span {
   display: block;
   font-size: 10px;
   line-height: 1.7;
@@ -1264,7 +1264,7 @@
     min-height: 44px;
     font-size: 12px;
   }
-  .file-drop-target > div > span {
+  .file-drop-target > div:nth-child(2) > span {
     font-size: 11px;
   }
   .file-card-foot {
@@ -2414,3 +2414,6 @@
 :is(.dropdown-option,[role=option],[role=menuitemradio],.ct-column-options button) :is(span,strong,small) {text-decoration:none;}
 
 .arlab-contour.themed-preview {background-image:var(--page-gradient,none);}
+
+.document-outline > .document-outline-badge {display:grid;place-items:center;margin:0;padding:0;line-height:0;box-sizing:border-box;}
+.document-outline-badge > svg {display:block;flex:none;}

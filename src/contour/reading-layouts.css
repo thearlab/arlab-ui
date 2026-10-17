@@ -43,3 +43,6 @@
 .ct-drop-region {min-width:0;border:1px solid transparent;border-radius:var(--radius-panel);transition:background var(--duration-fast,140ms),border-color var(--duration-fast,140ms);}.ct-drop-region[data-active] {border-color:var(--accent);border-style:dashed;background:var(--accent-soft);}.ct-drop-region[data-dragging] {opacity:.5;cursor:grabbing;}
 
 .ct-document-outline summary {display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);font-weight:var(--weight-heading);cursor:pointer;list-style:none;padding-block:var(--space-3);}.ct-document-outline summary::-webkit-details-marker {display:none;}.ct-document-outline details[open]>summary svg {transform:rotate(180deg);}.ct-document-outline details>div {display:grid;gap:var(--space-1);}
+
+.ct-page-frame-fill {display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
+.ct-page-frame[data-scrollable="false"] {overflow:hidden;}

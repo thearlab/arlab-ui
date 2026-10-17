@@ -8,8 +8,9 @@ export interface AppNavigationProps {
   brand: ReactNode;
   compactBrand?: ReactNode;
   toolName: string;
+  showToolName?: boolean;
   collapsed: boolean;
-  onToggle: () => void;
+  onToggle?: () => void;
   children: ReactNode;
   footer?: NavigationSlot;
   help?: NavigationSlot;
@@ -19,20 +20,20 @@ export interface AppNavigationProps {
   toggleDisabled?: boolean;
 }
 /** Fixed identity and account areas around an independently scrolling navigation. */
-export function AppNavigation({ brand, compactBrand, toolName, collapsed, onToggle, children, footer, help, className = '', mode, toggleLabel, toggleDisabled = false }: AppNavigationProps) {
+export function AppNavigation({ brand, compactBrand, toolName, collapsed, onToggle, children, footer, help, className = '', mode, toggleLabel, toggleDisabled = false,showToolName=true }: AppNavigationProps) {
   return <aside className={`contour-navigation ${className}`} data-mode={mode} data-collapsed={collapsed || undefined} aria-label={`${toolName} navigation`}>
     <header className="contour-navigation-header">
       <div className="contour-navigation-brand"><div className="contour-navigation-logo" data-compact={collapsed && !!compactBrand || undefined}>{collapsed && compactBrand ? compactBrand : brand}</div>
       </div>
-      <div className="contour-navigation-name">{toolName}</div>
+      {showToolName&&<div className="contour-navigation-name">{toolName}</div>}
     </header>
     <ScrollArea className="contour-navigation-scroll" label={`${toolName} sections`} height={undefined} maxHeight={undefined}>
       {children}
     </ScrollArea>
     <footer className="contour-navigation-footer">{help && <div className="contour-navigation-help">{typeof help === "function" ? help({ collapsed }) : help}</div>}{footer && <div className="contour-navigation-account">{typeof footer === "function" ? footer({ collapsed }) : footer}</div>}
-      <button type="button" className="contour-rail-action contour-navigation-toggle" disabled={toggleDisabled} aria-label={toggleLabel ?? (collapsed ? 'Expand navigation' : 'Collapse navigation')} aria-expanded={!collapsed} onClick={onToggle} title={collapsed ? (toggleLabel ?? 'Expand navigation') : undefined}>
+      {onToggle&&<button type="button" className="contour-rail-action contour-navigation-toggle" disabled={toggleDisabled} aria-label={toggleLabel ?? (collapsed ? 'Expand navigation' : 'Collapse navigation')} aria-expanded={!collapsed} onClick={onToggle} title={collapsed ? (toggleLabel ?? 'Expand navigation') : undefined}>
         <span className="contour-rail-action-glyph" aria-hidden="true">{collapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}</span><span className="contour-rail-action-label">{toggleLabel ?? 'Collapse navigation'}</span>
-      </button>
+      </button>}
     </footer>
   </aside>;
 }

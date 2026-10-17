@@ -308,7 +308,7 @@ export function FileUpload({
         <div className="file-drop-target">
           <div className="document-outline" aria-hidden="true">
             <FileText size={29} />
-            <span>
+            <span className="document-outline-badge">
               <PlusSymbol />
             </span>
           </div>

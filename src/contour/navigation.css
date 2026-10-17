@@ -162,3 +162,18 @@
 /* Shared approved pink canvas and chrome treatment, including both shell variants. */
 .contour-shell {background-image:var(--page-gradient,none);}
 .contour-shell-topbar,.contour-shell-secondary,.contour-spaces-rail,.contour-space-panel {background-image:var(--chrome-gradient,none);}
+
+/* Explicit workspace sizing avoids intrinsic content growing beyond the shell. */
+.contour-shell-content[data-content-layout="fill"] {display:flex;flex-direction:column;overflow:hidden;}
+.contour-shell-content[data-content-layout="fill"] > * {flex:1;min-width:0;min-height:0;height:100%;overflow:hidden;}
+
+.contour-shell-content,.contour-shell-secondary-content {overscroll-behavior:contain;}
+
+/* The workspace preview and installed navigation use the same chrome. */
+.contour-navigation,.contour-navigation-section,.contour-navigation-header,.contour-navigation-footer {border-color:var(--chrome-divider,var(--cn-line));}
+.contour-navigation-header,.contour-space-panel-header,.contour-spaces-rail > header {background-image:var(--chrome-subtle-gradient,none);}
+.contour-shell-topbar {box-shadow:var(--shadow-chrome,none);}
+
+/* A standard page loader fills the shell even when the route adds one neutral wrapper. */
+.contour-shell-content:has(.ct-content-loading) {display:flex;flex-direction:column;overflow:hidden;}
+.contour-shell-content > :has(.ct-content-loading) {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;}

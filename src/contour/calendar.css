@@ -391,3 +391,12 @@
   .ct-event-calendar .ct-calendar-date {width:min(44px,100%);height:auto;min-width:0;min-height:0;aspect-ratio:1;}
 }
 .ct-event-calendar .ct-calendar-more {border:var(--line-width) solid var(--chrome-line);border-radius:var(--radius-control);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);line-height:var(--leading-normal);}
+
+/* A bounded calendar retains its period controls and scrolls the complete date grid/agenda. */
+.ct-event-calendar[data-bounded] {display:flex;flex-direction:column;min-height:0;overflow:hidden;box-sizing:border-box;}
+.ct-event-calendar[data-fill] {flex:1;height:100%;}
+.ct-event-calendar-heading {flex:none;}
+.ct-calendar-scroll {min-height:0;min-width:0;}
+.ct-event-calendar[data-bounded] > .ct-calendar-scroll {flex:1;}
+.ct-event-calendar[data-bounded] > .ct-calendar-scroll > .scroll-viewport {height:100%;}
+.ct-event-calendar-grid thead {position:sticky;top:0;z-index:2;background:var(--raise);}

@@ -4,7 +4,7 @@ All components inherit the Contour foundation. Applications own data, parsing, s
 
 | Component | Contract |
 | --- | --- |
-| PageFrame | children, optional header/footer, label, padding default/none. One bounded ScrollArea with persistent header/actions. Parent must have a bounded height. |
+| PageFrame | children, optional header/footer, label, padding default/none, scrollable (default true). Use scrollable=false when inner panes own scrolling. One bounded ScrollArea with persistent header/actions. Parent must have a bounded height. |
 | ReadingLayout | children and optional outline. Single column in narrow panes; document and 200px outline columns when the containing PageFrame or RecordBody is at least 780px wide. |
 | DocumentContent | html, label and article attributes. HTML must be sanitised by the application before passing it. Shared prose, tables, syntax classes, responsive media and keyboard image preview. Never pass untrusted raw HTML. |
 | DocumentOutline | headings [{id,text,depth}], optional label. Requires matching heading IDs in the current document. Active heading tracking, reduced-motion-aware navigation, collapsible outline in narrow panes. Use one document instance per page to avoid duplicate IDs. |

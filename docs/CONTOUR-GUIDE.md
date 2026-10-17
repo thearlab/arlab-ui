@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.22 · Satin Lift · October 2026
+ARLAB internal applications · Version 2.0.0-beta.25 · Satin Lift · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -180,7 +180,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 ## Complete component contract
 
-130 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+147 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -222,7 +222,7 @@ Live example: [IconButton](https://arlab-ui-showcase.pages.dev/?view=catalogue&c
 
 An underlined destination within prose or supporting navigation.
 
-Use a link for navigation and a button for an action. Pink text uses the deeper accessible tone.
+Use a link for navigation and a button for an action. Links use the main ARLAB pink and a thin underline.
 
 Import: `import { TextLink } from '@arlab/ui';`
 
@@ -882,6 +882,116 @@ Import: `import { SortHead } from '@arlab/ui';`
 Live example: [SortHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SortHead)
 
 ### Surfaces & layout
+
+#### WorkspaceContent
+
+The approved workspace scroll boundary and fixed footer.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { WorkspaceContent } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+| `footer` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+
+Live example: [WorkspaceContent](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=WorkspaceContent)
+
+#### WorkspaceGrid
+
+Responsive equal or main-and-sidebar workspace columns.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { WorkspaceGrid } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `layout` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [WorkspaceGrid](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=WorkspaceGrid)
+
+#### WorkspaceIntro
+
+Approved workspace greeting, summary and aligned actions.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { WorkspaceIntro } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `actions` | Primary and supporting actions for the current page. |
+
+Live example: [WorkspaceIntro](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=WorkspaceIntro)
+
+#### RecordCell
+
+Shared table record name, metadata and optional leading mark.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { RecordCell } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `leading` | Optional leading icon or avatar. |
+
+Live example: [RecordCell](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordCell)
+
+#### UsageValue
+
+An aligned usage value with a discreet neutral share bar.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { UsageValue } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `value` | Controlled value. Update it from onChange. |
+| `max` | Optional pattern-specific value. Use the live example as the reference. |
+| `display` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [UsageValue](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=UsageValue)
+
+#### DateStatus
+
+A legible date with its milestone status.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { DateStatus } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `date` | A valid date or ISO 8601 date-time string. |
+| `status` | Current status value or object-state label. |
+| `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
+
+Live example: [DateStatus](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DateStatus)
+
+#### ProgressSummary
+
+A separated label and progress meter.
+
+The shared package owns all visual styling and responsive behaviour.
+
+Import: `import { ProgressSummary } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `value` | Controlled value. Update it from onChange. |
+
+Live example: [ProgressSummary](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ProgressSummary)
 
 #### AppHeader
 
@@ -1548,6 +1658,166 @@ Import: `import { CopyBlock } from '@arlab/ui';`
 Live example: [CopyBlock](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CopyBlock)
 
 ### Documents & operations
+
+#### Surface
+
+The approved shared Satin Lift container used by Panel and framed surfaces.
+
+Foundation tokens own the radius, satin rim and elevation. Applications reuse this component instead of local container CSS.
+
+Import: `import { Surface } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `as` | Optional pattern-specific value. Use the live example as the reference. |
+| `interactive` | Optional pattern-specific value. Use the live example as the reference. |
+| `elevation` | Optional pattern-specific value. Use the live example as the reference. |
+| `variant` | primary  /  secondary (default)  /  quiet  /  ghost  /  danger. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [Surface](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Surface)
+
+#### PageFrame
+
+A bounded page with one content scroll area and fixed framing.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { PageFrame } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `header` | Optional pattern-specific value. Use the live example as the reference. |
+| `footer` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `padding` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [PageFrame](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageFrame)
+
+#### ReadingLayout
+
+A document and responsive outline sharing a scroll boundary.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { ReadingLayout } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `outline` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [ReadingLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ReadingLayout)
+
+#### DocumentContent
+
+Shared rich-document presentation and keyboard image preview.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { DocumentContent } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `html` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+
+Live example: [DocumentContent](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DocumentContent)
+
+#### DocumentOutline
+
+Collapsible heading links and active section tracking.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { DocumentOutline } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `headings` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+
+Live example: [DocumentOutline](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DocumentOutline)
+
+#### Inline
+
+A wrapping horizontal composition on shared spacing.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { Inline } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `justify` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [Inline](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Inline)
+
+#### ContentInset
+
+Shared content padding for reusable compositions.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { ContentInset } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [ContentInset](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ContentInset)
+
+#### Table
+
+A semantic table for application-owned row structures.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { Table } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `label` | Visible or accessible name describing the control. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [Table](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Table)
+
+#### FileDropzone
+
+File selection and drag feedback without upload side effects.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { FileDropzone } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `onFiles` | Optional pattern-specific value. Use the live example as the reference. |
+| `accept` | Optional pattern-specific value. Use the live example as the reference. |
+| `multiple` | Optional pattern-specific value. Use the live example as the reference. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+
+Live example: [FileDropzone](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FileDropzone)
+
+#### DropRegion
+
+Shared drag and drop feedback for application-owned organising.
+
+Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML.
+
+Import: `import { DropRegion } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `active` | Optional pattern-specific value. Use the live example as the reference. |
+| `dragging` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [DropRegion](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DropRegion)
 
 #### ReadableDoc
 
@@ -2662,12 +2932,12 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--shadow-control-hover` | `inset 0 1px 0 #FFFFFF,0 3px 10px #20283812` | `inset 0 1px 0 #FFFFFF0A,0 3px 10px #00000025` |
 | `--shadow-primary` | `inset 0 1px 0 #FFFFFF20` | `inset 0 1px 0 #FFFFFF14` |
 | `--shadow-primary-hover` | `inset 0 1px 0 #FFFFFF30,0 4px 12px rgba(228,20,219,.14)` | `inset 0 1px 0 #FFFFFF20,0 4px 12px #00000040` |
-| `--surface-gradient` | `linear-gradient(150deg,#FFFDFF,#FDFCFE),linear-gradient(135deg,#E3DCE9,#D2C9DB 32%,#F4EFF7 65%,#D8CEDE)` | `linear-gradient(150deg,#29292C,#28282B),linear-gradient(135deg,#48484E,#38383D 32%,#414146 65%,#46464B)` |
+| `--surface-gradient` | `linear-gradient(150deg,#fffaff,#fffdff),linear-gradient(135deg,#E3DCE9,#D2C9DB 32%,#F4EFF7 65%,#D8CEDE)` | `linear-gradient(150deg,#2d2a2f,#2a292d),linear-gradient(135deg,#48484E,#38383D 32%,#414146 65%,#46464B)` |
 | `--surface-border-color` | `transparent` | `transparent` |
-| `--page-gradient` | `none` | `none` |
-| `--chrome-gradient` | `none` | `none` |
+| `--page-gradient` | `radial-gradient(ellipse at 10% 0%,rgba(228,20,219,.025),transparent 65%)` | `radial-gradient(ellipse at 10% 0%,rgba(240,78,232,.035),transparent 65%)` |
+| `--chrome-gradient` | `linear-gradient(135deg,#fff9fe,#FFFDFF 75%)` | `linear-gradient(135deg,#2e2a31,#29292C 75%)` |
 | `--shadow-chrome` | `0 2px 10px #20283808` | `0 2px 10px #00000020` |
-| `--action-gradient` | `none` | `linear-gradient(135deg,rgba(251,146,60,.08),transparent 70%)` |
+| `--action-gradient` | `linear-gradient(180deg,#FFFFFF24,transparent 62%)` | `linear-gradient(180deg,#FFFFFF1F,transparent 62%)` |
 | `--icon-hover-color` | `#2C2532` | `#F4F4F6` |
 | `--icon-hover-surface` | `#f9f6fa` | `#242427` |
 | `--hover-duration` | `140ms` | `140ms` |
@@ -2786,8 +3056,21 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--radius-md` | `14px` | `14px` |
 | `--radius-panel` | `14px` | `14px` |
 | `--radius-control` | `7px` | `7px` |
+| `--surface-border-width` | `1px` | `1px` |
+| `--surface-radius` | `var(--radius-panel)` | `var(--radius-panel)` |
+| `--surface-elevation` | `var(--shadow-surface)` | `var(--shadow-surface)` |
+| `--surface-overlay-elevation` | `var(--shadow-pop)` | `var(--shadow-pop)` |
+| `--surface-hover-elevation` | `inset 0 1px 0 #FFFFFF,0 2px 4px #2028380C,0 14px 30px -16px #20283840` | `inset 0 1px 0 #FFFFFF08,0 2px 4px #00000030,0 14px 30px -16px #00000099` |
+| `--text-kbd` | `var(--text-2xs)` | `var(--text-2xs)` |
+| `--radius-bar` | `1px` | `1px` |
+| `--workspace-padding` | `28px` | `28px` |
+| `--text-workspace-heading` | `26px` | `26px` |
+| `--loading-sheen` | `#FFFFFFCC` | `#FFFFFF0D` |
+| `--loading-sheen-duration` | `6.4s` | `6.4s` |
 | `--shadow-card` | `inset 0 1px 0 #FFFFFF,0 1px 2px #20283808,0 10px 26px -16px #20283830` | `inset 0 1px 0 #FFFFFF04,0 1px 2px #00000025,0 10px 26px -16px #00000080` |
 | `--shadow-pop` | `0 4px 8px #2028380A,0 20px 48px -12px #20283830` | `0 4px 8px #00000035,0 20px 48px -12px #00000090` |
+| `--button-chrome-gradient` | `linear-gradient(180deg,#FFFFFFCC,transparent 62%,#00000004)` | `linear-gradient(180deg,#FFFFFF0D,transparent 52%,#00000008)` |
+| `--button-chrome-hover-gradient` | `linear-gradient(180deg,#FFFFFFF2,transparent 62%,#00000003)` | `linear-gradient(180deg,#FFFFFF14,transparent 56%,#00000005)` |
 | `--icon-rest-border` | `#e4e1e4` | `#525254` |
 | `--icon-hover-border` | `#d9d6da` | `#626265` |
 | `--icon-rest-surface` | `#fdfafd` | `#27272a` |
@@ -2798,13 +3081,15 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--chrome-line` | `#e4e1e4` | `#525254` |
 | `--chrome-line-hover` | `#d9d6da` | `#606063` |
 | `--chrome-control-surface` | `#FFFDFF` | `#29292C` |
-| `--chrome-control-gradient` | `linear-gradient(180deg,#FFFDFF,#fbf9fc)` | `linear-gradient(180deg,#29292C,#262629)` |
-| `--control-gradient` | `linear-gradient(180deg,#FFFDFF,#fbf9fc)` | `linear-gradient(180deg,#29292C,#262629)` |
+| `--chrome-control-gradient` | `linear-gradient(180deg,#fffeff,#fffcff 56%,#fdfafd)` | `linear-gradient(180deg,#333335,#2b292e 56%,#27272a)` |
+| `--tag-gradient` | `linear-gradient(180deg,#FFFFFF66,transparent 72%)` | `linear-gradient(180deg,#FFFFFF0A,transparent 72%)` |
+| `--tag-shadow` | `inset 0 1px 0 #FFFFFF55` | `inset 0 1px 0 #FFFFFF05` |
+| `--control-gradient` | `var(--chrome-control-gradient)` | `var(--chrome-control-gradient)` |
 | `--chrome-control-shadow` | `inset 0 1px 0 #FFFFFFC0,0 1px 2px #20283805` | `inset 0 1px 0 #FFFFFF04` |
 | `--chrome-control-hover-shadow` | `inset 0 1px 0 #FFFFFF,0 1px 3px #2028380A` | `inset 0 1px 0 #FFFFFF06,0 1px 3px #00000018` |
 | `--chrome-divider` | `#edebee` | `#434346` |
 | `--chrome-row-hover` | `#faf8fa` | `#303033` |
-| `--chrome-subtle-gradient` | `linear-gradient(180deg,#fdfbfe,#fbf9fc)` | `linear-gradient(180deg,#28282b,#262629)` |
+| `--chrome-subtle-gradient` | `linear-gradient(145deg,#fffaff,#FFFDFF 80%)` | `linear-gradient(145deg,#2d2a2f,#29292C 80%)` |
 | `--toggle-shadow` | `0 1px 2px #20283808` | `0 1px 2px #00000018` |
 | `--toggle-hover-shadow` | `0 1px 3px #2028380C` | `0 1px 3px #00000020` |
 | `--switch-off-track` | `#e4e1e4` | `#49494c` |

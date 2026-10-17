@@ -494,8 +494,7 @@ select {
 .themed-preview small {
   font-size: 11px;
 }
-.themed-preview code,
-.themed-preview kbd {
+.themed-preview code {
   font-family: var(--font-mono);
   font-size: 11px;
 }
@@ -505,7 +504,8 @@ select {
   border-radius: var(--radius-control);
   color: var(--dim);
   background: var(--raise);
-  font-size: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-kbd);
 }
 .btn {
   display: inline-flex;

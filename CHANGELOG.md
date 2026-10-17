@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0-beta.25
+
+- Consolidate approved Satin Lift container paint in Surface and shared surface tokens; Panel composes Surface. Share chrome button/input paint and a lighter tag sheen.
+- Export the approved workspace composition and its reusable content helpers. Remove all showcase proposal skins; verify a package-only workspace against Preview.
+- Standardise PageLoading and loading StateView on the animated, centered full-container content preview. Add animated gradient sheen and three trailing dots, with reduced-motion support.
+- Keep single navigation expanded with no fold control, shortcut or visible app-name line. Preserve the outer spaces rail toggle and phone drawers.
+- Add bounded/flush Calendar, explicit filled shell content and non-scrolling PageFrame composition. Contain shell overscroll. Align compact table headings.
+- Fix SaveBar footer padding/responsive actions and the upload badge icon centering. Use the shared DM Mono micro scale for Kbd.
+
 ## 2.0.0-beta.24
 
 - Promote the approved subtle pink background treatment from the showcase into shared light/dark foundation tokens, including page, navigation, top bars, containers and controls. Preserve typography, geometry, primary colours and semantic states.

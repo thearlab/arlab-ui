@@ -45,3 +45,7 @@ export * from './ToastProvider.js';
 export * from './GroupedReorderList.js';
 
 export * from './ReadingLayouts.js';
+
+export * from './Surface.js';
+
+export * from './WorkspaceLayouts.js';

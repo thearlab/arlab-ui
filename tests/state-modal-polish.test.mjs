@@ -7,11 +7,12 @@ import postcss from 'postcss';
 import {StateView,Dialog,ConfirmDialog} from '../dist/contour/library.js';
 const render=(component,props)=>renderToStaticMarkup(React.createElement(component,props));
 function props(file,selector){const values={};postcss.parse(fs.readFileSync(new URL(`../src/contour/${file}`,import.meta.url),'utf8')).walkRules(rule=>{if(rule.selector===selector&&rule.parent.type!=='atrule')rule.walkDecls(decl=>values[decl.prop]=decl.value);});return values;}
-test('loading StateView uses one live announcement and the shared decorative loader',()=>{
+test('loading StateView uses the standard animated content-preview page with one announcement',()=>{
  const html=render(StateView,{state:'loading',title:'Loading people',description:'Preparing your list.'});
  assert.equal((html.match(/role="status"/g)||[]).length,1);
- assert.match(html,/aria-busy="true"/);assert.match(html,/class="contour-loader"/);
- assert.doesNotMatch(html,/lib-skeleton/);assert.match(html,/>Loading people<\/h3>/);
+ assert.match(html,/aria-busy="true"/);assert.match(html,/class="ct-content-loading-skeleton" aria-hidden="true"/);
+ assert.doesNotMatch(html,/class="contour-loader"/);
+ assert.doesNotMatch(html,/lib-skeleton/);assert.match(html,/>Loading people<span class="ct-loading-ellipsis"/);
 });
 test('empty and error states retain custom product actions and calm semantic feedback',()=>{
  const html=render(StateView,{state:'empty',title:'No agents',description:'Add your first agent.',actionLabel:'Add agent',onAction:()=>{}});

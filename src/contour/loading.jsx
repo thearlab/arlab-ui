@@ -29,8 +29,8 @@ export function Loader({ label = "Loading", size = 24, decorative = false }) {
 
 /** @param {{title?: React.ReactNode, description?: React.ReactNode, onCancel?: React.MouseEventHandler<HTMLButtonElement>, mark?: React.ReactNode, workspaceName?: string, variant?: "signature" | "content-preview"}} props */
 export function PageLoading({
-  title = "Getting your workspace ready",
-  description = "Loading your projects, people, and latest updates.",
+  title = "Opening your workspace",
+  description = "Fetching your projects and recent activity.",
   onCancel,
   mark = <ArlabMark compact height={28} />,
   workspaceName = "ARLAB workspace",
@@ -38,7 +38,7 @@ export function PageLoading({
 }) {
   if(variant === "content-preview") return <section className="ct-content-loading" aria-label="Workspace loading" aria-busy="true">
     <div className="ct-content-loading-skeleton" aria-hidden="true"><div className="ct-content-loading-heading"><span/><span/></div><div className="ct-content-loading-cards">{[0,1,2].map(index=><div key={index}><span/><strong/><span/></div>)}</div><div className="ct-content-loading-rows">{[0,1,2,3].map(index=><div key={index}><span/><span/><span/></div>)}</div></div>
-    <div className="ct-content-loading-copy" role="status" aria-live="polite"><h2>{title}</h2><p>{description}</p>{onCancel&&<Button variant="quiet" onClick={onCancel}>Cancel loading</Button>}</div>
+    <div className="ct-content-loading-copy" role="status" aria-live="polite"><h2>{title}<span className="ct-loading-ellipsis" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></h2><p>{description}</p>{onCancel&&<Button variant="quiet" onClick={onCancel}>Cancel loading</Button>}</div>
   </section>;
   return (
     <section className="page-loading" aria-label="Workspace loading">

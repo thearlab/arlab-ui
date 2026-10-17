@@ -25,11 +25,11 @@ test('explicit legacy visibility remains host-owned without reintroducing a fold
  const html=render({panelCollapsed:true});assert.match(html,/class="contour-space-panel"[^>]+hidden=""/);assert.doesNotMatch(html,/Expand space navigation/);assert.match(html,/Expand spaces rail/);
 });
 
-test('single shell keeps help, settings and collapse together in its fixed footer',()=>{
- const html=render({spaces:undefined,collapsed:false});
- const nav=html.match(/<aside[^>]+class="contour-navigation [^"]*"[\s\S]*?<\/aside>/)[0];
- const footer=nav.slice(nav.indexOf('<footer'));
- assert.match(footer,/aria-label="Help"/);assert.match(footer,/aria-label="Settings"/);assert.match(footer,/aria-label="Collapse navigation" aria-expanded="true"/);
- assert.ok(footer.indexOf('aria-label="Settings"')<footer.indexOf('aria-label="Collapse navigation"'));
- assert.doesNotMatch(nav.slice(0,nav.indexOf('</header>')),/Collapse navigation/);
+test('single shell stays expanded and has no collapse control, even with legacy collapsed props',()=>{
+ for(const collapsed of [true,false]){
+  const html=render({spaces:undefined,collapsed,defaultCollapsed:true});
+  assert.doesNotMatch(html,/data-collapsed|Collapse navigation|Expand navigation|contour-navigation-toggle|contour-navigation-name/);
+  const footer=html.slice(html.indexOf('<footer'));
+  assert.match(footer,/aria-label="Help"/);assert.match(footer,/aria-label="Settings"/);assert.match(footer,/data-account-state="false"/);
+ }
 });

@@ -1,0 +1,71 @@
+/* One approved container treatment, shared by every framed surface.
+ * Edit satin-foundation.js to change the corners, rim or elevation globally.
+ * Full-bleed workspace panes deliberately inherit their enclosing frame. */
+:is(.ct-surface,
+.file-card,
+.ct-state-view,
+.ct-kanban-column,
+.lib-panel.ct-panel,
+.ct-event-calendar,
+.disclosure-card,
+.ct-preview,
+.ct-media-card,
+.ct-media-empty,
+.ct-media-drop,
+.ct-countdown,
+.ct-guided-tour .arlab-tour,
+.ct-media-attached,
+.ct-data-table,
+.ct-editor,
+.ct-code,
+.lib-panel,
+.lib-collection-card,
+.lib-link-tile,
+.lib-toast,
+.lib-confirm-strip,
+.lib-copy-block,
+.lib-nav-tree,
+.lib-shell,
+.lib-bulk,
+.lib-inspector,
+.lib-markdown pre,
+.lib-day-timeline,
+.lib-kanban > section,
+.lib-kanban article,
+.library-callout,
+.contour-scroll-area[data-framed],
+.ct-reorder-group,
+.knowledge-glance,
+.project-card,
+.inspector,
+.overlay-specimen,
+.dropzone,
+.dropdown-panel,
+.ct-calendar,
+.lib-popover,
+.ct-queued-toast,
+.modal) {
+ border:var(--surface-border-width) solid var(--surface-border-color);
+ border-radius:var(--surface-radius);
+ background-color:var(--raise);
+ background-image:var(--surface-gradient);
+ background-origin:padding-box,border-box;
+ background-clip:padding-box,border-box;
+ box-shadow:var(--surface-elevation);
+}
+:is(.dropdown-panel,.ct-calendar,.lib-popover,.ct-queued-toast,.modal,.ct-surface[data-surface-elevation="overlay"]) {box-shadow:var(--surface-overlay-elevation);}
+:is(.ct-surface[data-surface-interactive],a.lib-link-tile,button.lib-link-tile,a.lib-collection-card,button.lib-collection-card,a.knowledge-glance) {transition:box-shadow var(--duration-fast,140ms) ease;}
+:is(.ct-surface[data-surface-interactive],a.lib-link-tile,button.lib-link-tile,a.lib-collection-card,button.lib-collection-card,a.knowledge-glance):hover:not(:disabled) {box-shadow:var(--surface-hover-elevation);}
+/* Embedded surfaces remain edge-to-edge; their parent owns the visible frame. */
+:is(.ct-data-table[data-variant="flush"],.ct-event-calendar[data-variant="flush"],.ct-surface[data-surface-variant="flush"]) {border:0;border-radius:0;box-shadow:none;background-origin:padding-box;background-clip:padding-box;background-image:var(--chrome-subtle-gradient);}
+.modal.sheet {border-radius:var(--surface-radius) 0 0 var(--surface-radius);}
+/* Native shortcuts and Kbd share DM Mono and the micro-text role. */
+kbd,.ct-kbd {font-family:var(--font-mono);font-size:var(--text-kbd);font-weight:var(--weight-regular);line-height:var(--leading-normal);letter-spacing:0;font-variant-numeric:tabular-nums;}
+@media(prefers-reduced-motion:reduce){.ct-surface[data-surface-interactive],a.knowledge-glance {transition:none;}}
+
+/* Drag targets keep their feedback; Kanban cards inherit the inner Panel frame once. */
+.file-card.dragging,.ct-media-drop[data-dragging] {border-color:var(--accent);background-color:var(--accent-soft);}
+.ct-event-calendar[data-variant="flush"] > .ct-event-calendar-heading {border-radius:0;}
+
+.ct-surface.ct-panel[data-tone="accent"] {border-color:var(--accent-line);}
+.ct-surface.ct-panel[data-tone="danger"] {border-color:var(--bad);}

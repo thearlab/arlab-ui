@@ -109,3 +109,6 @@
 .ct-action-group[data-overflow] > .lib-popover {flex:0 0 auto;}
 
 .ct-workspace-collection[data-condensed] .ct-collection-results {padding:0;}
+
+.ct-workspace-collection[data-condensed] .ct-data-table > .ct-table-header {justify-content:flex-start;}
+.ct-workspace-collection[data-condensed] .ct-data-table > .ct-table-header > .ct-table-heading {flex:1;justify-content:flex-start;}

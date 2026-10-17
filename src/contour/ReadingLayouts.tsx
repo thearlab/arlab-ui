@@ -4,8 +4,9 @@ import {Modal,Button} from './ui.js';
 import {FileUp,ChevronDown} from 'lucide-react';
 
 /** A bounded destination with one content scroll area and persistent header/actions. */
-export function PageFrame({children,header,footer,label='Page content',padding='default'}:{children:ReactNode;header?:ReactNode;footer?:ReactNode;label?:string;padding?:'default'|'none'}) {
- return <section className="ct-page-frame">{header&&<header className="ct-page-frame-header">{header}</header>}<ScrollArea label={label} className="ct-page-frame-scroll" contentClassName={`ct-page-frame-content ct-page-padding-${padding}`}>{children}</ScrollArea>{footer&&<footer className="ct-page-frame-footer">{footer}</footer>}</section>;
+export function PageFrame({children,header,footer,label='Page content',padding='default',scrollable=true}:{children:ReactNode;header?:ReactNode;footer?:ReactNode;label?:string;padding?:'default'|'none';scrollable?:boolean}) {
+ const contentClassName=`ct-page-frame-content ct-page-padding-${padding}`;
+ return <section className="ct-page-frame" data-scrollable={scrollable}>{header&&<header className="ct-page-frame-header">{header}</header>}{scrollable?<ScrollArea label={label} className="ct-page-frame-scroll" contentClassName={contentClassName}>{children}</ScrollArea>:<div className={`ct-page-frame-fill ${contentClassName}`} role="region" aria-label={label}>{children}</div>}{footer&&<footer className="ct-page-frame-footer">{footer}</footer>}</section>;
 }
 /** Document and outline share a scroll boundary; narrow panes stack naturally. */
 export function ReadingLayout({children,outline}:{children:ReactNode;outline?:ReactNode}) {return <div className="ct-reading-layout"><div className="ct-reading-main">{children}</div>{outline&&<aside className="ct-reading-outline">{outline}</aside>}</div>;}

@@ -21,7 +21,7 @@ test('CollectionGroup composes the actual Panel Rows and Row primitives and pres
  assert.equal(rows.props.children[1].props.onClick,undefined);
  children.find(child=>child.props.className==='ct-collection-footer').props.children.props.onClick();assert.equal(all,2);
  const html=render(CollectionGroup,{title:'Creative',items:[],count:0});
- assert.match(html,/class="lib-panel ct-panel ct-collection-group"/);assert.match(html,/aria-label="0 items"/);
+ assert.match(html,/class="ct-surface lib-panel ct-panel ct-collection-group"/);assert.match(html,/aria-label="0 items"/);
 });
 test('editor keeps canvas and inspector in separate scroll regions with the save footer outside both',()=>{
  const html=render(EditorLayout,{title:'Campaign',description:'Edit the draft',children:'Canvas content',sidebar:React.createElement('label',null,'Settings'),footer:React.createElement('button',{type:'button'},'Save'),onExit:()=>{},viewport:'tablet'});
