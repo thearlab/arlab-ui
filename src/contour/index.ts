@@ -41,3 +41,5 @@ export type { Space } from './SidebarShell.js';
 export * from './CommandPalette.js';
 
 export * from './ToastProvider.js';
+
+export * from './GroupedReorderList.js';

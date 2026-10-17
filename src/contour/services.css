@@ -20,3 +20,17 @@
 .ct-preview[data-auto-height] { height: auto; }
 .ct-preview-overlay { position: absolute; inset: 0; pointer-events: none; }
 .ct-preview-overlay > * { pointer-events: auto; }
+.ct-reorder-grouped { display: grid; gap: 16px; }
+.ct-reorder-group { position: relative; border: 1px solid var(--line); border-radius: var(--radius-md,5px); padding: 12px; min-height: 90px; }
+.ct-reorder-group > header { display: grid; gap: 3px; margin-bottom: 10px; font-size: var(--text-xs); }
+.ct-reorder-group > header strong { font-weight: var(--weight-semibold); }
+.ct-reorder-group > header span, .ct-reorder-empty { color: var(--dim); font-size: var(--text-xs); }
+.ct-reorder-group li > .ct-reorder-group-actions { display: flex; flex: none; align-items: center; gap: 4px; max-width: 50%; }
+.ct-reorder-group-actions > .ct-dropdown { min-width: 0; max-width: 180px; }
+.ct-reorder-group li[data-dragged] { pointer-events: none; }
+.ct-reorder-group-end { height: 2px; background: var(--accent); margin-top: 6px; }
+@media (max-width: 600px) {
+  .ct-reorder-group li { flex-wrap: wrap; }
+  .ct-reorder-group li > .ct-reorder-group-actions { flex-basis: 100%; max-width: none; padding-left: 40px; }
+  .ct-reorder-group-actions > .ct-dropdown { flex: 1; max-width: none; }
+}

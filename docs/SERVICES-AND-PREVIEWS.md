@@ -39,3 +39,13 @@ Spaces expose `data-tour="space-{id}"` by default on their real interactive cont
 `PreviewFrame` forwards its ref to the iframe and accepts native iframe attributes and `onLoad`. Its existing boolean `loading` prop remains the visual loading overlay; it is not the browser's lazy-loading attribute. `overlay` accepts app content; `renderOverlay({loading, error, viewport})` provides an optional state-aware overlay. Overlay controls can receive pointer events while empty overlay space lets the iframe receive them.
 
 `autoHeight` measures accessible same-origin iframe content after load and observes document size changes with ResizeObserver. `onHeightChange(height)` reports measured pixels. Cross-origin frames and sandboxed documents without same-origin access retain their normal height. The secure default `sandbox="allow-scripts"` is unchanged; applications must explicitly choose an appropriate sandbox if they require document measurement. Do not enable script and same-origin capabilities for untrusted same-origin content.
+
+## Reordering across groups
+
+The existing flat `ReorderList` continues to take `items` and `onChange`. Its additional grouped mode takes `groups` and `onGroupsChange`. Each group has an `id`, `label`, optional `description` and `items` with the same existing item shape. Item ids must be unique across all groups.
+
+```tsx
+<ReorderList label="Project stages" groups={groups} onGroupsChange={setGroups} />
+```
+
+The application owns order and persistence. Pointer capture supports dragging between groups, including empty groups, with an insertion indicator. Escape or pointer cancellation cancels the current drag. Keyboard users can move within a group with the up/down controls, or use the shared dropdown to move into a different group. Announcements include the target group and position. Disabled mode blocks every mutation. `moveGroupedItem(groups, itemId, targetGroupId, index)` is also available for application-owned moves; its index is measured after removing the moving item.

@@ -1,3 +1,4 @@
+import {GroupedReorderList, type GroupedReorderListProps} from "./GroupedReorderList.js";
 import { Input } from "./BaseFields.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
@@ -130,18 +131,22 @@ export interface ReorderItem {
   label: string;
   content?: ReactNode;
 }
-export interface ReorderListProps {
+export interface FlatReorderListProps {
   label: string;
   items: ReorderItem[];
   onChange: (items: ReorderItem[]) => void;
   disabled?: boolean;
 }
-export function ReorderList({
+export type ReorderListProps = FlatReorderListProps | GroupedReorderListProps;
+export function ReorderList(props: ReorderListProps) {
+  return "groups" in props ? <GroupedReorderList {...props}/> : <FlatReorderList {...props}/>;
+}
+function FlatReorderList({
   label,
   items,
   onChange,
   disabled,
-}: ReorderListProps) {
+}: FlatReorderListProps) {
   const list = useRef<HTMLOListElement>(null);
   const [drag, setDrag] = useState<{
     id: string;
