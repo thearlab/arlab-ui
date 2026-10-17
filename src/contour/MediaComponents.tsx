@@ -1,5 +1,7 @@
 import { useRef, useState, useId, type ReactNode } from "react";
-import { Upload, X, RefreshCw, Plus, Image as ImageIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Upload, X, RefreshCw, Plus, Image as ImageIcon, FileText, ChevronLeft, ChevronRight } from "lucide-react";
+import {Input} from './BaseFields.js';
+import {Button} from './ui.js';
 export interface ElementProgressProps {
   value?: number;
   label: string;
@@ -51,13 +53,14 @@ export interface MediaItem {
   id: string;
   name: string;
   src: string;
-  type: "image" | "video";
+  type: "image" | "video" | "pdf" | "file";
   poster?: string;
   progress?: number;
   status?: "ready" | "uploading" | "error";
   error?: string;
 }
 export interface MediaGalleryProps {
+  accept?: string;
   items: MediaItem[];
   onRemove?: (id: string) => void;
   /** Controlled ordering; first-item meaning remains application-owned. */
@@ -79,6 +82,7 @@ export function MediaGallery({
   onOpen,
   disabled,
   emptyLabel = "No media added yet.",
+  accept = "image/*,video/*",
 }: MediaGalleryProps) {
   const replacement = useRef<HTMLInputElement>(null);
   const replacing = useRef<string | null>(null);
@@ -88,7 +92,7 @@ export function MediaGallery({
       <input
         ref={replacement}
         type="file"
-        accept="image/*,video/*"
+        accept={accept}
         hidden
         onChange={(event) => {
           const file = event.target.files?.[0];
@@ -118,7 +122,10 @@ export function MediaGallery({
         >
           <figure className="ct-media-card">
             <div className="ct-media-thumbnail">
-              {item.type === "video" ? (
+              {item.type === 'pdf' || item.type === 'file' ? (
+                onOpen ? <button type="button" className="ct-control-action ct-media-document" disabled={disabled} onClick={()=>onOpen(item)} aria-label={`Open ${item.name}`}><FileText size={28}/><span>{item.type === 'pdf' ? 'PDF document' : 'File'}</span></button>
+                  : <div className="ct-media-document"><FileText size={28}/><span>{item.type === 'pdf' ? 'PDF document' : 'File'}</span></div>
+              ) : item.type === "video" ? (
                 <video
                   src={item.src}
                   poster={item.poster}
@@ -194,6 +201,8 @@ export function MediaGallery({
   );
 }
 export interface MediaUploadFieldProps extends MediaGalleryProps {
+  kinds?: ('image'|'video'|'pdf'|'file')[];
+  onLink?: (url: string) => void | Promise<void>;
   label: string;
   onFiles: (files: File[]) => void | Promise<void>;
   multiple?: boolean;
@@ -209,6 +218,9 @@ export function MediaUploadField({
   hint,
   error,
   disabled,
+  kinds = ['image','video'],
+  accept: suppliedAccept,
+  onLink,
   ...gallery
 }: MediaUploadFieldProps) {
   const id = useId();
@@ -216,17 +228,36 @@ export function MediaUploadField({
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
     [dragging, setDragging] = useState(false);
+  const [linkOpen,setLinkOpen] = useState(false), [link,setLink] = useState('');
+  const accept = suppliedAccept ?? (kinds.includes('file') ? '' : kinds.map(kind=>kind==='pdf' ? 'application/pdf,.pdf' : `${kind}/*`).join(','));
+  const fileLabel = kinds.includes('file') ? 'files' : kinds.map(kind=>kind==='pdf' ? 'PDF documents' : `${kind}s`).join(', ');
+  const accepts = (file: File) => !accept || accept.split(',').some(rule=>{
+    const pattern=rule.trim().toLowerCase();
+    return pattern.startsWith('.') ? file.name.toLowerCase().endsWith(pattern)
+      : pattern.endsWith('/*') ? file.type.toLowerCase().startsWith(pattern.slice(0,-1))
+      : file.type.toLowerCase() === pattern;
+  });
+  const receiveLink = async () => {
+    if(disabled || busy || !onLink)return;
+    let url: URL;
+    try {url=new URL(link.trim());if(!['http:','https:'].includes(url.protocol))throw new Error();}
+    catch {setMessage('Enter a valid http or https link.');return;}
+    setMessage('');setBusy(true);
+    try {await onLink(url.href);setLink('');setLinkOpen(false);}
+    catch(reason) {setMessage(reason instanceof Error ? reason.message : 'Could not add this link. Please retry.');}
+    finally {setBusy(false);}
+  };
   const receive = async (files: File[]) => {
     if (disabled || busy) return;
     setMessage("");
     const allowed = multiple ? files : files.slice(0, 1);
     const invalid = allowed.filter(
-      (file) => !/^image\/|^video\//.test(file.type) || file.size > maxSize,
+      (file) => !accepts(file) || file.size > maxSize,
     );
     const accepted = allowed.filter((file) => !invalid.includes(file));
     if (invalid.length)
       setMessage(
-        `${invalid.map((file) => file.name).join(", ")}: choose images or videos up to ${Math.round(maxSize / 1024 / 1024)} MB.`,
+        `${invalid.map((file) => file.name).join(", ")}: choose ${fileLabel} up to ${Math.round(maxSize / 1024 / 1024)} MB.`,
       );
     if (!accepted.length) return;
     setBusy(true);
@@ -255,7 +286,7 @@ export function MediaUploadField({
             <h4>
               <label htmlFor={id}>{label}</label>
             </h4>
-            <p>Add images and videos to your project.</p>
+            <p>Add {fileLabel} to your project.</p>
           </div>
           <span className="quiet-tag">Media</span>
         </div>
@@ -263,7 +294,7 @@ export function MediaUploadField({
           id={id}
           ref={input}
           type="file"
-          accept="image/*,video/*"
+          accept={accept || undefined}
           multiple={multiple}
           disabled={disabled || busy}
           className="ct-sr-only"
@@ -302,21 +333,23 @@ export function MediaUploadField({
                 ? "Adding your media…"
                 : dragging
                   ? "Release to add your media"
-                  : "Drop images or videos here"}
+                  : `Drop ${fileLabel} here`}
             </strong>
             <small>
               {hint || `Up to ${Math.round(maxSize / 1024 / 1024)} MB per file`}
             </small>
           </div>
-          <button
-            type="button"
-            className="btn"
+          <Button
             disabled={disabled || busy}
             onClick={() => input.current?.click()}
           >
             Browse files
-          </button>
+          </Button>
         </div>
+        {onLink && <div className="ct-media-link">
+          {!linkOpen ? <Button disabled={disabled || busy} onClick={()=>setLinkOpen(true)}>Add a link</Button>
+            : <><label htmlFor={`${id}-link`}>File link</label><div><Input id={`${id}-link`} type="url" value={link} disabled={disabled||busy} placeholder="https://" onChange={event=>setLink(event.target.value)} onKeyDown={event=>{if(event.key==='Enter'){event.preventDefault();void receiveLink();}}}/><Button disabled={disabled||busy||!link.trim()} onClick={()=>void receiveLink()}>Add link</Button><Button disabled={busy} onClick={()=>{setLinkOpen(false);setLink('');setMessage('');}}>Cancel</Button></div></>}
+        </div>}
         {(error || message) && (
           <div className="file-error" role="alert">
             {error || message}
@@ -325,7 +358,7 @@ export function MediaUploadField({
         <div className="file-card-foot">
           <span>
             {multiple ? "Multiple files supported" : "One file at a time"} ·
-            Images and videos · Up to {Math.round(maxSize / 1024 / 1024)} MB
+            {fileLabel} · Up to {Math.round(maxSize / 1024 / 1024)} MB
             each
           </span>
         </div>
@@ -339,7 +372,7 @@ export function MediaUploadField({
               {gallery.items.length === 1 ? "file" : "files"}
             </span>
           </div>
-          <MediaGallery {...gallery} disabled={disabled || busy} />
+          <MediaGallery {...gallery} accept={accept} disabled={disabled || busy} />
         </div>
       )}
     </div>
