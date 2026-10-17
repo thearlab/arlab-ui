@@ -114,3 +114,12 @@ button.ct-rank-row:focus-visible {outline:var(--line-width) solid var(--focus);o
 .ct-stat-note-row > .ct-status-stat > .ct-status-stat-footer {grid-row:5;align-self:start;}
 
 .ct-facet-list > button:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:-1px;box-shadow:none;}
+
+/* Explicit compact phone mode keeps attention metrics ahead of the page content.
+   Default StatNoteRow composition is unchanged. Shared tracks align both columns. */
+@media(max-width:640px) {
+ .ct-stat-note-row[data-mobile-layout="compact"] {grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3) var(--space-4);}
+ .ct-stat-note-row[data-mobile-layout="compact"] > .ct-status-stat {padding-block:var(--space-2);gap:var(--space-1);}
+ .ct-stat-note-row[data-mobile-layout="compact"] > .ct-status-stat > .ct-status-stat-caption {padding-top:var(--space-1);}
+ .ct-stat-note-row[data-mobile-layout="compact"] > .ct-status-stat > :is(.ct-status-stat-caption,.ct-status-stat-footer):empty {display:none;}
+}

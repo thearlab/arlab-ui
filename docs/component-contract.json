@@ -599,6 +599,7 @@
       "description",
       "action",
       "tone",
+      "contentInset",
       "children"
     ],
     "behavior": "Use a surface when the content has a distinct purpose, not around every individual item."
@@ -611,6 +612,7 @@
       "title",
       "description",
       "action",
+      "contentInset",
       "children"
     ],
     "behavior": "Shares Panel geometry and spacing instead of introducing a second card family."
@@ -873,7 +875,9 @@
       "actionLabel",
       "onAction",
       "onRetry",
-      "onCreate"
+      "onCreate",
+      "size",
+      "variant"
     ],
     "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
   },
@@ -1494,7 +1498,8 @@
     "category": "Dashboard & editors",
     "description": "Aligned labels, figures, captions and actions across status metrics.",
     "props": [
-      "children"
+      "children",
+      "mobileLayout"
     ],
     "behavior": "Shared grid rows align captions and figures even when another metric has a long note. Responsive columns preserve readable text."
   },
@@ -1516,9 +1521,10 @@
       "children",
       "variant",
       "sidebar",
-      "sidebarLabel"
+      "sidebarLabel",
+      "scroll"
     ],
-    "behavior": "Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
+    "behavior": "Use scroll=content for ordinary cards or prose, and the default scroll=child for a table that owns its rows. Heading, tabs and search remain fixed. Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
   },
   {
     "name": "RecordCollection",

@@ -39,7 +39,7 @@
 .ct-record-section > header p {margin:var(--space-1) 0 0;font-size:var(--text-xs);line-height:var(--leading-normal);color:var(--dim);}
 .ct-record-section-actions {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);}
 .ct-record-section-summary {margin-bottom:var(--space-4);font-size:var(--text-xs);color:var(--dim);}
-.ct-record-section-body {min-width:0;}
+.ct-record-section-body {display:flex;flex-direction:column;gap:var(--panel-body-gap);min-width:0;}
 .ct-record-section > footer {margin-top:var(--space-4);}
 .ct-record-section[data-variant="divided"] {padding-bottom:var(--space-6);border-bottom:var(--line-width) solid var(--line);}
 @media(max-width:1099px) and (min-width:761px){.ct-workspace-panes {grid-template-columns:240px minmax(0,1fr);}}

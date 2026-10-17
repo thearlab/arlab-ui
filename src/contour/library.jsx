@@ -260,10 +260,10 @@ export function LegendDot({ color = "var(--chart-1)", children }) {
     </span>
   );
 }
-/** @param {Omit<React.HTMLAttributes<HTMLElement>, 'title'> & {title?: React.ReactNode, description?: React.ReactNode, action?: React.ReactNode, tone?: string}} props */
-export function Panel({ title, description, action, children, className = "", tone = "default", ...props }) {
+/** @param {Omit<React.HTMLAttributes<HTMLElement>, 'title'> & {title?: React.ReactNode, description?: React.ReactNode, action?: React.ReactNode, tone?: string, contentInset?: "default" | "flush"}} props */
+export function Panel({ title, description, action, children, className = "", tone = "default", contentInset = "default", ...props }) {
   return (
-    <Surface as="section" {...props} data-tone={tone} className={`lib-panel ct-panel ${className}`}>
+    <Surface as="section" {...props} data-tone={tone} data-content-inset={contentInset} className={`lib-panel ct-panel ${className}`}>
       {title && (
         <SectionHead title={title} sub={description}>
           {action}
@@ -411,15 +411,15 @@ export function Refreshing({ busy, children }) {
     </div>
   );
 }
-/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, icon?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void}} props */
-export function StateView({ state = "empty", title, description, actionLabel, action, icon, onAction, onRetry, onCreate }) {
+/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, icon?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void, size?: 'regular' | 'compact', variant?: 'framed' | 'embedded'}} props */
+export function StateView({ state = "empty", title, description, actionLabel, action, icon, onAction, onRetry, onCreate, size = "regular", variant = "framed" }) {
   const id = useId();
   const loading = state === "loading", error = state === "error";
   if (loading) return <PageLoading title={title} description={description}/>;
   const handleAction = onAction ?? (error ? onRetry : onCreate);
   const heading = title ?? (loading ? "Loading content" : error ? "We couldn’t load this view" : "Nothing here yet");
   const message = description ?? (loading ? "Please wait while we prepare this view." : error ? "Your changes are safe. Try again in a moment." : "Items will appear here when they are added.");
-  return <div className="ct-state-view" data-state={loading ? 'loading' : error ? 'error' : 'empty'} role={loading ? 'status' : error ? 'alert' : 'group'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-message`} aria-busy={loading || undefined}>
+  return <div className="ct-state-view" data-size={size} data-variant={variant} data-state={loading ? 'loading' : error ? 'error' : 'empty'} role={loading ? 'status' : error ? 'alert' : 'group'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-message`} aria-busy={loading || undefined}>
     <span className="ct-state-glyph" aria-hidden="true">{icon ?? (loading ? <Loader size={20} decorative/> : error ? <Info size={20}/> : <Folder size={20}/>)}</span>
     <div className="ct-state-copy"><h3 id={`${id}-title`}>{heading}</h3><p id={`${id}-message`}>{message}</p></div>
     {!loading && (action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>{actionLabel ?? (error ? "Try again" : onCreate ? "Create item" : "Continue")}</Button>))}

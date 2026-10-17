@@ -390,3 +390,12 @@
 .ct-record-body-footer > .ct-save-bar {border:0;padding:0;margin:0;position:static;}
 @media(max-width:600px){.ct-record-body-footer {padding:var(--space-3) var(--space-4);}}
 .ct-record-header-label {color:var(--dim);font-size:var(--text-xs);font-weight:var(--weight-medium);line-height:var(--leading-normal);}
+
+/* Ordinary card/list results need a bounded owner; virtual tables retain their own. */
+.ct-collection-layout[data-scroll="content"] .ct-collection-results {overflow:hidden;padding:0;}
+.ct-collection-results-scroll {flex:1;min-height:0;min-width:0;grid-template-rows:minmax(0,1fr);}
+.ct-collection-results-scroll > .scroll-viewport {height:100%;box-sizing:border-box;}
+
+.ct-collection-results-content {padding:var(--space-4) var(--space-8) var(--space-6);min-width:0;}
+.ct-collection-layout[data-scroll="content"][data-variant="flush"] .ct-collection-results-content {padding:0;}
+@media(max-width:600px){.ct-collection-results-content {padding:var(--space-4);}}

@@ -69,3 +69,22 @@ kbd,.ct-kbd {font-family:var(--font-mono);font-size:var(--text-kbd);font-weight:
 
 .ct-surface.ct-panel[data-tone="accent"] {border-color:var(--accent-line);}
 .ct-surface.ct-panel[data-tone="danger"] {border-color:var(--bad);}
+
+/* The existing Panel is the dashboard module: one chrome header and one body inset.
+   Flush bodies let row/list hover and dividers meet the enclosing frame exactly once. */
+.ct-panel[data-content-inset="flush"] > .section-head {margin-bottom:0;}
+.ct-panel[data-content-inset="flush"] > .ct-panel-content {margin:0 calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding));gap:0;}
+.ct-panel[data-content-inset="flush"] > .ct-panel-content:first-child {margin-top:calc(-1 * var(--panel-padding));}
+.ct-panel[data-content-inset="flush"] > .ct-panel-content > :is(.lib-rows,.ct-ranked-list) {margin-inline:0;width:100%;}
+.ct-panel[data-content-inset="flush"] > .ct-panel-content > :last-child {border-bottom-left-radius:var(--surface-radius);border-bottom-right-radius:var(--surface-radius);}
+/* Embedded feedback borrows its parent's frame, never adding a nested card. */
+.ct-state-view[data-variant="embedded"] {border:0;border-radius:0;background:none;box-shadow:none;padding:0;}
+.ct-state-view[data-size="compact"] {display:grid;grid-template-columns:var(--space-8) minmax(0,1fr) auto;align-items:center;justify-items:start;gap:var(--space-3);padding:var(--space-4);text-align:left;}
+.ct-state-view[data-size="compact"][data-variant="embedded"] {padding:0;}
+.ct-state-view[data-size="compact"] > .ct-state-glyph {width:var(--space-8);height:var(--space-8);}
+.ct-state-view[data-size="compact"] .ct-state-copy {gap:var(--space-1);max-width:none;}
+.ct-state-view[data-size="compact"] .ct-state-copy h3 {font-size:var(--text-sm);}
+@media(max-width:640px) {
+ .ct-state-view[data-size="compact"] {grid-template-columns:var(--space-8) minmax(0,1fr);}
+ .ct-state-view[data-size="compact"] > :nth-child(n+3) {grid-column:2;}
+}

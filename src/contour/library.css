@@ -309,7 +309,7 @@ textarea.lib-input {
   background-clip: padding-box,border-box;
   border-color: var(--surface-border-color);
   box-shadow: var(--shadow-surface);
-  --panel-padding: 22px;
+  --panel-padding: var(--panel-inset);
 }
 .lib-panel .section-head {
   margin-bottom: 18px;
@@ -837,6 +837,7 @@ button.lib-row:hover {
 }
 .lib-page-grid {
   display: grid;
+  align-items: start;
   grid-template-columns: minmax(0, 1.6fr) minmax(180px, 1fr);
   gap: 20px;
 }
@@ -2443,7 +2444,7 @@ button.lib-row:hover {
     border-color: var(--surface-border-color);
     border-radius: var(--radius-panel);
     box-shadow: var(--shadow-surface);
-    --panel-padding: 17px;
+    --panel-padding: var(--panel-inset-compact);
   }
   .lib-panel > .section-head {
     flex-wrap: wrap;
@@ -3039,7 +3040,7 @@ dl.ct-facts dd {display:block;color:var(--ink);}
 .ct-form-field-control {min-width:0;}
 .ct-panel[data-tone="accent"] {border-color:var(--accent-line);}
 .ct-panel[data-tone="danger"] {border-color:var(--bad);}
-.ct-panel-content {display:flex;flex-direction:column;gap:var(--space-4);min-width:0;}
+.ct-panel-content {display:flex;flex-direction:column;gap:var(--panel-body-gap);min-width:0;}
 .ct-panel-content > * {min-width:0;}
 .ct-save-bar {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-4);border-top:var(--line-width) solid var(--line);padding-top:var(--space-4);margin-top:var(--space-4);font-family:var(--font-sans);background-color: var(--raise);background-image: var(--chrome-subtle-gradient);border-color: var(--chrome-divider);}
 .ct-save-bar > span {display:flex;align-items:center;gap:var(--space-2);color:var(--dim);font-size:var(--text-xs);}
@@ -3179,7 +3180,7 @@ a.lib-link-tile {text-decoration:none;}
 .ct-timeline-meta {color:var(--dim);font-size:var(--text-xs);}
 .ct-timeline-actions {display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);}
 /* Satin title rails fill the shared panel frame without changing its content inset. */
-.ct-panel.lib-panel > .section-head {margin:calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding)) 18px;padding:16px var(--panel-padding);border-bottom:1px solid var(--chrome-divider);background:var(--raise);background-image:var(--chrome-subtle-gradient);border-radius:var(--radius-panel) var(--radius-panel) 0 0;}
+.ct-panel.lib-panel > .section-head {margin:calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding)) var(--panel-header-gap);padding:var(--panel-header-block) var(--panel-padding);border-bottom:1px solid var(--chrome-divider);background:var(--raise);background-image:var(--chrome-subtle-gradient);border-radius:var(--radius-panel) var(--radius-panel) 0 0;}
 .ct-panel-content > .lib-rows {margin-inline:calc(-1 * var(--panel-padding));}
 .ct-panel-content > .lib-rows > .lib-row {padding-inline:var(--panel-padding);}
 .lib-row-interactive:hover {background:var(--chrome-row-hover);}

@@ -150,9 +150,11 @@ export function RecordCollection({
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,showTitle=true,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
+export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,showTitle=true,sidebar,sidebarLabel='Filters',variant='contained',scroll='child',activeFilters=0,children}:{
  title:string;showTitle?:boolean;description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
  sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
+ /** 'content' scrolls ordinary results; 'child' preserves a table's own scroll owner. */
+ scroll?:'child'|'content';
  variant?:'contained'|'flush';activeFilters?:number;children:ReactNode|((context:{filterTrigger:ReactNode})=>ReactNode);
 }) {
  const [expanded,setExpanded]=useState(false);
@@ -162,14 +164,15 @@ export function CollectionLayout({title,description,pills,updated,actions,tabs,s
  const close=()=>setExpanded(false);
  const filterTrigger=(filters||sidebar&&mobile)?<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>:null;
  const renderChildren=typeof children==='function';
- return <section className="ct-collection-layout" data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
+ const results=renderChildren?children({filterTrigger}):children;
+ return <section className="ct-collection-layout" data-scroll={scroll} data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
   {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>:<h1 className="sr-only">{title}</h1>}
   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
   <div className="ct-collection-body">
   <div className="ct-collection-main">
    {(search||!renderChildren&&filterTrigger)&&<div className="ct-collection-toolbar"><div>{search}</div>{!renderChildren&&filterTrigger}</div>}
    {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
-   <div className="ct-collection-results">{renderChildren?children({filterTrigger}):children}</div>
+   <div className="ct-collection-results">{scroll==='content'?<ScrollArea label={`${title} results`} className="ct-collection-results-scroll" contentClassName="ct-collection-results-content">{results}</ScrollArea>:results}</div>
   </div>
   {sidebar&&!mobile&&<div className="ct-collection-sidebar">{sidebar({mobile:false,close})}</div>}
   </div>
