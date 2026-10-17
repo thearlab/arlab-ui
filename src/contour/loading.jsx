@@ -4,6 +4,7 @@ import { Button } from "./ui.js";
 
 import { ArlabMark } from "../ArlabMark.js";
 
+/** @param {{label?: string, size?: number, decorative?: boolean}} props */
 export function Loader({ label = "Loading", size = 24, decorative = false }) {
   return (
     <span
@@ -42,6 +43,7 @@ export function Loader({ label = "Loading", size = 24, decorative = false }) {
   );
 }
 
+/** @param {{title?: React.ReactNode, description?: React.ReactNode, onCancel?: React.MouseEventHandler<HTMLButtonElement>, mark?: React.ReactNode, workspaceName?: string}} props */
 export function PageLoading({
   title = "Getting your workspace ready",
   description = "Loading your projects, people, and latest updates.",
@@ -76,6 +78,7 @@ export function PageLoading({
   );
 }
 
+/** @param {{onOpenWorkspace?: React.MouseEventHandler<HTMLButtonElement>}} props */
 export function LoadingPreview({ onOpenWorkspace }) {
   const [complete, setComplete] = useState(false);
   return (

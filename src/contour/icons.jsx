@@ -147,10 +147,18 @@ import {
   Ruler,
   MousePointer2,
   Accessibility,
+  Sparkles,
+  Presentation,
+  ShoppingCart,
+  Megaphone,
+  Building2,
+  Handshake,
+  Github, Gitlab, Instagram, Linkedin, Youtube, Facebook, Twitter, Slack, Figma, Dribbble, Twitch, Chrome,
 } from "lucide-react";
 import { Button, Dropdown, Status } from "./ui.js";
 
 const groups = {
+  "Social & platforms": {Github, Gitlab, Instagram, Linkedin, Youtube, Facebook, Twitter, Slack, Figma, Dribbble, Twitch, Chrome},
   Navigation: {
     Home,
     LayoutDashboard,
@@ -228,6 +236,9 @@ const groups = {
     Palette,
     Type,
     Ruler,
+    Presentation,
+    ShoppingCart,
+    Building2,
   },
   "People & communication": {
     User,
@@ -243,6 +254,8 @@ const groups = {
     Heart,
     Star,
     MapPin,
+    Megaphone,
+    Handshake,
   },
   "Time & data": {
     CalendarDays,
@@ -298,6 +311,7 @@ const groups = {
     VolumeX,
     Lightbulb,
     Zap,
+    Sparkles,
   },
   Interface: {
     Sun,
@@ -318,12 +332,13 @@ export const iconRegistry = Object.entries(groups).flatMap(
   ([category, icons]) =>
     Object.entries(icons).map(([name, icon]) => ({ name, icon, category })),
 );
+/** @param {{ name: string; size?: number; label?: string } & Omit<React.SVGProps<SVGSVGElement>, 'name' | 'size'>} props */
 export function Icon({ name, size = 20, label = undefined, ...props }) {
   const Glyph = iconRegistry.find((x) => x.name === name)?.icon || CircleHelp;
   return (
     <Glyph
       size={size}
-      strokeWidth={1.65}
+      strokeWidth="var(--icon-stroke, 1.65)"
       aria-hidden={label ? undefined : true}
       role={label ? "img" : undefined}
       aria-label={label}
@@ -422,7 +437,7 @@ export function IconsPage({ notify }) {
               >
                 <Item
                   size={Number(size)}
-                  strokeWidth={1.65}
+                  strokeWidth="var(--icon-stroke, 1.65)"
                   aria-hidden="true"
                 />
                 <span>{name}</span>
@@ -446,14 +461,14 @@ export function IconsPage({ notify }) {
         </div>
         <aside className="icon-inspector">
           <div className="icon-large-preview">
-            <Glyph size={48} strokeWidth={1.65} />
+            <Glyph size={48} strokeWidth="var(--icon-stroke, 1.65)" />
           </div>
           <h3>{selected}</h3>
           <p>{current.category}</p>
           <div className="icon-optical-sizes">
             {[16, 20, 24, 32].map((s) => (
               <div key={s}>
-                <Glyph size={s} strokeWidth={1.65} />
+                <Glyph size={s} strokeWidth="var(--icon-stroke, 1.65)" />
                 <span>{s}px</span>
               </div>
             ))}

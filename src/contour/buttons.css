@@ -1,0 +1,42 @@
+/* Shared geometry for every public Button and IconButton, independent of tone or host component. */
+.btn[data-button="text"], .icon-btn[data-button="icon"] {
+  box-sizing:border-box;
+  min-height:var(--button-height);
+  height:var(--button-height);
+  flex-shrink:0;
+  font-family:var(--font-sans);
+  font-size:var(--button-font-size);
+  font-weight:var(--weight-medium);
+  line-height:var(--button-line-height);
+  border-radius:var(--radius-sm);
+}
+.btn[data-button="text"] {padding:0 var(--button-padding-inline);gap:var(--space-2);}
+.icon-btn[data-button="icon"] {width:var(--button-height);min-width:var(--button-height);padding:0;}
+.btn[data-button="text"] > svg, .icon-btn[data-button="icon"] > svg {width:var(--icon-button-size);height:var(--icon-button-size);flex-shrink:0;}
+@media (max-width:640px), (pointer:coarse) {
+  .btn[data-button="text"], .icon-btn[data-button="icon"] {min-height:var(--control-h-touch);height:var(--control-h-touch);}
+  .icon-btn[data-button="icon"] {width:var(--control-h-touch);min-width:var(--control-h-touch);}
+}
+
+/* Visual roles are themeable without changing geometry or focus behavior. */
+.btn[data-button="text"] {box-shadow:var(--shadow-control);transition:background-color var(--hover-duration) ease,border-color var(--hover-duration) ease,box-shadow var(--hover-duration) ease,color var(--hover-duration) ease;}
+.btn[data-button="text"]:hover:not(:disabled) {box-shadow:var(--shadow-control-hover);}
+.btn.primary[data-button="text"] {background-image:var(--action-gradient);box-shadow:var(--shadow-primary);}
+.btn.primary[data-button="text"]:hover:not(:disabled) {box-shadow:var(--shadow-primary-hover);}
+.icon-btn[data-button="icon"] {transition:background-color var(--hover-duration) ease,color var(--hover-duration) ease;}
+.icon-btn[data-button="icon"]:hover:not(:disabled) {background:var(--icon-hover-surface);color:var(--icon-hover-color);}
+.btn[data-button="text"] > svg, .icon-btn[data-button="icon"] > svg {stroke-width:var(--icon-stroke);}
+.lib-panel.ct-panel {box-shadow:var(--shadow-surface);background-image:var(--surface-gradient);border-color:var(--surface-border-color);background-origin:padding-box,border-box;background-clip:padding-box,border-box;}
+@media(prefers-reduced-motion:reduce) {.btn[data-button="text"], .icon-btn[data-button="icon"] {transition:none;}}
+
+/* Switches align with adjacent controls and labels; spacing belongs to their parent. */
+.switch-row {margin:0;min-height:var(--button-height);align-items:center;}
+.switch-row > span:first-child {min-width:0;}
+.switch-row strong {font-size:var(--button-font-size);font-weight:var(--weight-medium);line-height:var(--leading-normal);}
+.switch-row small {font-size:var(--text-2xs);line-height:var(--leading-normal);}
+.switch-row > .switch-visual {flex:0 0 36px;align-self:center;}
+.switch-row > input {top:50%;transform:translateY(-50%);margin:0;}
+.switch-row[data-standalone] {display:inline-flex;justify-content:center;min-width:var(--button-height);gap:0;vertical-align:middle;flex-shrink:0;}
+.switch-row[data-standalone] > input {right:50%;transform:translate(50%,-50%);}
+.switch-row:has(input:disabled) {cursor:not-allowed;opacity:.55;}
+@media(max-width:640px),(pointer:coarse) {.switch-row {min-height:var(--control-h-touch);}.switch-row[data-standalone] {min-width:var(--control-h-touch);}}

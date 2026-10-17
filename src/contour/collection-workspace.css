@@ -97,3 +97,10 @@
 .ct-workspace-collection[data-condensed] .ct-table-error {min-width:0;overflow-wrap:anywhere;}
 
 .ct-workspace-collection[data-condensed] .ct-record-collection-table td:first-child small {display:none;}
+
+/* A compact record list has one identity column, with range and paging retained. */
+.ct-workspace-collection[data-condensed] .ct-data-table thead,
+.ct-workspace-collection[data-condensed] .ct-data-table .ct-table-size {display:none;}
+
+.ct-action-group[data-equal-width] {display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:max-content;max-width:100%;}
+.ct-action-group[data-equal-width] > .btn {width:100%;}

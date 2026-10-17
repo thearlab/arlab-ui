@@ -53,7 +53,7 @@
 .contour-scroll-area .scroll-thumb::after {
   content: "";
   position: absolute;
-  background: var(--scrollbar-thumb, rgba(228, 20, 219, .35));
+  background: var(--scrollbar-thumb, color-mix(in srgb, var(--accent, #e414db) 35%, transparent));
   transition: background var(--dur-fast, 120ms);
 }
 .contour-scroll-area .scroll-thumb.vertical::after {
@@ -70,13 +70,13 @@
 }
 .contour-scroll-area .scroll-thumb:hover::after,
 .contour-scroll-area .scroll-thumb:active::after {
-  background: var(--scrollbar-hover, rgba(228, 20, 219, .6));
+  background: var(--scrollbar-hover, color-mix(in srgb, var(--accent, #e414db) 60%, transparent));
 }
 
 .contour-scroll-area, .contour-scroll-area * { box-sizing: border-box; }
 @media (forced-colors: active) { .contour-scroll-area .scroll-thumb::after { background: ButtonText; } }
 
-:where([data-mode="dark"], [data-theme="dark"]) .contour-scroll-area { --scrollbar-thumb: rgba(240,78,232,.35); --scrollbar-hover: rgba(240,78,232,.6); }
+:where([data-mode="dark"], [data-theme="dark"]) .contour-scroll-area { --scrollbar-thumb: color-mix(in srgb, var(--accent, #f04ee8) 35%, transparent); --scrollbar-hover: color-mix(in srgb, var(--accent, #f04ee8) 60%, transparent); }
 @media (prefers-reduced-motion: reduce) { .contour-scroll-area .scroll-thumb::after { transition: none; } }
 
 .contour-scroll-area .scroll-viewport:focus-visible { outline: 1px solid var(--focus, var(--cn-accent, #a80fa3)); outline-offset: -1px; }

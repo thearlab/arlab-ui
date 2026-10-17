@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.16 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.19 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -1827,7 +1827,7 @@ Import: `import { ActionGroup } from '@arlab/ui';`
 | --- | --- |
 | `children` | Related shared controls. |
 | `label` | Optional accessible group name. |
-| `align` | start (default) or end. Controls always wrap safely. |
+| `align` | start (default) or end. |
 
 Live example: [ActionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ActionGroup)
 
@@ -1844,6 +1844,9 @@ Import: `import { InfiniteTable } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `header` | Optional React content replacing the title. |
 | `headerActions` | Optional pattern-specific value. Use the live example as the reference. |
+| `countLabel` | Noun after the localized record total, such as projects or shown. |
+| `formatCount` | Optional count-to-string callback overriding countLabel and the accessible count label. |
+| `searchWidth` | Preferred minimum search width (CSS length or pixels), default 220; wraps within phone width. |
 | `search` | Optional pattern-specific value. Use the live example as the reference. |
 | `footerActions` | Optional pattern-specific value. Use the live example as the reference. |
 | `condensedHeaderActions` | Compact header tools for a condensed CollectionWorkspace. The original table remains mounted. |
@@ -2021,6 +2024,9 @@ Import: `import { RecordCollection } from '@arlab/ui';`
 | `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
 | `variant` | contained or flush. Flush header, row and footer lines meet the container edges. |
 | `progressive` | Opt in to continuous virtualized rows with a fixed table header and footer, without pagination controls. |
+| `countLabel` | Noun after the localized record total, such as projects or shown. |
+| `formatCount` | Optional count-to-string callback overriding countLabel and the accessible count label. |
+| `searchWidth` | Preferred minimum search width (CSS length or pixels), default 220; wraps within phone width. |
 | `search` | Shared search field inside the table header. |
 | `headerActions` | Header filter or view controls. |
 | `footerActions` | Persistent collection creation and management controls. |
@@ -2049,7 +2055,7 @@ Live example: [RecordLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 A record title, publication state, actions and accessible sections.
 
-Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation.
+Tabs and their control props are optional together; omitted or empty tabs render no tab strip. Supplied tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation.
 
 Import: `import { RecordHeader } from '@arlab/ui';`
 
@@ -2065,7 +2071,7 @@ Import: `import { RecordHeader } from '@arlab/ui';`
 | `backLabel` | Optional pattern-specific value. Use the live example as the reference. |
 | `onBack` | Optional pattern-specific value. Use the live example as the reference. |
 | `metadata` | React content presented in a shared side sheet with fixed heading, record context, scrolling content and Done action. |
-| `tabs` | Optional pattern-specific value. Use the live example as the reference. |
+| `tabs` | Optional with value/onChange/idPrefix/panelId. Omit the entire group for a record without sections; no empty tab surface is rendered. |
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `idPrefix` | Optional pattern-specific value. Use the live example as the reference. |
@@ -2085,7 +2091,8 @@ Import: `import { RecordBody } from '@arlab/ui';`
 | --- | --- |
 | `children` | Full tab content in the shared ScrollArea. |
 | `id` | The tabpanel ID linked from its tabs. |
-| `labelledBy` | The ID of the selected tab. |
+| `label` | Accessible region name for a record without tabs. |
+| `labelledBy` | Optional selected tab ID. Omit for a labelled region instead of a tabpanel. |
 | `footer` | Persistent record actions outside the scrolling content. The footer spans the selected pane and stays visible while content scrolls. |
 | `footerRef` | Optional React ref for application-owned action portals. Empty footer targets occupy no space. |
 
@@ -2144,7 +2151,7 @@ Live example: [FormFieldGroup](https://arlab-ui-showcase.pages.dev/?view=catalog
 
 Reusable full-width table with sortable headers, custom cells and built-in pagination.
 
-Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data.
+Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data. fill bounds the row scroll between the fixed header and pager. countLabel appends a noun; formatCount overrides the visible/accessibility label. searchWidth defaults to 220px and adapts to phones.
 
 Import: `import { FilterableTable } from '@arlab/ui';`
 
@@ -2153,6 +2160,9 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `header` | Optional React content replacing the default table title. |
 | `headerActions` | Optional React content in the trailing header area. |
+| `countLabel` | Optional noun after the localized count, such as projects or shown. |
+| `formatCount` | Optional (count) => string, taking precedence over countLabel. Loading and unknown totals keep their status labels. |
+| `searchWidth` | Preferred minimum search width as a CSS length or number in pixels; default 220, constrained on small screens. |
 | `search` | Shared search field rendered inside the fixed table header. The table owns one numeric count pill. |
 | `columns` | Column definitions: key, accessible label, optional header content, width/minWidth/maxWidth (CSS lengths or percentages), align, sortable, sortValue accessor, value accessor and render callback. |
 | `rows` | Record array, sorted before pagination. Supply filtered records from your sidebar or host. |
@@ -2604,6 +2614,25 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
 | `--text-field` | `12px` | `12px` |
+| `--icon-stroke` | `1.65` | `1.65` |
+| `--shadow-surface` | `none` | `none` |
+| `--shadow-control` | `none` | `none` |
+| `--shadow-control-hover` | `none` | `none` |
+| `--shadow-primary` | `none` | `none` |
+| `--shadow-primary-hover` | `none` | `none` |
+| `--surface-gradient` | `none` | `none` |
+| `--surface-border-color` | `var(--line)` | `var(--line)` |
+| `--page-gradient` | `none` | `none` |
+| `--chrome-gradient` | `none` | `none` |
+| `--shadow-chrome` | `none` | `none` |
+| `--action-gradient` | `none` | `none` |
+| `--icon-hover-color` | `var(--ink)` | `var(--ink)` |
+| `--icon-hover-surface` | `var(--sunken)` | `var(--sunken)` |
+| `--hover-duration` | `140ms` | `140ms` |
+| `--button-height` | `38px` | `38px` |
+| `--button-padding-inline` | `13px` | `13px` |
+| `--button-font-size` | `var(--text-xs)` | `var(--text-xs)` |
+| `--button-line-height` | `1.3` | `1.3` |
 | `--text-table` | `var(--text-sm)` | `var(--text-sm)` |
 | `--text-table-meta` | `var(--text-xs)` | `var(--text-xs)` |
 | `--text-table-heading` | `var(--text-xs)` | `var(--text-xs)` |
@@ -2710,6 +2739,18 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 
 | Icon | Category | SVG |
 | --- | --- | --- |
+| Github | Social & platforms | [Download](icons/Github.svg) |
+| Gitlab | Social & platforms | [Download](icons/Gitlab.svg) |
+| Instagram | Social & platforms | [Download](icons/Instagram.svg) |
+| Linkedin | Social & platforms | [Download](icons/Linkedin.svg) |
+| Youtube | Social & platforms | [Download](icons/Youtube.svg) |
+| Facebook | Social & platforms | [Download](icons/Facebook.svg) |
+| Twitter | Social & platforms | [Download](icons/Twitter.svg) |
+| Slack | Social & platforms | [Download](icons/Slack.svg) |
+| Figma | Social & platforms | [Download](icons/Figma.svg) |
+| Dribbble | Social & platforms | [Download](icons/Dribbble.svg) |
+| Twitch | Social & platforms | [Download](icons/Twitch.svg) |
+| Chrome | Social & platforms | [Download](icons/Chrome.svg) |
 | Home | Navigation | [Download](icons/Home.svg) |
 | LayoutDashboard | Navigation | [Download](icons/LayoutDashboard.svg) |
 | Menu | Navigation | [Download](icons/Menu.svg) |
@@ -2782,6 +2823,9 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Palette | Workspace | [Download](icons/Palette.svg) |
 | Type | Workspace | [Download](icons/Type.svg) |
 | Ruler | Workspace | [Download](icons/Ruler.svg) |
+| Presentation | Workspace | [Download](icons/Presentation.svg) |
+| ShoppingCart | Workspace | [Download](icons/ShoppingCart.svg) |
+| Building2 | Workspace | [Download](icons/Building2.svg) |
 | User | People & communication | [Download](icons/User.svg) |
 | Users | People & communication | [Download](icons/Users.svg) |
 | UserPlus | People & communication | [Download](icons/UserPlus.svg) |
@@ -2795,6 +2839,8 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Heart | People & communication | [Download](icons/Heart.svg) |
 | Star | People & communication | [Download](icons/Star.svg) |
 | MapPin | People & communication | [Download](icons/MapPin.svg) |
+| Megaphone | People & communication | [Download](icons/Megaphone.svg) |
+| Handshake | People & communication | [Download](icons/Handshake.svg) |
 | CalendarDays | Time & data | [Download](icons/CalendarDays.svg) |
 | CalendarCheck | Time & data | [Download](icons/CalendarCheck.svg) |
 | Clock3 | Time & data | [Download](icons/Clock3.svg) |
@@ -2844,6 +2890,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | VolumeX | Studio & media | [Download](icons/VolumeX.svg) |
 | Lightbulb | Studio & media | [Download](icons/Lightbulb.svg) |
 | Zap | Studio & media | [Download](icons/Zap.svg) |
+| Sparkles | Studio & media | [Download](icons/Sparkles.svg) |
 | Sun | Interface | [Download](icons/Sun.svg) |
 | Moon | Interface | [Download](icons/Moon.svg) |
 | Monitor | Interface | [Download](icons/Monitor.svg) |

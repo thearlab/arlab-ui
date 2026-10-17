@@ -13,7 +13,7 @@
   --cn-nav: var(--nav, #231F28); --cn-ground: var(--ground, #201D25);
   --cn-raise: var(--raise, #29252F); --cn-ink: var(--ink, #F3EFF6);
   --cn-dim: var(--dim, #B8AFBF); --cn-line: var(--line, #49414F);
-  --cn-accent: #f47cee; --cn-selected: rgba(240,78,232,.12);
+  --cn-accent: var(--accent-deep, #f47cee); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
 }
 .contour-shell *, .contour-navigation * { box-sizing: border-box; }
 .contour-nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: 0 0 auto; padding: 0; border: 1px solid var(--cn-line); border-radius: 4px; background: var(--cn-raise); color: var(--cn-dim); cursor: pointer; }

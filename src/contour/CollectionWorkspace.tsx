@@ -113,8 +113,8 @@ export function RecordSection({title,description,summary,actions,children,footer
   </section>;
 }
 
-export interface ActionGroupProps {children:ReactNode;label?:string;align?:'start'|'end'}
+export interface ActionGroupProps {children:ReactNode;label?:string;align?:'start'|'end';equalWidth?:boolean}
 /** A compact wrapping group of related controls. Supply a label for an announced group. */
-export function ActionGroup({children,label,align='start'}:ActionGroupProps) {
- return <div className="ct-action-group" role={label?'group':undefined} aria-label={label} data-align={align}>{children}</div>;
+export function ActionGroup({children,label,align='start',equalWidth=false}:ActionGroupProps) {
+ return <div className="ct-action-group" role={label?'group':undefined} aria-label={label} data-align={align} data-equal-width={equalWidth||undefined}>{children}</div>;
 }

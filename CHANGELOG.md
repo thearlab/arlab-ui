@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0-beta.19
+
+- Fix optional public prop declarations and add a strict consumer type check.
+- Add six requested application icons and twelve social/platform icons, all using the existing Lucide style.
+- Standardize Button/IconButton sizing and add ActionGroup equalWidth.
+- Complete condensed-table chrome and optional count visibility while preserving pager totals.
+- Add danger-quiet, preserve record names beside phone search, and remove the inherited grey Facts surface inside Disclosure.
+- Keep the current Contour palette and fonts; Platinum proposals are development-only.
+
 ## 2.0.0-beta.18
 
 - DetailSections wide now explicitly fills its parent, including when nested inside a flex Stack. It no longer shrinks into a centered content-width column.

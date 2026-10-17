@@ -2648,7 +2648,7 @@ button.lib-row:hover {
 .ct-panel.lib-panel > .section-head h3 {
   letter-spacing: normal;
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);

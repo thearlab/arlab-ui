@@ -7,7 +7,7 @@ export interface AppHeaderProps {
   pageActions?: ReactNode;
   search?: ReactNode | { onClick: () => void; label?: string; shortcut?: string };
 }
-/** A single-row application header. Context shrinks before actions; phone search becomes icon-only. */
+/** Responsive application header. Phone search actions become icons; full search fields wrap beneath the record context. */
 export function AppHeader({context,actions,pageActions,search}:AppHeaderProps) {
   const searchAction=search && typeof search==='object' && !isValidElement(search) && 'onClick' in search ? search : null;
   return <div className="ct-app-header" data-page-actions={!!pageActions||undefined}>

@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.18 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.19 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -1827,7 +1827,7 @@ Import: `import { ActionGroup } from '@arlab/ui';`
 | --- | --- |
 | `children` | Related shared controls. |
 | `label` | Optional accessible group name. |
-| `align` | start (default) or end. Controls always wrap safely. |
+| `align` | start (default) or end. |
 
 Live example: [ActionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ActionGroup)
 
@@ -2614,6 +2614,25 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
 | `--text-field` | `12px` | `12px` |
+| `--icon-stroke` | `1.65` | `1.65` |
+| `--shadow-surface` | `none` | `none` |
+| `--shadow-control` | `none` | `none` |
+| `--shadow-control-hover` | `none` | `none` |
+| `--shadow-primary` | `none` | `none` |
+| `--shadow-primary-hover` | `none` | `none` |
+| `--surface-gradient` | `none` | `none` |
+| `--surface-border-color` | `var(--line)` | `var(--line)` |
+| `--page-gradient` | `none` | `none` |
+| `--chrome-gradient` | `none` | `none` |
+| `--shadow-chrome` | `none` | `none` |
+| `--action-gradient` | `none` | `none` |
+| `--icon-hover-color` | `var(--ink)` | `var(--ink)` |
+| `--icon-hover-surface` | `var(--sunken)` | `var(--sunken)` |
+| `--hover-duration` | `140ms` | `140ms` |
+| `--button-height` | `38px` | `38px` |
+| `--button-padding-inline` | `13px` | `13px` |
+| `--button-font-size` | `var(--text-xs)` | `var(--text-xs)` |
+| `--button-line-height` | `1.3` | `1.3` |
 | `--text-table` | `var(--text-sm)` | `var(--text-sm)` |
 | `--text-table-meta` | `var(--text-xs)` | `var(--text-xs)` |
 | `--text-table-heading` | `var(--text-xs)` | `var(--text-xs)` |
@@ -2720,6 +2739,18 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 
 | Icon | Category | SVG |
 | --- | --- | --- |
+| Github | Social & platforms | [Download](icons/Github.svg) |
+| Gitlab | Social & platforms | [Download](icons/Gitlab.svg) |
+| Instagram | Social & platforms | [Download](icons/Instagram.svg) |
+| Linkedin | Social & platforms | [Download](icons/Linkedin.svg) |
+| Youtube | Social & platforms | [Download](icons/Youtube.svg) |
+| Facebook | Social & platforms | [Download](icons/Facebook.svg) |
+| Twitter | Social & platforms | [Download](icons/Twitter.svg) |
+| Slack | Social & platforms | [Download](icons/Slack.svg) |
+| Figma | Social & platforms | [Download](icons/Figma.svg) |
+| Dribbble | Social & platforms | [Download](icons/Dribbble.svg) |
+| Twitch | Social & platforms | [Download](icons/Twitch.svg) |
+| Chrome | Social & platforms | [Download](icons/Chrome.svg) |
 | Home | Navigation | [Download](icons/Home.svg) |
 | LayoutDashboard | Navigation | [Download](icons/LayoutDashboard.svg) |
 | Menu | Navigation | [Download](icons/Menu.svg) |
@@ -2792,6 +2823,9 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Palette | Workspace | [Download](icons/Palette.svg) |
 | Type | Workspace | [Download](icons/Type.svg) |
 | Ruler | Workspace | [Download](icons/Ruler.svg) |
+| Presentation | Workspace | [Download](icons/Presentation.svg) |
+| ShoppingCart | Workspace | [Download](icons/ShoppingCart.svg) |
+| Building2 | Workspace | [Download](icons/Building2.svg) |
 | User | People & communication | [Download](icons/User.svg) |
 | Users | People & communication | [Download](icons/Users.svg) |
 | UserPlus | People & communication | [Download](icons/UserPlus.svg) |
@@ -2805,6 +2839,8 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Heart | People & communication | [Download](icons/Heart.svg) |
 | Star | People & communication | [Download](icons/Star.svg) |
 | MapPin | People & communication | [Download](icons/MapPin.svg) |
+| Megaphone | People & communication | [Download](icons/Megaphone.svg) |
+| Handshake | People & communication | [Download](icons/Handshake.svg) |
 | CalendarDays | Time & data | [Download](icons/CalendarDays.svg) |
 | CalendarCheck | Time & data | [Download](icons/CalendarCheck.svg) |
 | Clock3 | Time & data | [Download](icons/Clock3.svg) |
@@ -2854,6 +2890,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | VolumeX | Studio & media | [Download](icons/VolumeX.svg) |
 | Lightbulb | Studio & media | [Download](icons/Lightbulb.svg) |
 | Zap | Studio & media | [Download](icons/Zap.svg) |
+| Sparkles | Studio & media | [Download](icons/Sparkles.svg) |
 | Sun | Interface | [Download](icons/Sun.svg) |
 | Moon | Interface | [Download](icons/Moon.svg) |
 | Monitor | Interface | [Download](icons/Monitor.svg) |

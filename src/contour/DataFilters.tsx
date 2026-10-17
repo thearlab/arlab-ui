@@ -141,7 +141,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
   header,
   headerActions,
-  search, countLabel, formatCount, searchWidth,
+  search, countLabel, formatCount, showCount, searchWidth,
   columns,
   rows,
   rowKey,
@@ -185,7 +185,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
       aria-label={title}
       aria-busy={loading || undefined}
     >
-      <TableHeader countLabel={countLabel} formatCount={formatCount} searchWidth={searchWidth} title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
+      <TableHeader showCount={showCount} countLabel={countLabel} formatCount={formatCount} searchWidth={searchWidth} title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
       <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
         <table aria-label={title} style={{tableLayout}}>
           <SharedTableHead columns={columns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>

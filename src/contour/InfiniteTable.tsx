@@ -144,7 +144,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     const node = viewport.current;
     const head = root.current?.querySelector('thead');
     if(revealIndex.current!==null&&node.clientHeight>0){
-      node.scrollTop=Math.max(0,(head?.getBoundingClientRect().height||44)+revealIndex.current*rowHeight-(node.clientHeight-rowHeight)/2);
+      node.scrollTop=Math.max(0,(head?.getBoundingClientRect().height??44)+revealIndex.current*rowHeight-(node.clientHeight-rowHeight)/2);
       revealIndex.current=null;
     }
     const next = { top: node.scrollTop, height: node.clientHeight, header: head?.getBoundingClientRect().height ?? 44 };
@@ -205,7 +205,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const colspan = Math.max(1, columns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
-    <TableHeader countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
+    <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
       <table aria-label={title} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>

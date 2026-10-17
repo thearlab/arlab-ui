@@ -5,7 +5,11 @@ import * as ui from '../dist/contour/index.js';
 const contract = JSON.parse(fs.readFileSync('docs/component-contract.json','utf8'));
 const entries = Array.isArray(contract) ? contract : contract.components;
 for (const entry of entries) assert.equal(typeof ui[entry.name], 'function', `${entry.name} exports`);
-assert.equal(ui.iconRegistry.length, 146);
+assert.equal(ui.iconRegistry.length, 164);
+assert.equal(new Set(ui.iconRegistry.map(({ name }) => name)).size, 164, 'Icon names are unique');
+for (const name of ['Sparkles', 'Presentation', 'ShoppingCart', 'Megaphone', 'Building2', 'Handshake']) {
+  assert.ok(ui.iconRegistry.some(entry => entry.name === name && entry.icon), `${name} is registered`);
+}
 let count = 0;
 postcss.parse(fs.readFileSync('dist/contour/styles.css','utf8')).walkRules(rule => {
   for (let parent = rule.parent; parent; parent = parent.parent) {
@@ -14,7 +18,7 @@ postcss.parse(fs.readFileSync('dist/contour/styles.css','utf8')).walkRules(rule 
   for (const selector of rule.selectors) assert.ok(selector.includes('.arlab-contour'), `Unscoped CSS: ${selector}`);
   count++;
 });
-console.log(`Verified ${entries.length} component exports, 146 icons and ${count} scoped CSS rules.`);
+console.log(`Verified ${entries.length} component exports, 164 icons and ${count} scoped CSS rules.`);
 
 for (const file of ['navigation.css', 'scroll-area.css']) {
   const standalone = fs.readFileSync(`dist/contour/${file}`, 'utf8');

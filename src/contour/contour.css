@@ -133,10 +133,10 @@
   color: var(--link, var(--accent));
 }
 .contour-title:before {
-  background: #e414db !important;
+  background: var(--accent, #e414db) !important;
 }
 .contour-version .live-dot {
-  background: #e414db !important;
+  background: var(--accent, #e414db) !important;
 }
 .brand-dot {
   color: var(--accent, #e414db);
@@ -1250,11 +1250,11 @@
   .selected-file > div > span {
     font-size: 9px;
   }
-  .disclosure-content dl > div {
+  .disclosure-content dl:not(.ct-facts) > div {
     flex-direction: column;
     gap: 3px;
   }
-  .disclosure-content dt {
+  .disclosure-content dl:not(.ct-facts) dt {
     width: auto;
   }
 }
@@ -1324,25 +1324,25 @@
   line-height: 1.8;
   margin-bottom: 17px;
 }
-.disclosure-content dl {
+.disclosure-content dl:not(.ct-facts) {
   margin: 0;
   padding: 13px 15px;
   background: var(--ground);
   border-radius: var(--radius-xs);
 }
-.disclosure-content dl > div {
+.disclosure-content dl:not(.ct-facts) > div {
   display: flex;
   gap: 16px;
   font-size: 11px;
   line-height: 1.6;
   padding: 6px 0;
 }
-.disclosure-content dt {
+.disclosure-content dl:not(.ct-facts) dt {
   color: var(--dim);
   width: 95px;
   flex-shrink: 0;
 }
-.disclosure-content dd {
+.disclosure-content dl:not(.ct-facts) dd {
   margin: 0;
   color: var(--ink);
 }
@@ -1357,7 +1357,7 @@
   content: "";
   width: 7px;
   height: 7px;
-  background: #e414db;
+  background: var(--accent, #e414db);
   border-radius: 2px;
 }
 .system-summary {
@@ -1396,7 +1396,7 @@
   font-size: 11px;
 }
 .contour-version .live-dot {
-  background: #e414db;
+  background: var(--accent, #e414db);
 }
 .contour-version > span:last-child {
   padding: 3px 7px;
@@ -1911,17 +1911,17 @@
   }
 }
 
-/* A quiet pink hairline, flush to the edge. No track or rounded thumb. */
+/* A quiet accent hairline, flush to the edge. No track or rounded thumb. */
 :root,
 .themed-preview {
   --scrollbar-size: 2px;
-  --scrollbar-thumb: rgba(228, 20, 219, 0.35);
-  --scrollbar-hover: rgba(228, 20, 219, 0.6);
+  --scrollbar-thumb: color-mix(in srgb, var(--accent, #e414db) 35%, transparent);
+  --scrollbar-hover: color-mix(in srgb, var(--accent, #e414db) 60%, transparent);
   --scrollbar-track: transparent;
 }
 .themed-preview[data-mode="dark"] {
-  --scrollbar-thumb: rgba(240, 78, 232, 0.35);
-  --scrollbar-hover: rgba(240, 78, 232, 0.6);
+  --scrollbar-thumb: color-mix(in srgb, var(--accent, #f04ee8) 35%, transparent);
+  --scrollbar-hover: color-mix(in srgb, var(--accent, #f04ee8) 60%, transparent);
 }
 .scroll-shell {
   position: relative;
@@ -2339,3 +2339,8 @@
 @media (pointer: coarse) {
   .app-sidebar .help-link, .app-sidebar .sidebar-help.icon-btn { min-height: 44px; }
 }
+
+/* Secondary destructive actions retain the shared button geometry and focus. */
+.btn.danger-quiet {background:transparent;border-color:transparent;color:var(--bad);}
+.btn.danger-quiet:hover:not(:disabled) {background:transparent;border-color:transparent;color:var(--bad);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;}
+.btn.danger-quiet:disabled {background:transparent;border-color:transparent;color:var(--dim);}

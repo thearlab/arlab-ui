@@ -21,13 +21,15 @@ import {
 } from "lucide-react";
 import { ScrollArea } from "./scroll-area.js";
 
+/** @param {React.ButtonHTMLAttributes<HTMLButtonElement> & {variant?: string}} props */
 export function Button({ children, variant = "", className = "", ...props }) {
   return (
-    <button type="button" className={`btn ${variant} ${className}`} {...props}>
+    <button type="button" className={`btn ${variant} ${className}`} {...props} data-button="text">
       {children}
     </button>
   );
 }
+/** @param {React.ButtonHTMLAttributes<HTMLButtonElement> & {label: string}} props */
 export function IconButton({ label, children, className = "", ...props }) {
   return (
     <button
@@ -36,11 +38,13 @@ export function IconButton({ label, children, className = "", ...props }) {
       aria-label={label}
       title={label}
       {...props}
+      data-button="icon"
     >
       {children}
     </button>
   );
 }
+/** @param {{small?: boolean}} props */
 export function Logo({ small = false }) {
   return (
     <span className={`brand ${small ? "small" : ""}`}>
@@ -58,6 +62,7 @@ export function Logo({ small = false }) {
     </span>
   );
 }
+/** @param {{initials?: string, color?: string, name?: string}} props */
 export function Avatar({ initials = "AM", color = "lilac", name }) {
   return (
     <span className={`avatar ${color}`} aria-label={name}>
@@ -65,6 +70,7 @@ export function Avatar({ initials = "AM", color = "lilac", name }) {
     </span>
   );
 }
+/** @param {{children?: React.ReactNode, tone?: string, dot?: boolean}} props */
 export function Status({ children, tone, dot = true }) {
   const tones = {
     "In progress": "info",
@@ -84,6 +90,7 @@ export function Status({ children, tone, dot = true }) {
     </span>
   );
 }
+/** @param {{title: React.ReactNode, sub?: React.ReactNode, children?: React.ReactNode}} props */
 export function SectionHead({ title, sub, children }) {
   return (
     <div className="section-head">
@@ -95,6 +102,7 @@ export function SectionHead({ title, sub, children }) {
     </div>
   );
 }
+/** @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props */
 export function TextAction({ children, ...props }) {
   return (
     <button className="text-action" {...props}>
@@ -103,6 +111,7 @@ export function TextAction({ children, ...props }) {
     </button>
   );
 }
+/** @param {{value: number, label?: string}} props */
 export function Meter({ value, label }) {
   return (
     <span className="meter-wrap">
@@ -133,6 +142,7 @@ export function Modal({open,onClose,title,label,children,sheet=false,className='
     {open&&<>{scrollable?<ScrollArea label={contentLabel} className="ct-modal-scroll"><div className="ct-modal-content">{content}</div></ScrollArea>:<div className="modal-body">{content}</div>}{footer&&<div className="ct-modal-footer">{footer}</div>}</>}
   </dialog>;
 }
+/** @param {{color?: string, size?: string}} props */
 export function ProjectMark({ color = "sage", size = "" }) {
   return (
     <span className={`project-mark ${color} ${size}`} aria-hidden="true">
@@ -147,6 +157,7 @@ export function ProjectMark({ color = "sage", size = "" }) {
     </span>
   );
 }
+/** @param {{tone?: "info"|"quiet"|"ok"|"warn"|"bad", children?: React.ReactNode}} props */
 export function Notice({ tone = "info", children }) {
   return (
     <div className={`notice ${tone}`}>
@@ -161,6 +172,7 @@ export function Notice({ tone = "info", children }) {
     </div>
   );
 }
+/** @param {{title?: React.ReactNode, description?: React.ReactNode, children?: React.ReactNode}} props */
 export function EmptyState({
   title = "Nothing here yet",
   description,
@@ -178,6 +190,7 @@ export function EmptyState({
   );
 }
 
+/** @param {{onChange?: (file: File | null) => void, maxSize?: number, disabled?: boolean}} props */
 export function FileUpload({
   onChange,
   maxSize = 10 * 1024 * 1024,
@@ -323,6 +336,12 @@ function PlusSymbol() {
   );
 }
 
+/** An event-shaped selection notification. This is not a browser ChangeEvent.
+ * @typedef {{target: {value: string, name?: string}, currentTarget: {value: string, name?: string}}} DropdownChangeEvent
+ * @typedef {{value: string, label: React.ReactNode, disabled?: boolean}} DropdownOption
+ * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, searchable?: boolean, name?: string}} DropdownProps
+ */
+/** @param {DropdownProps} props */
 export function Dropdown({
   children,
   options: supplied,
