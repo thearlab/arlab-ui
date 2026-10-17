@@ -1,0 +1,22 @@
+.ct-toast-viewport { position: fixed; z-index: 1400; display: grid; gap: 8px; width: min(380px, calc(100vw - 32px)); pointer-events: none; bottom: max(16px, env(safe-area-inset-bottom)); right: 16px; }
+.ct-toast-viewport[data-position$="left"] { left: 16px; right: auto; }
+.ct-toast-viewport[data-position^="top"] { top: max(16px, env(safe-area-inset-top)); bottom: auto; }
+.ct-queued-toast { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: var(--raise); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-md, 5px); box-shadow: var(--shadow-pop); pointer-events: auto; }
+.ct-queued-toast > svg { margin-top: 2px; flex: none; color: var(--ok); }
+.ct-queued-toast[data-tone="info"] > svg { color: var(--info); }
+.ct-queued-toast[data-tone="warning"] > svg { color: var(--warn); }
+.ct-queued-toast[data-tone="danger"] > svg { color: var(--bad); }
+.ct-queued-toast-content { display: grid; gap: 4px; flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: var(--text-xs); line-height: var(--leading-normal); }
+.ct-queued-toast-content strong { font-weight: var(--weight-semibold); }
+.ct-queued-toast-content > span { color: var(--dim); }
+.ct-queued-toast-content > button { justify-self: start; }
+.ct-guided-tour .arlab-tour-arrow { position: absolute; width: 12px; height: 12px; background: var(--raise); border: 1px solid var(--line); transform: rotate(45deg); pointer-events: none; }
+.ct-guided-tour .arlab-tour[data-side="bottom"] .arlab-tour-arrow { top: -7px; border-right: 0; border-bottom: 0; }
+.ct-guided-tour .arlab-tour[data-side="top"] .arlab-tour-arrow { bottom: -7px; border-left: 0; border-top: 0; }
+.ct-guided-tour .arlab-tour[data-side="right"] .arlab-tour-arrow { left: -7px; border-right: 0; border-top: 0; }
+.ct-guided-tour .arlab-tour[data-side="left"] .arlab-tour-arrow { right: -7px; border-left: 0; border-bottom: 0; }
+.ct-guided-tour .arlab-tour[data-side="dock"] .arlab-tour-arrow { display: none; }
+
+.ct-preview[data-auto-height] { height: auto; }
+.ct-preview-overlay { position: absolute; inset: 0; pointer-events: none; }
+.ct-preview-overlay > * { pointer-events: auto; }

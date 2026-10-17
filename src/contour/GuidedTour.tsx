@@ -285,3 +285,42 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
     document.body,
   );
 }
+
+export interface UseGuidedTourOptions {
+  steps: TourStep[];
+  /** Optional key for versioned completion persistence. No storage is touched without it. */
+  storageKey?: string;
+  version?: number;
+  autoStart?: boolean;
+  onClose?: (reason: TourEnd) => void;
+}
+/** Owns tour visibility and optional first-visit persistence. An empty tour is never marked seen. */
+export function useGuidedTour({steps,storageKey,version=1,autoStart=false,onClose}: UseGuidedTourOptions) {
+  const [open,setOpen] = useState(false);
+  const current = useRef({storageKey,version,onClose});
+  current.current = {storageKey,version,onClose};
+  useEffect(() => {
+    if (!autoStart) return;
+    let seen: number | undefined;
+    if (storageKey) {
+      try {const stored = Number(localStorage.getItem(storageKey)); if (Number.isFinite(stored)) seen=stored;} catch { /* Storage denial must not break onboarding. */ }
+    }
+    if (tourDue(version,seen,0)) setOpen(true);
+  },[storageKey,version,autoStart]);
+  const start = useCallback(() => setOpen(true),[]);
+  const close = useCallback((reason: TourEnd = 'skip') => {
+    setOpen(false);
+    const {storageKey,version,onClose} = current.current;
+    if (reason !== 'empty' && storageKey) {
+      try {localStorage.setItem(storageKey,String(version));} catch { /* Persistence is optional. */ }
+    }
+    onClose?.(reason);
+  },[]);
+  const reset = useCallback(() => {
+    if (current.current.storageKey) {
+      try {localStorage.removeItem(current.current.storageKey);} catch { /* Persistence is optional. */ }
+    }
+    setOpen(false);
+  },[]);
+  return {open,start,close,reset,tourProps:{steps,open,onClose:close}};
+}

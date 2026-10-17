@@ -2,6 +2,10 @@ import { Input } from "./BaseFields.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
   useState,
+  forwardRef,
+  useCallback,
+  type IframeHTMLAttributes,
+  type SyntheticEvent,
   useRef,
   useEffect,
   type ReactNode,
@@ -287,60 +291,74 @@ export function ReorderList({
   );
 }
 
-export interface PreviewFrameProps {
+export interface PreviewOverlayState {
+  loading: boolean;
+  error?: string;
+  viewport: "desktop" | "tablet" | "mobile";
+}
+export interface PreviewFrameProps extends Omit<IframeHTMLAttributes<HTMLIFrameElement>, 'title' | 'children' | 'loading'> {
   title: string;
-  src?: string;
-  srcDoc?: string;
   viewport?: "desktop" | "tablet" | "mobile";
   loading?: boolean;
   error?: string;
   onRetry?: () => void;
-  sandbox?: string;
+  /** Same-origin documents only. Cross-origin previews retain their normal height. */
+  autoHeight?: boolean;
+  onHeightChange?: (height: number) => void;
+  /** App-owned overlay, rendered above the iframe and the built-in loading/error layer. */
+  overlay?: ReactNode;
+  renderOverlay?: (state: PreviewOverlayState) => ReactNode;
 }
-export function PreviewFrame({
-  title,
-  src,
-  srcDoc,
-  viewport = "desktop",
-  loading,
-  error,
-  onRetry,
-  sandbox = "allow-scripts",
-}: PreviewFrameProps) {
-  return (
-    <div
-      className="ct-preview"
-      data-viewport={viewport}
-      aria-busy={loading || undefined}
-    >
-      {error ? (
-        <div role="alert">
-          <p>{error}</p>
-          {onRetry && (
-            <button className="ct-control-action" type="button" onClick={onRetry}>
-              Retry preview
-            </button>
-          )}
-        </div>
-      ) : (
-        <>
-          <iframe
-            title={title}
-            src={srcDoc === undefined ? src : undefined}
-            srcDoc={srcDoc}
-            sandbox={sandbox}
-            referrerPolicy="no-referrer"
-          />
-          {loading && (
-            <div className="ct-preview-loading" role="status">
-              Loading preview…
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
+export const PreviewFrame = forwardRef<HTMLIFrameElement, PreviewFrameProps>(function PreviewFrame({
+  title, src, srcDoc, viewport="desktop", loading=false, error, onRetry,
+  sandbox="allow-scripts", autoHeight=false, onHeightChange, overlay, renderOverlay,
+  onLoad, style, ...iframeProps
+}, forwardedRef) {
+  const frame = useRef<HTMLIFrameElement | null>(null);
+  const observer = useRef<ResizeObserver | null>(null);
+  const [height,setHeight] = useState<number>();
+  const heightCallback = useRef(onHeightChange);
+  heightCallback.current = onHeightChange;
+  const connect = useCallback((node: HTMLIFrameElement | null) => {
+    if (!node) observer.current?.disconnect();
+    frame.current=node;
+    if (typeof forwardedRef === 'function') forwardedRef(node);
+    else if (forwardedRef) forwardedRef.current=node;
+  },[forwardedRef]);
+  const measure = useCallback(() => {
+    observer.current?.disconnect();
+    if (!autoHeight) return;
+    try {
+      const doc = frame.current?.contentDocument;
+      if (!doc?.documentElement || !doc.body) return;
+      const resize = () => {
+        const next = Math.max(doc.documentElement.scrollHeight,doc.body.scrollHeight,doc.body.offsetHeight);
+        if (next <= 0) return;
+        setHeight(previous => previous === next ? previous : next);
+        heightCallback.current?.(next);
+      };
+      resize();
+      if (typeof ResizeObserver !== 'undefined') {
+        observer.current = new ResizeObserver(resize);
+        observer.current.observe(doc.body);
+        observer.current.observe(doc.documentElement);
+      }
+    } catch { /* Sandboxed and cross-origin documents cannot expose their height. */ }
+  },[autoHeight]);
+  useEffect(() => {
+    setHeight(undefined);
+    measure();
+    return () => observer.current?.disconnect();
+  },[src,srcDoc,autoHeight,error,measure]);
+  const loaded = (event: SyntheticEvent<HTMLIFrameElement>) => {measure();onLoad?.(event);};
+  return <div className="ct-preview" data-viewport={viewport} data-auto-height={autoHeight || undefined} aria-busy={loading || undefined}>
+    {error ? <div role="alert"><p>{error}</p>{onRetry && <button className="ct-control-action" type="button" onClick={onRetry}>Retry preview</button>}</div> : <>
+      <iframe {...iframeProps} ref={connect} title={title} src={srcDoc === undefined ? src : undefined} srcDoc={srcDoc} sandbox={sandbox} referrerPolicy={iframeProps.referrerPolicy ?? 'no-referrer'} onLoad={loaded} style={{...style,...(autoHeight && height ? {height} : {})}}/>
+      {loading && <div className="ct-preview-loading" role="status">Loading preview…</div>}
+    </>}
+    {(overlay || renderOverlay) && <div className="ct-preview-overlay">{overlay}{renderOverlay?.({loading,error,viewport})}</div>}
+  </div>;
+});
 export interface EditorLayoutProps {
   title: string;
   toolbar?: ReactNode;

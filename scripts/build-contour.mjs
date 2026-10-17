@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import postcss from 'postcss';
-const source = ['styles.css', 'contour.css', 'library.css', 'navigation.css', 'scroll-area.css', 'dashboard.css', 'record-layouts.css', 'collection-workspace.css', 'calendar.css', 'app-header.css', 'data-lists.css', 'infinite-table.css', 'kanban-board.css', 'buttons.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
+const source = ['styles.css', 'contour.css', 'library.css', 'navigation.css', 'scroll-area.css', 'dashboard.css', 'record-layouts.css', 'collection-workspace.css', 'calendar.css', 'app-header.css', 'data-lists.css', 'infinite-table.css', 'kanban-board.css', 'buttons.css', 'services.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
 const css = postcss.parse(source);
 css.walkRules(rule => {
   for (let parent = rule.parent; parent; parent = parent.parent) {
