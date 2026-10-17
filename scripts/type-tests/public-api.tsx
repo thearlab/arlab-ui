@@ -9,7 +9,7 @@ import {
   SegmentedControl, TabStrip, TextLink, Timestamp, LegendDot, Stack,
   StateView, AccountMenu, Tooltip, Rows, StatRow, PageGrid, CardGrid,
   ReadableDoc, Markdown, Toc, ColumnChart, Sparkline, StackedBar, BarList,
-  Inspector, DataTable, ProjectStatusSheet, Gate, NavTree, AppSwitcher,
+  Inspector, DataTable, ProjectStatusSheet, Gate, NavTree, RecordHeader, PhaseBar, DailyVerdictStrip, AppSwitcher,
   FilterRow, SortHead, ConfirmStrip, Kbd,
 } from '@arlab/ui';
 import type { ComponentProps } from 'react';
@@ -98,3 +98,42 @@ const invalidAvatarSize = <Avatar size="tiny" />;
 const invalidSegment = <SegmentedControl options={[{label:'List'}]} value="list" onChange={close} />;
 // @ts-expect-error Option counts are numbers, including zero.
 const invalidOptionCount = <Dropdown options={[{value:'all',label:'All',count:'twelve'}]} />;
+
+export const extendedContracts = <>
+  <Button href="/projects" onClick={event=>event.currentTarget.href}>Projects</Button>
+  <Button href="https://example.com" external disabled>External</Button>
+  <LinkTile title="Guide" href="/guide" meta="Updated today" badge={<Status>New</Status>} />
+  <Picker prefix="PM" options={[{value:"all",label:"Every PM",count:12}]} />
+  <RecordHeader title="Amina" label="Person" backLabel="People" onBack={close} />
+  <PhaseBar density="compact" phases={[{id:"brief",label:"Brief"}]} current="brief" />
+  <DailyVerdictStrip days={[{date:"2026-10-17",state:"due-today"},{date:"2026-10-18",state:"at-risk"},{date:"2026-10-19",state:"delayed"},{date:"2026-10-20",state:"no-update"}]} />
+  <Gate title="Sign in" description="Use your team account" action={<Button>Sign in</Button>} fine="Team access only" />
+  <DayTimeline date="2026-10-17" items={[{id:"review",time:"09:30",title:"Review",state:"late",href:"/review"}]} days={[{value:"2026-10-17",label:"Sat"}]} value="2026-10-17" onChange={close} onSelect={(name,item)=>{const id:string=item.id;void name;void id;}} />
+</>;
+
+// Notification service, onboarding ownership and app-controlled iframe preview contracts.
+import {ToastProvider as ContractToastProvider, useToast as useContractToast, useGuidedTour as useContractTour, PreviewFrame as ContractPreviewFrame} from '@arlab/ui';
+import {createRef as createContractRef} from 'react';
+function ServiceContractExample() {
+  const notifications=useContractToast();
+  const tour=useContractTour({steps:[{target:'[data-tour="space-creative"]',title:'Creative',body:'Open your workspace.'}],storageKey:'studio-tour',version:2,autoStart:true});
+  const previewRef=createContractRef<HTMLIFrameElement>();
+  return <ContractToastProvider maxVisible={2} duration={5000}>
+    <button onClick={()=>{const id=notifications.toast({title:'Saved',tone:'info',duration:0,action:{label:'Undo',onClick:()=>{}}});notifications.update(id,{description:'Saved just now'});notifications.dismiss(id);tour.start();tour.close('done');tour.reset();}}>Save</button>
+    <ContractPreviewFrame title="Site" ref={previewRef} autoHeight allow="fullscreen" onLoad={event=>event.currentTarget.focus()} onHeightChange={height=>height.toFixed()} overlay={<span>Live</span>} renderOverlay={({loading})=>loading ? 'Working' : null}/>
+  </ContractToastProvider>;
+}
+
+export const editableContracts = <>
+  <ComboboxPicker allowCustom prefix="Client" options={options} />
+  <TagInput value={[]} onChange={close} normalize={value=>value.toLowerCase()} validate={value=>value.endsWith('@thearlab.com') || 'Use your work email'} />
+  <MediaUploadField label="Files" items={[{id:'brief',name:'Brief.pdf',src:'/brief.pdf',type:'pdf'}]} onFiles={close} kinds={['image','pdf','file']} onLink={url=>{const value:string=url;void value;}} />
+  <Timeline items={[{id:'published',title:'Published',tone:'ok',meta:'Version 2',actions:<Button>View</Button>}]} />
+</>;
+import {TagInput,MediaUploadField,Timeline} from '@arlab/ui';
+
+// Group moves preserve the flat ReorderList API and offer a separate controlled groups contract.
+import {ReorderList as ContractReorderList} from '@arlab/ui';
+const groupedReorderContract = <ContractReorderList label="Stages" groups={[{id:'brief',label:'Brief',items:[{id:'a',label:'Idea'}]},{id:'ready',label:'Ready',items:[]}]} onGroupsChange={groups=>groups.map(group=>group.items.map(item=>item.id))}/>;
+// @ts-expect-error Grouped mode requires its controlled change callback.
+const invalidGroupedReorder = <ContractReorderList label="Stages" groups={[]}/>;

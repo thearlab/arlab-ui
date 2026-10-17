@@ -2851,3 +2851,47 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 .detail-tabs > button {display:inline-flex;align-items:center;gap:var(--space-2);}
 .ct-tab-count {display:inline-flex;min-width:var(--space-4);justify-content:center;padding:0 var(--space-1);border-radius:var(--radius-xs);background:var(--sunken);color:var(--dim);font-size:var(--text-2xs);line-height:var(--leading-normal);font-weight:var(--weight-regular);font-variant-numeric:tabular-nums;}
 .ct-command-group-title {margin:0;padding:var(--space-3) var(--space-3) var(--space-2);color:var(--dim);font-size:var(--text-xs);font-weight:var(--weight-medium);letter-spacing:normal;}
+/* Data-driven day agenda, sharing the established timeline rows. */
+.lib-day-timeline > div > div > :is(a,article) {display:block;width:100%;padding:var(--space-3);color:var(--ink);background:var(--raise);border:1px solid var(--line);border-radius:var(--radius-sm);text-decoration:none;}
+.lib-day-timeline :is(a,article) strong {display:block;font-size:var(--text-sm);font-weight:var(--weight-medium);}
+.lib-day-timeline :is(a,article) small {display:block;color:var(--dim);font-size:var(--text-xs);margin-top:var(--space-1);}
+.lib-day-timeline > [data-state="late"] > div > :is(a,article,button) {border-inline-start:2px solid var(--bad);}
+.lib-day-timeline > [data-state="past"] {opacity:.65;}
+.lib-day-timeline > [data-state="secondary"] > div > :is(a,article,button) {background:transparent;}
+.lib-day-timeline .ct-day-strip {display:flex;gap:var(--space-1);overflow:auto;padding:var(--space-2) 0;}
+.lib-day-timeline .ct-day-strip button {width:auto;flex-shrink:0;border:1px solid var(--line);background:var(--raise);color:var(--dim);padding:var(--space-2);}
+.lib-day-timeline .ct-day-strip button[aria-pressed="true"] {background:var(--accent-soft);color:var(--link);}
+.ct-day-empty {color:var(--dim);font-size:var(--text-sm);}
+a.lib-link-tile {text-decoration:none;}
+
+/* Optional content slots retain the existing card's surface and spacing. */
+.lib-collection-card-main {display:block;width:100%;padding:0;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;text-align:inherit;}
+.lib-collection-card-main:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:var(--space-1);}
+.lib-collection-card-media {display:block;aspect-ratio:16 / 9;overflow:hidden;margin-bottom:var(--space-4);border-radius:var(--radius-xs);background:var(--sunken);}
+.lib-collection-card-media :is(img,video) {display:block;width:100%;height:100%;object-fit:cover;}
+.lib-skeleton-inline {display:inline-block;max-width:100%;vertical-align:middle;border-radius:var(--radius-xs);background:var(--sunken);}
+.lib-column-pair {display:flex;align-items:flex-end;gap:var(--space-1);width:100%;height:125px;}
+.lib-column-pair > span {display:block;flex:1;min-width:0;border-radius:var(--radius-xs) var(--radius-xs) 0 0;}
+.lib-link-tile > .ct-link-tile-badge {flex:0 0 auto;}
+.lib-day-timeline > div > div > button {border-inline-start:1px solid var(--line);background:var(--raise);color:var(--ink);}
+
+/* Structured documents use readable labels and inherit the surrounding surface. */
+.ct-doc-fields {margin:0;display:grid;gap:0;}
+.ct-doc-fields > div {display:grid;grid-template-columns:minmax(100px,28%) minmax(0,1fr);gap:var(--space-4);padding-block:var(--space-3);border-bottom:1px solid var(--line);}
+.ct-doc-fields > div:last-child {border-bottom:0;}
+.ct-doc-fields dt {color:var(--dim);font-size:var(--text-xs);line-height:var(--leading-normal);}
+.ct-doc-fields dd {margin:0;min-width:0;overflow-wrap:anywhere;font-size:var(--text-sm);line-height:var(--leading-normal);}
+.ct-doc-fields dd > .ct-doc-fields > div:first-child {padding-top:0;}
+.ct-doc-list {margin:0;padding-inline-start:var(--space-4);}
+.ct-doc-list > li + li {margin-top:var(--space-2);}
+.ct-doc-empty {color:var(--dim);font-size:var(--text-xs);}
+.lib-markdown a {color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;}
+.lib-markdown a:hover {text-decoration-color:var(--accent);}
+.lib-markdown :is(p,li) {overflow-wrap:anywhere;}
+@media(max-width:600px){.ct-doc-fields > div {grid-template-columns:minmax(0,1fr);gap:var(--space-1);}}
+.lib-timeline > li[data-tone="ok"] .timeline-dot {background:var(--ok);}
+.lib-timeline > li[data-tone="warn"] .timeline-dot {background:var(--warn);}
+.lib-timeline > li[data-tone="bad"] .timeline-dot {background:var(--bad);}
+.lib-timeline > li[data-tone="info"] .timeline-dot {background:var(--info);}
+.ct-timeline-meta {color:var(--dim);font-size:var(--text-xs);}
+.ct-timeline-actions {display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);}

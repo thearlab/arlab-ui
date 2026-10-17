@@ -1,4 +1,5 @@
 import { Input, Textarea } from "./BaseFields.js";
+import { Icon as RegistryIcon } from "./icons.js";
 export { Input, Textarea } from "./BaseFields.js";
 import React, {
   useState,
@@ -330,51 +331,62 @@ export function Stat({ label, value, hint }) {
 export function StatRow({ children }) {
   return <div className="lib-stat-row">{children}</div>;
 }
-/** @param {{title: React.ReactNode, description?: React.ReactNode, meta?: React.ReactNode, onClick?: React.MouseEventHandler<HTMLButtonElement>}} props */
-export function CollectionCard({ title, description, meta, onClick }) {
-  return (
-    <button className="lib-collection-card" onClick={onClick}>
-      <span className="lib-card-symbol">
-        <Folder size={23} />
-      </span>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <footer>
-        <span>{meta}</span>
-        <ArrowUpRight size={16} />
-      </footer>
-    </button>
-  );
+/** @param {{title: React.ReactNode, description?: React.ReactNode, meta?: React.ReactNode, media?: React.ReactNode, footer?: React.ReactNode, onClick?: React.MouseEventHandler<HTMLButtonElement>}} props */
+export function CollectionCard({ title, description, meta, media, footer, onClick }) {
+  const content = <>
+    {media !== undefined ? <span className="lib-collection-card-media">{media}</span> : <span className="lib-card-symbol"><Folder size={23} /></span>}
+    <h3>{title}</h3>
+    {description && <p>{description}</p>}
+  </>;
+  // Keep footer actions outside the primary button, so links and menus never nest buttons.
+  if (footer !== undefined) return <article className="lib-collection-card" data-slots="true">
+    {onClick ? <button type="button" className="lib-collection-card-main" onClick={onClick}>{content}</button> : <div className="lib-collection-card-main">{content}</div>}
+    <footer>{footer}</footer>
+  </article>;
+  return <button type="button" className="lib-collection-card" onClick={onClick}>
+    {content}
+    <footer><span>{meta}</span><ArrowUpRight size={16} /></footer>
+  </button>;
 }
-/** @param {{title: React.ReactNode, description?: React.ReactNode, icon?: React.ElementType, onClick?: React.MouseEventHandler<HTMLButtonElement>}} props */
+/** @param {{title: React.ReactNode, description?: React.ReactNode, icon?: React.ElementType | string, href?: string, external?: boolean, meta?: React.ReactNode, badge?: React.ReactNode, onClick?: React.MouseEventHandler<HTMLElement>}} props */
 export function LinkTile({
   title,
   description,
   icon: Icon = BookOpen,
   onClick,
+  href,
+  external = false,
+  meta,
+  badge,
 }) {
+  const Element = href ? "a" : "button";
   return (
-    <button className="lib-link-tile" onClick={onClick}>
-      <Icon size={21} />
+    <Element className="lib-link-tile" onClick={onClick} href={href}
+      type={href ? undefined : "button"} target={external && href ? "_blank" : undefined}
+      rel={external && href ? "noopener noreferrer" : undefined}>
+      {typeof Icon === "string" ? <RegistryIcon name={Icon} size={21} /> : <Icon size={21} />}
       <span>
         <strong>{title}</strong>
-        <small>{description}</small>
+        {description && <small>{description}</small>}
+        {meta && <small>{meta}</small>}
       </span>
-      <ArrowUpRight size={17} />
-    </button>
+      {badge && <span className="ct-link-tile-badge">{badge}</span>}
+      <ArrowUpRight size={17} aria-hidden="true" />
+    </Element>
   );
 }
-/** @param {{rows?: number}} props */
-export function Skeleton({ rows = 3 }) {
+/** @param {{rows?: number, inline?: boolean, width?: React.CSSProperties['width'], height?: React.CSSProperties['height'], label?: string}} props */
+export function Skeleton({ rows = 3, inline = false, width, height, label = "Loading content" }) {
+  if (inline) return <span className="lib-skeleton-inline" role="status" aria-label={label} style={{width: width ?? '8ch', height: height ?? '1em'}}><span className="sr-only">{label}</span></span>;
   return (
-    <div className="lib-skeleton" role="status" aria-label="Loading content">
+    <div className="lib-skeleton" role="status" aria-label={label} style={{width, height}}>
       {Array.from({ length: rows }, (_, i) => (
         <div key={i}>
           <span />
           <span style={{ width: `${85 - (i % 3) * 12}%` }} />
         </div>
       ))}
-      <span className="sr-only">Loading content</span>
+      <span className="sr-only">{label}</span>
     </div>
   );
 }
@@ -914,17 +926,15 @@ export function DetailHeader({ title, description, status, children }) {
   );
 }
 export { SidebarShell } from "./SidebarShell.js";
-/** @param {{onContinue?: React.MouseEventHandler<HTMLButtonElement>}} props */
-export function Gate({ onContinue }) {
+/** @param {{title?: React.ReactNode, description?: React.ReactNode, action?: React.ReactNode, fine?: React.ReactNode, onContinue?: React.MouseEventHandler<HTMLButtonElement>}} props */
+export function Gate({ title = "A familiar place to work.", description = "Sign in with your team account to open the ARLAB workspace.", action, fine, onContinue }) {
   return (
     <div className="lib-gate">
       <Logo />
-      <h2>A familiar place to work.</h2>
-      <p>Sign in with your team account to open the ARLAB workspace.</p>
-      <Button variant="primary" onClick={onContinue}>
-        Continue with work account
-      </Button>
-      <small>Demo access only. No authentication request is sent.</small>
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+      {action ?? <Button variant="primary" onClick={onContinue}>Continue with work account</Button>}
+      {fine && <small>{fine}</small>}
     </div>
   );
 }
@@ -1198,17 +1208,19 @@ export function Inspector({ items = [] }) {
     </div>
   );
 }
-/** @param {{items: Array<{title: React.ReactNode, description?: React.ReactNode, time?: React.ReactNode}>}} props */
+/** @param {{items: Array<{id?: string, title: React.ReactNode, description?: React.ReactNode, time?: React.ReactNode, tone?: 'ok'|'warn'|'bad'|'info'|'quiet', meta?: React.ReactNode, actions?: React.ReactNode}>}} props */
 export function Timeline({ items }) {
   return (
     <ol className="lib-timeline">
       {items.map((x, i) => (
-        <li key={i}>
+        <li key={x.id ?? i} data-tone={x.tone}>
           <span className="timeline-dot" />
           <div>
             <strong>{x.title}</strong>
-            <p>{x.description}</p>
-            <time>{x.time}</time>
+            {x.description && <p>{x.description}</p>}
+            {x.meta && <p className="ct-timeline-meta">{x.meta}</p>}
+            {x.time && <time>{x.time}</time>}
+            {x.actions && <div className="ct-timeline-actions">{x.actions}</div>}
           </div>
         </li>
       ))}
@@ -1233,43 +1245,60 @@ export function Steps({ steps, current = 0, onChange }) {
     </ol>
   );
 }
-/** @param {{title: React.ReactNode, children?: React.ReactNode}} props */
-export function ReadableDoc({ title, children }) {
-  return (
-    <article className="lib-readable">
-      <h2>{title}</h2>
-      {children}
-    </article>
-  );
+/**
+ * @param {{title?: React.ReactNode, children?: React.ReactNode, value?: unknown, v?: unknown, emptyLabel?: React.ReactNode, maxDepth?: number}} props
+ */
+export function ReadableDoc({ title, children, value, v, emptyLabel = "None", maxDepth = 12 }) {
+  const seen = new WeakSet();
+  const renderValue = (entry, depth = 0) => {
+    if (entry === null || entry === undefined || entry === "") return <span className="ct-doc-empty">{emptyLabel}</span>;
+    if (typeof entry !== "object") return <span>{String(entry)}</span>;
+    if (depth >= maxDepth) return <span className="ct-doc-empty">More nested content</span>;
+    if (seen.has(entry)) return <span className="ct-doc-empty">Circular reference</span>;
+    seen.add(entry);
+    let content;
+    if (entry instanceof Date) content = <span>{Number.isNaN(entry.getTime()) ? emptyLabel : entry.toISOString()}</span>;
+    else if (Array.isArray(entry)) content = entry.length ? <ul className="ct-doc-list">{entry.map((item, index) => <li key={index}>{renderValue(item, depth + 1)}</li>)}</ul> : <span className="ct-doc-empty">{emptyLabel}</span>;
+    else {
+      const entries = Object.entries(entry);
+      content = entries.length ? <dl className="ct-doc-fields">{entries.map(([key, item]) => <div key={key}><dt>{key.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[_-]+/g, " ").replace(/^./, letter => letter.toUpperCase())}</dt><dd>{renderValue(item, depth + 1)}</dd></div>)}</dl> : <span className="ct-doc-empty">{emptyLabel}</span>;
+    }
+    seen.delete(entry);
+    return content;
+  };
+  const structured = value !== undefined || v !== undefined;
+  return <article className="lib-readable">{title && <h2>{title}</h2>}{structured ? renderValue(value !== undefined ? value : v) : children}</article>;
 }
-/** @param {{children: string}} props */
+function safeMarkdownHref(href) {
+  const candidate = href.trim();
+  if (!candidate || /[\u0000-\u0020\u007f]/.test(candidate)) return undefined;
+  if (/^(?:https?:|mailto:)/i.test(candidate)) return candidate;
+  if (/^[a-z][a-z\d+.-]*:/i.test(candidate) || candidate.startsWith('\\')) return undefined;
+  return candidate;
+}
+function markdownInline(source) {
+  return source.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).map((part, index) => {
+    if (part.startsWith('`') && part.endsWith('`')) return <code key={index}>{part.slice(1, -1)}</code>;
+    if (part.startsWith('**') && part.endsWith('**')) return <strong key={index}>{markdownInline(part.slice(2, -2))}</strong>;
+    const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (link) { const href = safeMarkdownHref(link[2]); return href ? <a key={index} href={href}>{markdownInline(link[1])}</a> : <React.Fragment key={index}>{link[1]}</React.Fragment>; }
+    return <React.Fragment key={index}>{part}</React.Fragment>;
+  });
+}
+/** Safe text-only Markdown: headings, lists, fenced code, bold, inline code and links. Raw HTML stays text. @param {{children: string}} props */
 export function Markdown({ children }) {
-  const blocks = children.split(/\n\n+/);
-  return (
-    <div className="lib-markdown">
-      {blocks.map((b, i) =>
-        b.startsWith("### ") ? (
-          <h4 key={i}>{b.slice(4)}</h4>
-        ) : b.startsWith("## ") ? (
-          <h3 key={i}>{b.slice(3)}</h3>
-        ) : b.startsWith("# ") ? (
-          <h2 key={i}>{b.slice(2)}</h2>
-        ) : b.startsWith("- ") ? (
-          <ul key={i}>
-            {b.split("\n").map((line, j) => (
-              <li key={j}>{line.replace(/^- /, "")}</li>
-            ))}
-          </ul>
-        ) : b.startsWith("```") ? (
-          <pre key={i}>
-            <code>{b.replace(/^```[^\n]*\n?|\n?```$/g, "")}</code>
-          </pre>
-        ) : (
-          <p key={i}>{b}</p>
-        ),
-      )}
-    </div>
-  );
+  const segments = children.replace(/\r\n/g, '\n').split(/(```[^\n]*\n[\s\S]*?\n```)/g);
+  return <div className="lib-markdown">{segments.flatMap((segment, section) => {
+    if (segment.startsWith('```')) return <pre key={`code-${section}`}><code>{segment.replace(/^```[^\n]*\n|\n```$/g, '')}</code></pre>;
+    return segment.split(/\n\s*\n/).filter(block => block.trim()).map((block, index) => {
+      const key = `${section}-${index}`;
+      const heading = block.match(/^(#{1,3}) (.+)$/);
+      if (heading) return React.createElement(`h${heading[1].length + 1}`, {key}, markdownInline(heading[2]));
+      if (block.split('\n').every(line => /^- /.test(line))) return <ul key={key}>{block.split('\n').map((line, item) => <li key={item}>{markdownInline(line.slice(2))}</li>)}</ul>;
+      if (block.split('\n').every(line => /^\d+\. /.test(line))) return <ol key={key}>{block.split('\n').map((line, item) => <li key={item}>{markdownInline(line.replace(/^\d+\. /, ''))}</li>)}</ol>;
+      return <p key={key}>{markdownInline(block)}</p>;
+    });
+  })}</div>;
 }
 /** @param {{items: Array<{id: string, label: React.ReactNode}>}} props */
 export function Toc({ items }) {
@@ -1291,95 +1320,65 @@ const chartData = [
   { label: "Thu", value: 34 },
   { label: "Fri", value: 29 },
 ];
-function ChartTable({ data }) {
+/** @typedef {{label: string, value: number}} ChartPoint */
+/** @param {{data: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string}} props */
+function ChartTable({ data, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison" }) {
+  const secondary = new Map(secondaryData?.map(point => [point.label, point.value]));
   return (
     <details className="lib-chart-table">
       <summary>View data table</summary>
       <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((d) => (
-            <tr key={d.label}>
-              <td>{d.label}</td>
-              <td>{d.value}</td>
-            </tr>
-          ))}
-        </tbody>
+        <thead><tr><th scope="col">Category</th><th scope="col">{primaryLabel}</th>{secondaryData && <th scope="col">{secondaryLabel}</th>}</tr></thead>
+        <tbody>{data.map(d => <tr key={d.label}><th scope="row">{d.label}</th><td>{d.value}</td>{secondaryData && <td>{secondary.get(d.label) ?? 'Not available'}</td>}</tr>)}</tbody>
       </table>
     </details>
   );
 }
-export function ColumnChart({ data = chartData }) {
-  const max = Math.max(...data.map((d) => d.value), 1);
+/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string}} props */
+export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison" }) {
+  const secondary = new Map(secondaryData?.map(point => [point.label, point.value]));
+  const max = Math.max(...data.flatMap(d => [d.value, secondary.get(d.label) ?? 0]), 1);
   return (
     <div className="lib-chart">
-      <div
-        className="lib-columns"
-        role="img"
-        aria-label={data.map((d) => `${d.label}: ${d.value}`).join(", ")}
-      >
-        {data.map((d, i) => (
-          <div key={d.label}>
-            <strong>{d.value}</strong>
-            <span
-              style={{
-                height: `${(d.value / max) * 125}px`,
-                background: `var(--chart-${(i % 6) + 1})`,
-              }}
-            />
-            <small>{d.label}</small>
-          </div>
-        ))}
+      <div className="lib-columns" role="img" aria-label={data.map(d => `${d.label}: ${primaryLabel} ${d.value}${secondaryData ? `, ${secondaryLabel} ${secondary.get(d.label) ?? 'not available'}` : ''}`).join(", ")}>
+        {data.map((d, i) => <div key={d.label}>
+          <strong>{d.value}</strong>
+          {secondaryData ? <div className="lib-column-pair">
+            <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: 'var(--chart-1)'}} />
+            <span style={{height: `${Math.max(0, (secondary.get(d.label) ?? 0) / max) * 125}px`, background: 'var(--chart-2)'}} />
+          </div> : <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: `var(--chart-${(i % 6) + 1})`}} />}
+          <small>{d.label}</small>
+        </div>)}
       </div>
-      <ChartTable data={data} />
+      {secondaryData && <div className="lib-chart-legend"><LegendDot color="var(--chart-1)">{primaryLabel}</LegendDot><LegendDot color="var(--chart-2)">{secondaryLabel}</LegendDot></div>}
+      <ChartTable data={data} secondaryData={secondaryData} primaryLabel={primaryLabel} secondaryLabel={secondaryLabel} />
     </div>
   );
 }
-export function Sparkline({ data = chartData }) {
-  const max = Math.max(...data.map((x) => x.value), 1),
-    points = data
-      .map(
-        (d, i) =>
-          `${20 + (i * 260) / Math.max(1, data.length - 1)},${90 - (d.value / max) * 70}`,
-      )
-      .join(" ");
-  return (
-    <div className="lib-chart">
-      <svg
-        className="lib-sparkline"
-        role="img"
-        aria-label={data.map((d) => `${d.label}: ${d.value}`).join(", ")}
-        viewBox="0 0 300 110"
-      >
-        <path d="M20 90h260" stroke="var(--line)" />
-        <polyline
-          points={points}
-          fill="none"
-          stroke="var(--chart-trend)"
-          strokeWidth="1.25"
-          vectorEffect="non-scaling-stroke"
-        />
-        {data.map((d, i) => (
-          <circle
-            key={d.label}
-            cx={20 + (i * 260) / Math.max(1, data.length - 1)}
-            cy={90 - (d.value / max) * 70}
-            r="1.75"
-            fill="var(--raise)"
-            stroke="var(--chart-trend)"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
-      </svg>
-      <ChartTable data={data} />
-    </div>
-  );
+/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string}} props */
+export function Sparkline({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison" }) {
+  const secondary = new Map(secondaryData?.map(point => [point.label, point.value]));
+  const max = Math.max(...data.flatMap(d => [d.value, secondary.get(d.label) ?? 0]), 1);
+  const x = index => 20 + (index * 260) / Math.max(1, data.length - 1);
+  const y = value => 90 - (value / max) * 70;
+  const points = data.map((d, i) => `${x(i)},${y(d.value)}`).join(" ");
+  let previousPresent = false;
+  const comparisonPath = data.map((d, i) => {
+    const value = secondary.get(d.label);
+    if (value === undefined) {previousPresent = false; return '';}
+    const command = previousPresent ? 'L' : 'M'; previousPresent = true;
+    return `${command}${x(i)} ${y(value)}`;
+  }).join(' ');
+  return <div className="lib-chart">
+    <svg className="lib-sparkline" role="img" aria-label={data.map(d => `${d.label}: ${primaryLabel} ${d.value}${secondaryData ? `, ${secondaryLabel} ${secondary.get(d.label) ?? 'not available'}` : ''}`).join(", ")} viewBox="0 0 300 110">
+      <path d="M20 90h260" stroke="var(--line)" />
+      <polyline points={points} fill="none" stroke="var(--chart-trend)" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+      {secondaryData && <path d={comparisonPath} fill="none" stroke="var(--chart-2)" strokeWidth="1.25" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />}
+      {data.map((d, i) => <circle key={d.label} cx={x(i)} cy={y(d.value)} r="1.75" fill="var(--raise)" stroke="var(--chart-trend)" strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
+    </svg>
+    {secondaryData && <div className="lib-chart-legend"><LegendDot color="var(--chart-trend)">{primaryLabel}</LegendDot><LegendDot color="var(--chart-2)">{secondaryLabel}</LegendDot></div>}
+    <ChartTable data={data} secondaryData={secondaryData} primaryLabel={primaryLabel} secondaryLabel={secondaryLabel} />
+  </div>;
 }
 export function StackedBar({ data = chartData }) {
   const total = data.reduce((a, d) => a + d.value, 0);
@@ -1434,55 +1433,22 @@ export function BarList({ data = chartData }) {
   );
 }
 export { Calendar } from "./Calendar.js";
-/** @param {{onSelect?: (name: string) => void}} props */
-export function DayTimeline({ onSelect }) {
-  return (
-    <div className="lib-day-timeline">
-      <header>
-        <CalendarDays size={17} />
-        <strong>Friday, 16 October</strong>
-        <span>Beirut time</span>
-      </header>
-      {["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"].map((time, i) => (
-        <div key={time}>
-          <time>{time}</time>
-          <div>
-            {[1, 2, 5].includes(i) && (
-              <button
-                onClick={() =>
-                  onSelect?.(
-                    [
-                      "",
-                      "Project planning",
-                      "Creative review",
-                      "",
-                      "",
-                      "Team sync",
-                    ][i],
-                  )
-                }
-                style={{ borderLeftColor: `var(--chart-${(i % 3) + 1})` }}
-              >
-                <strong>
-                  {
-                    [
-                      "",
-                      "Project planning",
-                      "Creative review",
-                      "",
-                      "",
-                      "Team sync",
-                    ][i]
-                  }
-                </strong>
-                <small>{time} / 30 minutes</small>
-              </button>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+/** @typedef {{id: string, time: string, title: string, description?: React.ReactNode, href?: string, state?: 'past'|'late'|'secondary'}} DayTimelineItem
+ * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void}} props
+ */
+export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange}) {
+  const dateValue = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T12:00:00`) : date ? new Date(date) : null;
+  const heading = dateValue && Number.isFinite(dateValue.getTime()) ? dateValue.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}) : 'Schedule';
+  return <div className="lib-day-timeline">
+    <header><CalendarDays size={17}/><strong>{heading}</strong>{timezone && <span>{timezone}</span>}</header>
+    {days?.length ? <nav className="ct-day-strip" aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
+    {items.length ? items.map(item => <div key={item.id} data-state={item.state}>
+      <time>{item.time}</time><div>{item.href
+        ? <a href={item.href} onClick={() => onSelect?.(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</a>
+        : onSelect ? <button type="button" onClick={() => onSelect(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</button>
+        : <article><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</article>}
+      </div></div>) : <p className="ct-day-empty">{empty}</p>}
+  </div>;
 }
 export { KanbanBoard } from './KanbanBoard.js';
 /** @param {{open: boolean, onClose: () => void, project: ProjectRecord, onSave: (project: ProjectRecord) => void}} props */

@@ -356,7 +356,7 @@ function PlusSymbol() {
 /** An event-shaped selection notification. This is not a browser ChangeEvent.
  * @typedef {{target: {value: string, name?: string}, currentTarget: {value: string, name?: string}}} DropdownChangeEvent
  * @typedef {{value: string, label: React.ReactNode, disabled?: boolean, count?: number, description?: React.ReactNode}} DropdownOption
- * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, prefix?: React.ReactNode, searchable?: boolean, name?: string}} DropdownProps
+ * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, prefix?: React.ReactNode, searchable?: boolean, allowCustom?: boolean, name?: string}} DropdownProps
  */
 /** @param {DropdownProps} props */
 export function Dropdown({
@@ -367,6 +367,7 @@ export function Dropdown({
   onChange,
   placeholder = "Choose an option",
   prefix,
+  allowCustom = false,
   searchable,
   disabled = false,
   name,
@@ -398,10 +399,13 @@ export function Dropdown({
     id = useId();
   const value = controlled ?? internal,
     selected = options.find((o) => String(o.value) === String(value)),
-    withSearch = searchable ?? options.length >= 8;
-  const filtered = options.filter((o) =>
+    withSearch = allowCustom || (searchable ?? options.length >= 8);
+  const matches = options.filter((o) =>
     String(o.label).toLowerCase().includes(query.toLowerCase()),
   );
+  const custom = query.trim();
+  const filtered = allowCustom && custom && !options.some(option => String(option.value) === custom || String(option.label).toLowerCase() === custom.toLowerCase())
+    ? [...matches, {value:custom,label:custom,description:"Use this value"}] : matches;
   const close = (focus = false) => {
     setOpen(false);
     setQuery("");
@@ -540,7 +544,7 @@ export function Dropdown({
         }}
       >
         {prefix != null && <small className="dropdown-prefix">{prefix}</small>}
-        <span>{selected?.label || placeholder}</span>
+        <span>{selected?.label || (allowCustom && value ? String(value) : placeholder)}</span>
         <ChevronDown size={15} className={open ? "rotated" : ""} />
       </button>
       {open && (
