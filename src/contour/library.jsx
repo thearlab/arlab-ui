@@ -3,6 +3,7 @@ import { tableRowProps } from './table-row.js';
 import { SortControl } from './SortControl.js';
 import { Input, Textarea } from "./BaseFields.js";
 import { Icon as RegistryIcon } from "./icons.js";
+import { formatRelativeTime } from "../Timestamp.js";
 export { Input, Textarea } from "./BaseFields.js";
 import React, {
   useState,
@@ -203,13 +204,13 @@ export function SegmentedControl({ options, value, onChange, label = "View", blo
     </div>
   );
 }
-/** @param {{options: (string | {label: string, value?: string, id?: string, count?: number, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string}} props */
-export function TabStrip({ options, value, onChange, label = "Sections" }) {
+/** @param {{options: (string | {label: string, value?: string, id?: string, count?: number, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string, inset?:'default'|'flush'}} props */
+export function TabStrip({ options, value, onChange, label = "Sections", inset='default' }) {
   const id=useId();
   const tabs=options.map(option=>typeof option==='string'?{label:option,value:option}:{...option,value:option.value??option.id??option.label});
   const enabled=tabs.map((tab,index)=>({tab,index})).filter(({tab})=>!tab.disabled);
   const active=enabled.some(({tab})=>tab.value===value)?value:enabled[0]?.tab.value;
-  return <div className="detail-tabs" role="tablist" aria-label={label}>{tabs.map((tab,index)=><button type="button" id={`${id}-${index}`} role="tab" key={tab.value} disabled={tab.disabled} aria-selected={active===tab.value} tabIndex={active===tab.value?0:-1} onClick={()=>onChange(tab.value)} onKeyDown={event=>{
+  return <div className="detail-tabs" data-inset={inset} role="tablist" aria-label={label}>{tabs.map((tab,index)=><button type="button" id={`${id}-${index}`} role="tab" key={tab.value} disabled={tab.disabled} aria-selected={active===tab.value} tabIndex={active===tab.value?0:-1} onClick={()=>onChange(tab.value)} onKeyDown={event=>{
     if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)||!enabled.length)return;
     event.preventDefault();const at=enabled.findIndex(item=>item.index===index);
     const next=event.key==='Home'?0:event.key==='End'?enabled.length-1:(at+(event.key==='ArrowRight'?1:enabled.length-1))%enabled.length;
@@ -239,14 +240,14 @@ export function PillButton({ children, selected=false, onClick, variant='default
 }
 export { TagInput } from './TagInput.js';
 export { DeptTile } from "./DeptTile.js";
-/** @param {{date:string|number|Date,format?:"datetime"|"date"|"time",showTime?:boolean,variant?:"plain"|"chip",locale?:string}} props */
-export function Timestamp({date,format,showTime=false,variant="plain",locale="en-GB"}) {
- const d=new Date(date),kind=format ?? (showTime ? 'datetime' : 'date');
+/** @param {{date:string|number|Date,format?:"datetime"|"date"|"time"|"relative",relative?:boolean,showTime?:boolean,variant?:"plain"|"chip",locale?:string}} props */
+export function Timestamp({date,format,relative=false,showTime=false,variant="plain",locale="en-GB"}) {
+ const d=new Date(date),kind=relative ? 'relative' : format ?? (showTime ? 'datetime' : 'date');
  const className=`lib-timestamp ${variant==='chip'?'lib-timestamp-chip':''}`;
  if(!Number.isFinite(d.getTime()))return <span className={className}>Date unavailable</span>;
  return <time className={className} dateTime={d.toISOString()} title={d.toLocaleString(locale)}>
   {variant==='chip'&&(kind==='date'?<CalendarDays size={13} aria-hidden="true"/>:<Clock3 size={13} aria-hidden="true"/>)}
-  {kind!=='time'&&<span>{d.toLocaleDateString(locale,{day:'numeric',month:'short',year:'numeric'})}</span>}
+  {kind==='relative' ? <span>{formatRelativeTime(d)}</span> : kind!=='time'&&<span>{d.toLocaleDateString(locale,{day:'numeric',month:'short',year:'numeric'})}</span>}
   {kind==='datetime'&&<span className="timestamp-divider" aria-hidden="true"/>}
   {kind!=='date'&&<span className="timestamp-time">{d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'})}</span>}
  </time>;
@@ -1374,14 +1375,14 @@ export function BarList({ data = chartData,categorical=false,color="var(--chart-
 }
 export { Calendar } from "./Calendar.js";
 /** @typedef {{id: string, time: string, title: string, description?: React.ReactNode, href?: string, state?: 'past'|'late'|'secondary'}} DayTimelineItem
- * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void}} props
+ * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void, dayVariant?:'default'|'quiet'}} props
  */
-export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange}) {
+export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange, dayVariant='default'}) {
   const dateValue = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T12:00:00`) : date ? new Date(date) : null;
   const heading = dateValue && Number.isFinite(dateValue.getTime()) ? dateValue.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}) : 'Schedule';
   return <div className="lib-day-timeline">
     <header><CalendarDays size={17}/><strong>{heading}</strong>{timezone && <span>{timezone}</span>}</header>
-    {days?.length ? <nav className="ct-day-strip" aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
+    {days?.length ? <nav className="ct-day-strip" data-variant={dayVariant} aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
     {items.length ? items.map(item => <div key={item.id} data-state={item.state}>
       <time>{item.time}</time><div>{item.href
         ? <a href={item.href} onClick={() => onSelect?.(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</a>

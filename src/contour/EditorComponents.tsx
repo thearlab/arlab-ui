@@ -311,6 +311,14 @@ export interface PreviewOverlayState {
   error?: string;
   viewport: "desktop" | "tablet" | "mobile";
 }
+/** Place inside a preview document to report its height across the iframe boundary.
+ * Pass the host origin, then set PreviewFrame.heightMessageOrigin to the preview's
+ * origin ("null" for a sandboxed srcDoc without allow-same-origin).
+ */
+export function previewHeightBridgeScript(targetOrigin:string):string {
+  if(!targetOrigin||targetOrigin==='*')throw new Error('A specific parent origin is required.');
+  return `(()=>{const target=${JSON.stringify(targetOrigin)};let last=0;const report=()=>{const root=document.documentElement,body=document.body;if(!root||!body)return;const height=Math.ceil(Math.max(root.scrollHeight,body.scrollHeight,body.offsetHeight));if(height>0&&height!==last){last=height;parent.postMessage({type:'arlab:preview-height',height},target)}};const start=()=>{report();const observer=new ResizeObserver(report);observer.observe(document.documentElement);observer.observe(document.body);new MutationObserver(report).observe(document.documentElement,{childList:true,subtree:true,attributes:true,characterData:true})};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start()})()`;
+}
 export interface PreviewFrameProps extends Omit<IframeHTMLAttributes<HTMLIFrameElement>, 'title' | 'children' | 'loading'> {
   title: string;
   viewport?: "desktop" | "tablet" | "mobile";
@@ -319,6 +327,8 @@ export interface PreviewFrameProps extends Omit<IframeHTMLAttributes<HTMLIFrameE
   onRetry?: () => void;
   /** Same-origin documents only. Cross-origin previews retain their normal height. */
   autoHeight?: boolean;
+  /** Accept height messages from this iframe origin when its document cannot be observed directly. */
+  heightMessageOrigin?: string;
   onHeightChange?: (height: number) => void;
   /** App-owned overlay, rendered above the iframe and the built-in loading/error layer. */
   overlay?: ReactNode;
@@ -326,22 +336,24 @@ export interface PreviewFrameProps extends Omit<IframeHTMLAttributes<HTMLIFrameE
 }
 export const PreviewFrame = forwardRef<HTMLIFrameElement, PreviewFrameProps>(function PreviewFrame({
   title, src, srcDoc, viewport="desktop", loading=false, error, onRetry,
-  sandbox="allow-scripts", autoHeight=false, onHeightChange, overlay, renderOverlay,
+  sandbox="allow-scripts", autoHeight=false, heightMessageOrigin, onHeightChange, overlay, renderOverlay,
   onLoad, style, ...iframeProps
 }, forwardedRef) {
   const frame = useRef<HTMLIFrameElement | null>(null);
   const observer = useRef<ResizeObserver | null>(null);
+  const mutation = useRef<MutationObserver | null>(null);
   const [height,setHeight] = useState<number>();
   const heightCallback = useRef(onHeightChange);
   heightCallback.current = onHeightChange;
   const connect = useCallback((node: HTMLIFrameElement | null) => {
-    if (!node) observer.current?.disconnect();
+    if (!node) { observer.current?.disconnect();mutation.current?.disconnect(); }
     frame.current=node;
     if (typeof forwardedRef === 'function') forwardedRef(node);
     else if (forwardedRef) forwardedRef.current=node;
   },[forwardedRef]);
   const measure = useCallback(() => {
     observer.current?.disconnect();
+    mutation.current?.disconnect();
     if (!autoHeight) return;
     try {
       const doc = frame.current?.contentDocument;
@@ -358,13 +370,31 @@ export const PreviewFrame = forwardRef<HTMLIFrameElement, PreviewFrameProps>(fun
         observer.current.observe(doc.body);
         observer.current.observe(doc.documentElement);
       }
+      if (typeof MutationObserver !== 'undefined') {
+        mutation.current = new MutationObserver(resize);
+        mutation.current.observe(doc.documentElement,{childList:true,subtree:true,attributes:true,characterData:true});
+      }
     } catch { /* Sandboxed and cross-origin documents cannot expose their height. */ }
   },[autoHeight]);
   useEffect(() => {
     setHeight(undefined);
     measure();
-    return () => observer.current?.disconnect();
+    return () => {observer.current?.disconnect();mutation.current?.disconnect();};
   },[src,srcDoc,autoHeight,error,measure]);
+  useEffect(()=>{
+    if(!autoHeight||!heightMessageOrigin)return;
+    const receive=(event:MessageEvent)=>{
+      if(event.source!==frame.current?.contentWindow||event.origin!==heightMessageOrigin)return;
+      if(event.data?.type!=='arlab:preview-height')return;
+      const next=event.data.height;
+      if(!Number.isFinite(next)||next<=0||next>100000)return;
+      const rounded=Math.ceil(next);
+      setHeight(previous=>previous===rounded?previous:rounded);
+      heightCallback.current?.(rounded);
+    };
+    window.addEventListener('message',receive);
+    return()=>window.removeEventListener('message',receive);
+  },[autoHeight,heightMessageOrigin]);
   const loaded = (event: SyntheticEvent<HTMLIFrameElement>) => {measure();onLoad?.(event);};
   return <div className="ct-preview" data-viewport={viewport} data-auto-height={autoHeight || undefined} aria-busy={loading || undefined}>
     {error ? <div role="alert"><p>{error}</p>{onRetry && <button className="ct-control-action" type="button" onClick={onRetry}>Retry preview</button>}</div> : <>
@@ -390,11 +420,13 @@ export interface EditorLayoutProps {
   showViewportControls?: boolean;
   propertiesLabel?: string;
   previewLabel?: string;
+  /** Width of the desktop inspector, capped at 40% of the editor. */
+  inspectorWidth?: CSSProperties['width'];
 }
 export function EditorLayout({
   title, description, toolbar, sidebar, children, footer, onExit, style,
   viewport: controlledViewport, defaultViewport="desktop", onViewportChange,
-  showViewportControls=true, propertiesLabel="Properties", previewLabel="Live preview",
+  showViewportControls=true, propertiesLabel="Properties", previewLabel="Live preview",inspectorWidth,
 }: EditorLayoutProps) {
   const root = useRef<HTMLElement>(null);
   const [localViewport,setLocalViewport] = useState<EditorViewport>(defaultViewport);
@@ -416,7 +448,7 @@ export function EditorLayout({
     onViewportChange?.(next);
   };
   const viewports=[{value:'desktop' as const,label:'Desktop',icon:Monitor},{value:'mobile' as const,label:'Phone',icon:Smartphone}];
-  return <section className="ct-editor" ref={root} aria-label={title} style={style} data-viewport={viewport} data-compact={compact||undefined}>
+  return <section className="ct-editor" ref={root} aria-label={title} style={{...style,...(inspectorWidth!==undefined?{'--ct-editor-inspector-width':typeof inspectorWidth==='number'?`${inspectorWidth}px`:inspectorWidth} as CSSProperties:{})}} data-viewport={viewport} data-compact={compact||undefined}>
     <header className="ct-editor-header">
       <div className="ct-editor-document"><span className="ct-editor-document-mark" aria-hidden="true"><FileText size={16}/></span><div><h2>{title}</h2>{description && <p>{description}</p>}</div></div>
       <div className="ct-editor-header-actions">{toolbar && <div className="ct-editor-toolbar">{toolbar}</div>}

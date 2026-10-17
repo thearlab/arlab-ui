@@ -120,14 +120,12 @@ export function SectionHead({ title, sub, children }) {
     </div>
   );
 }
-/** @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props */
-export function TextAction({ children, ...props }) {
-  return (
-    <button className="text-action" {...props}>
-      {children}
-      <ChevronRight size={14} />
-    </button>
-  );
+/** @typedef {(React.ButtonHTMLAttributes<HTMLButtonElement> & {href?:never,external?:boolean}) | (React.AnchorHTMLAttributes<HTMLAnchorElement> & {href:string,external?:boolean})} TextActionProps
+ * @param {TextActionProps} props */
+export function TextAction({ children, href, external=false, className='', ...props }) {
+  const content = <>{children}<ChevronRight size={14} aria-hidden="true" /></>;
+  if (href !== undefined) return <a {...props} className={`text-action ${className}`} href={href} target={external ? '_blank' : props.target} rel={external ? 'noopener noreferrer' : props.rel}>{content}</a>;
+  return <button {...props} type={props.type || 'button'} className={`text-action ${className}`}>{content}</button>;
 }
 /** @param {{value: number, label?: string}} props */
 export function Meter({ value, label }) {

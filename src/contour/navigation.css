@@ -166,6 +166,13 @@
 /* Explicit workspace sizing avoids intrinsic content growing beyond the shell. */
 .contour-shell-content[data-content-layout="fill"] {display:flex;flex-direction:column;overflow:hidden;}
 .contour-shell-content[data-content-layout="fill"] > * {flex:1;min-width:0;min-height:0;height:100%;overflow:hidden;}
+.contour-shell-content:has(> .ct-shell-page[data-scroll="page"]) {display:block;overflow:auto;}
+.contour-shell-content:has(> .ct-shell-page[data-scroll="child"]) {display:flex;flex-direction:column;overflow:hidden;}
+.contour-shell .ct-shell-page {min-width:0;box-sizing:border-box;}
+.contour-shell .ct-shell-page[data-scroll="page"] {min-height:100%;}
+.contour-shell-content > .ct-shell-page[data-scroll="page"] {flex:none;height:auto;min-height:100%;overflow:visible;}
+.contour-shell .ct-shell-page[data-scroll="child"] {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;overflow:hidden;}
+.contour-shell .ct-shell-page[data-scroll="child"] > * {flex:1;min-height:0;min-width:0;}
 
 .contour-shell-content,.contour-shell-secondary-content {overscroll-behavior:contain;}
 

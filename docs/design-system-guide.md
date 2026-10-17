@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.27 · Satin Lift · October 2026
+ARLAB internal applications · Version 2.0.0-beta.28 · Satin Lift · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -180,7 +180,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 ## Complete component contract
 
-148 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+150 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -738,7 +738,7 @@ Import: `import { Timestamp } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `date` | A valid date or ISO 8601 date-time string. |
-| `format` | date by default. datetime and time remain available. |
+| `format` | date by default. datetime, time and relative remain available. |
 | `showTime` | Opt into date plus time when format is not supplied. |
 | `variant` | plain by default. chip adds a soft container and date/time icon. |
 | `locale` | Locale for human-readable date and time, default en-GB. |
@@ -906,16 +906,33 @@ Live example: [WorkspaceContent](https://arlab-ui-showcase.pages.dev/?view=catal
 
 Responsive equal or main-and-sidebar workspace columns.
 
-The shared package owns all visual styling and responsive behaviour.
+The sidebar column defaults to 280px; supportingWidth accepts a CSS width or number of pixels.
 
 Import: `import { WorkspaceGrid } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `layout` | Optional pattern-specific value. Use the live example as the reference. |
+| `supportingWidth` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
 
 Live example: [WorkspaceGrid](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=WorkspaceGrid)
+
+#### ShellPage
+
+Per-route scroll ownership inside SidebarShell.
+
+page lets ordinary content grow and scroll in the shell; child bounds the route so its table or editor owns scrolling.
+
+Import: `import { ShellPage } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `scroll` | Optional pattern-specific value. Use the live example as the reference. |
+| `label` | Visible or accessible name describing the control. |
+| `children` | React content. Keep text concise and accessible. |
+
+Live example: [ShellPage](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ShellPage)
 
 #### WorkspaceIntro
 
@@ -1156,6 +1173,23 @@ Import: `import { SectionHead } from '@arlab/ui';`
 | `children` | React content. Keep text concise and accessible. |
 
 Live example: [SectionHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SectionHead)
+
+#### TextAction
+
+A discreet section action with native button or link semantics.
+
+href renders a link, including modifier-click and new-tab behavior. Without href it is a non-submit button.
+
+Import: `import { TextAction } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+| `href` | The actual destination URL or local anchor. |
+| `external` | Optional pattern-specific value. Use the live example as the reference. |
+| `onClick` | Action callback. Use a link for navigation. |
+
+Live example: [TextAction](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TextAction)
 
 #### SidebarShell
 
@@ -2695,7 +2729,7 @@ Live example: [MediaUploadField](https://arlab-ui-showcase.pages.dev/?view=catal
 
 A contained live page preview.
 
-Defaults to a sandboxed iframe; viewport supports desktop, tablet and mobile.
+Defaults to a sandboxed iframe. Same-origin height is observed directly; cross-document previews can use previewHeightBridgeScript and an exact origin.
 
 Import: `import { PreviewFrame } from '@arlab/ui';`
 
@@ -2709,6 +2743,9 @@ Import: `import { PreviewFrame } from '@arlab/ui';`
 | `error` | An actionable validation message; sets aria-invalid. |
 | `onRetry` | Retries the failed operation without dropping the current context. |
 | `sandbox` | Optional pattern-specific value. Use the live example as the reference. |
+| `autoHeight` | Optional pattern-specific value. Use the live example as the reference. |
+| `heightMessageOrigin` | Optional pattern-specific value. Use the live example as the reference. |
+| `onHeightChange` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [PreviewFrame](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PreviewFrame)
 
@@ -2716,7 +2753,7 @@ Live example: [PreviewFrame](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 A full-height editing workspace.
 
-Independent canvas and inspector scroll regions, a fixed save footer and shared desktop/tablet/phone controls. Properties open in a shared side sheet when the editor becomes narrow.
+Independent canvas and inspector scroll regions, an adjustable inspector, a fixed save footer and shared desktop/phone controls. Properties open in a shared side sheet when the editor becomes narrow.
 
 Import: `import { EditorLayout } from '@arlab/ui';`
 
@@ -2736,6 +2773,7 @@ Import: `import { EditorLayout } from '@arlab/ui';`
 | `showViewportControls` | Optional pattern-specific value. Use the live example as the reference. |
 | `propertiesLabel` | Optional pattern-specific value. Use the live example as the reference. |
 | `previewLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `inspectorWidth` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [EditorLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=EditorLayout)
 
