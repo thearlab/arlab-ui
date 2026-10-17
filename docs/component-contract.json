@@ -1019,6 +1019,8 @@
       "weeks",
       "events",
       "onEventSelect",
+      "maxEventsPerDay",
+      "onDayDetails",
       "min",
       "max",
       "weekStartsOn",
@@ -1050,7 +1052,9 @@
       "loading",
       "error",
       "columnWidth",
-      "density"
+      "density",
+      "height",
+      "fill"
     ],
     "behavior": "The host owns cards and persistence. Move by pointer/touch handle, keyboard pickup/arrows/drop or Move to menu. Omit onMove for read-only. Destination index excludes the moved card. Phone supports tabs and swipe; loading, error, empty and limited columns have explicit states."
   },
@@ -1090,11 +1094,14 @@
       "navigator",
       "detail",
       "layout",
+      "collectionMode",
+      "sidebar",
+      "sidebarLabel",
       "navigatorLabel",
       "detailLabel",
       "navigatorWidth"
     ],
-    "behavior": "split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned Back navigation."
+    "behavior": "split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned collection navigation."
   },
   {
     "name": "RecordNavigator",
@@ -1151,6 +1158,8 @@
       "headerActions",
       "search",
       "footerActions",
+      "condensedHeaderActions",
+      "condensedFooterActions",
       "fill",
       "columns",
       "rows",
@@ -1172,6 +1181,7 @@
       "variant",
       "onRowClick",
       "rowLabel",
+      "selectedRowKey",
       "sortIndicators"
     ],
     "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
@@ -1296,7 +1306,10 @@
       "search",
       "headerActions",
       "footerActions",
-      "filterKey"
+      "condensedHeaderActions",
+      "condensedFooterActions",
+      "filterKey",
+      "selectedId"
     ],
     "behavior": "Records carry id, title, description, category, status, tone, meta and real href. Modifier-click preserves browser navigation."
   },
@@ -1397,6 +1410,7 @@
       "fill",
       "onRowClick",
       "rowLabel",
+      "selectedRowKey",
       "tableLayout",
       "sortIndicators"
     ],

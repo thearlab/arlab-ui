@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0-beta.15
+
+- CollectionWorkspace adds optional `collectionMode="condense"`: the same table narrows to its identity column beside the selected detail, retaining sort, filters, scroll and mounted state. Its persistent right filter rail remains available in browse and detail; phones use the shared filter sheet. Existing separate-navigator behavior remains the default.
+- InfiniteTable and progressive RecordCollection add compact header/footer action slots. The narrowed list shows one count pill, essential icon tools and creation controls, while full-table tabs, search and progress copy stay out of the compact list. Remote load errors preserve explicit retry. Selected rows receive a soft active state; virtual selection reveals the required window without rendering preceding rows.
+- RecordHeader separates the status/action band from record tabs, groups context tools, uses a compact information button and adapts actions to narrow detail containers.
+- Calendar gains a quiet month grid, compact date controls, optional event times and tone/token markers, overflow disclosure and a full day agenda. Narrow containers and phones show event counts and readable agenda content. Controlled dates, rolling periods, keyboard navigation and bounds remain supported; events are application-owned.
+- Kanban columns allow horizontal scroll chaining over cards. Height/fill sizing keeps the horizontal scrollbar within available layout space; below-fold boards retain their document footprint. Shift-wheel supports horizontal movement without intercepting native horizontal deltas.
+- Existing immutable V2 tags and legacy entry points remain unchanged. Validation includes package/showcase builds, public interaction regressions and theme contrast checks; see the beta.15 release notes.
+
 ## 2.0.0-beta.14
 
 - Added V2 CommandPalette composed from the shared SearchField, native Modal, ScrollArea, Pill and Kbd. Caller-owned items/routing preserve application permissions and edit guards; arrow navigation, Enter activation, Escape and trigger-focus restoration remain available. Result DOM is bounded and matched totals are announced.

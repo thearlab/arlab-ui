@@ -3,7 +3,7 @@
 The shared design system for ARLAB internal tools. Manrope, IBM Plex Mono, restrained geometry, a porcelain/graphite foundation and ARLAB pink. This is the V2 integration beta; Studio is the first migration target.
 
 ```json
-"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.9"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.15"
 ```
 
 ```jsx
@@ -19,7 +19,7 @@ The root entry now exports Contour. Do not upgrade a v1 app by changing its depe
 
 ## Showcase
 
-Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 125 component entries and 146 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
+Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase imports the real package, covers 130 component entries and 146 curated icons, and includes light/dark layouts, independent double navigation, fixed-header/footer scrollable sidebars and loading states.
 
 ## Development
 
@@ -32,3 +32,7 @@ See MIGRATION-V2.md for beta limitations and remaining stable-release gates.
 ## Standalone navigation
 
 [Navigation integration guide](docs/NAVIGATION.md): SidebarShell, AppNavigation, NavigationSection, NavigationItem and ScrollArea can be used without a provider or showcase styles.
+
+## Persistent table workspaces
+
+Use `CollectionWorkspace collectionMode="condense"` to keep the same table alongside the selected record and `sidebar` for persistent right filters. Progressive tables support compact header/footer actions and selected-record reveal. See [the integration contract](docs/COLLECTION-WORKSPACE-CONDENSE.md), [Calendar](docs/CALENDAR.md) and [beta.15 release notes](docs/RELEASE-beta.15.md).

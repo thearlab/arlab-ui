@@ -12,6 +12,9 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   title?: string;
   header?: ReactNode;
   headerActions?: ReactNode;
+  /** Compact controls displayed only inside a condensed collection pane. */
+  condensedHeaderActions?: ReactNode;
+  condensedFooterActions?: ReactNode;
   /** Search belongs to the fixed table header, beside its single count pill. */
   search?: ReactNode;
   /** Persistent creation or collection actions outside the row scroll surface. */
@@ -93,6 +96,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const latest = useRef(props); latest.current = props;
   const failureRef = useRef(failure); failureRef.current = failure;
   const headingId = useId();
+  const revealIndex=useRef<number|null>(null);
 
   const ordered = useMemo(() => remote ? rows : sortTableRows(rows, columns, sort), [rows, columns, remote, sort?.key, sort?.direction]);
   const count = remote ? ordered.length : Math.min(loaded, ordered.length);
@@ -139,9 +143,13 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     if (!live.current || !viewport.current) return;
     const node = viewport.current;
     const head = root.current?.querySelector('thead');
+    if(revealIndex.current!==null&&node.clientHeight>0){
+      node.scrollTop=Math.max(0,(head?.getBoundingClientRect().height||44)+revealIndex.current*rowHeight-(node.clientHeight-rowHeight)/2);
+      revealIndex.current=null;
+    }
     const next = { top: node.scrollTop, height: node.clientHeight, header: head?.getBoundingClientRect().height ?? 44 };
     setPosition(old => old.top === next.top && old.height === next.height && old.header === next.header ? old : next);
-  }, []);
+  }, [rowHeight]);
   const scheduleRead = useCallback(() => {
     if (frame.current !== null) return;
     frame.current = requestAnimationFrame(() => { frame.current = null; readPosition(); });
@@ -172,6 +180,14 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     setPosition(old => ({ ...old, top: 0 }));
   }, [localRows, remote, filterKey, sortIdentity, chunkSize, rowHeight]);
 
+  const selectedIndex=props.selectedRowKey===undefined?-1:ordered.findIndex(row=>String(typeof rowKey==='function'?rowKey(row):row[rowKey])===String(props.selectedRowKey));
+  useLayoutEffect(()=>{
+    revealIndex.current=selectedIndex<0?null:selectedIndex;
+    if(selectedIndex<0)return;
+    if(!remote)setLoaded(old=>Math.max(old,Math.ceil((selectedIndex+1)/chunkSize)*chunkSize));
+    scheduleRead();
+  },[props.selectedRowKey,selectedIndex,remote,chunkSize,rowHeight,scheduleRead]);
+
   useEffect(() => {
     if (loading || error || loadingMore || !more) return;
     const distance = position.header + count * rowHeight - (position.top + position.height);
@@ -189,13 +205,14 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const colspan = Math.max(1, columns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
-    <TableHeader title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions}/>
+    <TableHeader title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
+    {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
       <table aria-label={title} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>
         <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>
           {!loading && count > 0 && range.start > 0 && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: range.start * rowHeight }}/></tr>}
-          {!loading && visibleRows.map((row, offset) => <tr {...tableRowProps(row,props)} key={typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])} aria-rowindex={range.start + offset + 2} className="ct-infinite-row">
+          {!loading && visibleRows.map((row, offset) => <tr {...tableRowProps(row,props,typeof rowKey==='function'?rowKey(row):row[rowKey])} key={typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])} aria-rowindex={range.start + offset + 2} className="ct-infinite-row">
             {columns.map(column => <td key={column.key} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
           </tr>)}
           {!loading && count > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (count - range.end) * rowHeight }}/></tr>}
@@ -203,10 +220,11 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
         </tbody>
       </table>
     </ScrollArea>
-    <footer><span role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? 'Scroll for more' : 'All results loaded')}</span>
-      {remote && more && <Button disabled={!!loadingMore || loading} onClick={() => requestMore(true)}>{error ? 'Retry loading' : 'Load more'}</Button>}
-      {!remote && more && <Button disabled={loading} onClick={() => setLoaded(old => Math.min(ordered.length, old + chunkSize))}>Load more</Button>}
+    <footer data-error={!!error||undefined} data-condensed-actions={!!props.condensedFooterActions||undefined}><span className={error?'ct-table-error':'ct-table-progress'} role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? 'Scroll for more' : 'All results loaded')}</span>
+      {remote && more && <Button className={error?'ct-table-retry':'ct-table-load-more'} disabled={!!loadingMore || loading} onClick={() => requestMore(true)}>{error ? 'Retry loading' : 'Load more'}</Button>}
+      {!remote && more && <Button className="ct-table-load-more" disabled={loading} onClick={() => setLoaded(old => Math.min(ordered.length, old + chunkSize))}>Load more</Button>}
       {footerActions&&<div className="ct-table-footer-actions">{footerActions}</div>}
+      {props.condensedFooterActions&&<div className="ct-table-condensed-footer-actions">{props.condensedFooterActions}</div>}
     </footer>
   </div>;
 }

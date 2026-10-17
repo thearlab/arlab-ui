@@ -82,3 +82,19 @@ Use one optimistic host reorder for a move: remove the card, build the destinati
 TypeScript and CSS parsing pass. A source-execution harness validates destination clamping, keyboard move/cancel, unchanged host data, absence of movement controls when read-only, pointer capture/release and final insertion index, Show more, skeleton loading and error rendering. These are lightweight component execution checks, not real browser touch tests.
 
 The controlled showcase now includes seven project phases, phase colors, collapse, read-only, loading, error, empty, Move to and details Modal. Parent release verification should still exercise actual pointer/touch capture, both scroll directions, phone swipe/edge switching, keyboard focus after a controlled reorder, reduced motion, long titles, custom interactive card content, and light/dark appearances. Generated component contract/docs must be regenerated from the new contract during release.
+
+## Bounded height and sideways scrolling
+
+`height?: CSSProperties['height']` sets the preferred board height. `fill?: boolean` uses the available height of a bounded flex/grid parent. Without either, the board uses up to 640px. All modes cap the board to the remaining visible viewport and vertically clipping ancestor space, measured from its actual position rather than a fixed page-header offset. The outer horizontal scrollbar therefore stays within that available area. A board below the visible area reserves its preferred height until scrolling exposes usable room, then measures its cap. Ordinary outer scrolling does not repeatedly resize an already measured board, avoiding scroll-clamping feedback when it sits at the end of a page. Window and ancestor resizing update the cap; card-column scrolling does not remeasure page geometry.
+
+```tsx
+<KanbanBoard {...boardProps} height={480} />
+// Or inside a bounded flex/grid page frame:
+<KanbanBoard {...boardProps} fill />
+```
+
+Each column still owns its vertical shared ScrollArea with fixed heading. Vertical overscroll is contained while horizontal overscroll remains `auto`, allowing sideways trackpad gestures over cards to reach the board. The standalone ScrollArea axis rules now contain only their own scrolling axis; `axis="both"` retains both-axis containment.
+
+Shift + mouse wheel over a card/header moves the outer board horizontally, with line/page delta normalization and range clamping. Native horizontal deltas are not intercepted; browsers that already translate Shift-wheel retain their behavior. A stationary edge does not consume the event. Existing pointer dragging, keyboard movement, Move to controls and phone column swipes are unchanged.
+
+Public component regressions cover measured clipping bounds, explicit height/fill props and Shift-wheel versus untouched horizontal/vertical wheel events. Actual native scroll chaining and visible custom scrollbar geometry still require browser/trackpad verification.

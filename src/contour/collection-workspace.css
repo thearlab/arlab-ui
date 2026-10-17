@@ -4,8 +4,8 @@
 .ct-workspace-panes {display:grid;grid-template-columns:minmax(220px,var(--ct-navigator-width,280px)) minmax(0,1fr);width:100%;}
 .ct-workspace-navigator {background:var(--raise);border-right:var(--line-width) solid var(--line);overflow:hidden;}
 .ct-workspace-detail {overflow:hidden;}
-.ct-collection-workspace[data-layout="focus"] > .ct-workspace-panes {grid-template-columns:minmax(0,1fr);}
-.ct-collection-workspace[data-layout="stacked"] > .ct-workspace-panes {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,30%) minmax(0,1fr);}
+.ct-collection-workspace[data-layout="focus"] .ct-workspace-panes {grid-template-columns:minmax(0,1fr);}
+.ct-collection-workspace[data-layout="stacked"] .ct-workspace-panes {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,30%) minmax(0,1fr);}
 .ct-collection-workspace[data-layout="stacked"] .ct-workspace-navigator {border-right:0;border-bottom:var(--line-width) solid var(--line);}
 .ct-record-navigator {display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;width:100%;}
 .ct-navigator-header {display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);padding:var(--space-4);border-bottom:var(--line-width) solid var(--line);flex-shrink:0;}
@@ -44,7 +44,7 @@
 .ct-record-section[data-variant="divided"] {padding-bottom:var(--space-6);border-bottom:var(--line-width) solid var(--line);}
 @media(max-width:1099px) and (min-width:761px){.ct-workspace-panes {grid-template-columns:240px minmax(0,1fr);}}
 @media(max-width:760px){
- .ct-workspace-panes,.ct-collection-workspace[data-layout="stacked"] > .ct-workspace-panes {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);}
+ .ct-workspace-panes,.ct-collection-workspace[data-layout="stacked"] .ct-workspace-panes {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);}
  .ct-workspace-navigator {display:none;}
  .ct-record-section > header {flex-wrap:wrap;}
 }
@@ -53,3 +53,47 @@
 
 .ct-action-group {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);min-width:0;}
 .ct-action-group[data-align="end"] {justify-content:flex-end;}
+
+/* One collection instance across browse and selected-record states. */
+.ct-workspace-main {display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;overflow:hidden;}
+.ct-workspace-stage {display:flex;flex:1;min-width:0;min-height:0;overflow:hidden;}
+.ct-workspace-sidebar {display:flex;flex-direction:column;flex:0 0 auto;min-height:0;max-width:320px;border-left:var(--line-width) solid var(--line);background:var(--raise);overflow:hidden;}
+.ct-workspace-toolbar {display:none;}
+.ct-collection-workspace[data-collection-mode="condense"][data-selected] .ct-workspace-stage {display:grid;grid-template-columns:minmax(220px,var(--ct-navigator-width,280px)) minmax(0,1fr);}
+.ct-collection-workspace[data-collection-mode="condense"][data-layout="focus"][data-selected] .ct-workspace-stage {grid-template-columns:minmax(0,1fr);}
+.ct-collection-workspace[data-collection-mode="condense"][data-layout="stacked"][data-selected] .ct-workspace-stage {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,30%) minmax(0,1fr);}
+.ct-workspace-collection[data-condensed] {border-right:var(--line-width) solid var(--line);overflow:hidden;}
+.ct-workspace-collection[data-condensed] :is(.ct-data-table,.ct-infinite-scroll,.scroll-viewport) {min-width:0;}
+.ct-workspace-collection[data-condensed] table {width:100%;min-width:0;table-layout:fixed;}
+.ct-workspace-collection[data-condensed] :is(th,td):not(:first-child),.ct-workspace-collection[data-condensed] col:not(:first-child) {display:none;}
+.ct-workspace-collection[data-condensed] :is(th,td,col):first-child {width:100%!important;min-width:0!important;max-width:none!important;}
+.ct-workspace-collection[data-condensed] .ct-table-header {flex-wrap:wrap;}
+.ct-workspace-collection[data-condensed] .ct-table-heading {min-width:0;}
+.ct-workspace-collection[data-condensed] .ct-table-heading > div {min-width:0;}
+.ct-workspace-collection[data-condensed] .ct-data-table > footer {flex-wrap:wrap;}
+.ct-workspace-detail {animation:ct-workspace-detail-enter 120ms ease-out;}
+@keyframes ct-workspace-detail-enter {from{opacity:0;}to{opacity:1;}}
+@media(max-width:760px){
+ .ct-workspace-sidebar {display:none;}
+ .ct-workspace-toolbar {display:flex;justify-content:flex-end;flex:0 0 auto;padding:var(--space-2) var(--space-3);border-bottom:var(--line-width) solid var(--line);background:var(--raise);}
+ .ct-collection-workspace[data-collection-mode="condense"][data-selected] .ct-workspace-stage {grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);}
+ .ct-workspace-collection[data-condensed] {display:none;}
+}
+@media(prefers-reduced-motion:reduce){.ct-workspace-detail {animation:none;}}
+
+.ct-workspace-sidebar > :is(.ct-filter-sidebar,.ct-filter-rail) {border-left:0;}
+
+/* A narrowed collection retains its table, but presents only compact host actions. */
+.ct-workspace-collection[data-condensed] .ct-table-expanded-heading,
+.ct-workspace-collection[data-condensed] .ct-data-table > .ct-table-header > .ct-table-controls,
+.ct-workspace-collection[data-condensed] .ct-table-progress,
+.ct-workspace-collection[data-condensed] .ct-table-load-more,
+.ct-workspace-collection[data-condensed] .ct-table-footer-actions {display:none;}
+.ct-workspace-collection[data-condensed] .ct-table-condensed-heading {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ct-workspace-collection[data-condensed] :is(.ct-table-condensed-header-actions,.ct-table-condensed-footer-actions) {display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap;}
+.ct-workspace-collection[data-condensed] .ct-table-condensed-header-actions {margin-left:auto;}
+.ct-workspace-collection[data-condensed] .ct-infinite-table > footer:not([data-error]):not([data-condensed-actions]) {display:none;}
+.ct-workspace-collection[data-condensed] .ct-infinite-table > footer[data-error] {align-items:flex-start;}
+.ct-workspace-collection[data-condensed] .ct-table-error {min-width:0;overflow-wrap:anywhere;}
+
+.ct-workspace-collection[data-condensed] .ct-record-collection-table td:first-child > small {display:none;}

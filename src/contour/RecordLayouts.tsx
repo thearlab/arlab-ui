@@ -7,7 +7,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
-import { Button, PageBar } from "./library.js";
+import { Button, IconButton, PageBar } from "./library.js";
 import { InfiniteTable } from './InfiniteTable.js';
 import { FilterableTable } from "./DataFilters.js";
 import { Modal, Status } from "./ui.js";
@@ -29,14 +29,17 @@ export function RecordCollection({
   loading = false,
   label = "Records",
   variant = "contained",
-  progressive = false, search, headerActions, footerActions, filterKey,
+  progressive = false, search, headerActions, footerActions, condensedHeaderActions, condensedFooterActions, filterKey, selectedId,
   emptyMessage = "No records match your filters.",
 }: {
   progressive?: boolean;
+  selectedId?: string;
   filterKey?: string | number;
   search?: ReactNode;
   headerActions?: ReactNode;
   footerActions?: ReactNode;
+  condensedHeaderActions?: ReactNode;
+  condensedFooterActions?: ReactNode;
   records: CollectionRecord[];
   onOpen: (id: string) => void;
   loading?: boolean;
@@ -65,9 +68,10 @@ export function RecordCollection({
     <div data-progressive={progressive||undefined} className="ct-record-collection" data-variant={variant}>
       <div className="ct-record-collection-table">
         <Table
+          selectedRowKey={selectedId}
           search={search}
           headerActions={headerActions}
-          {...(progressive?{footerActions,filterKey}:{})}
+          {...(progressive?{footerActions,filterKey,condensedHeaderActions,condensedFooterActions}:{})}
           fill
           variant={variant}
           title={label}
@@ -88,6 +92,7 @@ export function RecordCollection({
                 <>
                   <a
                     className="lib-text-link"
+                    title={row.title}
                     href={row.href}
                     onClick={(event) => open(event, row)}
                   >
@@ -273,34 +278,21 @@ export function RecordHeader({
     target?.scrollIntoView({ block: "nearest", inline: "nearest" });
   };
   return (
-    <header className="ct-record-header">
-      <div className="ct-record-context" data-back-hidden={!showBack||undefined}>
-        {showBack&&<Button onClick={onBack}>
-          <ArrowLeft size={14} />
-          {backLabel}
-        </Button>}
-        <div className="ct-record-context-actions">{contextActions}
-        {metadata && (
-          <>
-            <Button onClick={() => setDetailsOpen(true)} aria-haspopup="dialog" aria-expanded={detailsOpen}>
-              <Info size={14} />Record details
-            </Button>
-            <Modal open={detailsOpen} onClose={() => setDetailsOpen(false)} title="Record details" sheet className="ct-record-details-sheet">
-              <div className="ct-record-details-context"><span>About this record</span><h3>{title}</h3></div>
-              <ScrollArea label="Record information" className="ct-record-details-content">{metadata}</ScrollArea>
-              <div className="ct-record-details-footer"><Button onClick={() => setDetailsOpen(false)}>Done</Button></div>
-            </Modal>
-          </>
-        )}
+    <header className="ct-record-header" data-title-hidden={!showTitle||undefined}>
+      <div className="ct-record-header-main">
+        {showBack&&<Button onClick={onBack}><ArrowLeft size={14}/>{backLabel}</Button>}
+        <div className="ct-record-header-identity">
+          <h1 className={showTitle?'ct-record-header-title':'sr-only'}>{title}</h1>
+          {badges&&<div className="ct-record-header-badges">{badges}</div>}
+          {description&&<p className="ct-record-header-description">{description}</p>}
         </div>
-      </div>
-      <div className="ct-record-heading" data-title-hidden={!showTitle||undefined}>
-        <div>
-          <h1 className={showTitle?undefined:"sr-only"}>{title}</h1>
-          {badges && <div className="ct-record-badges">{badges}</div>}
-          {description&&<p className="ct-record-description">{description}</p>}
-        </div>
-        {actions && <div className="ct-record-actions">{actions}</div>}
+        {(contextActions||metadata||actions)&&<div className="ct-record-header-tools">
+          {(contextActions||metadata)&&<div className="ct-record-header-context-tools" data-separated={!!actions||undefined}>
+            {contextActions}
+            {metadata&&<IconButton label="Record details" aria-haspopup="dialog" aria-expanded={detailsOpen} onClick={()=>setDetailsOpen(true)}><Info size={14}/></IconButton>}
+          </div>}
+          {actions&&<div className="ct-record-header-primary-actions">{actions}</div>}
+        </div>}
       </div>
       <ScrollArea
         label="Record sections"
@@ -330,6 +322,11 @@ export function RecordHeader({
           ))}
         </div>
       </ScrollArea>
+      {metadata&&<Modal open={detailsOpen} onClose={()=>setDetailsOpen(false)} title="Record details" sheet className="ct-record-details-sheet">
+        <div className="ct-record-details-context"><span>About this record</span><h3>{title}</h3></div>
+        <ScrollArea label="Record information" className="ct-record-details-content">{metadata}</ScrollArea>
+        <div className="ct-record-details-footer"><Button onClick={()=>setDetailsOpen(false)}>Done</Button></div>
+      </Modal>}
     </header>
   );
 }

@@ -1,6 +1,13 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type CSSProperties,
+} from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IconButton } from "./ui.js";
+import { IconButton, Button } from "./ui.js";
 
 export interface CalendarEvent {
   id: string;
@@ -8,6 +15,10 @@ export interface CalendarEvent {
   date: string;
   title: string;
   description?: string;
+  /** Optional display-only local time, such as 09:30. */
+  time?: string;
+  tone?: "quiet" | "ok" | "warn" | "bad" | "info";
+  color?: string;
   disabled?: boolean;
 }
 export interface CalendarProps {
@@ -27,6 +38,8 @@ export interface CalendarProps {
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   events?: CalendarEvent[];
   onEventSelect?: (event: CalendarEvent) => void;
+  maxEventsPerDay?: number;
+  onDayDetails?: (date: string) => void;
   min?: string;
   max?: string;
   isDateDisabled?: (date: string) => boolean;
@@ -79,6 +92,8 @@ export function Calendar({
   weekStartsOn = 1,
   events = [],
   onEventSelect,
+  maxEventsPerDay = 3,
+  onDayDetails,
   min,
   max,
   isDateDisabled,
@@ -98,6 +113,7 @@ export function Calendar({
       today.slice(0, 7),
   );
   const [internalStart, setInternalStart] = useState(defaultStartDate);
+  const [expandedDay, setExpandedDay] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
   const pendingFocus = useRef<string | null>(null),
     root = useRef<HTMLElement>(null);
@@ -240,6 +256,42 @@ export function Calendar({
     existing.push(item);
     itemsByDate.set(item.date, existing);
   });
+  const limit = Number.isFinite(maxEventsPerDay)
+    ? Math.max(1, Math.floor(maxEventsPerDay))
+    : 3;
+  const agendaKey = [expandedDay, selected, today, firstKey].find(
+    (key) => key && key >= firstKey && key <= endKey,
+  )!;
+  const agendaItems = itemsByDate.get(agendaKey) || [];
+  const selectDate = (key: string) => {
+    setExpandedDay(null);
+    if (value === undefined) setInternalValue(key);
+    onSelect?.(key);
+  };
+  const showDay = (key: string) => {
+    setExpandedDay(key);
+    if (!unavailable(key)) {
+      if (value === undefined) setInternalValue(key);
+      onSelect?.(key);
+    }
+    onDayDetails?.(key);
+  };
+  const eventContent = (item: CalendarEvent) => (
+    <>
+      <span className="ct-calendar-event-marker" aria-hidden="true" />
+      {item.time && <span className="ct-calendar-event-time">{item.time}</span>}
+      <span className="ct-calendar-event-title">{item.title}</span>
+    </>
+  );
+  const eventProps = (item: CalendarEvent) => ({
+    "data-tone": item.tone || "quiet",
+    style: item.color
+      ? ({ "--ct-calendar-event-color": item.color } as CSSProperties)
+      : undefined,
+    title: [item.time, item.title, item.description]
+      .filter(Boolean)
+      .join(" · "),
+  });
   return (
     <section
       ref={root}
@@ -247,126 +299,233 @@ export function Calendar({
       aria-label={label}
     >
       <header className="ct-event-calendar-heading">
-        <IconButton
-          label={rolling ? "Previous period" : "Previous month"}
-          disabled={disabled || !valid}
-          onClick={() => navigate(-1)}
+        <div className="ct-calendar-period">
+          <strong id={`${id}-period`} aria-live="polite">
+            {valid
+              ? rolling
+                ? `${rows}-week schedule`
+                : safeAnchor.toLocaleDateString(locale, {
+                    month: "long",
+                    year: "numeric",
+                  })
+              : "Date unavailable"}
+          </strong>
+          {valid && (
+            <span>
+              {short(first)} – {short(end)}
+            </span>
+          )}
+        </div>
+        <div
+          className="ct-calendar-navigation"
+          role="group"
+          aria-label="Calendar period"
         >
-          <ChevronLeft size={14} />
-        </IconButton>
-        <strong id={`${id}-period`} aria-live="polite">
-          {valid
-            ? rolling
-              ? `${short(first)} – ${short(end)}`
-              : safeAnchor.toLocaleDateString(locale, {
-                  month: "long",
-                  year: "numeric",
-                })
-            : "Date unavailable"}
-        </strong>
-        <IconButton
-          label={rolling ? "Next period" : "Next month"}
-          disabled={disabled || !valid}
-          onClick={() => navigate(1)}
-        >
-          <ChevronRight size={14} />
-        </IconButton>
+          <IconButton
+            label={rolling ? "Previous period" : "Previous month"}
+            disabled={disabled || !valid}
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeft size={14} />
+          </IconButton>
+          <Button
+            disabled={disabled || !valid}
+            onClick={() => {
+              pendingFocus.current = null;
+              setFocused(null);
+              setExpandedDay(null);
+              movePeriod(parseDate(today)!);
+            }}
+          >
+            Today
+          </Button>
+          <IconButton
+            label={rolling ? "Next period" : "Next month"}
+            disabled={disabled || !valid}
+            onClick={() => navigate(1)}
+          >
+            <ChevronRight size={14} />
+          </IconButton>
+        </div>
       </header>
       {!valid ? (
         <p role="alert">
           Provide valid dates and a week count between 1 and 12.
         </p>
       ) : (
-        <table
-          className="ct-event-calendar-grid"
-          aria-labelledby={`${id}-period`}
-        >
-          <thead>
-            <tr>
-              {Array.from({ length: 7 }, (_, n) => (
-                <th key={n} scope="col">
-                  <abbr
-                    title={addDays(first, n).toLocaleDateString(locale, {
-                      weekday: "long",
-                    })}
-                  >
-                    {addDays(first, n).toLocaleDateString(locale, {
-                      weekday: "short",
-                    })}
-                  </abbr>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: rows }, (_, row) => (
-              <tr key={row}>
-                {dates.slice(row * 7, row * 7 + 7).map((date) => {
-                  const key = keyOf(date),
-                    items = itemsByDate.get(key) || [];
-                  return (
-                    <td
-                      key={key}
-                      data-selected={selected === key || undefined}
-                      data-outside={
-                        (!rolling &&
-                          date.getMonth() !== safeAnchor.getMonth()) ||
-                        undefined
-                      }
+        <>
+          <table
+            className="ct-event-calendar-grid"
+            aria-labelledby={`${id}-period`}
+          >
+            <thead>
+              <tr>
+                {Array.from({ length: 7 }, (_, n) => (
+                  <th key={n} scope="col">
+                    <abbr
+                      title={addDays(first, n).toLocaleDateString(locale, {
+                        weekday: "long",
+                      })}
                     >
-                      <button
-                        type="button"
-                        data-calendar-date={key}
-                        tabIndex={key === tabDate ? 0 : -1}
-                        disabled={unavailable(key)}
-                        aria-label={full(date)}
-                        aria-pressed={selected === key}
-                        aria-current={key === today ? "date" : undefined}
-                        onFocus={() => setFocused(key)}
-                        onKeyDown={(e) => keyDown(e, date)}
-                        onClick={() => {
-                          if (value === undefined) setInternalValue(key);
-                          onSelect?.(key);
-                        }}
-                      >
-                        <time dateTime={key}>{date.getDate()}</time>
-                      </button>
-                      {items.length > 0 && (
-                        <ul aria-label={`Events for ${full(date)}`}>
-                          {items.map((item) => (
-                            <li key={item.id}>
-                              {onEventSelect ? (
-                                <button
-                                  type="button"
-                                  disabled={disabled || item.disabled}
-                                  title={item.description}
-                                  onClick={() => onEventSelect(item)}
-                                  aria-label={`${item.title}, ${full(date)}`}
-                                >
-                                  {item.title}
-                                </button>
-                              ) : (
-                                <span title={item.description}>
-                                  {item.title}
-                                </span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </td>
-                  );
-                })}
+                      {addDays(first, n).toLocaleDateString(locale, {
+                        weekday: "short",
+                      })}
+                    </abbr>
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {Array.from({ length: rows }, (_, row) => (
+                <tr key={row}>
+                  {dates.slice(row * 7, row * 7 + 7).map((date) => {
+                    const key = keyOf(date),
+                      items = itemsByDate.get(key) || [],
+                      overflow = Math.max(0, items.length - limit);
+                    return (
+                      <td
+                        key={key}
+                        data-selected={selected === key || undefined}
+                        data-weekend={
+                          date.getDay() === 0 ||
+                          date.getDay() === 6 ||
+                          undefined
+                        }
+                        data-outside={
+                          (!rolling &&
+                            date.getMonth() !== safeAnchor.getMonth()) ||
+                          undefined
+                        }
+                      >
+                        <div className="ct-calendar-day-top">
+                          <Button
+                            variant="ghost"
+                            className="ct-calendar-date"
+                            data-calendar-date={key}
+                            tabIndex={key === tabDate ? 0 : -1}
+                            disabled={unavailable(key)}
+                            aria-label={full(date)}
+                            aria-pressed={selected === key}
+                            aria-current={key === today ? "date" : undefined}
+                            onFocus={() => setFocused(key)}
+                            onKeyDown={(
+                              event: KeyboardEvent<HTMLButtonElement>,
+                            ) => keyDown(event, date)}
+                            onClick={() => selectDate(key)}
+                          >
+                            <time dateTime={key}>{date.getDate()}</time>
+                          </Button>
+                        </div>
+                        {items.length > 0 && (
+                          <>
+                            <ul
+                              className="ct-calendar-day-events"
+                              aria-label={`Events for ${full(date)}`}
+                            >
+                              {items.slice(0, limit).map((item) => (
+                                <li key={item.id}>
+                                  {onEventSelect ? (
+                                    <Button
+                                      variant="ghost"
+                                      className="ct-calendar-event"
+                                      {...eventProps(item)}
+                                      disabled={disabled || item.disabled}
+                                      onClick={() => onEventSelect(item)}
+                                      aria-label={`${item.title}, ${full(date)}`}
+                                    >
+                                      {eventContent(item)}
+                                    </Button>
+                                  ) : (
+                                    <span
+                                      className="ct-calendar-event"
+                                      {...eventProps(item)}
+                                    >
+                                      {eventContent(item)}
+                                    </span>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                            {overflow > 0 && (
+                              <Button
+                                variant="ghost"
+                                className="ct-calendar-more"
+                                aria-label={`View all ${items.length} events for ${full(date)}`}
+                                disabled={disabled}
+                                onClick={() => showDay(key)}
+                              >
+                                +{overflow} more
+                              </Button>
+                            )}
+                            <Button
+                              variant="ghost"
+                              className="ct-calendar-phone-count"
+                              aria-label={`View ${items.length} events for ${full(date)}`}
+                              disabled={disabled}
+                              onClick={() => showDay(key)}
+                            >
+                              {items.length}
+                              <span className="sr-only"> events</span>
+                            </Button>
+                          </>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <section
+            className="ct-calendar-agenda"
+            aria-labelledby={`${id}-agenda`}
+          >
+            <header>
+              <h3 id={`${id}-agenda`}>{full(parseDate(agendaKey)!)}</h3>
+              <span>
+                {agendaItems.length}{" "}
+                {agendaItems.length === 1 ? "event" : "events"}
+              </span>
+            </header>
+            {agendaItems.length ? (
+              <ul>
+                {agendaItems.map((item) => (
+                  <li key={item.id}>
+                    {onEventSelect ? (
+                      <Button
+                        variant="ghost"
+                        className="ct-calendar-event"
+                        {...eventProps(item)}
+                        disabled={disabled || item.disabled}
+                        aria-label={`${item.title}, ${full(parseDate(agendaKey)!)}`}
+                        onClick={() => onEventSelect(item)}
+                      >
+                        {eventContent(item)}
+                        {item.description && (
+                          <span className="ct-calendar-event-description">
+                            {item.description}
+                          </span>
+                        )}
+                      </Button>
+                    ) : (
+                      <div className="ct-calendar-event" {...eventProps(item)}>
+                        {eventContent(item)}
+                        {item.description && (
+                          <span className="ct-calendar-event-description">
+                            {item.description}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No events scheduled for this day.</p>
+            )}
+          </section>
+        </>
       )}
-      <footer aria-live="polite">
-        {selected && parseDate(selected)
-          ? `Selected: ${full(parseDate(selected)!)}`
-          : "Choose a date"}
-      </footer>
     </section>
   );
 }

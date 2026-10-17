@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { GripVertical, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Button, Panel, Skeleton, StateView, TabStrip } from './library.js';
 import { IconButton, Dropdown } from './ui.js';
@@ -20,6 +20,10 @@ export interface KanbanBoardProps<T extends KanbanCard> {
   onColumnToggle?:(columnId:string,collapsed:boolean)=>void;
   getCardLabel?:(card:T)=>string;
   loading?:boolean; error?:ReactNode; columnWidth?:number; density?:'regular'|'compact';
+  /** Preferred board height, capped to its visible scroll-container space. Default: up to 640px. */
+  height?:CSSProperties['height'];
+  /** Fill a bounded flex/grid parent. Still capped to the visible viewport/container. */
+  fill?:boolean;
 }
 interface Drag {id:string;from:string;original:number;to:string;index:number;mode:'pointer'|'keyboard';pointerId?:number;x?:number;y?:number}
 /** Column cards follow host array order. Used by all movement paths, including the menu. */
@@ -30,8 +34,53 @@ export function kanbanDestination<T extends KanbanCard>(cards:T[],cardId:string,
 /** Controlled reusable board. Only presentation state (phone tab, disclosure, drag preview) is local.
  * Arbitrary card content is never wrapped in a button. Open/drag/menu controls are sibling actions.
  */
-export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCard=(card:T)=>card.id,onCardOpen,onMove,onColumnToggle,getCardLabel,loading=false,error,columnWidth=280,density='regular'}:KanbanBoardProps<T>) {
+export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCard=(card:T)=>card.id,onCardOpen,onMove,onColumnToggle,getCardLabel,loading=false,error,columnWidth=280,density='regular',height,fill=false}:KanbanBoardProps<T>) {
   const board=useRef<HTMLDivElement>(null),dragRef=useRef<Drag|null>(null);
+  const [availableHeight,setAvailableHeight]=useState<number|null>(null);
+  useLayoutEffect(()=>{
+    const node=board.current;if(!node)return;
+    let frame:number|null=null;
+    let waitingForVisibleSpace=false;
+    const measure=()=>{
+      frame=null;
+      const top=node.getBoundingClientRect().top;
+      let bottom=(window.visualViewport?window.visualViewport.offsetTop+window.visualViewport.height:window.innerHeight)-12;
+      for(let parent=node.parentElement;parent;parent=parent.parentElement){
+        if(/auto|scroll|hidden|clip/.test(getComputedStyle(parent).overflowY)){
+          const bounds=parent.getBoundingClientRect();
+          if(bounds.height>0)bottom=Math.min(bottom,bounds.top+parent.clientTop+parent.clientHeight);
+        }
+      }
+      const remaining=Math.floor(bottom-Math.max(0,top));
+      // Keep an offscreen board in document flow until there is usable room.
+      // Resizing on every outer scroll would shrink a board at the end of a page,
+      // clamp the page scroll position, and repeatedly shrink it again.
+      if(remaining<=0){waitingForVisibleSpace=true;return;}
+      if(waitingForVisibleSpace&&remaining<Math.min(280,bottom))return;
+      waitingForVisibleSpace=false;
+      setAvailableHeight(old=>old===remaining?old:remaining);
+    };
+    const schedule=(event?:Event)=>{if(event?.type==='scroll'&&(!waitingForVisibleSpace||(event.target instanceof Node&&node.contains(event.target))))return;if(frame===null)frame=requestAnimationFrame(measure);};
+    measure();
+    const observer=new ResizeObserver(()=>schedule());
+    for(let parent=node.parentElement;parent;parent=parent.parentElement)observer.observe(parent);
+    window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);
+    window.visualViewport?.addEventListener('resize',schedule);window.visualViewport?.addEventListener('scroll',schedule);
+    return()=>{observer.disconnect();window.removeEventListener('resize',schedule);window.removeEventListener('scroll',schedule,true);window.visualViewport?.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('scroll',schedule);if(frame!==null)cancelAnimationFrame(frame);};
+  },[]);
+  useEffect(()=>{
+    const viewport=board.current?.querySelector<HTMLElement>('.ct-kanban-horizontal > .scroll-viewport');if(!viewport)return;
+    const wheel=(event:WheelEvent)=>{
+      // Browsers that already translate Shift-wheel into deltaX keep their native behavior.
+      if(!event.shiftKey||event.ctrlKey||event.deltaX!==0||event.deltaY===0)return;
+      const scale=event.deltaMode===1?16:event.deltaMode===2?viewport.clientWidth:1;
+      const next=Math.max(0,Math.min(viewport.scrollWidth-viewport.clientWidth,viewport.scrollLeft+event.deltaY*scale));
+      if(next===viewport.scrollLeft)return;
+      event.preventDefault();viewport.scrollLeft=next;
+    };
+    viewport.addEventListener('wheel',wheel,{passive:false,capture:true});
+    return()=>viewport.removeEventListener('wheel',wheel,true);
+  },[columns.length,!!error]);
   const [drag,setDrag]=useState<Drag|null>(null),[message,setMessage]=useState(''),[activeId,setActiveId]=useState(columns[0]?.id||'');
   const [limits,setLimits]=useState<Record<string,number>>({}),[settled,setSettled]=useState<string|null>(null);
   const point=useRef<{x:number;y:number}|null>(null),raf=useRef<number|null>(null),settleTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -130,9 +179,9 @@ export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCar
   const tabLabels=columns.map(column=>`${column.title} (${column.count??columnCards(column.id).length})`);
   const tabOptions=tabLabels.map((text,index)=>tabLabels.indexOf(text)!==tabLabels.lastIndexOf(text)?`${text} · ${index+1}`:text);
   const width=Number.isFinite(columnWidth)?Math.max(220,columnWidth):280;
-  const boardStyle={'--ct-kanban-column-width':`${width}px`} as CSSProperties;
+  const boardStyle={'--ct-kanban-column-width':`${width}px`,height:height??(fill?'100%':Math.min(640,availableHeight??640)),maxHeight:availableHeight??undefined} as CSSProperties;
   const marker=(columnId:string,index:number)=>drag?.to===columnId&&drag.index===index?<li className="ct-kanban-insertion" aria-hidden="true" key={`insert-${index}`}/>:null;
-  return <div ref={board} className="ct-kanban-board" data-density={density} style={boardStyle} aria-busy={loading}
+  return <div ref={board} className="ct-kanban-board" data-fill={fill||undefined} data-density={density} style={boardStyle} aria-busy={loading}
     onKeyDown={event=>{if(event.key==='Escape'&&dragRef.current){event.preventDefault();cancel();}}}
     onPointerDown={event=>{if(event.pointerType==='touch'&&!(event.target as HTMLElement).closest('button,a,input,select,textarea,[role="button"]'))swipe.current={x:event.clientX,y:event.clientY};}}
     onPointerUp={event=>{const origin=swipe.current;swipe.current=null;if(!origin||dragRef.current)return;const dx=event.clientX-origin.x,dy=event.clientY-origin.y;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){const index=columns.findIndex(column=>column.id===active);setActiveId(columns[Math.max(0,Math.min(columns.length-1,index+(dx<0?1:-1)))]?.id||active||'');}}} onPointerCancel={()=>{swipe.current=null;}}>

@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.9 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.15 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -1643,19 +1643,21 @@ Import: `import { Calendar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `value` | Controlled value. Update it from onChange. |
-| `onSelect` | Receives the selected date, event, or menu action. |
-| `month` | Optional pattern-specific value. Use the live example as the reference. |
-| `onMonthChange` | Optional pattern-specific value. Use the live example as the reference. |
-| `startDate` | Optional pattern-specific value. Use the live example as the reference. |
-| `onStartDateChange` | Optional pattern-specific value. Use the live example as the reference. |
-| `weeks` | Optional pattern-specific value. Use the live example as the reference. |
-| `events` | Optional pattern-specific value. Use the live example as the reference. |
-| `onEventSelect` | Optional pattern-specific value. Use the live example as the reference. |
-| `min` | Optional pattern-specific value. Use the live example as the reference. |
-| `max` | Optional pattern-specific value. Use the live example as the reference. |
-| `weekStartsOn` | Optional pattern-specific value. Use the live example as the reference. |
-| `locale` | Optional pattern-specific value. Use the live example as the reference. |
+| `value` | Selected local date as YYYY-MM-DD, or null. Update from onSelect; moving periods does not change selection. |
+| `onSelect` | Receives the selected local date as YYYY-MM-DD. |
+| `month` | Controlled month as YYYY-MM. Default is the selected month or current month. |
+| `onMonthChange` | Receives the requested YYYY-MM after Previous, Today, Next or keyboard navigation. |
+| `startDate` | Explicit rolling period start as YYYY-MM-DD; takes precedence over month. |
+| `onStartDateChange` | Receives the requested rolling-period start date. |
+| `weeks` | 1 to 12 rolling rows, default 5. Month mode always includes every date even when more rows are required. |
+| `events` | Application-owned events: id, date, title, optional description, time, tone, color and disabled. The library contains no scheduled data. |
+| `onEventSelect` | Receives the original event object when an enabled event is activated. |
+| `maxEventsPerDay` | Visible desktop events per cell, default 3. Additional events open the complete day agenda. |
+| `onDayDetails` | Optional callback with the date when an event count or overflow action opens its agenda. |
+| `min` | Earliest selectable local date, YYYY-MM-DD. |
+| `max` | Latest selectable local date, YYYY-MM-DD. |
+| `weekStartsOn` | First weekday from 0 (Sunday) to 6 (Saturday), default 1 (Monday). |
+| `locale` | Locale for human-readable dates and weekdays, default en-GB. |
 
 Live example: [Calendar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Calendar)
 
@@ -1694,6 +1696,8 @@ Import: `import { KanbanBoard } from '@arlab/ui';`
 | `error` | An actionable validation message; sets aria-invalid. |
 | `columnWidth` | Optional pattern-specific value. Use the live example as the reference. |
 | `density` | Optional pattern-specific value. Use the live example as the reference. |
+| `height` | Optional scroll viewport height in pixels or a CSS length. |
+| `fill` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [KanbanBoard](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=KanbanBoard)
 
@@ -1740,16 +1744,19 @@ Live example: [CommandPalette](https://arlab-ui-showcase.pages.dev/?view=catalog
 
 A full collection that becomes a compact navigator beside the selected record.
 
-split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned Back navigation.
+split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned collection navigation.
 
 Import: `import { CollectionWorkspace } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `collection` | Full browse destination, kept mounted while a record is selected so search, sort and pagination survive. |
+| `collection` | Full browse destination, kept mounted while a record is selected so search, sort and scroll survive. |
 | `navigator` | Compact list React content. Use RecordNavigator for collection records. |
 | `detail` | Selected record React content. Omit or pass null to show the full collection. |
 | `layout` | split (default): list beside detail; focus: detail alone; stacked: bounded list above detail. Phone shows only the selected detail. |
+| `collectionMode` | navigator (default) uses a separate compact navigator. condense keeps the same table visible and narrows it to its identity column beside the selected detail. |
+| `sidebar` | Render callback {mobile,close} for a persistent right-side filter rail shared by browse and detail. Phones use a native sheet. |
+| `sidebarLabel` | Label of the phone filter trigger and sheet, default Filters. |
 | `navigatorLabel` | Accessible label for the compact list region, default Records. |
 | `detailLabel` | Accessible label for the selected detail region, default Selected record. |
 | `navigatorWidth` | Desktop CSS width, default 280px; tablet uses 240px. The library preserves a usable detail column. |
@@ -1831,6 +1838,8 @@ Import: `import { InfiniteTable } from '@arlab/ui';`
 | `headerActions` | Optional pattern-specific value. Use the live example as the reference. |
 | `search` | Optional pattern-specific value. Use the live example as the reference. |
 | `footerActions` | Optional pattern-specific value. Use the live example as the reference. |
+| `condensedHeaderActions` | Compact header tools for a condensed CollectionWorkspace. The original table remains mounted. |
+| `condensedFooterActions` | Essential footer actions for a condensed CollectionWorkspace. Loading errors retain Retry. |
 | `fill` | Optional pattern-specific value. Use the live example as the reference. |
 | `columns` | Optional pattern-specific value. Use the live example as the reference. |
 | `rows` | Loaded records. Remote mode preserves their server-provided order. |
@@ -1852,6 +1861,7 @@ Import: `import { InfiniteTable } from '@arlab/ui';`
 | `variant` | contained (default) or flush. Dividers in flush touch the enclosing container edges. |
 | `onRowClick` | Optional pattern-specific value. Use the live example as the reference. |
 | `rowLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `selectedRowKey` | Optional pattern-specific value. Use the live example as the reference. |
 | `sortIndicators` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [InfiniteTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=InfiniteTable)
@@ -2006,7 +2016,10 @@ Import: `import { RecordCollection } from '@arlab/ui';`
 | `search` | Shared search field inside the table header. |
 | `headerActions` | Header filter or view controls. |
 | `footerActions` | Persistent collection creation and management controls. |
+| `condensedHeaderActions` | Compact header tools when a CollectionWorkspace narrows the progressive table, such as an icon refresh. |
+| `condensedFooterActions` | Essential footer controls for the narrowed progressive table. Full footer actions and progress copy are hidden. |
 | `filterKey` | Stable search/filter identity. Exclude selected records and detail tabs to retain scroll. |
+| `selectedId` | Selected record ID. Highlights the same table row and reveals its virtual window. |
 
 Live example: [RecordCollection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordCollection)
 
@@ -2142,6 +2155,7 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `fill` | Allows the bounded results scroll to occupy the available layout height. |
 | `onRowClick` | Optional row activation on click, Enter or Space. Nested controls remain independent. |
 | `rowLabel` | Accessible row label callback. |
+| `selectedRowKey` | Optional pattern-specific value. Use the live example as the reference. |
 | `tableLayout` | fixed (default, compatible) or auto for content-driven sizing. |
 | `sortIndicators` | all (default), active, or none. sortable:false removes sorting for individual columns. |
 

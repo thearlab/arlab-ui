@@ -1,13 +1,18 @@
-import { useEffect, useId, useRef, type CSSProperties, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react';
 import { ScrollArea } from './scroll-area.js';
-import { Status } from './ui.js';
+import { Status, Button, Modal } from './ui.js';
 import type { CollectionRecord } from './RecordLayouts.js';
 
 export interface CollectionWorkspaceProps {
   /** The full browse destination, including its heading, filters and results. */
   collection: ReactNode;
   /** A compact record list. Prefer RecordNavigator for record-based collections. */
-  navigator: ReactNode;
+  navigator?: ReactNode;
+  /** Condense retains the same collection instance as the selected-record list. */
+  collectionMode?: 'navigator' | 'condense';
+  /** Persistent desktop filter rail; a native modal sheet on phone. */
+  sidebar?: (state: {mobile: boolean; close: () => void}) => ReactNode;
+  sidebarLabel?: string;
   /** Omit detail to show the full collection. Supply it when a record is selected. */
   detail?: ReactNode;
   layout?: 'split' | 'focus' | 'stacked';
@@ -16,14 +21,29 @@ export interface CollectionWorkspaceProps {
   navigatorWidth?: CSSProperties['width'];
 }
 /** Application-owned selection; library-owned responsive list/detail geometry and scroll boundaries. */
-export function CollectionWorkspace({collection,navigator,detail,layout='split',navigatorLabel='Records',detailLabel='Selected record',navigatorWidth=280}:CollectionWorkspaceProps) {
+export function CollectionWorkspace({collection,navigator,detail,layout='split',collectionMode='navigator',sidebar,sidebarLabel='Filters',navigatorLabel='Records',detailLabel='Selected record',navigatorWidth=280}:CollectionWorkspaceProps) {
   const selected=detail!==undefined && detail!==null && detail!==false;
-  return <section className="ct-collection-workspace" data-selected={selected||undefined} data-layout={layout} style={{'--ct-navigator-width':typeof navigatorWidth==='number'?`${navigatorWidth}px`:navigatorWidth} as CSSProperties}>
-    <div className="ct-workspace-collection" hidden={selected}>{collection}</div>
-    {selected&&<div className="ct-workspace-panes">
-      <aside className="ct-workspace-navigator" aria-label={navigatorLabel} hidden={layout==='focus'}>{navigator}</aside>
-      <div className="ct-workspace-detail" role="region" aria-label={detailLabel}>{detail}</div>
-    </div>}
+  const condensed=collectionMode==='condense';
+  const [filtersOpen,setFiltersOpen]=useState(false);
+  const closeFilters=()=>setFiltersOpen(false);
+  useEffect(()=>{
+    const media=window.matchMedia('(min-width: 761px)');
+    const close=()=>{if(media.matches)setFiltersOpen(false);};
+    media.addEventListener('change',close);return()=>media.removeEventListener('change',close);
+  },[]);
+  return <section className="ct-collection-workspace" data-selected={selected||undefined} data-layout={layout} data-collection-mode={collectionMode} style={{'--ct-navigator-width':typeof navigatorWidth==='number'?`${navigatorWidth}px`:navigatorWidth} as CSSProperties}>
+    <div className="ct-workspace-main">
+      {sidebar&&<div className="ct-workspace-toolbar"><Button aria-haspopup="dialog" aria-expanded={filtersOpen} onClick={()=>setFiltersOpen(true)}>{sidebarLabel}</Button></div>}
+      <div className="ct-workspace-stage">
+        <div className="ct-workspace-collection" role={selected&&condensed?'region':undefined} data-condensed={selected&&condensed||undefined} aria-label={selected&&condensed?navigatorLabel:undefined} hidden={selected&&(!condensed||layout==='focus')}>{collection}</div>
+        {selected&&(condensed?<div className="ct-workspace-detail" role="region" aria-label={detailLabel}>{detail}</div>:<div className="ct-workspace-panes">
+          <aside className="ct-workspace-navigator" aria-label={navigatorLabel} hidden={layout==='focus'}>{navigator}</aside>
+          <div className="ct-workspace-detail" role="region" aria-label={detailLabel}>{detail}</div>
+        </div>)}
+      </div>
+    </div>
+    {sidebar&&<div className="ct-workspace-sidebar">{sidebar({mobile:false,close:closeFilters})}</div>}
+    {sidebar&&<Modal open={filtersOpen} onClose={closeFilters} title={sidebarLabel} sheet className="ct-collection-filter-sheet"><div className="ct-collection-filter-content">{sidebar({mobile:true,close:closeFilters})}</div></Modal>}
   </section>;
 }
 

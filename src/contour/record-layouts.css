@@ -361,3 +361,24 @@
 .ct-record-context[data-back-hidden] {justify-content:flex-end;}
 .ct-record-heading[data-title-hidden] .ct-record-badges {margin-top:0;}
 .lib-pagebar[data-title-hidden] .ct-pagebar-summary,.lib-pagebar[data-title-hidden] > div > p {margin-top:0;}
+
+/* Shared detail header: one status/action band followed by one tab strip. */
+.ct-record-header {padding:0;background:var(--raise);}
+.ct-record-header-main {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-3);padding:var(--space-4) var(--space-6);min-height:calc(var(--space-8) * 2);}
+.ct-record-header-identity {display:flex;flex:1 1 140px;flex-direction:column;gap:var(--space-2);min-width:0;}
+.ct-record-header-title {margin:0;font-size:var(--text-xl);font-weight:var(--weight-semibold);line-height:var(--leading-tight);letter-spacing:-.02em;overflow-wrap:anywhere;}
+.ct-record-header-badges {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);}
+.ct-record-header-description {margin:0;max-width:70ch;color:var(--dim);font-size:var(--text-xs);line-height:var(--leading-normal);}
+.ct-record-header-tools,.ct-record-header-context-tools,.ct-record-header-primary-actions {display:flex;align-items:center;gap:var(--space-2);min-width:0;}
+.ct-record-header-tools {flex-shrink:0;}
+.ct-record-header-primary-actions {flex-wrap:wrap;}
+.ct-record-header-context-tools[data-separated] {padding-right:var(--space-3);margin-right:var(--space-1);border-right:var(--line-width) solid var(--line);}
+.ct-record-header .ct-record-tabs-scroll {margin:0;padding:0 var(--space-6);}
+.ct-record-header .ct-record-tabs > button {padding-block:var(--space-3);}
+@container(max-width:720px){
+ .ct-record-header-main {padding:var(--space-3) var(--space-4);gap:var(--space-2);}
+ .ct-record-header-tools {flex:1 1 100%;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
+ .ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}
+ .ct-record-header-context-tools[data-separated] {padding-right:var(--space-2);margin-right:0;}
+}
+@media(max-width:600px){.ct-record-header-main {padding:var(--space-3) var(--space-4);}.ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}}

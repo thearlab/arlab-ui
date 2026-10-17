@@ -155,6 +155,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   sortIndicators = 'all',
   onRowClick,
   rowLabel,
+  selectedRowKey,
 }: FilterableTableProps<Row>) {
   const [sort, setSort] = useState<{
     key: string;
@@ -199,7 +200,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
             ) : ordered.length ? (
               ordered.slice(start, start + size).map((row) => (
                 <tr
-                  {...tableRowProps(row,{onRowClick,rowLabel})}
+                  {...tableRowProps(row,{onRowClick,rowLabel,selectedRowKey},typeof rowKey==='function'?rowKey(row):row[rowKey])}
                   key={String(
                     typeof rowKey === "function" ? rowKey(row) : row[rowKey],
                   )}

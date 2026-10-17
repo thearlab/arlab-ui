@@ -21,9 +21,13 @@
 }
 .contour-scroll-area[data-axis="vertical"] > .scroll-viewport {
   overflow-x: hidden;
+  overscroll-behavior-x: auto;
+  overscroll-behavior-y: contain;
 }
 .contour-scroll-area[data-axis="horizontal"] > .scroll-viewport {
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 .contour-scroll-area .scroll-thumb {
   position: absolute;

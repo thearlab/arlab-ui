@@ -33,3 +33,12 @@
 .ct-data-table td .lib-text-link:hover {color:var(--link);text-decoration:none;}
 .ct-data-table td :is(small,.lib-timestamp,.timestamp-time,time) {font-size:var(--text-table-meta);}
 .ct-data-table :is(td,.ct-table-heading) .status {font-size:var(--text-2xs);font-weight:var(--weight-medium);}
+
+.ct-data-table tbody tr[aria-selected="true"] td {background:var(--accent-soft);}
+.ct-data-table tbody tr[aria-selected="true"] .lib-text-link {color:var(--link);}
+
+.ct-table-selection-notice {flex-shrink:0;padding:var(--space-3) var(--space-4);border-bottom:var(--line-width) solid var(--line);background:var(--ground);color:var(--dim);font-size:var(--text-table-meta);}
+.ct-data-table tbody tr[aria-selected="true"]:hover td {background:var(--accent-soft);}
+
+/* Compact control slots are inactive in a normal table. */
+.ct-table-heading .ct-table-condensed-heading,.ct-table-header > .ct-table-condensed-header-actions,.ct-data-table > footer > .ct-table-condensed-footer-actions {display:none;}
