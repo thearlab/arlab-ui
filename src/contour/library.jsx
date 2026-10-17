@@ -1,3 +1,4 @@
+import { SortControl } from './SortControl.js';
 import { Input, Textarea } from "./BaseFields.js";
 import { Icon as RegistryIcon } from "./icons.js";
 export { Input, Textarea } from "./BaseFields.js";
@@ -35,6 +36,7 @@ import {
 } from "lucide-react";
 export { ScrollArea } from "./scroll-area.js";
 export { Loader, PageLoading } from "./loading.js";
+import { Loader } from "./loading.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
   Button,
@@ -114,17 +116,10 @@ export function Field({ label, hint, error, required, children }) {
     </div>
   );
 }
-/** @param {React.InputHTMLAttributes<HTMLInputElement> & {label: React.ReactNode, hint?: React.ReactNode}} props */
-export function Checkbox({ label, hint, ...props }) {
-  return (
-    <label className="lib-choice">
-      <input type="checkbox" {...props} />
-      <span>
-        {label}
-        {hint && <small>{hint}</small>}
-      </span>
-    </label>
-  );
+/** @param {React.InputHTMLAttributes<HTMLInputElement> & {label: React.ReactNode, hint?: React.ReactNode, trailing?: React.ReactNode}} props */
+export function Checkbox({label,hint,trailing,'aria-describedby':describedBy,'aria-labelledby':labelledBy,'aria-label':ariaLabel,...props}) {
+ const id=useId(),hasHint=hint!==undefined&&hint!==null&&hint!==false;
+ return <label className="lib-choice" data-choice="checkbox"><input type="checkbox" {...props} aria-label={ariaLabel} aria-labelledby={labelledBy??(ariaLabel?undefined:`${id}-label`)} aria-describedby={[describedBy,hasHint?`${id}-hint`:undefined].filter(Boolean).join(' ')||undefined}/><span className="ct-choice-label" id={`${id}-label`}>{label}</span>{trailing!=null&&<span className="ct-choice-trailing">{trailing}</span>}{hasHint&&<small className="ct-choice-hint" id={`${id}-hint`}>{hint}</small>}</label>;
 }
 /** @param {React.InputHTMLAttributes<HTMLInputElement> & {label: React.ReactNode}} props */
 export function Radio({ label, ...props }) {
@@ -218,8 +213,9 @@ export function TabStrip({ options, value, onChange, label = "Sections" }) {
     const target=enabled[next];onChange(target.tab.value);document.getElementById(`${id}-${target.index}`)?.focus();
   }}><span>{tab.label}</span>{tab.count!==undefined&&<span className="ct-tab-count">{tab.count.toLocaleString()}</span>}</button>)}</div>;
 }
-/** @param {{children?: React.ReactNode, onRemove?: React.MouseEventHandler<HTMLButtonElement>}} props */
-export function Chip({ children, onRemove }) {
+/** @param {{children?:React.ReactNode,onRemove?:React.MouseEventHandler<HTMLButtonElement>,onClick?:React.MouseEventHandler<HTMLButtonElement>,disabled?:boolean}} props */
+export function Chip({children,onRemove,onClick,disabled=false}) {
+  if(onClick)return <button type="button" className="ct-chip-reset" onClick={onClick} disabled={disabled}>{children}</button>;
   return (
     <span className="removable-tag">
       <span className="ct-chip-label" title={typeof children === 'string' ? children : undefined}>{children}</span>
@@ -240,9 +236,11 @@ export function PillButton({ children, selected=false, onClick, variant='default
 }
 export { TagInput } from './TagInput.js';
 export { DeptTile } from "./DeptTile.js";
-/** @param {{date: string|number|Date}} props */
-export function Timestamp({ date }) {
+/** @param {{date:string|number|Date,format?:"datetime"|"date"|"time",locale?:string}} props */
+export function Timestamp({ date,format="datetime",locale="en-GB" }) {
   const d = new Date(date);
+  if(Number.isNaN(d.getTime()))return <span className="lib-timestamp">Date unavailable</span>;
+  if(format!=='datetime')return <time className="lib-timestamp" dateTime={d.toISOString()} title={d.toLocaleString(locale)}>{format==='date'?<CalendarDays size={13} aria-hidden="true"/>:<Clock3 size={13} aria-hidden="true"/>}<span>{format==='date'?d.toLocaleDateString(locale,{day:'numeric',month:'long'}):d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'})}</span></time>;
   return (
     <time
       className="lib-timestamp"
@@ -424,19 +422,16 @@ export function Refreshing({ busy, children }) {
 }
 /** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void}} props */
 export function StateView({ state = "empty", title, description, actionLabel, action, onAction, onRetry, onCreate }) {
-  if (state === "loading") return <Skeleton />;
-  const error = state === "error";
+  const id = useId();
+  const loading = state === "loading", error = state === "error";
   const handleAction = onAction ?? (error ? onRetry : onCreate);
-  return (
-    <EmptyState
-      title={title ?? (error ? "We couldn’t load your projects" : "A place for your next idea")}
-      description={description ?? (error ? "Your work is safe. Check your connection and try again." : "Create a project to bring your team and ideas together.")}
-    >
-      {action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>
-        {actionLabel ?? (error ? "Try again" : "Create project")}
-      </Button>)}
-    </EmptyState>
-  );
+  const heading = title ?? (loading ? "Loading content" : error ? "We couldn’t load this view" : "Nothing here yet");
+  const message = description ?? (loading ? "Please wait while we prepare this view." : error ? "Your changes are safe. Try again in a moment." : "Items will appear here when they are added.");
+  return <div className="ct-state-view" data-state={loading ? 'loading' : error ? 'error' : 'empty'} role={loading ? 'status' : error ? 'alert' : 'group'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-message`} aria-busy={loading || undefined}>
+    <span className="ct-state-glyph" aria-hidden="true">{loading ? <Loader size={20} decorative/> : error ? <Info size={20}/> : <Folder size={20}/>}</span>
+    <div className="ct-state-copy"><h3 id={`${id}-title`}>{heading}</h3><p id={`${id}-message`}>{message}</p></div>
+    {!loading && (action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>{actionLabel ?? (error ? "Try again" : onCreate ? "Create project" : "Continue")}</Button>))}
+  </div>;
 }
 /** @param {{children?: React.ReactNode, onClose?: React.MouseEventHandler<HTMLButtonElement>}} props */
 export function Toast({ children, onClose }) {
@@ -683,42 +678,12 @@ export function ConfirmStrip({ children, onConfirm, onCancel }) {
     </div>
   );
 }
-/** App-owned actions run through each item's onSelect; omitted items retain demo compatibility.
- * roleCaption overrides workspace in both the trigger and signed-in menu header.
- * collapsed retains the accessible name and full menu while hiding trigger copy.
- * @param {{onSelect?:(label:string)=>void,name?:string,initials?:string,workspace?:string,roleCaption?:string,collapsed?:boolean,items?:Array<{id?:string,label?:string,icon?:React.ElementType,onSelect?:()=>void,disabled?:boolean,danger?:boolean,separator?:boolean}>}} props
+/** Static account identity with a separate sign-out action. Legacy items remain accepted for type compatibility.
+ * @param {{onSelect?:(label:string)=>void,onLogout?:()=>void,name?:string,initials?:string,workspace?:string,roleCaption?:string,collapsed?:boolean,items?:Array<{id?:string,label?:string,icon?:React.ElementType,onSelect?:()=>void,disabled?:boolean,danger?:boolean,separator?:boolean}>}} props
  */
-export function AccountMenu({
-  onSelect,
-  name = "Alex Morgan",
-  initials = "AM",
-  workspace = "ARLAB workspace",
-  roleCaption,
-  collapsed = false,
-  items,
-}) {
-  const caption = roleCaption ?? workspace;
-  const actions = items ?? [
-    { label: "Your profile", icon: User, onSelect: () => onSelect?.("Your profile") },
-    { label: "Workspace settings", icon: Settings2, onSelect: () => onSelect?.("Workspace settings") },
-    { label: "Help and support", icon: BookOpen, onSelect: () => onSelect?.("Help and support") },
-  ];
-  return (
-    <span className="ct-account-menu" data-collapsed={collapsed || undefined}>
-    <DropdownMenu
-      label="Account menu"
-      trigger={
-        <button type="button" className="account-trigger" aria-label={`Account menu for ${name}`} aria-haspopup="menu" title={collapsed ? name : undefined}>
-          <Avatar initials={initials} name={name} />
-          {!collapsed && <><span className="account-identity"><strong>{name}</strong>{caption && <small>{caption}</small>}</span>
-          <span className="account-chevron"><ChevronDown size={12} aria-hidden="true" /></span></>}
-        </button>
-      }
-      header={<><span>Signed in as</span><strong>{name}</strong>{caption && <small>{caption}</small>}</>}
-      items={actions}
-    />
-    </span>
-  );
+export function AccountMenu({onSelect,onLogout,name="Alex Morgan",initials="AM",workspace="ARLAB workspace",roleCaption,collapsed=false}) {
+ const caption=roleCaption??workspace;
+ return <div className="ct-account-menu" data-collapsed={collapsed||undefined}><Avatar initials={initials} name={name} size={30}/>{!collapsed&&<span className="account-identity"><strong>{name}</strong>{caption&&<small>{caption}</small>}</span>}<IconButton className="ct-account-logout" label="Log out" disabled={!onLogout&&!onSelect} onClick={()=>onLogout?onLogout():onSelect?.('Log out')}><RegistryIcon name="LogOut" size={13}/></IconButton></div>;
 }
 /** @param {{title: React.ReactNode, description?: React.ReactNode, children?: React.ReactNode, defaultOpen?: boolean}} props */
 export function Disclosure({
@@ -968,11 +933,8 @@ export function FilterRow({ query, onQueryChange, status, onStatusChange }) {
 /** @param {{label: React.ReactNode, direction?: "none"|"ascending"|"descending", onSort?: React.MouseEventHandler<HTMLButtonElement>}} props */
 export function SortHead({ label, direction = "none", onSort }) {
   return (
-    <th aria-sort={direction}>
-      <button type="button" onClick={onSort}>
-        {label}
-        <ArrowUpDown size={13} aria-hidden="true" />
-      </button>
+    <th className="ct-sort-head" scope="col" aria-sort={direction}>
+      <SortControl label={label} direction={direction} onSort={onSort}/>
     </th>
   );
 }
@@ -1065,26 +1027,10 @@ export function DataTable({ rows, onOpen }) {
                 ["status", "Status"],
                 ["progress", "Progress"],
               ].map(([key, label]) => (
-                <th
-                  key={key}
-                  aria-sort={
-                    sort === key
-                      ? ascending
-                        ? "ascending"
-                        : "descending"
-                      : "none"
-                  }
-                >
-                  <button
-                    onClick={() => {
-                      setAscending(sort === key ? !ascending : true);
-                      setSort(key);
-                    }}
-                  >
-                    {label}
-                    <ArrowUpDown size={13} />
-                  </button>
-                </th>
+                <SortHead key={key} label={label}
+                  direction={sort===key?(ascending?'ascending':'descending'):'none'}
+                  onSort={()=>{setAscending(sort===key?!ascending:true);setSort(key);}}/>
+
               ))}
               <th>
                 <span className="sr-only">Action</span>

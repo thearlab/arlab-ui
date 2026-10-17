@@ -11,7 +11,7 @@ const root=new URL('../src/contour/',import.meta.url);
 
 test('Active runtime components inherit font families from foundation tokens',()=>{
   const files=fs.readdirSync(root).filter(file=>/\.(?:tsx?|jsx?)$/.test(file)&&!['system.js','satin-foundation.js'].includes(file));
-  for(const file of files){const source=fs.readFileSync(new URL(file,root),'utf8');assert.doesNotMatch(source,/["'](?:Manrope|IBM Plex Mono|Inter)["']/,file);}
+  for(const file of files){const source=fs.readFileSync(new URL(file,root),'utf8');assert.doesNotMatch(source,/["'](?:Urbanist|Manrope|IBM Plex Mono|Inter)["']/,file);}
   console.log(`${files.length} active runtime source files checked for obsolete font family literals.`);
 });
 test('Invalid ColorPicker values use the active mode brand token without overwriting valid colors',()=>{

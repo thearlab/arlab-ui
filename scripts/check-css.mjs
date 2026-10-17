@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // The same files, in the same order, that `build` concatenates into dist/styles.css.
-const FILES = ['src/styles.css', 'src/layout.css', 'src/shells.css'];
+const FILES = ['src/styles.css', 'src/layout.css', 'src/shells.css', ...fs.readdirSync(path.join(root, 'src/contour')).filter(f => f.endsWith('.css')).map(f => `src/contour/${f}`)];
 
 /** Comments and quoted strings can contain braces and semicolons; blank them, keeping newlines
  *  so reported line numbers still point at the real source line. */
@@ -31,7 +31,7 @@ function check(css, label) {
   let depth = 0, line = 1, pending = '', pendingLine = 1;
   for (const ch of src) {
     if (ch === '\n') line++;
-    if (ch === '{') { depth++; pending = ''; pendingLine = line; continue; }
+    if (ch === '{') { if (!pending.trim()) problems.push(`line ${line}: block has no selector or at-rule`); depth++; pending = ''; pendingLine = line; continue; }
     if (ch === '}') {
       depth--;
       if (depth < 0) { problems.push(`line ${line}: a closing brace with nothing open (missing selector or opening brace above)`); depth = 0; }

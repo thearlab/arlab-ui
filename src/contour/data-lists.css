@@ -9,7 +9,7 @@
 .ct-facet-list > p, .ct-ranked-list p { margin:0; color:var(--dim); font-size:var(--text-xs); line-height:var(--leading-normal); }
 .ct-ranked-list { min-width:0; font-family:var(--font-sans); }
 .ct-ranked-list ol { display:flex; flex-direction:column; gap:0; padding:0; margin:0; list-style:none; }
-.ct-rank-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,35%); align-items:center; gap:var(--space-2) var(--space-4); min-width:0; }
+.ct-rank-row { display:grid; grid-template-columns:minmax(0,1fr) max-content; align-items:start; gap:var(--space-2) var(--space-4); min-width:0; }
 .ct-ranked-copy { display:flex; flex-direction:column; gap:var(--space-1); min-width:0; overflow-wrap:anywhere; }
 .ct-ranked-copy strong { font-size:var(--text-sm); font-weight:var(--weight-regular); line-height:var(--leading-normal); }
 .ct-ranked-copy > span { color:var(--dim); font-size:var(--text-2xs); line-height:var(--leading-normal); }
@@ -32,12 +32,12 @@
 .ct-facet-list[data-compact] > button { min-height:28px;padding-block:2px; }
 .ct-facet-count { flex-shrink:0; }
 .ct-ranked-list li { min-width:0;position:relative; }
-.ct-rank-row { width:100%; padding:var(--space-2); border:1px solid transparent; border-radius:var(--radius-sm); text-align:left; background:transparent; font-family:var(--font-sans); }
-button.ct-rank-row:hover { background:var(--sunken); border-color:var(--line); }
+.ct-rank-row { width:100%; padding:var(--space-4); border:0; border-radius:0; text-align:left; background:transparent; font-family:var(--font-sans); }
+button.ct-rank-row:hover { background:var(--chrome-row-hover); border-color:transparent; }
 button.ct-rank-row[aria-selected="true"] { background:var(--tint); border-color:transparent; }
 button.ct-rank-row[aria-selected="true"] .ct-ranked-copy strong { color:var(--link); }
-.ct-rank-row[data-mark] { grid-template-columns:minmax(0,1fr) minmax(0,35%);padding-inline-start:40px; }
-.ct-rank-mark { position:absolute;left:8px;top:8px; width:24px; height:24px; display:grid; place-items:center; overflow:hidden; }
+.ct-rank-row[data-mark] { grid-template-columns:minmax(0,1fr) max-content;padding-inline-start:52px; }
+.ct-rank-mark { position:absolute;left:16px;top:16px; width:24px; height:24px; display:grid; place-items:center; overflow:hidden; }
 .ct-rank-mark > svg, .ct-rank-mark > img { max-width:20px; max-height:20px; }
 .ct-ranked-copy strong, .ct-ranked-copy > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .ct-ranked-value small { display:block; color:var(--dim); font-size:var(--text-2xs); font-weight:var(--weight-regular); line-height:var(--leading-normal); }
@@ -94,3 +94,21 @@ a.ct-status-stat:hover, button.ct-status-stat:hover { background:var(--sunken); 
 }
 
 .ct-list-dot[data-dept="strategy"] {background:var(--dept-strategy);}
+
+/* Ranked rows share the Panel/Rows edge-to-edge hover geometry. */
+.ct-panel-content > .ct-ranked-list {margin-inline:calc(-1 * var(--panel-padding));width:calc(100% + 2 * var(--panel-padding));}
+.ct-panel-content > .ct-ranked-list .ct-rank-row {padding-inline:var(--panel-padding);}
+.ct-panel-content > .ct-ranked-list .ct-rank-row[data-mark] {padding-inline-start:calc(var(--panel-padding) + 36px);}
+.ct-panel-content > .ct-ranked-list .ct-rank-mark {left:var(--panel-padding);}
+.ct-ranked-value {white-space:nowrap;align-self:start;line-height:var(--leading-normal);}
+.ct-ranked-copy strong {font-weight:var(--weight-medium);}
+button.ct-rank-row:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:-1px;}
+/* Shared vertical tracks align every metric, including wrapped status notes. */
+.ct-stat-note-row {gap:var(--space-2) var(--space-5);}
+.ct-stat-note-row > .ct-status-stat {grid-row:span 5;grid-template-rows:subgrid;gap:var(--space-2);padding-block:var(--space-3);}
+.ct-stat-note-row > .ct-status-stat > .ct-status-stat-label {grid-row:1;align-self:start;}
+.ct-stat-note-row > .ct-status-stat > .ct-status-stat-main {display:contents;}
+.ct-stat-note-row .ct-status-stat-value {grid-row:2;align-self:start;justify-self:start;}
+.ct-stat-note-row .ct-status-stat-main > :is(.status,.ct-status-stat-status) {grid-row:3;align-self:start;justify-self:start;max-width:100%;min-height:22px;box-sizing:border-box;}
+.ct-stat-note-row > .ct-status-stat > .ct-status-stat-caption {grid-row:4;align-self:start;padding-top:var(--space-2);border-top:var(--line-width) solid var(--chrome-divider);}
+.ct-stat-note-row > .ct-status-stat > .ct-status-stat-footer {grid-row:5;align-self:start;}

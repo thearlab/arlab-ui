@@ -1,3 +1,4 @@
+import { SortControl } from './SortControl.js';
 import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties } from "react";
@@ -85,33 +86,14 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false,
                   {column.sortable === false ? (
                     <span>{column.header ?? column.label}</span>
                   ) : (
-                    <button
-                      type="button"
+                    <SortControl
                       disabled={sortingDisabled}
-                      className="ct-table-sort"
-                      aria-label={`Sort ${column.label} ${sort?.key === column.key && sort.direction === "ascending" ? "descending" : "ascending"}`}
-                      onClick={() => onSort(column.key)}
-                    >
-                      <span>{column.header ?? column.label}</span>
-                      {sortIndicators!=='none' && (sortIndicators==='all' || sort?.key===column.key) && <span className="ct-sort-arrows" aria-hidden="true">
-                        <ChevronUp
-                          size={12}
-                          data-active={
-                            (sort?.key === column.key &&
-                              sort.direction === "ascending") ||
-                            undefined
-                          }
-                        />
-                        <ChevronDown
-                          size={12}
-                          data-active={
-                            (sort?.key === column.key &&
-                              sort.direction === "descending") ||
-                            undefined
-                          }
-                        />
-                      </span>}
-                    </button>
+                      accessibleLabel={column.label}
+                      label={column.header ?? column.label}
+                      direction={sort?.key===column.key?sort.direction:'none'}
+                      onSort={() => onSort(column.key)}
+                      showIndicators={sortIndicators!=='none'&&(sortIndicators==='all'||sort?.key===column.key)}
+                    />
                   )}
                 </th>
               ))}

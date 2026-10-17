@@ -181,7 +181,7 @@ select {
 }
 .studio-intro h1 {
   font-size: 30px;
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   letter-spacing: 0;
   line-height: 1.2;
 }
@@ -249,7 +249,7 @@ select {
 .direction-name strong {
   font-size: 17px;
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
 }
 .direction-check {
   display: flex;
@@ -335,7 +335,7 @@ select {
 }
 .explorer-nav nav button.active {
   color: var(--dim);
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
 }
 .explorer-nav nav button.active:after {
   content: "";
@@ -382,7 +382,7 @@ select {
   align-items: center;
 }
 .concept-name {
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   color: var(--dim);
 }
 .caption-separator {
@@ -475,17 +475,17 @@ select {
 /* Shared interface primitives */
 .themed-preview h2 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   letter-spacing: normal;
   line-height: 1.2;
 }
 .themed-preview h3 {
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   font-size: 15px;
   letter-spacing: normal;
 }
 .themed-preview h4 {
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   font-size: 14px;
 }
 .themed-preview p {
@@ -781,7 +781,7 @@ select {
   margin-top: 2px;
 }
 .notice strong {
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
 }
 .empty-state {
   padding: 36px 20px;
@@ -879,7 +879,7 @@ select {
   border-color: var(--chrome-divider);
 }
 .modal-head h2 {
-  font: 600 16px var(--font-sans);
+  font: var(--weight-semibold) 16px var(--font-sans);
   letter-spacing: 0;
   font-family: var(--font-display);
   font-weight: var(--weight-heading);
@@ -1110,7 +1110,7 @@ select {
 }
 .workspace-navigation button.active {
   color: var(--ink);
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   background: var(--sunken);
 }
 .workspace-navigation button.active:before { content: none; }
@@ -1287,7 +1287,7 @@ select {
 }
 .page-heading h2 {
   font-size: var(--text-3xl);
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   margin: 0 0 8px;
 }
 .page-heading p {
@@ -1377,7 +1377,7 @@ select {
   font-size: 22px;
   line-height: 1.3;
   letter-spacing: 0;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   color: var(--ink);
   margin-bottom: 9px;
 }
@@ -2181,7 +2181,7 @@ select {
 }
 .agent-steps h4 {
   font-size: 12px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
 }
 .agent-steps p {
   font-size: 11px;
@@ -2336,7 +2336,7 @@ select {
 }
 .doc-title h2 {
   font-size: 33px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   margin-bottom: 12px;
 }
 .doc-title > p {
@@ -2396,7 +2396,7 @@ select {
   font-family: var(--font-display);
   font-size: 18px;
   margin: 29px 0 12px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   letter-spacing: 0;
 }
 .doc-prose ul {
@@ -2506,7 +2506,7 @@ select {
 }
 /* Edition: horizontal navigation, editorial hierarchy, asymmetric lead */
 [data-direction="edition"] h2 {
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   letter-spacing: 0;
 }
 [data-direction="edition"] .app-shell {
@@ -2630,7 +2630,7 @@ select {
 }
 .edition-lead .priority h3 {
   font-size: 29px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   line-height: 1.05;
   letter-spacing: 0;
 }
@@ -2679,7 +2679,7 @@ select {
 [data-direction="edition"] .section-head h3 {
   font-family: var(--font-display);
   font-size: 23px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   letter-spacing: 0;
 }
 [data-direction="edition"] .schedule .section-head h3,
@@ -2719,7 +2719,7 @@ select {
 }
 [data-direction="edition"] .agent-identity h3 {
   font-size: 30px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
 }
 [data-direction="edition"] .knowledge-page {
   grid-template-columns: 235px minmax(0, 1fr);
@@ -2933,7 +2933,7 @@ select {
 .system-page-heading h2 {
   font-size: 36px;
   margin-bottom: 14px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
 }
 .system-page-heading p {
   font-size: 13px;
@@ -2968,7 +2968,7 @@ select {
 .foundation-section > .section-head h3 {
   font-family: var(--font-sans);
   font-size: 17px !important;
-  font-weight: var(--weight-heading,600) !important;
+  font-weight: var(--weight-heading,500) !important;
 }
 .foundation-section > .section-head p {
   font-size: 12px;
@@ -3341,7 +3341,7 @@ select {
 .component-section .section-head h3 {
   font-family: var(--font-sans);
   font-size: 15px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
 }
 .component-section .section-head p {
   font-size: 11px;

@@ -143,3 +143,18 @@ const selectedFoundationExamples = <>
   <AppSwitcher value="ops" onChange={value=>void value} options={[{value:'ops',label:'Operations',description:'Daily work'}]} />
 </>;
 void selectedFoundationExamples;
+
+const framedScrollContract = <ScrollArea title="Project activity" description="Recent updates" actions={<Button>Refresh</Button>} height={300}><Rows /></ScrollArea>;
+const customScrollHeaderContract = <ScrollArea label="All activity" header={<strong>All activity</strong>} maxHeight="50vh"><Rows /></ScrollArea>;
+
+import {AppHeader as HeaderSizingExample,Icon as HeaderIdentityIcon} from '@arlab/ui';
+export const matchingHeaderActions = <HeaderSizingExample context="Projects" pageActionsEqualWidth
+  pageActions={<><Button>Export</Button><Button variant="primary">Add project</Button></>} />;
+// @ts-expect-error Equal-width page action grouping is a boolean option.
+const invalidHeaderSizing = <HeaderSizingExample context="Projects" pageActionsEqualWidth="yes" />;
+export const namedApplicationHeader = <HeaderSizingExample appName="Agents Studio" appIcon={<HeaderIdentityIcon name="Workflow" size={14}/>} context="Agents" />;
+export const countedCheckbox = <Checkbox label="Running" trailing={<span>24</span>} hint="Only active projects" />;
+
+import {EditorLayout as ContractEditorLayout, CollectionGroup as ContractCollectionGroup} from '@arlab/ui';
+const editorLayoutContract=<ContractEditorLayout title="Campaign" viewport="tablet" onViewportChange={viewport=>{const selected:'desktop'|'tablet'|'mobile'=viewport;void selected;}} propertiesLabel="Page settings" footer={<Button>Save</Button>} sidebar={<Input/>}><div>Preview</div></ContractEditorLayout>;
+const collectionGroupContract=<ContractCollectionGroup title="Creative" items={[{id:'one',label:'Read only',description:'Reference'},{id:'two',label:'Open',onOpen:()=>{}}]}/>;

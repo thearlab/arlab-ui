@@ -20,24 +20,8 @@ export function Loader({ label = "Loading", size = 24, decorative = false }) {
         fill="none"
         aria-hidden="true"
       >
-        <rect
-          className="loader-track"
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="2"
-          pathLength="100"
-        />
-        <rect
-          className="loader-path"
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="2"
-          pathLength="100"
-        />
+        <circle className="loader-track" cx="12" cy="12" r="8.5" pathLength="100"/>
+        <circle className="loader-path" cx="12" cy="12" r="8.5" pathLength="100"/>
       </svg>
     </span>
   );
@@ -54,7 +38,7 @@ export function PageLoading({
 }) {
   if(variant === "content-preview") return <section className="ct-content-loading" aria-label="Workspace loading" aria-busy="true">
     <div className="ct-content-loading-skeleton" aria-hidden="true"><div className="ct-content-loading-heading"><span/><span/></div><div className="ct-content-loading-cards">{[0,1,2].map(index=><div key={index}><span/><strong/><span/></div>)}</div><div className="ct-content-loading-rows">{[0,1,2,3].map(index=><div key={index}><span/><span/><span/></div>)}</div></div>
-    <div className="ct-content-loading-copy" role="status" aria-live="polite"><h2>{title}</h2><p>{description}</p>{onCancel&&<Button variant="quiet" onClick={onCancel}>Cancel loading</Button>}</div>
+    <div className="ct-content-loading-copy" role="status" aria-live="polite"><Loader decorative size={28}/><h2>{title}</h2><p>{description}</p>{onCancel&&<Button variant="quiet" onClick={onCancel}>Cancel loading</Button>}</div>
   </section>;
   return (
     <section className="page-loading" aria-label="Workspace loading">

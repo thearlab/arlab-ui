@@ -96,7 +96,7 @@
   background-clip: padding-box, border-box;
   color: var(--ink, var(--cn-ink, #2C2532));
   box-shadow: var(--shadow-surface, 0 2px 4px #00000006);
-  font-family: var(--font-sans, 'Urbanist', sans-serif);
+  font-family: var(--font-sans, 'Satoshi', sans-serif);
   overflow: hidden;
 }
 .contour-scroll-header {
@@ -112,7 +112,7 @@
   background-image: var(--chrome-subtle-gradient, none);
 }
 .contour-scroll-heading {min-width:0;}
-.contour-scroll-heading h3 {display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-display,'Urbanist',sans-serif);font-size:var(--text-base,14px);font-weight:var(--weight-heading,600);line-height:var(--leading-tight,1.4);letter-spacing:0;}
+.contour-scroll-heading h3 {display:flex;align-items:center;gap:8px;margin:0;font-family:var(--font-display,'Satoshi',sans-serif);font-size:var(--text-base,14px);font-weight:var(--weight-heading,500);line-height:var(--leading-tight,1.4);letter-spacing:0;}
 .contour-scroll-heading h3::before {content:'';display:block;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--accent,#E414DB);}
 .contour-scroll-heading p {margin:4px 0 0;color:var(--dim,var(--cn-dim,#665C70));font-size:var(--text-xs,12px);line-height:var(--leading-normal,1.5);}
 .contour-scroll-actions {display:flex;align-items:center;gap:8px;flex:0 0 auto;}

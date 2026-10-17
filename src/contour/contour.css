@@ -863,7 +863,7 @@
 }
 .icon-inspector h3 {
   font-size: 18px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
   overflow-wrap: anywhere;
 }
 .icon-inspector > p {
@@ -1090,7 +1090,7 @@
 }
 .file-card-head h4 {
   font-size: 13px;
-  font-weight: var(--weight-heading,600);
+  font-weight: var(--weight-heading,500);
 }
 .file-card-head p {
   font-size: 11px;
@@ -1199,7 +1199,7 @@
   border: 1px solid var(--line);
   color: var(--link);
   font-size: 9px;
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   border-radius: var(--radius-control);
   flex-shrink: 0;
 }
@@ -1406,7 +1406,7 @@
   margin: 23px 0 6px;
 }
 .system-summary strong {
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   color: var(--dim);
   margin-right: 5px;
 }
@@ -2088,7 +2088,7 @@
   padding: 0;
   font-size: 9px;
   line-height: 16px;
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--dim);
@@ -2267,7 +2267,7 @@
 }
 .layout-example-picker strong {
   font-size: 12px;
-  font-weight: 600;
+  font-weight:var(--weight-semibold);
 }
 .layout-example-picker > div:first-child > span {
   color: var(--dim);

@@ -16,7 +16,7 @@ export function satinLiftTokens(mode) {
   const soft = `rgba(${channels},${dark ? '.10' : '.08'})`;
   const colors = {ground,raise,sunken,ink,dim,line,strong:dim,
     nav:raise,navInk:dim,navActive:blend(raise,accent,dark?.14:.08),navSelected:deep,
-    accent,tint:blend(raise,accent,dark?.14:.08),action:dark?'#B414AE':'#E414DB',actionHover:dark?'#A80FA3':'#CA12C2',actionInk:'#FFFFFF',
+    accent,tint:blend(raise,accent,dark?.14:.08),action:accent,actionHover:dark?'#E414DB':'#CA12C2',actionInk:'#FFFFFF',
     link:deep,focus:deep,'accent-deep':deep,'accent-soft':soft,
     'accent-tint':`rgba(${channels},${dark?'.14':'.10'})`,'accent-line':`rgba(${channels},${dark?'.40':'.35'})`,
     'secondary-accent':'#FB923C','secondary-accent-text':dark?'#FDBA74':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
@@ -38,7 +38,7 @@ export function satinLiftTokens(mode) {
     colors[`dept-${department}-ink`]='#FFFFFF';
   });
   return {...colors,
-    'font-sans':"'Urbanist', sans-serif",'font-display':"'Urbanist', sans-serif",'font-mono':"'DM Mono', monospace",
+    'font-sans':"'Satoshi', sans-serif",'font-display':"'Satoshi', sans-serif",'font-mono':"'DM Mono', monospace",
     'weight-regular':'400','weight-medium':'500','weight-semibold':'600','weight-heading':'600','font-weight-heading':'600','icon-stroke':'1.5',
     'radius-xs':'7px','radius-sm':'7px','radius-lg':'14px','radius-md':'14px','radius-panel':'14px','radius-control':'7px',
     'surface-border-color':'transparent',

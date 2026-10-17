@@ -1,8 +1,11 @@
+import {Button, IconButton, Modal} from "./ui.js";
+import {ActionGroup} from "./CollectionWorkspace.js";
 import {GroupedReorderList, type GroupedReorderListProps} from "./GroupedReorderList.js";
 import { Input } from "./BaseFields.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
   useState,
+  useId,
   forwardRef,
   useCallback,
   type IframeHTMLAttributes,
@@ -14,6 +17,11 @@ import {
 } from "react";
 import {
   Check,
+  Monitor,
+  Tablet,
+  Smartphone,
+  SlidersHorizontal,
+  FileText,
   X,
   Pencil,
   GripVertical,
@@ -364,153 +372,83 @@ export const PreviewFrame = forwardRef<HTMLIFrameElement, PreviewFrameProps>(fun
     {(overlay || renderOverlay) && <div className="ct-preview-overlay">{overlay}{renderOverlay?.({loading,error,viewport})}</div>}
   </div>;
 });
+export type EditorViewport = "desktop" | "tablet" | "mobile";
 export interface EditorLayoutProps {
   title: string;
+  description?: ReactNode;
   toolbar?: ReactNode;
   sidebar?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   onExit?: () => void;
   style?: CSSProperties;
+  viewport?: EditorViewport;
+  defaultViewport?: EditorViewport;
+  onViewportChange?: (viewport: EditorViewport) => void;
+  showViewportControls?: boolean;
+  propertiesLabel?: string;
+  previewLabel?: string;
 }
 export function EditorLayout({
-  title,
-  toolbar,
-  sidebar,
-  children,
-  footer,
-  onExit,
-  style,
+  title, description, toolbar, sidebar, children, footer, onExit, style,
+  viewport: controlledViewport, defaultViewport="desktop", onViewportChange,
+  showViewportControls=true, propertiesLabel="Properties", previewLabel="Live preview",
 }: EditorLayoutProps) {
-  return (
-    <section className="ct-editor" aria-label={title} style={style}>
-      <header>
-        <strong>{title}</strong>
-        <div>{toolbar}</div>
-        {onExit && (
-          <button className="ct-control-action" type="button" aria-label="Close editor" onClick={onExit}>
-            <X size={14} />
-          </button>
-        )}
-      </header>
-      <ScrollArea
-        label="Editor workspace"
-        className="ct-editor-workspace"
-        contentClassName="ct-editor-columns"
-      >
-        <div className="ct-editor-preview">{children}</div>
-        {sidebar && <aside aria-label="Editor properties">{sidebar}</aside>}
-      </ScrollArea>
-      {footer && <footer>{footer}</footer>}
-    </section>
-  );
+  const root = useRef<HTMLElement>(null);
+  const [localViewport,setLocalViewport] = useState<EditorViewport>(defaultViewport);
+  const [compact,setCompact] = useState(false);
+  const [propertiesOpen,setPropertiesOpen] = useState(false);
+  const propertiesId=useId();
+  const viewport=controlledViewport ?? localViewport;
+  useEffect(()=>{
+    const node=root.current;
+    if(!node)return;
+    const measure=()=>setCompact(node.getBoundingClientRect().width<760);
+    const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(measure);
+    observer?.observe(node);window.addEventListener('resize',measure);measure();
+    return()=>{observer?.disconnect();window.removeEventListener('resize',measure);};
+  },[]);
+  useEffect(()=>{if(!compact)setPropertiesOpen(false);},[compact]);
+  const selectViewport=(next:EditorViewport)=>{
+    if(controlledViewport===undefined)setLocalViewport(next);
+    onViewportChange?.(next);
+  };
+  const viewports=[{value:'desktop' as const,label:'Desktop',icon:Monitor},{value:'tablet' as const,label:'Tablet',icon:Tablet},{value:'mobile' as const,label:'Phone',icon:Smartphone}];
+  return <section className="ct-editor" ref={root} aria-label={title} style={style} data-viewport={viewport} data-compact={compact||undefined}>
+    <header className="ct-editor-header">
+      <div className="ct-editor-document"><span className="ct-editor-document-mark" aria-hidden="true"><FileText size={16}/></span><div><h2>{title}</h2>{description && <p>{description}</p>}</div></div>
+      <div className="ct-editor-header-actions">{toolbar && <div className="ct-editor-toolbar">{toolbar}</div>}
+        {showViewportControls && <ActionGroup label="Preview viewport">{viewports.map(({value,label,icon:Mark})=><IconButton key={value} label={label} aria-pressed={viewport===value} onClick={()=>selectViewport(value)}><Mark size={14}/></IconButton>)}</ActionGroup>}
+        {sidebar && compact && <IconButton label={`Open ${propertiesLabel.toLowerCase()}`} aria-haspopup="dialog" aria-expanded={propertiesOpen} aria-controls={propertiesId} onClick={()=>setPropertiesOpen(true)}><SlidersHorizontal size={14}/></IconButton>}
+        {onExit && <IconButton label="Close editor" onClick={onExit}><X size={14}/></IconButton>}
+      </div>
+    </header>
+    <div className="ct-editor-workspace">
+      <div className="ct-editor-stage"><div className="ct-editor-stage-heading"><span>{previewLabel}</span><span>{viewports.find(item=>item.value===viewport)?.label}</span></div>
+        <ScrollArea label={`${title} preview`} className="ct-editor-preview" contentClassName="ct-editor-preview-content"><div className="ct-editor-canvas">{children}</div></ScrollArea>
+      </div>
+      {sidebar && !compact && <aside className="ct-editor-inspector" aria-label={propertiesLabel}><header><h3>{propertiesLabel}</h3></header><ScrollArea label={`${propertiesLabel} settings`} className="ct-editor-inspector-scroll" contentClassName="ct-editor-inspector-content">{sidebar}</ScrollArea></aside>}
+    </div>
+    {footer && <footer className="ct-editor-footer">{footer}</footer>}
+    {sidebar && compact && <Modal open={propertiesOpen} onClose={()=>setPropertiesOpen(false)} title={propertiesLabel} sheet scrollable contentLabel={`${propertiesLabel} settings`}><div id={propertiesId}>{sidebar}</div></Modal>}
+  </section>;
 }
 export interface CodeDisplayProps {
-  imageSrc: string;
-  link: string;
-  label: string;
-  kind?: "QR code" | "Snapcode";
-  filename?: string;
-  onDownload?: () => void | Promise<void>;
+ imageSrc:string; link:string; label:string; kind?:"QR code"|"Snapcode"; filename?:string; onDownload?:()=>void|Promise<void>;
 }
-export function CodeDisplay({
-  imageSrc,
-  link,
-  label,
-  kind = "QR code",
-  filename = "code.png",
-  onDownload,
-}: CodeDisplayProps) {
-  const [message, setMessage] = useState(""),
-    [failed, setFailed] = useState(false),
-    [busy, setBusy] = useState(false);
-  useEffect(() => {
-    setFailed(false);
-    setMessage("");
-  }, [imageSrc]);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setMessage("Link copied.");
-    } catch {
-      setMessage("Could not copy. Select and copy the link below.");
-    }
-  };
-  const download = async () => {
-    setBusy(true);
-    try {
-      await onDownload?.();
-      setMessage("Download requested.");
-    } catch {
-      setMessage("Download failed. Try again.");
-    } finally {
-      setBusy(false);
-    }
-  };
-  return (
-    <figure className="ct-code">
-      <figcaption>
-        <span>{kind}</span>
-        <strong>{label}</strong>
-        <p>Scan to open, or share the link below.</p>
-      </figcaption>
-      <div className="ct-code-stage">
-        <div className="ct-code-image">
-          {failed ? (
-            <span role="alert">Code image unavailable.</span>
-          ) : (
-            <img
-              key={imageSrc}
-              src={imageSrc}
-              alt={`${kind} for ${label}`}
-              onLoad={() => setFailed(false)}
-              onError={() => setFailed(true)}
-            />
-          )}
-        </div>
-      </div>
-      <div className="ct-code-destination">
-        <label>
-          Destination
-          <Input
-            aria-label={`${label} link`}
-            readOnly
-            value={link}
-            onFocus={(event) => event.target.select()}
-          />
-        </label>
-      </div>
-      <div className="ct-code-actions">
-        <button className="ct-control-action" type="button" onClick={() => void copy()}>
-          <Copy size={13} />
-          Copy link
-        </button>
-        {onDownload ? (
-          <button className="ct-control-action"
-            type="button"
-            onClick={() => void download()}
-            disabled={busy || failed}
-          >
-            <Download size={13} />
-            {busy ? "Downloading…" : "Download code"}
-          </button>
-        ) : failed ? (
-          <button className="ct-control-action" type="button" disabled>
-            <Download size={13} />
-            Download code
-          </button>
-        ) : (
-          <a className="ct-control-action"
-            href={imageSrc}
-            download={filename}
-            aria-label={`Download ${kind}`}
-          >
-            <Download size={13} />
-            Download code
-          </a>
-        )}
-      </div>
-      {message && <small role="status">{message}</small>}
-    </figure>
-  );
+export function CodeDisplay({imageSrc,link,label,kind="QR code",filename="code.png",onDownload}:CodeDisplayProps) {
+ const [message,setMessage]=useState(''),[failed,setFailed]=useState(false),[busy,setBusy]=useState(false),[copied,setCopied]=useState(false);
+ useEffect(()=>{setFailed(false);setMessage('');setCopied(false);},[imageSrc,link]);
+ useEffect(()=>{if(!copied)return;const timer=setTimeout(()=>setCopied(false),2500);return()=>clearTimeout(timer);},[copied]);
+ const copy=async()=>{try{await navigator.clipboard.writeText(link);setCopied(true);setMessage('Link copied.');}catch{setMessage('Could not copy. Select and copy the destination link.');}};
+ const download=async()=>{setBusy(true);try{await onDownload?.();setMessage('Download requested.');}catch{setMessage('Download failed. Try again.');}finally{setBusy(false);}};
+ return <figure className="ct-code">
+  <figcaption><span className="ct-code-kind">{kind}</span><strong>{label}</strong><p>Scan the code or share its destination link.</p></figcaption>
+  <div className="ct-code-body"><div className="ct-code-stage"><div className="ct-code-image">{failed?<span role="alert">Code image unavailable.</span>:<img key={imageSrc} src={imageSrc} alt={`${kind} for ${label}`} onLoad={()=>setFailed(false)} onError={()=>setFailed(true)}/>}</div><span className="ct-code-scan-note">Scan to open</span></div>
+   <div className="ct-code-details"><div className="ct-code-copy-heading"><strong>Ready to share</strong><p>Keep the code visible, or send the link directly.</p></div><label className="ct-code-destination">Destination<Input aria-label={`${label} link`} readOnly value={link} onFocus={event=>event.target.select()}/></label>
+    <ActionGroup equalWidth label="Share code"><Button onClick={()=>void copy()}>{copied?<Check size={14}/>:<Copy size={14}/>}Copy link</Button>{onDownload?<Button onClick={()=>void download()} disabled={busy||failed}><Download size={14}/>{busy?'Downloading…':'Download code'}</Button>:<Button href={failed?undefined:imageSrc} download={filename} disabled={failed} aria-label={`Download ${kind}`}><Download size={14}/>Download code</Button>}</ActionGroup>
+    <span className="ct-code-feedback" role="status" aria-live="polite">{message}</span>
+   </div>
+  </div>
+ </figure>;
 }

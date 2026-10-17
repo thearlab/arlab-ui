@@ -23,8 +23,9 @@ postcss.parse(scrollCSS); postcss.parse(navigationCSS);
 fs.writeFileSync('dist/contour/scroll-area.css', scrollCSS);
 fs.writeFileSync('dist/contour/navigation.css', fs.readFileSync('src/contour/fonts.css','utf8') + '\n' + scrollCSS + '\n' + navigationCSS);
 
+fs.rmSync('dist/contour/fonts', {recursive:true,force:true});
 fs.mkdirSync('dist/contour/fonts', {recursive:true});
 for (const file of fs.readdirSync('src/contour/fonts')) {
   if (file.endsWith('.woff2')) fs.copyFileSync(`src/contour/fonts/${file}`, `dist/contour/fonts/${file}`);
 }
-console.log('Self-hosted Urbanist and DM Mono font assets copied.');
+console.log('Satoshi uses its official Fontshare stylesheet; self-hosted DM Mono assets copied.');

@@ -11,7 +11,7 @@ const graphicShapes=new Set(['.swatches i','.meter','.space-dot','.agenda-line',
 test('every built Contour stylesheet uses the selected fonts and has no former purple foundation literals',()=>{
  assert.ok(files.length >= 16, "Audit follows the complete stylesheet build manifest");
  for(const[file,ast]of roots){
-  assert.doesNotMatch(ast.toString(),/Manrope|IBM Plex|#201D25\b|#231F28\b|#29252F\b|#963b83\b|#e1dee7\b/i,file);
+  assert.doesNotMatch(ast.toString(),/Urbanist|Manrope|IBM Plex|#201D25\b|#231F28\b|#29252F\b|#963b83\b|#e1dee7\b/i,file);
  }
 });
 test('component corners are semantic tokens; only explicit small graphics retain numeric rounding',()=>{

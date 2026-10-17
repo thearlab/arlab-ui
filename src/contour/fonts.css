@@ -1,5 +1,5 @@
-/* Self-hosted SIL Open Font License families. See docs/font-licenses. */
-@font-face {font-family:'Urbanist';font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/urbanist-latin-400-normal.woff2') format('woff2');}
-@font-face {font-family:'Urbanist';font-style:normal;font-weight:500;font-display:swap;src:url('./fonts/urbanist-latin-500-normal.woff2') format('woff2');}
-@font-face {font-family:'Urbanist';font-style:normal;font-weight:600;font-display:swap;src:url('./fonts/urbanist-latin-600-normal.woff2') format('woff2');}
+/* Satoshi variable (300–900) is served by its publisher under the ITF Free Font License.
+   @1 requests the variable normal face, including genuine weight 600.
+   DM Mono is self-hosted under the SIL Open Font License; see docs/font-licenses. */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap');
 @font-face {font-family:'DM Mono';font-style:normal;font-weight:400;font-display:swap;src:url('./fonts/dm-mono-latin-400-normal.woff2') format('woff2');}

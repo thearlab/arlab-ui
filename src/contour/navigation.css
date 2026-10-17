@@ -5,7 +5,7 @@
   --cn-dim: var(--dim, #665C70); --cn-line: var(--line, #DDD4E5);
   --cn-dept-creative:var(--dept-creative-solid,#B414AE);--cn-dept-engineering:var(--dept-engineering-solid,#A45514);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#176A96);--cn-dept-strategy:var(--dept-strategy-solid,#13766F);
   --cn-accent: var(--accent-deep, #a80fa3); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
-  font-family: var(--font-sans, "Urbanist", system-ui, sans-serif); font-size: 14px; line-height: 1.5;
+  font-family: var(--font-sans, "Satoshi", system-ui, sans-serif); font-size: 14px; line-height: 1.5;
   box-sizing: border-box; color: var(--cn-ink);
 }
 :where([data-mode="dark"], [data-theme="dark"]) :is(.contour-shell, .contour-navigation),
@@ -34,7 +34,7 @@
 .contour-navigation-scroll > .scroll-viewport { height: 100%; }
 .contour-navigation-section { padding: 16px 12px; border-bottom: 1px solid var(--cn-line); }
 .contour-navigation-section:last-child { border-bottom: 0; }
-.contour-navigation-section > h2 { margin: 0 10px 8px; color: var(--cn-dim); font-size: 10px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.contour-navigation-section > h2 { margin: 0 10px 8px; color: var(--cn-dim); font-size: 10px; line-height: 16px; font-weight:var(--weight-semibold); letter-spacing: .06em; text-transform: uppercase; }
 .contour-navigation-footer { flex: 0 0 auto; border-top: 1px solid var(--cn-line); }
 .contour-navigation-help { padding: 8px 12px; }
 .contour-navigation-account { padding: 12px; border-top: 1px solid var(--cn-line); }
@@ -127,7 +127,7 @@
 .contour-space-panel {display:flex;flex-direction:column;flex:0 0 var(--cn-panel-width);min-width:0;min-height:0;border-right:1px solid var(--cn-line);background:var(--cn-nav);}
 .contour-space-panel[hidden] {display:none;}
 .contour-space-panel > header {display:flex;align-items:center;min-height:82px;padding:16px 24px;border-bottom:1px solid var(--cn-line);}
-.contour-space-panel > header > span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:20px;font-weight:600;}
+.contour-space-panel > header > span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:20px;font-weight:var(--weight-semibold);}
 .contour-space-panel-footer {display:block;flex:0 0 auto;padding:16px 20px;border-top:1px solid var(--cn-line);}
 .contour-mobile-space {display:flex;align-items:center;gap:8px;min-width:0;min-height:44px;padding:4px 8px;border:1px solid var(--cn-line);border-radius:var(--radius-control,7px);background:var(--cn-nav);color:var(--cn-ink);font:inherit;font-size:12px;cursor:pointer;}
 .contour-mobile-space > span:last-child {overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}

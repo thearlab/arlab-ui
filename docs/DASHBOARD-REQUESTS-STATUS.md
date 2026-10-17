@@ -76,7 +76,7 @@ All summary feature rows above have concrete implementations. The dashboard's la
 
 ## Satin Lift integration verification
 
-The approved shared foundation is now implemented, including self-hosted Urbanist/DM Mono, 14px surface corners, 7px controls, softened neutral dark mode, satin surface treatments and full-width panel title rails. AppSwitcher and the sign-out glyph were refined. PageLoading adds `variant="content-preview"`, a reusable shell-body loading state with centered live copy and decorative content placeholders.
+The approved shared foundation is now implemented, including Satoshi from Fontshare and self-hosted DM Mono, 14px surface corners, 7px controls, softened neutral dark mode, satin surface treatments and full-width panel title rails. AppSwitcher and the sign-out glyph were refined. PageLoading adds `variant="content-preview"`, a reusable shell-body loading state with centered live copy and decorative content placeholders.
 
 The final package build and all 47 package contract/foundation tests pass. Current-theme CSS and runtime audits are recorded in `SATIN-LIFT-COMPONENT-AUDIT.md` and `ACTIVE-FOUNDATION-AUDIT.md`. Exact vivid department fills with white icons and exact pink buttons are retained as explicit brand contrast exceptions; they are not represented as blanket WCAG contrast passes.
 

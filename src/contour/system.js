@@ -5,9 +5,9 @@ export const directions = {
     name: "Contour",
     label: "Satin Lift",
     description:
-      "Satin surfaces, quiet chrome edges and ARLAB pink. Urbanist typography and neutral charcoal give every workspace one cohesive foundation.",
-    font: "Urbanist",
-    display: "Urbanist",
+      "Satin surfaces, quiet chrome edges and ARLAB pink. Satoshi typography and neutral charcoal give every workspace one cohesive foundation.",
+    font: "Satoshi",
+    display: "Satoshi",
     geometry: "7 / 14",
     density: "Comfortable",
     shell: "Sidebar",

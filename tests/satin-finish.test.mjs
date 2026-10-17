@@ -50,9 +50,9 @@ test('panel title rails and row highlights extend to their frame without changin
  assert.doesNotMatch(built,/visual-lab|data-workspace-style|vd-panel-inset/);
 });
 
-test('standalone navigation shares Urbanist, neutral charcoal and solid department fallbacks',()=>{
+test('standalone navigation shares Satoshi, neutral charcoal and solid department fallbacks',()=>{
  const css=fs.readFileSync(new URL('../src/contour/navigation.css',import.meta.url),'utf8');
- assert.match(css,/"Urbanist"/);assert.doesNotMatch(css,/Manrope|#201D25|#231F28|#29252F/);
+ assert.match(css,/"Satoshi"/);assert.doesNotMatch(css,/Manrope|#201D25|#231F28|#29252F/);
  for(const department of ['creative','engineering','client','company','strategy'])assert.ok(css.includes(`--dept-${department}-solid`));
  assert.match(css,/--radius-control, 7px/);
  assert.doesNotMatch(css,/visual-lab|\.arlab-contour|\.themed-preview/);

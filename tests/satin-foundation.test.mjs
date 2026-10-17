@@ -10,7 +10,7 @@ test('Satin Lift uses the approved brand, typography, corners and neutral dark s
   assert.equal(light.action,'#E414DB');assert.equal(light.actionInk,'#FFFFFF');assert.equal(light['action-gradient'],'none');
   assert.deepEqual(['ground','raise','sunken','ink','dim','line'].map(key=>dark[key]),['#202022','#29292C','#1B1B1E','#F4F4F6','#BDBDC5','#414146']);
   for(const tokens of [light,dark]) {
-    assert.equal(tokens['font-sans'],"'Urbanist', sans-serif");assert.equal(tokens['font-display'],"'Urbanist', sans-serif");
+    assert.equal(tokens['font-sans'],"'Satoshi', sans-serif");assert.equal(tokens['font-display'],"'Satoshi', sans-serif");
     assert.equal(tokens['font-mono'],"'DM Mono', monospace");assert.equal(tokens['weight-heading'],'600');
     assert.equal(tokens['radius-panel'],'14px');assert.equal(tokens['radius-sm'],'7px');assert.equal(tokens['page-gradient'],'none');
     assert.equal(tokens['chrome-gradient'],'none');assert.notEqual(tokens['switch-off-track'],tokens.raise);
@@ -30,17 +30,17 @@ test('Text and semantic notes pass contrast; exact brand choices stay explicit',
   for(const bg of ['ground','raise','sunken'])for(const text of ['ink','dim','link']){assert.ok(contrast(t[text],t[bg])>=4.5,`${mode} ${text}/${bg}`);checks++;}
   for(const role of ['ok','warn','bad','info']){assert.ok(contrast(t[role],t[`${role}Tint`])>=4.5,`${mode} ${role} note`);checks++;}
   for(const department of ['creative','engineering','client','company','strategy']){assert.equal(t[`dept-${department}-solid`],t[`dept-${department}`]);assert.equal(t[`dept-${department}-ink`],'#FFFFFF');}
-  if(mode==='dark')assert.ok(contrast(t.action,t.actionInk)>=4.5);
+  assert.equal(t.action,t.accent);assert.equal(t.actionInk,'#FFFFFF');assert.ok(contrast(t.action,t.actionInk)>=3);
  }
  const light=tokensFor('contour');const brandRatio=contrast(light.action,light.actionInk);
  assert.ok(brandRatio>=3 && brandRatio<4.5,`Explicit white-on-brand-pink exception: ${brandRatio.toFixed(2)}:1`);
  console.log(`${checks} text/note checks pass. Approved light button exception: ${brandRatio.toFixed(2)}:1 (normal-text target 4.5:1).`);
 });
-test('Chosen fonts are self-hosted and build copies every referenced asset',()=>{
+test('Satoshi uses its publisher and local DM Mono assets are valid WOFF2',()=>{
  const css=fs.readFileSync(new URL('../src/contour/fonts.css',import.meta.url),'utf8');
  const files=[...css.matchAll(/url\('\.\/fonts\/([^']+)'\)/g)].map(match=>match[1]);
- assert.equal(files.length,4);
+ assert.equal(files.length,1);
  for(const file of files){const data=fs.readFileSync(new URL(`../src/contour/fonts/${file}`,import.meta.url));assert.equal(data.subarray(0,4).toString(),'wOF2');}
- assert.doesNotMatch(css,/https?:/);
+ assert.match(css,/https:\/\/api\.fontshare\.com\/v2\/css/);assert.match(css,/satoshi@1/);
  const build=fs.readFileSync(new URL('../scripts/build-contour.mjs',import.meta.url),'utf8');assert.match(build,/copyFileSync/);assert.match(build,/fonts\.css/);
 });

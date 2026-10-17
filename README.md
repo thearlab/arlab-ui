@@ -1,6 +1,6 @@
 # ARLAB UI V2: Contour
 
-The shared design system for ARLAB internal tools. Satin Lift: Urbanist interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
+The shared design system for ARLAB internal tools. Satin Lift: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
 
 ```json
 "@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.20"
@@ -9,7 +9,7 @@ The shared design system for ARLAB internal tools. Satin Lift: Urbanist interfac
 ```jsx
 import { ContourProvider, Button } from '@arlab/ui';
 import '@arlab/ui/styles.css';
-// Urbanist 400/500/600 and DM Mono 400 are self-hosted by the shared stylesheet.
+// Satoshi 400/500 loads from its official Fontshare stylesheet; DM Mono 400 is self-hosted.
 export function App() {
   return <ContourProvider mode="light"><Button variant="primary">Create project</Button></ContourProvider>;
 }

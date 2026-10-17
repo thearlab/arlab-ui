@@ -16,7 +16,7 @@ The audit follows the complete Contour stylesheet build manifest, including shar
 | Calendars | Calendar, date/time pickers, DayTimeline, phase/verdict displays and collection groups use semantic corner roles. Day and month interaction controls use 7px corners; larger scheduling surfaces use 14px. |
 | Editors/media | EditorLayout, PreviewFrame, QR/CodeDisplay, MediaGallery, MediaUploadField and attached-file sections now share the new surface construction. Reorder rows retain control geometry; reorder groups use surface geometry. |
 | Boards | Kanban columns/cards inherit shared panels. Legacy library kanban examples now use the same corner and elevation tokens. Hover borders no longer switch to strong text colors. Drag affordances and pointer behavior remain unchanged. |
-| Shell | Standalone navigation uses Urbanist and current neutral light/dark fallback colors. Embedded menus and account controls share control corners. Structural sidebar identity experiments remain separate from the foundation update. |
+| Shell | Standalone navigation uses Satoshi and current neutral light/dark fallback colors. Embedded menus and account controls share control corners. Structural sidebar identity experiments remain separate from the foundation update. |
 | Status and documentation | Historical sage/ochre/blue/rose/lilac classes resolve through current semantic tokens. Historic toast and demo/documentation chrome use current colors. Old comparison-selector names remain for compatibility, but their former hard-coded palettes are removed. |
 
 ## Intentional shapes and materials
