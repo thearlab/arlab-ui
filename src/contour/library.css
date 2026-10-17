@@ -3204,3 +3204,8 @@ a.lib-link-tile {text-decoration:none;}
 .ct-content-loading-rows > div {display:flex;justify-content:space-between;gap:var(--space-5);padding-block:var(--space-5);border-bottom:1px solid var(--line);}
 .ct-content-loading-rows > div:last-child {border-bottom:0;}.ct-content-loading-rows span {width:25%;}
 @media(max-width:600px){.ct-content-loading-skeleton {inset:var(--space-4);}.ct-content-loading-cards {grid-template-columns:repeat(2,minmax(0,1fr));}.ct-content-loading-cards > div:last-child {display:none;}.ct-content-loading-copy h2 {font-size:var(--text-lg);}}
+
+/* Only the decorative skeleton breathes. Copy and layout remain stable. */
+.ct-content-loading-skeleton {animation:ct-content-loading-breathe 3.6s ease-in-out infinite;}
+@keyframes ct-content-loading-breathe {0%,100% {opacity:.24;}50% {opacity:.38;}}
+@media(prefers-reduced-motion:reduce){.ct-content-loading-skeleton {animation:none;opacity:.32;}}

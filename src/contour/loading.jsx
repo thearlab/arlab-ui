@@ -50,7 +50,7 @@ export function PageLoading({
   onCancel,
   mark = <ArlabMark compact height={28} />,
   workspaceName = "ARLAB workspace",
-  variant = "signature",
+  variant = "content-preview",
 }) {
   if(variant === "content-preview") return <section className="ct-content-loading" aria-label="Workspace loading" aria-busy="true">
     <div className="ct-content-loading-skeleton" aria-hidden="true"><div className="ct-content-loading-heading"><span/><span/></div><div className="ct-content-loading-cards">{[0,1,2].map(index=><div key={index}><span/><strong/><span/></div>)}</div><div className="ct-content-loading-rows">{[0,1,2,3].map(index=><div key={index}><span/><span/><span/></div>)}</div></div>
