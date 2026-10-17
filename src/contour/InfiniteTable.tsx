@@ -187,8 +187,9 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     setPosition(old => ({ ...old, top: 0 }));
   }, [localRows, remote, filterKey, sortIdentity, chunkSize, rowHeight]);
 
-  const selectedIndex=props.selectedRowKey===undefined?-1:ordered.findIndex(row=>String(typeof rowKey==='function'?rowKey(row):row[rowKey])===String(props.selectedRowKey));
-  const selectedEntryIndex=selectedIndex<0?-1:allEntries.findIndex(entry=>entry.kind==='row'&&entry.rowIndex===selectedIndex);
+  // Scroll frames reuse the indexes. Do not scan the complete collection on every frame.
+  const selectedIndex=useMemo(()=>props.selectedRowKey===undefined?-1:ordered.findIndex(row=>String(typeof rowKey==='function'?rowKey(row):row[rowKey])===String(props.selectedRowKey)),[props.selectedRowKey,ordered,rowKey]);
+  const selectedEntryIndex=useMemo(()=>selectedIndex<0?-1:allEntries.findIndex(entry=>entry.kind==='row'&&entry.rowIndex===selectedIndex),[selectedIndex,allEntries]);
   useLayoutEffect(()=>{
     revealIndex.current=selectedEntryIndex<0?null:selectedEntryIndex;
     if(selectedIndex<0)return;

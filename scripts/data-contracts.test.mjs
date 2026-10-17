@@ -63,3 +63,15 @@ test('both chart types align comparison values by category and expose accessible
     assert.match(html,/<th scope="row">Mon<\/th><td>4<\/td><td>3<\/td>/);
   }
 });
+
+
+test('chart comparison gaps stay gaps and zero remains a real value',()=>{
+  const data=[{label:'Mon',value:4},{label:'Tue',value:9},{label:'Wed',value:2}];
+  const secondaryData=[{label:'Mon',value:0},{label:'Wed',value:3},{label:'Other',value:999}];
+  const html=render(Sparkline,{data,secondaryData});
+  const comparison=html.match(/<path d="([^"]+)"[^>]+stroke-dasharray="4 3"/);
+  assert.ok(comparison);assert.equal((comparison[1].match(/M/g)||[]).length,2);assert.doesNotMatch(comparison[1],/L/);
+  assert.match(html,/<th scope="row">Mon<\/th><td>4<\/td><td>0<\/td>/);
+  assert.match(html,/<th scope="row">Tue<\/th><td>9<\/td><td>Not available<\/td>/);
+  assert.doesNotMatch(html,/999/);
+});
