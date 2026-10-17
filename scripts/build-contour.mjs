@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import postcss from 'postcss';
-const source = ['styles.css', 'contour.css', 'library.css', 'navigation.css', 'scroll-area.css', 'dashboard.css', 'record-layouts.css', 'collection-workspace.css', 'calendar.css', 'app-header.css', 'data-lists.css', 'infinite-table.css', 'kanban-board.css', 'buttons.css', 'services.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
+const source = ['fonts.css', 'styles.css', 'contour.css', 'library.css', 'navigation.css', 'scroll-area.css', 'dashboard.css', 'record-layouts.css', 'collection-workspace.css', 'calendar.css', 'app-header.css', 'data-lists.css', 'infinite-table.css', 'kanban-board.css', 'buttons.css', 'services.css'].map(name => fs.readFileSync(`src/contour/${name}`, 'utf8')).join('\n');
 const css = postcss.parse(source);
 css.walkRules(rule => {
   for (let parent = rule.parent; parent; parent = parent.parent) {
@@ -21,4 +21,10 @@ const scrollCSS = fs.readFileSync('src/contour/scroll-area.css', 'utf8');
 const navigationCSS = fs.readFileSync('src/contour/navigation.css', 'utf8');
 postcss.parse(scrollCSS); postcss.parse(navigationCSS);
 fs.writeFileSync('dist/contour/scroll-area.css', scrollCSS);
-fs.writeFileSync('dist/contour/navigation.css', scrollCSS + '\n' + navigationCSS);
+fs.writeFileSync('dist/contour/navigation.css', fs.readFileSync('src/contour/fonts.css','utf8') + '\n' + scrollCSS + '\n' + navigationCSS);
+
+fs.mkdirSync('dist/contour/fonts', {recursive:true});
+for (const file of fs.readdirSync('src/contour/fonts')) {
+  if (file.endsWith('.woff2')) fs.copyFileSync(`src/contour/fonts/${file}`, `dist/contour/fonts/${file}`);
+}
+console.log('Self-hosted Urbanist and DM Mono font assets copied.');
