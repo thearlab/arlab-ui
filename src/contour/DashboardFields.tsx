@@ -1,6 +1,8 @@
 import { Input } from "./BaseFields.js";
 import { TemporalPicker } from "./TemporalPicker.js";
-import { useId, useState, useEffect, type InputHTMLAttributes } from "react";
+import { useId, useState, useEffect, useContext, type InputHTMLAttributes } from "react";
+import { ContourThemeContext } from "./ThemeContext.js";
+import { tokensFor } from "./system.js";
 import { Minus, Plus, Check } from "lucide-react";
 type FieldBase = { label: string; hint?: string; error?: string };
 export type DatePickerProps = Omit<
@@ -181,12 +183,14 @@ export function ColorPicker({
   error,
 }: ColorPickerProps) {
   const id = useId();
+  const mode = useContext(ContourThemeContext) ?? "light";
+  const fallbackColor = tokensFor("contour",mode).accent;
   const [draft, setDraft] = useState(value);
   useEffect(() => setDraft(value), [value]);
   const invalid =
     error ||
     (!hex.test(draft)
-      ? "Use a six-digit hex colour, such as #E414DB."
+      ? `Use a six-digit hex colour, such as ${fallbackColor}.`
       : undefined);
   return (
     <div className="ct-field">
@@ -195,7 +199,7 @@ export function ColorPicker({
         <input
           type="color"
           aria-label={`Choose ${label}`}
-          value={hex.test(value) ? value : "#E414DB"}
+          value={hex.test(value) ? value : fallbackColor}
           disabled={disabled}
           onChange={(event) => {
             setDraft(event.target.value);

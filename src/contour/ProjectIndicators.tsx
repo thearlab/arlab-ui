@@ -97,7 +97,7 @@ export function PhaseBar({
               style={
                 {
                   "--phase-color":
-                    phase.color || `var(--chart-${(index % 7) + 1}, #8d617d)`,
+                    phase.color || `var(--chart-${(index % 7) + 1}, var(--accent))`,
                 } as CSSProperties
               }
             />
