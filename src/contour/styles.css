@@ -476,13 +476,13 @@ select {
 .themed-preview h2 {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -1.2px;
+  letter-spacing: normal;
   line-height: 1.2;
 }
 .themed-preview h3 {
   font-weight: 600;
   font-size: 15px;
-  letter-spacing: -0.3px;
+  letter-spacing: normal;
 }
 .themed-preview h4 {
   font-weight: 600;

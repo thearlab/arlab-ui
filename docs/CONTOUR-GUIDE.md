@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.15 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.16 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -237,7 +237,7 @@ Live example: [TextLink](https://arlab-ui-showcase.pages.dev/?view=catalogue&com
 
 A labeled toggle for a small filter or preference.
 
-Uses aria-pressed. The check and border make selection visible without relying on color.
+Uses aria-pressed. The default check and border show selection. The quiet variant uses a tone dot, label and count with soft selected fill, no border and no check.
 
 Import: `import { PillButton } from '@arlab/ui';`
 
@@ -246,6 +246,11 @@ Import: `import { PillButton } from '@arlab/ui';`
 | `selected` | Boolean selected state, announced with aria-pressed. |
 | `onClick` | Action callback. Use a link for navigation. |
 | `children` | React content. Keep text concise and accessible. |
+| `variant` | default retains border/check. quiet uses a tone dot, label, optional count and soft selected fill without border/check. |
+| `tone` | quiet, ok, warn, bad or info controls the dot, not the text. |
+| `count` | Optional numeric count, including zero. |
+| `dot` | Quiet-variant tone dot, default true. |
+| `disabled` | Native disabled state. Native button attributes and events are forwarded. |
 
 Live example: [PillButton](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PillButton)
 
@@ -564,10 +569,10 @@ Import: `import { TabStrip } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `options` | Choice array. Dropdown uses { value, label, description?, count?, disabled? }; tabs use strings. |
-| `value` | Controlled value. Update it from onChange. |
-| `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
-| `label` | Visible or accessible name describing the control. |
+| `options` | Strings remain supported. Objects accept label, optional value/id, count (including zero) and disabled. Selection emits value, id or label, in that order. Counts never become selection values. |
+| `value` | Stable selected string, independent of counts. |
+| `onChange` | Receives the selected value. Arrow keys and Home/End skip disabled tabs. |
+| `label` | Accessible tablist name, default Sections. |
 
 Live example: [TabStrip](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TabStrip)
 
@@ -879,9 +884,10 @@ Import: `import { AppHeader } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `context` | Optional pattern-specific value. Use the live example as the reference. |
-| `search` | Optional pattern-specific value. Use the live example as the reference. |
-| `actions` | Primary and supporting actions for the current page. |
+| `context` | Breadcrumbs or application-owned page context. |
+| `search` | Existing search action or custom shared SearchField. |
+| `pageActions` | Current page actions beside search, before global actions. React content remains application-owned; phones wrap this group onto a separate row. |
+| `actions` | Global account/theme/notification controls. |
 
 Live example: [AppHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AppHeader)
 
@@ -1513,6 +1519,8 @@ Import: `import { CopyBlock } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
+| `onCopy` | Optional async callback with the code text, for an application clipboard fallback. |
+| `onCopyError` | Optional callback when copying fails. Recovery text remains visible and the original content is retained. |
 
 Live example: [CopyBlock](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CopyBlock)
 
@@ -1724,7 +1732,7 @@ Live example: [ProjectStatusSheet](https://arlab-ui-showcase.pages.dev/?view=cat
 
 Workspace search with the shared search field, native modal and bounded results.
 
-Host owns shortcuts and routing. Items have id, title, summary, typeLabel and onSelect. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches.
+Host owns shortcuts and routing. Items have id, title, summary, typeLabel, optional group and onSelect. Named groups render accessible headings and keep keyboard selection aligned. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches.
 
 Import: `import { CommandPalette } from '@arlab/ui';`
 
@@ -2069,15 +2077,17 @@ Live example: [RecordHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 One labelled scrolling surface below a record header.
 
-Connects the active tab to its panel and delegates scrolling to the shared ScrollArea.
+Footer actions remain outside the content scroll; an empty footer target takes no space. Connects the active tab to its panel and delegates scrolling to the shared ScrollArea.
 
 Import: `import { RecordBody } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `children` | React content. Keep text concise and accessible. |
-| `id` | Optional pattern-specific value. Use the live example as the reference. |
-| `labelledBy` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | Full tab content in the shared ScrollArea. |
+| `id` | The tabpanel ID linked from its tabs. |
+| `labelledBy` | The ID of the selected tab. |
+| `footer` | Persistent record actions outside the scrolling content. The footer spans the selected pane and stays visible while content scrolls. |
+| `footerRef` | Optional React ref for application-owned action portals. Empty footer targets occupy no space. |
 
 Live example: [RecordBody](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordBody)
 
@@ -2629,6 +2639,12 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--dur` | `180ms` | `180ms` |
 | `--dur-slow` | `240ms` | `240ms` |
 | `--ease` | `cubic-bezier(.2,.8,.2,1)` | `cubic-bezier(.2,.8,.2,1)` |
+| `--on-dept-solid` | `#FFFFFF` | `#FFFFFF` |
+| `--dept-creative-solid` | `#B344A6` | `#B344A6` |
+| `--dept-engineering-solid` | `#6C62A6` | `#6C62A6` |
+| `--dept-client-solid` | `#8D617D` | `#8D617D` |
+| `--dept-company-solid` | `#676171` | `#676171` |
+| `--dept-strategy-solid` | `#497B8F` | `#497B8F` |
 | `--dept-creative` | `#B344A6` | `#E28DD4` |
 | `--dept-engineering` | `#6C62A6` | `#ADA5E3` |
 | `--dept-client` | `#8D617D` | `#CAA1BB` |

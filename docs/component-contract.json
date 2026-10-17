@@ -41,9 +41,14 @@
     "props": [
       "selected",
       "onClick",
-      "children"
+      "children",
+      "variant",
+      "tone",
+      "count",
+      "dot",
+      "disabled"
     ],
-    "behavior": "Uses aria-pressed. The check and border make selection visible without relying on color."
+    "behavior": "Uses aria-pressed. The default check and border show selection. The quiet variant uses a tone dot, label and count with soft selected fill, no border and no check."
   },
   {
     "name": "Field",
@@ -479,6 +484,7 @@
     "props": [
       "context",
       "search",
+      "pageActions",
       "actions"
     ],
     "behavior": "Context shrinks before actions. Search becomes an icon button on phone; use Breadcrumbs truncate to keep long record titles on one line."
@@ -926,7 +932,9 @@
     "category": "Overlays & editing",
     "description": "A readable code or value block with a copy action.",
     "props": [
-      "children"
+      "children",
+      "onCopy",
+      "onCopyError"
     ],
     "behavior": "The control confirms a successful clipboard write. The text remains selectable when clipboard permission is unavailable."
   },
@@ -1083,7 +1091,7 @@
       "emptyLabel",
       "filter"
     ],
-    "behavior": "Host owns shortcuts and routing. Items have id, title, summary, typeLabel and onSelect. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches."
+    "behavior": "Host owns shortcuts and routing. Items have id, title, summary, typeLabel, optional group and onSelect. Named groups render accessible headings and keep keyboard selection aligned. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches."
   },
   {
     "name": "CollectionWorkspace",
@@ -1352,9 +1360,11 @@
     "props": [
       "children",
       "id",
-      "labelledBy"
+      "labelledBy",
+      "footer",
+      "footerRef"
     ],
-    "behavior": "Connects the active tab to its panel and delegates scrolling to the shared ScrollArea."
+    "behavior": "Footer actions remain outside the content scroll; an empty footer target takes no space. Connects the active tab to its panel and delegates scrolling to the shared ScrollArea."
   },
   {
     "name": "DetailSections",

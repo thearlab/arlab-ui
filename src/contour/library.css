@@ -2646,6 +2646,7 @@ button.lib-row:hover {
   line-height: var(--leading-normal);
 }
 .ct-panel.lib-panel > .section-head h3 {
+  letter-spacing: normal;
   margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -2801,3 +2802,14 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 .ct-command-footer > span:last-child {display:flex;align-items:center;gap:var(--space-1);}
 .ct-command-empty {padding:var(--space-8) var(--space-4);margin:0;text-align:center;color:var(--dim);font-size:var(--text-sm);}
 @media(max-width:600px){.ct-command-palette[open] {max-height:calc(100dvh - var(--space-6));}.ct-command-footer > span:last-child {display:none;}}
+
+/* Quiet status filters retain native pressed/disabled semantics without heavy chrome. */
+.lib-pill-button[data-variant="quiet"] {border:0;background:transparent;box-shadow:none;padding:var(--space-2) var(--space-3);gap:var(--space-2);color:var(--dim);}
+.lib-pill-button[data-variant="quiet"]:hover:not(:disabled) {background:var(--sunken);color:var(--ink);}
+.lib-pill-button[data-variant="quiet"].selected {background:var(--accent-soft);color:var(--link);}
+.ct-filter-chip-dot {width:5px;height:5px;flex:0 0 5px;border-radius:50%;background:var(--dim);}
+.lib-pill-button[data-tone="ok"] .ct-filter-chip-dot {background:var(--ok);}.lib-pill-button[data-tone="warn"] .ct-filter-chip-dot {background:var(--warn);}.lib-pill-button[data-tone="bad"] .ct-filter-chip-dot {background:var(--bad);}.lib-pill-button[data-tone="info"] .ct-filter-chip-dot {background:var(--info);}
+.ct-filter-chip-count {font-size:var(--text-2xs);font-variant-numeric:tabular-nums;color:var(--dim);}
+.detail-tabs > button {display:inline-flex;align-items:center;gap:var(--space-2);}
+.ct-tab-count {display:inline-flex;min-width:var(--space-4);justify-content:center;padding:0 var(--space-1);border-radius:var(--radius-xs);background:var(--sunken);color:var(--dim);font-size:var(--text-2xs);line-height:var(--leading-normal);font-weight:var(--weight-regular);font-variant-numeric:tabular-nums;}
+.ct-command-group-title {margin:0;padding:var(--space-3) var(--space-3) var(--space-2);color:var(--dim);font-size:var(--text-xs);font-weight:var(--weight-medium);letter-spacing:normal;}

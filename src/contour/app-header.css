@@ -15,3 +15,6 @@
 .ct-app-header-search-content {width:clamp(160px,24vw,360px);min-width:0;}
 .ct-app-header-search-content > .search-field {width:100%;}
 @media(max-width:640px){.ct-app-header-search-content {width:min(48vw,240px);}}
+
+.ct-app-header-page-actions {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);min-width:0;}
+@media(max-width:760px){.ct-app-header[data-page-actions] {flex-wrap:wrap;}.ct-app-header[data-page-actions] .ct-app-header-actions {flex-wrap:wrap;flex:1 1 auto;justify-content:flex-end;max-width:100%;}.ct-app-header-page-actions {order:1;flex:1 1 100%;justify-content:flex-end;}}

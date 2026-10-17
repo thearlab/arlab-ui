@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Ref,
   type KeyboardEvent,
 } from "react";
 import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
@@ -181,13 +182,22 @@ export function RecordBody({
   children,
   id,
   labelledBy,
+  footer,
+  footerRef,
 }: {
   children: ReactNode;
   id: string;
   labelledBy: string;
+  /** Persistent record actions, outside the content scroll area. */
+  footer?: ReactNode;
+  /** Optional target for application-owned action portals. Empty targets occupy no space. */
+  footerRef?: Ref<HTMLDivElement>;
 }) {
+  const body=useRef<HTMLDivElement>(null);
+  useEffect(()=>{const viewport=body.current?.querySelector<HTMLElement>('.ct-record-body-scroll > .scroll-viewport');if(viewport){viewport.scrollTop=0;viewport.scrollLeft=0;}},[labelledBy]);
   return (
     <div
+      ref={body}
       className="ct-record-body"
       id={id}
       role="tabpanel"
@@ -201,6 +211,7 @@ export function RecordBody({
       >
         {children}
       </ScrollArea>
+      {(footer!==undefined||footerRef)&&<div ref={footerRef} className="ct-record-body-footer">{footer}</div>}
     </div>
   );
 }

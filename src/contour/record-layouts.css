@@ -382,3 +382,9 @@
  .ct-record-header-context-tools[data-separated] {padding-right:var(--space-2);margin-right:0;}
 }
 @media(max-width:600px){.ct-record-header-main {padding:var(--space-3) var(--space-4);}.ct-record-header .ct-record-tabs-scroll {padding-inline:var(--space-4);}}
+
+/* Record actions remain visible independently of the tab's content scroll. */
+.ct-record-body-footer {flex:0 0 auto;min-width:0;padding:var(--space-3) var(--space-6);border-top:var(--line-width) solid var(--line);background:var(--raise);}
+.ct-record-body-footer:empty {display:none;}
+.ct-record-body-footer > .ct-save-bar {border:0;padding:0;margin:0;position:static;}
+@media(max-width:600px){.ct-record-body-footer {padding:var(--space-3) var(--space-4);}}

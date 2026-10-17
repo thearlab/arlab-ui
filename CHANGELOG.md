@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0-beta.16
+
+- Added optional CommandPalette groups, quiet status/count PillButton filters, counted/disabled TabStrip options and AppHeader pageActions. Existing plain options and default button APIs remain supported.
+- Restored the shared solid-color spaces rail: 28px department tiles, white icons, accent selection square, ink app tiles and group dividers, without the left indicator. Dedicated solid tokens preserve contrast without changing softer chart tones.
+- RecordBody accepts footer content or a footerRef outside its content scroll. Save and Publish controls can remain fixed to the selected record pane, with empty footer targets hidden.
+
+- Reset body-sized h2/h3, RecordSection and Panel heading tracking to normal. Small interface titles no longer inherit display-heading compression; component font sizes and weights remain unchanged.
+- CopyBlock accepts an optional application-owned copy callback and error callback. Failed copying now displays useful recovery text, allowing applications to reuse the shared code block without losing their clipboard fallback.
+
 ## 2.0.0-beta.15
 
 - CollectionWorkspace adds optional `collectionMode="condense"`: the same table narrows to its identity column beside the selected detail, retaining sort, filters, scroll and mounted state. Its persistent right filter rail remains available in browse and detail; phones use the shared filter sheet. Existing separate-navigator behavior remains the default.

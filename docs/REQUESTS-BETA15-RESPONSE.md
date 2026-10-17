@@ -1,0 +1,17 @@
+# Dashboard follow-up for beta.15
+
+Implemented for beta.16:
+
+1. CommandItem accepts `group`. CommandPalette renders named result groups, keeps search/keyboard indices aligned and retains its 24-result DOM cap. Searching also matches group names.
+2. PillButton accepts `variant="quiet"`, `tone`, `count` and `dot`, and forwards native button attributes. Quiet filters use a dot, label, count and soft selected fill, without a border or check. Existing default appearance remains available.
+3. TabStrip accepts strings or `{label,value?,id?,count?,disabled?}`. Changes emit a stable value/id/label string, never the count or option object. Counts include zero; arrow/Home/End navigation skips disabled tabs.
+4. AppHeader accepts `pageActions` beside search, before global actions. Page controls wrap on phones without portals.
+5. The spaces rail defaults to solid 28px department tiles with white icons, a 46px soft accent selection square, ink-filled application tiles and a separator at group boundaries. The previous indicator and dark tile border are removed. Logo, footers, phone drawers, tooltips, counts and keyboard behavior remain. Dedicated `--dept-*-solid` tokens keep white icon contrast in both modes while existing softer chart/department tones remain available elsewhere.
+
+Additional fixes requested in the same session:
+
+- Small h2/h3 and record/panel headings use normal letter spacing.
+- RecordBody accepts `footer` and `footerRef` outside the scrolling content. Empty footer targets take no space. This supports fixed per-record Save/Publish actions.
+- CopyBlock accepts app-owned clipboard/error callbacks and displays copy-recovery text.
+
+Validation: shared TypeScript/build, 85 public interaction cases and 60 contrast pairs pass. Studio regression fixtures verify the same table/filter rail and fixed editor footer while retaining edit guards. The showcase includes quiet chips, counted tabs, grouped search, page actions, department/application spaces and the fixed-footer collection example.

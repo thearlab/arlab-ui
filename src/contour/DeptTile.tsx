@@ -5,6 +5,6 @@ const icons: Record<string, ReactNode> = {creative:<Palette size={16}/>,engineer
 /** Department identity. Compact tiles are decorative inside a named navigation control. */
 export function DeptTile({department='Creative',compact=false,icon,color}: {department?:string;compact?:boolean;icon?:ReactNode;color?:string}) {
  const key=departments[department] || department.toLowerCase();
- const tint=color || `var(--dept-${key}, var(--cn-dept-${key}, var(--cn-accent, #a80fa3)))`;
+ const tint=color || (compact?`var(--dept-${key}-solid, var(--cn-dept-${key}, var(--dept-${key}, var(--cn-accent, #a80fa3))))`:`var(--dept-${key}, var(--cn-dept-${key}, var(--cn-accent, #a80fa3)))`);
  return compact ? <span className="contour-dept-tile-compact" style={{'--dept-tile-color':tint} as CSSProperties} aria-hidden="true">{icon || icons[key] || icons.company}</span> : <span className="dept-tile"><i style={{background:tint}}/>{department}</span>;
 }

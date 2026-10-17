@@ -179,38 +179,18 @@ export function SegmentedControl({ options, value, onChange, label = "View" }) {
     </div>
   );
 }
+/** @param {{options: (string | {label: string, value?: string, id?: string, count?: number, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string}} props */
 export function TabStrip({ options, value, onChange, label = "Sections" }) {
-  const id = useId();
-  return (
-    <div className="detail-tabs" role="tablist" aria-label={label}>
-      {options.map((o, i) => (
-        <button
-          id={`${id}-${i}`}
-          role="tab"
-          key={o}
-          aria-selected={value === o}
-          tabIndex={value === o ? 0 : -1}
-          onClick={() => onChange(o)}
-          onKeyDown={(e) => {
-            if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {
-              e.preventDefault();
-              const n =
-                e.key === "Home"
-                  ? 0
-                  : e.key === "End"
-                    ? options.length - 1
-                    : (i + (e.key === "ArrowRight" ? 1 : options.length - 1)) %
-                      options.length;
-              onChange(options[n]);
-              document.getElementById(`${id}-${n}`)?.focus();
-            }
-          }}
-        >
-          {o}
-        </button>
-      ))}
-    </div>
-  );
+  const id=useId();
+  const tabs=options.map(option=>typeof option==='string'?{label:option,value:option}:{...option,value:option.value??option.id??option.label});
+  const enabled=tabs.map((tab,index)=>({tab,index})).filter(({tab})=>!tab.disabled);
+  const active=enabled.some(({tab})=>tab.value===value)?value:enabled[0]?.tab.value;
+  return <div className="detail-tabs" role="tablist" aria-label={label}>{tabs.map((tab,index)=><button type="button" id={`${id}-${index}`} role="tab" key={tab.value} disabled={tab.disabled} aria-selected={active===tab.value} tabIndex={active===tab.value?0:-1} onClick={()=>onChange(tab.value)} onKeyDown={event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)||!enabled.length)return;
+    event.preventDefault();const at=enabled.findIndex(item=>item.index===index);
+    const next=event.key==='Home'?0:event.key==='End'?enabled.length-1:(at+(event.key==='ArrowRight'?1:enabled.length-1))%enabled.length;
+    const target=enabled[next];onChange(target.tab.value);document.getElementById(`${id}-${target.index}`)?.focus();
+  }}><span>{tab.label}</span>{tab.count!==undefined&&<span className="ct-tab-count">{tab.count.toLocaleString()}</span>}</button>)}</div>;
 }
 export function Chip({ children, onRemove }) {
   return (
@@ -224,16 +204,12 @@ export function Chip({ children, onRemove }) {
     </span>
   );
 }
-export function PillButton({ children, selected, onClick }) {
-  return (
-    <button
-      className={`lib-pill-button ${selected ? "selected" : ""}`}
-      aria-pressed={selected}
-      onClick={onClick}
-    >
-      {selected && <Check size={13} />} {children}
-    </button>
-  );
+/** @param {import('react').ButtonHTMLAttributes<HTMLButtonElement> & {children?: import('react').ReactNode,selected?:boolean,variant?:'default'|'quiet',tone?:'quiet'|'ok'|'warn'|'bad'|'info',count?:number,dot?:boolean}} props */
+export function PillButton({ children, selected=false, onClick, variant='default', tone='quiet', count, dot=true, className='', ...props }) {
+  return <button {...props} type={props.type||'button'} className={`lib-pill-button ${selected?'selected':''} ${className}`} data-variant={variant} data-tone={tone} aria-pressed={selected} onClick={onClick}>
+    {variant==='quiet'?(dot&&<span className="ct-filter-chip-dot" aria-hidden="true"/>):selected&&<Check size={13}/>}
+    <span>{children}</span>{count!==undefined&&<span className="ct-filter-chip-count">{count.toLocaleString()}</span>}
+  </button>;
 }
 export { TagInput } from './TagInput.js';
 export { DeptTile } from "./DeptTile.js";
@@ -761,29 +737,23 @@ export function SheetSection({ title, description, children }) {
     </section>
   );
 }
-export function CopyBlock({ children }) {
+/** @param {{children: string, onCopy?: (text: string) => Promise<void>, onCopyError?: (error: unknown) => void}} props */
+export function CopyBlock({ children, onCopy, onCopyError }) {
   const [copied, setCopied] = useState(false);
-  return (
-    <div className="lib-copy-block">
-      <pre>
-        <code>{children}</code>
-      </pre>
-      <Button
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(children);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-          } catch {
-            setCopied(false);
-          }
-        }}
-      >
-        {copied ? <Check size={14} /> : <Copy size={14} />}{" "}
-        {copied ? "Copied" : "Copy"}
-      </Button>
-    </div>
-  );
+  const [error,setError]=useState('');
+  return <div className="lib-copy-block">
+    <pre><code>{children}</code></pre>
+    <Button onClick={async()=>{
+      setError('');
+      try {
+        if(onCopy)await onCopy(children);else await navigator.clipboard.writeText(children);
+        setCopied(true);setTimeout(()=>setCopied(false),2000);
+      } catch(reason) {
+        setCopied(false);setError('Copy unavailable. Select the text and copy it manually.');onCopyError?.(reason);
+      }
+    }}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?'Copied':'Copy'}</Button>
+    {error&&<p role="status">{error}</p>}
+  </div>;
 }
 /** Strings remain supported; object items accept rich labels, real links and individual actions. */
 export function Breadcrumbs({ items, onNavigate, truncate = false }) {
