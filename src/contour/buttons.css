@@ -10,23 +10,23 @@
   line-height:var(--button-line-height);
   border-radius:var(--radius-sm);
 }
-.btn[data-button="text"] {padding:0 var(--button-padding-inline);gap:var(--space-2);}
-.icon-btn[data-button="icon"] {width:var(--button-height);min-width:var(--button-height);padding:0;}
+.btn[data-button="text"] {padding:0 var(--button-padding-inline);gap:var(--space-2);box-shadow:var(--chrome-control-shadow);}
+.icon-btn[data-button="icon"] {width:var(--button-height);min-width:var(--button-height);padding:0;border:1px solid var(--icon-rest-border);background:var(--icon-rest-surface);background-image:var(--icon-rest-gradient);box-shadow:var(--icon-rest-shadow);transition:background-color var(--hover-duration) ease, color var(--hover-duration) ease, border-color var(--hover-duration) ease, box-shadow var(--hover-duration) ease;}
 .btn[data-button="text"] > svg, .icon-btn[data-button="icon"] > svg {width:var(--icon-button-size);height:var(--icon-button-size);flex-shrink:0;}
 @media (max-width:640px), (pointer:coarse) {
   .btn[data-button="text"], .icon-btn[data-button="icon"] {min-height:var(--control-h-touch);height:var(--control-h-touch);}
-  .icon-btn[data-button="icon"] {width:var(--control-h-touch);min-width:var(--control-h-touch);}
+  .icon-btn[data-button="icon"] {width:var(--control-h-touch);min-width:var(--control-h-touch);border:1px solid var(--icon-rest-border);background:var(--icon-rest-surface);background-image:var(--icon-rest-gradient);box-shadow:var(--icon-rest-shadow);transition:background-color var(--hover-duration) ease, color var(--hover-duration) ease, border-color var(--hover-duration) ease, box-shadow var(--hover-duration) ease;}
 }
 
 /* Visual roles are themeable without changing geometry or focus behavior. */
-.btn[data-button="text"] {box-shadow:var(--shadow-control);transition:background-color var(--hover-duration) ease,border-color var(--hover-duration) ease,box-shadow var(--hover-duration) ease,color var(--hover-duration) ease;}
-.btn[data-button="text"]:hover:not(:disabled) {box-shadow:var(--shadow-control-hover);}
+.btn[data-button="text"] {box-shadow:var(--chrome-control-shadow);transition:background-color var(--hover-duration) ease,border-color var(--hover-duration) ease,box-shadow var(--hover-duration) ease,color var(--hover-duration) ease;}
+.btn[data-button="text"]:hover:not(:disabled) {box-shadow:var(--chrome-control-hover-shadow);}
 .btn.primary[data-button="text"] {background-image:var(--action-gradient);box-shadow:var(--shadow-primary);}
 .btn.primary[data-button="text"]:hover:not(:disabled) {box-shadow:var(--shadow-primary-hover);}
-.icon-btn[data-button="icon"] {transition:background-color var(--hover-duration) ease,color var(--hover-duration) ease;}
-.icon-btn[data-button="icon"]:hover:not(:disabled) {background:var(--icon-hover-surface);color:var(--icon-hover-color);}
+.icon-btn[data-button="icon"] {transition:background-color var(--hover-duration) ease, color var(--hover-duration) ease, border-color var(--hover-duration) ease, box-shadow var(--hover-duration) ease;border:1px solid var(--icon-rest-border);background:var(--icon-rest-surface);background-image:var(--icon-rest-gradient);box-shadow:var(--icon-rest-shadow);}
+.icon-btn[data-button="icon"]:hover:not(:disabled) {background:var(--icon-hover-surface);color:var(--icon-hover-color);border-color:var(--icon-hover-border);background-image:var(--icon-hover-gradient);box-shadow:var(--icon-hover-shadow);}
 .btn[data-button="text"] > svg, .icon-btn[data-button="icon"] > svg {stroke-width:var(--icon-stroke);}
-.lib-panel.ct-panel {box-shadow:var(--shadow-surface);background-image:var(--surface-gradient);border-color:var(--surface-border-color);background-origin:padding-box,border-box;background-clip:padding-box,border-box;}
+.lib-panel.ct-panel {box-shadow:var(--shadow-surface);background-image:var(--surface-gradient);border-color:var(--surface-border-color);background-origin:padding-box,border-box;background-clip:padding-box,border-box;background-color:var(--raise);border-radius:var(--radius-panel);}
 @media(prefers-reduced-motion:reduce) {.btn[data-button="text"], .icon-btn[data-button="icon"] {transition:none;}}
 
 /* Switches align with adjacent controls and labels; spacing belongs to their parent. */
@@ -42,3 +42,7 @@
 @media(max-width:640px),(pointer:coarse) {.switch-row {min-height:var(--control-h-touch);}.switch-row[data-standalone] {min-width:var(--control-h-touch);}}
 a.btn[data-button="text"] {text-decoration:none;}
 a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
+/* Secondary actions share the field finish; semantic actions keep their own paint. */
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(:disabled) {border-color:var(--chrome-line);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);}
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):hover:not(:disabled) {border-color:var(--chrome-line-hover);}
+.btn[data-button="text"]:disabled,.icon-btn[data-button="icon"]:disabled {background:var(--sunken);background-image:none;box-shadow:none;}

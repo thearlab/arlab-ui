@@ -137,9 +137,12 @@
   gap: 8px;
   padding: 8px;
   border: 1px solid var(--line);
-  border-radius: 5px;
+  border-radius: var(--radius-control);
   background: var(--raise);
   font-size: var(--text-xs);
+  border-color: var(--chrome-line);
+  background-image: var(--chrome-control-gradient);
+  box-shadow: var(--chrome-control-shadow);
 }
 .ct-reorder li > div {
   flex: 1;
@@ -729,7 +732,7 @@
   font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 .ct-pagebar-pills {
   display: flex;
@@ -941,10 +944,14 @@
   border: var(--line-width) solid var(--line);
   border-radius: var(--radius-sm);
   color: var(--ink);
-  background: var(--raise);
+  background: var(--chrome-control-surface);
   font: var(--weight-regular) var(--text-field, 12px)/var(--leading-normal) var(--font-sans);
   text-align: left;
   cursor: pointer;
+  border-color: var(--chrome-line);
+  background-image: var(--chrome-control-gradient);
+  box-shadow: var(--chrome-control-shadow);
+  transition: border-color var(--hover-duration) ease, box-shadow var(--hover-duration) ease, background-color var(--hover-duration) ease;
 }
 .ct-temporal-trigger > svg,
 .ct-time-controls > svg {
@@ -954,7 +961,7 @@
 .ct-temporal-trigger:is(:focus-visible, [aria-expanded="true"]) {
   border-color: var(--focus);
   outline: none;
-  box-shadow: none;
+  box-shadow: var(--chrome-control-shadow);
 }
 .ct-temporal-trigger:disabled {
   opacity: 0.5;
@@ -994,11 +1001,16 @@
   max-width: calc(100vw - 16px);
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: var(--raise);
   color: var(--ink);
   box-shadow: var(--shadow-pop);
   font: var(--text-xs)/var(--leading-normal) var(--font-sans);
+  background-color: var(--raise);
+  background-image: var(--surface-gradient);
+  background-origin: padding-box,border-box;
+  background-clip: padding-box,border-box;
+  border-color: var(--surface-border-color);
 }
 .ct-calendar-heading {
   display: flex;
@@ -1006,6 +1018,7 @@
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 16px;
+  background-image: var(--chrome-subtle-gradient);
 }
 .ct-calendar-heading strong {
   font-size: var(--text-sm);
@@ -1090,6 +1103,13 @@
   .ct-calendar {
     width: 336px;
     padding: 12px;
+    background-color: var(--raise);
+    background-image: var(--surface-gradient);
+    background-origin: padding-box,border-box;
+    background-clip: padding-box,border-box;
+    border-color: var(--surface-border-color);
+    border-radius: var(--radius-control);
+    box-shadow: var(--shadow-pop);
   }
   .ct-calendar-days button {
     min-height: 40px;
@@ -1185,6 +1205,10 @@
   transition:
     transform 0.16s ease,
     box-shadow 0.16s ease;
+  border-radius: var(--radius-control);
+  border-color: var(--chrome-line);
+  background-image: var(--chrome-control-gradient);
+  box-shadow: var(--chrome-control-shadow);
 }
 .ct-reorder-position {
   color: var(--dim);
@@ -1231,6 +1255,10 @@
 @media (prefers-reduced-motion: reduce) {
   .ct-reorder li {
     transition: none;
+    border-radius: var(--radius-control);
+    border-color: var(--chrome-line);
+    background-image: var(--chrome-control-gradient);
+    box-shadow: var(--chrome-control-shadow);
   }
   .ct-reorder li[data-settled] {
     animation: none;
@@ -1345,18 +1373,31 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
+  background-color: var(--raise);
+  background-image: var(--surface-gradient);
+  background-origin: padding-box,border-box;
+  background-clip: padding-box,border-box;
+  border-color: var(--surface-border-color);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-pop);
 }
 /* Data browsing: one table surface, aligned rows, filters and pagination inside it. */
 .ct-data-table {
   width: 100%;
   min-width: 0;
   border: 1px solid var(--line);
-  border-radius: 5px;
+  border-radius: var(--radius-panel);
   background: var(--raise);
   overflow: hidden;
   font-family:var(--font-sans);
   font-size:var(--text-table);
   font-weight:var(--weight-regular);
+  background-color: var(--raise);
+  background-image: var(--surface-gradient);
+  background-origin: padding-box,border-box;
+  background-clip: padding-box,border-box;
+  border-color: var(--surface-border-color);
+  box-shadow: var(--shadow-surface);
 }
 .ct-data-table > header {
   display: flex;
@@ -1365,6 +1406,9 @@
   gap: 16px;
   padding: 18px 20px;
   border-bottom: 1px solid var(--line);
+  background-color: var(--raise);
+  background-image: var(--chrome-subtle-gradient);
+  border-color: var(--chrome-divider);
 }
 .ct-data-table h3,
 .ct-filter-sidebar h3 {
@@ -1394,12 +1438,14 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  background: var(--ground);
+  background: var(--raise);
   font-size:var(--text-table-heading);
   font-weight:var(--weight-medium);
   color: var(--dim);
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
+  background-image: var(--chrome-subtle-gradient);
+  border-color: var(--chrome-divider);
 }
 .ct-table-heading {
   display: flex;
@@ -1414,12 +1460,13 @@
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;
   vertical-align: middle;
+  border-color: var(--chrome-divider);
 }
 .ct-data-table tbody tr:last-child td {
   border-bottom: 0;
 }
 .ct-data-table tbody tr:hover {
-  background: var(--ground);
+  background: var(--chrome-row-hover);
 }
 .ct-data-table td strong {
   font-weight: var(--weight-medium);
@@ -1438,6 +1485,9 @@
   padding: 12px 16px;
   border-top: 1px solid var(--line);
   background: var(--raise);
+  background-color: var(--raise);
+  background-image: var(--chrome-subtle-gradient);
+  border-color: var(--chrome-divider);
 }
 .ct-table-size {
   display: flex;
@@ -1732,7 +1782,7 @@
 .ct-data-table table { border-collapse:separate; border-spacing:0; }
 .ct-table-scroll > .scroll-viewport { position:relative; isolation:isolate; }
 .ct-data-table thead { position:sticky; top:0; z-index:3; background:var(--ground); }
-.ct-data-table th { position:static; background:var(--ground); border-bottom:0; box-shadow:inset 0 -1px 0 var(--line); }
+.ct-data-table th { position:static; background:var(--raise); border-bottom:0; box-shadow:inset 0 -1px 0 var(--line); background-image: var(--chrome-subtle-gradient); border-color: var(--chrome-divider); }
 .ct-data-table tbody { position:relative; z-index:0; }
 
 .ct-data-table tr[data-interactive] {cursor:pointer;}
@@ -1757,3 +1807,7 @@
 .ct-media-link > div {display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);}
 .ct-media-link input {flex:1 1 160px;min-width:0;}
 .tag-input[data-invalid] {border-color:var(--bad);}
+.ct-temporal-trigger:hover:not(:disabled):not([aria-expanded="true"]):not([aria-invalid="true"]):not(:focus-visible) {border-color:var(--chrome-line-hover);box-shadow:var(--chrome-control-hover-shadow);}
+.ct-data-table tbody tr:hover > td {background:var(--chrome-row-hover);}
+.ct-data-table tbody tr[aria-selected="true"] > td {background:var(--accent-soft);}
+@media(prefers-reduced-motion:reduce) {.ct-temporal-trigger {transition:none;}}

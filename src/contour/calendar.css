@@ -4,11 +4,16 @@
   min-width: 0;
   max-width: 100%;
   border: var(--line-width) solid var(--line);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-panel);
   background: var(--raise);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   color: var(--ink);
+  border-color: var(--surface-border-color);
+  background-image: var(--surface-gradient);
+  background-origin: padding-box,border-box;
+  background-clip: padding-box,border-box;
+  box-shadow: var(--shadow-surface);
 }
 .ct-event-calendar-heading {
   display: flex;
@@ -17,6 +22,9 @@
   gap: var(--space-4);
   padding: var(--space-4);
   border-bottom: var(--line-width) solid var(--line);
+  background-image: var(--chrome-subtle-gradient);
+  border-color: var(--chrome-divider);
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
 }
 .ct-calendar-period {
   display: flex;
@@ -242,6 +250,9 @@
     flex-wrap: wrap;
     gap: var(--space-3);
     padding: var(--space-3);
+    background-image: var(--chrome-subtle-gradient);
+    border-color: var(--chrome-divider);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
   }
   .ct-calendar-navigation {
     margin-left: auto;
@@ -285,6 +296,9 @@
     flex-wrap: wrap;
     gap: var(--space-3);
     padding: var(--space-3);
+    background-image: var(--chrome-subtle-gradient);
+    border-color: var(--chrome-divider);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
   }
   .ct-calendar-navigation {
     margin-left: auto;

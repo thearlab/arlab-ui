@@ -1,7 +1,7 @@
 .ct-toast-viewport { position: fixed; z-index: 1400; display: grid; gap: 8px; width: min(380px, calc(100vw - 32px)); pointer-events: none; bottom: max(16px, env(safe-area-inset-bottom)); right: 16px; }
 .ct-toast-viewport[data-position$="left"] { left: 16px; right: auto; }
 .ct-toast-viewport[data-position^="top"] { top: max(16px, env(safe-area-inset-top)); bottom: auto; }
-.ct-queued-toast { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: var(--raise); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-md, 5px); box-shadow: var(--shadow-pop); pointer-events: auto; }
+.ct-queued-toast { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: var(--raise); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-panel); box-shadow: var(--shadow-pop); pointer-events: auto; background-color: var(--raise); background-image: var(--surface-gradient); background-origin: padding-box,border-box; background-clip: padding-box,border-box; border-color: var(--surface-border-color); }
 .ct-queued-toast > svg { margin-top: 2px; flex: none; color: var(--ok); }
 .ct-queued-toast[data-tone="info"] > svg { color: var(--info); }
 .ct-queued-toast[data-tone="warning"] > svg { color: var(--warn); }
@@ -21,7 +21,7 @@
 .ct-preview-overlay { position: absolute; inset: 0; pointer-events: none; }
 .ct-preview-overlay > * { pointer-events: auto; }
 .ct-reorder-grouped { display: grid; gap: 16px; }
-.ct-reorder-group { position: relative; border: 1px solid var(--line); border-radius: var(--radius-md,5px); padding: 12px; min-height: 90px; }
+.ct-reorder-group { position: relative; border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 12px; min-height: 90px; background-color: var(--raise); background-image: var(--surface-gradient); background-origin: padding-box,border-box; background-clip: padding-box,border-box; border-color: var(--surface-border-color); box-shadow: var(--shadow-surface); }
 .ct-reorder-group > header { display: grid; gap: 3px; margin-bottom: 10px; font-size: var(--text-xs); }
 .ct-reorder-group > header strong { font-weight: var(--weight-semibold); }
 .ct-reorder-group > header span, .ct-reorder-empty { color: var(--dim); font-size: var(--text-xs); }
