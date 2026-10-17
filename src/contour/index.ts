@@ -37,3 +37,5 @@ export * from './CollectionWorkspace.js';
 
 export { ArlabMark, type ArlabMarkProps } from '../ArlabMark.js';
 export type { Space } from './SidebarShell.js';
+
+export * from './CommandPalette.js';

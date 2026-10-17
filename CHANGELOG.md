@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0-beta.14
+
+- Added V2 CommandPalette composed from the shared SearchField, native Modal, ScrollArea, Pill and Kbd. Caller-owned items/routing preserve application permissions and edit guards; arrow navigation, Enter activation, Escape and trigger-focus restoration remain available. Result DOM is bounded and matched totals are announced.
+- AppHeader wraps custom search content in a responsive shared slot, so pages can use one contextual SearchField above their table and compact record list.
+- SearchField forwards native input attributes, keyboard handlers and inputRef to its existing Input primitive. Clearing returns focus to the same field. Studio can drop its legacy search popup without local visual CSS.
+- Verified 130 component contracts, 146 icons, 69 shared interaction checks, isolated real-Shell search checks, typed consumer builds and actual phone focus/layout.
+
 ## 2.0.0-beta.13
 
 - Table body, identity links, metadata, dates, column labels and pills share one token-based typography contract across all pages and variants. The build rejects hardcoded table font sizes.

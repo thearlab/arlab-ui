@@ -1067,6 +1067,21 @@
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
   },
   {
+    "name": "CommandPalette",
+    "category": "Dashboard & editors",
+    "description": "Workspace search with the shared search field, native modal and bounded results.",
+    "props": [
+      "open",
+      "onClose",
+      "items",
+      "title",
+      "placeholder",
+      "emptyLabel",
+      "filter"
+    ],
+    "behavior": "Host owns shortcuts and routing. Items have id, title, summary, typeLabel and onSelect. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches."
+  },
+  {
     "name": "CollectionWorkspace",
     "category": "Dashboard & editors",
     "description": "A full collection that becomes a compact navigator beside the selected record.",

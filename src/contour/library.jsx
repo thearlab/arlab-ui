@@ -137,16 +137,20 @@ export function Switch({ label = undefined, hint = undefined, ...props }) {
   );
 }
 export const SwitchRow = Switch;
+/** @param {Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "onChange"> & { label?: string; inputRef?: import("react").RefObject<HTMLInputElement>; onChange: (event: any) => void }} props */
 export function SearchField({
   value,
   onChange,
   label = "Search",
   placeholder = label,
+  inputRef = undefined,
+  ...inputProps
 }) {
+  const ownRef=useRef(null),fieldRef=inputRef || ownRef;
   return (
     <div className="search-field">
       <Search size={16} />
-      <Input variant="embedded"
+      <Input {...inputProps} inputRef={fieldRef} variant="embedded"
         aria-label={label}
         placeholder={placeholder}
         value={value}
@@ -155,7 +159,8 @@ export function SearchField({
       {value && (
         <IconButton
           label="Clear search"
-          onClick={() => onChange({ target: { value: "" } })}
+          disabled={inputProps.disabled}
+          onClick={() => {onChange({ target: { value: "" } });fieldRef.current?.focus();}}
         >
           <X size={14} />
         </IconButton>

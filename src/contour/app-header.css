@@ -11,3 +11,7 @@
   .ct-app-header-search {min-width:var(--control-h-touch);min-height:var(--control-h-touch);width:var(--control-h-touch);padding:0;justify-content:center;}
   .ct-app-header-search-label,.ct-app-header-shortcut {display:none;}
 }
+
+.ct-app-header-search-content {width:clamp(160px,24vw,360px);min-width:0;}
+.ct-app-header-search-content > .search-field {width:100%;}
+@media(max-width:640px){.ct-app-header-search-content {width:min(48vw,240px);}}

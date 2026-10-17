@@ -179,7 +179,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 ## Complete component contract
 
-129 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+130 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -1715,6 +1715,26 @@ Import: `import { ProjectStatusSheet } from '@arlab/ui';`
 Live example: [ProjectStatusSheet](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ProjectStatusSheet)
 
 ### Dashboard & editors
+
+#### CommandPalette
+
+Workspace search with the shared search field, native modal and bounded results.
+
+Host owns shortcuts and routing. Items have id, title, summary, typeLabel and onSelect. Arrow keys select; Enter opens; Escape dismisses and returns focus. Results remain bounded to the first 24; the footer reports all matches.
+
+Import: `import { CommandPalette } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `open` | Controlled overlay visibility. |
+| `onClose` | Called on Escape, close action, or backdrop dismissal. |
+| `items` | Structured items appropriate to the pattern; see the working example. |
+| `title` | A concise visible heading describing this context. |
+| `placeholder` | A brief example; never a replacement for a visible label. |
+| `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `filter` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [CommandPalette](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CommandPalette)
 
 #### CollectionWorkspace
 
