@@ -112,7 +112,7 @@
 .btn.quiet:hover,
 .ct-data-table > .ct-table-header .btn.quiet:hover {
   background: var(--sunken);
-  border-color: var(--strong);
+  border-color: var(--chrome-line-hover);
   color: var(--ink);
 }
 .btn.primary:active {
@@ -205,6 +205,7 @@
   --scrollbar-track: transparent;
   --scrollbar-hover: #66616e;
   --scrollbar-size: 3px;
+  border-radius: var(--radius-panel);
 }
 .themed-preview[data-mode="dark"] {
   --scrollbar-thumb: #8d8297;
@@ -309,7 +310,7 @@
   border: 0;
   outline: none;
   box-shadow: none;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   padding: var(--space-2) var(--space-3);
   cursor: pointer;
   line-height: var(--leading-normal);
@@ -361,7 +362,7 @@
   color: var(--dim);
   background: var(--raise);
   border: 1px solid var(--line);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   padding: 0 5px;
 }
 .dropdown-search {
@@ -504,7 +505,7 @@
   text-decoration: none;
 }
 .themed-preview .text-action:hover {
-  border-color: var(--strong);
+  border-color: var(--chrome-line-hover);
   background: var(--sunken);
   text-decoration: none;
 }
@@ -516,15 +517,15 @@
 }
 .download-tokens,
 .preview-expand {
-  border: 1px solid #d9d3df !important;
-  background: #faf9fc !important;
+  border: 1px solid var(--line) !important;
+  background: var(--raise) !important;
   padding: 6px 9px !important;
-  border-radius: 4px;
+  border-radius: var(--radius-control);
 }
 .file-card-foot > button {
   border: 1px solid var(--line);
   background: var(--raise);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   padding: 4px 7px;
   text-decoration: none;
 }
@@ -788,7 +789,7 @@
   padding: 7px 11px;
   font-size: 11px;
   color: var(--dim);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
 }
 .icon-size-picker button[aria-pressed="true"] {
   background: var(--raise);
@@ -825,7 +826,7 @@
 }
 .icon-grid > button:hover {
   background: var(--ground);
-  border-color: var(--strong);
+  border-color: var(--chrome-line-hover);
 }
 .icon-grid > button.selected {
   background: var(--accent-soft);
@@ -1131,7 +1132,7 @@
   color: var(--dim);
   width: 18px;
   height: 18px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   display: grid;
   place-items: center;
 }
@@ -1196,7 +1197,7 @@
   color: var(--link);
   font-size: 9px;
   font-weight: 600;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   flex-shrink: 0;
 }
 .selected-file > div {
@@ -1318,7 +1319,7 @@
   height: 36px;
   border: 1px solid var(--line);
   background: var(--raise);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   color: var(--dim);
   flex-shrink: 0;
 }
@@ -1359,7 +1360,7 @@
   margin: 0;
   padding: 13px 15px;
   background: var(--ground);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
 }
 .disclosure-content dl:not(.ct-facts) > div {
   display: flex;
@@ -1382,7 +1383,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #625a6a;
+  color: var(--dim);
 }
 .contour-title:before {
   content: "";
@@ -1395,19 +1396,19 @@
   display: flex;
   gap: 26px;
   align-items: center;
-  color: #77707f;
+  color: var(--dim);
   font-size: 11px;
   margin: 23px 0 6px;
 }
 .system-summary strong {
   font-weight: 600;
-  color: #39313f;
+  color: var(--dim);
   margin-right: 5px;
 }
 .system-summary .summary-rule {
   width: 1px;
   height: 18px;
-  background: #dcd6df;
+  background: var(--line);
 }
 .contour-intro .intro-caption {
   font-size: 11px;
@@ -1423,7 +1424,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #7c7383;
+  color: var(--dim);
   font-size: 11px;
 }
 .contour-version .live-dot {
@@ -1431,8 +1432,8 @@
 }
 .contour-version > span:last-child {
   padding: 3px 7px;
-  border: 1px solid #d9d2df;
-  border-radius: 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
   margin-left: 6px;
 }
 .contour-studio .explorer {
@@ -1942,7 +1943,7 @@
   gap: 5px;
   font-size: 10px;
   line-height: 18px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
 }
 .btn.compact-action > svg {
   width: 11px;
@@ -2269,7 +2270,7 @@
   min-height: 36px;
   border: 1px solid var(--line);
   background: var(--ground);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-control);
   font-size: 11px;
   color: var(--ink);
 }
@@ -2285,7 +2286,7 @@
   color: var(--link);
 }
 .layout-example-options button:hover {
-  border-color: var(--strong);
+  border-color: var(--chrome-line-hover);
 }
 @media (min-width: 760px) and (max-width: 1099px) {
   .app-shell > .app-sidebar.collapsed {

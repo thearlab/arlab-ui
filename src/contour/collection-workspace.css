@@ -20,7 +20,7 @@
 .ct-navigator-scroll > .scroll-viewport {height:100%;}
 .ct-navigator-scroll ul {list-style:none;padding:var(--space-2);margin:0;}
 .ct-navigator-scroll li + li {margin-top:var(--space-1);}
-.ct-navigator-scroll li a {display:flex;flex-direction:column;gap:var(--space-1);padding:var(--space-3);border-radius:var(--radius-xs);text-decoration:none;color:var(--ink);outline-offset:-1px;}
+.ct-navigator-scroll li a {display:flex;flex-direction:column;gap:var(--space-1);padding:var(--space-3);border-radius:var(--radius-control);text-decoration:none;color:var(--ink);outline-offset:-1px;}
 .ct-navigator-scroll li a:hover {background:var(--ground);}
 .ct-navigator-scroll li a[aria-current="page"] {background:var(--accent-soft);}
 .ct-navigator-scroll li a[aria-current="page"] strong {color:var(--link);}
