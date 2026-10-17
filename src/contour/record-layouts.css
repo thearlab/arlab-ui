@@ -338,7 +338,8 @@
 .ct-collection-layout > .lib-pagebar > div:first-child {min-width:0;}
 .ct-collection-layout[data-tabs] > .lib-pagebar {border-bottom:0;}
 .ct-collection-tabs > .detail-tabs {border:0;padding-inline:0;}
-.ct-collection-tabs + .ct-collection-body {padding-top:var(--space-4);}
+/* Tabs already own the separator; results and fixed filters begin directly below it. */
+.ct-collection-tabs + .ct-collection-body {padding-top:0;}
 
 .ct-collection-tabs .detail-tabs button[aria-selected="true"]:after {bottom:0;}
 
