@@ -71,3 +71,14 @@ Existing table layout/sort-indicator defaults and string breadcrumbs remain supp
 ### beta.12 collection/detail workspaces
 
 Use CollectionWorkspace with RecordNavigator for selectable split dashboards; use RecordSection for borderless detail hierarchy and ActionGroup for related controls. Existing full collection and focused RecordLayout compositions remain valid. See [integration contracts](docs/RELEASE-beta.12.md).
+
+## Beta.21: Satin Lift foundation and composed components
+
+Pin v2.0.0-beta.21 explicitly. Earlier immutable tags retain their original implementation. This beta changes visual defaults throughout the library, including the legacy entry's pink aliases.
+
+- Allow the official Fontshare Satoshi stylesheet/font hosts in application CSP and network policy. DM Mono remains packaged locally.
+- AccountMenu is now informational identity plus a separate sign-out action. Migrate former account items to explicit application navigation. Use onLogout, or retain the supported onSelect('Log out') fallback.
+- Spaces SidebarShell folds its outer rail only. Inner navigation stays open. Move old panel-folding integrations to railCollapsed/onRailCollapsedChange.
+- PageLoading defaults to content-preview. The explicit signature variant remains available for compatibility.
+- ScrollArea hideScrollbar is optional and defaults false; Kanban enables it without disabling native scrolling.
+- Component dimensions and application-owned data/callbacks remain supported. Publishing this library does not upgrade or deploy Studio automatically.

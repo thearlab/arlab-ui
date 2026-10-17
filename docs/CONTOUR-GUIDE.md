@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.20 · Satin Lift review · October 2026
+ARLAB internal applications · Version 2.0.0-beta.21 · Satin Lift · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -46,13 +46,13 @@ Quiet separators group already-understandable content. Essential controls use th
 
 | Use | Font / size | Weight / leading |
 | --- | --- | --- |
-| Page heading | Urbanist, 28–34px | 600 / 1.2 |
-| Section heading | Urbanist, 18–22px | 600 / 1.2 |
-| Body | Urbanist, 14px | 400 / 1.5 |
-| Reading content | Urbanist, 14–16px | 400 / 1.75 |
-| Form controls | Urbanist, 12px | 400 / 1.5 |
-| Supporting labels | Urbanist, 11–12px | 400–500 / 1.5 |
-| Compact metadata | Urbanist, 10–11px | 400 / 1.6 |
+| Page heading | Satoshi, 28–34px | 600 / 1.2 |
+| Section heading | Satoshi, 18–22px | 600 / 1.2 |
+| Body | Satoshi, 14px | 400 / 1.5 |
+| Reading content | Satoshi, 14–16px | 400 / 1.75 |
+| Form controls | Satoshi, 12px | 400 / 1.5 |
+| Supporting labels | Satoshi, 11–12px | 400–500 / 1.5 |
+| Compact metadata | Satoshi, 10–11px | 400 / 1.6 |
 | Code and identifiers | DM Mono, 12px | 400 / 1.5 |
 
 Use tabular numbers for counts and metrics. Reading columns should remain approximately 64–72 characters wide. Never truncate essential instructions or errors. Single-line identity labels may truncate when the complete value is available through context or a title.
@@ -149,7 +149,7 @@ Default transitions are 120ms for immediate feedback, 180ms for controls and 240
 
 ## Using the source
 
-Import components from `src/library.jsx`, icons from `src/icons.jsx`, and tokens from `src/system.js`. Load styles in this order: `styles.css`, `contour.css`, `library.css`. The shared `@arlab/ui/styles.css` includes self-hosted Urbanist 400/500/600 and DM Mono 400. Do not import a second legacy font family. The live Foundations page and token downloads read the package’s `tokensFor` export directly, so labels and values follow the same source as components.
+Import components from `src/library.jsx`, icons from `src/icons.jsx`, and tokens from `src/system.js`. Load styles in this order: `styles.css`, `contour.css`, `library.css`. The shared `@arlab/ui/styles.css` loads Satoshi from its official Fontshare service and includes self-hosted DM Mono 400. Do not import a second legacy font family. The live Foundations page and token downloads read the package’s `tokensFor` export directly, so labels and values follow the same source as components.
 
 ```jsx
 const tokens = tokensFor('contour', mode);

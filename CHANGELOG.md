@@ -1,13 +1,16 @@
 # Changelog
 
-## Unreleased: Satin Lift and dashboard contracts
+## 2.0.0-beta.21
 
-- Apply the approved Urbanist/DM Mono foundation, vivid ARLAB Pink department palette, neutral charcoal dark mode, satin rims and soft elevation. Containers use 14px corners and controls use 7px. Fonts ship with the package.
-- Shared Panel and table headers use full-width browser-style rails and a single pink heading marker. Full-width row hover, restrained field focus, quiet icon borders and visible inactive switches are shared component styles.
-- Replace AppSwitcher with a keyboard-accessible application menu and configurable app options. Refine the shared LogOut outline.
-- Complete requested dashboard component contracts, documented in docs/DASHBOARD-REQUESTS-STATUS.md, including real document rendering, controlled upload links, grouped tables/reordering, queued toasts and preview APIs.
-- Preserve component sizing and current public callbacks. The new foundation intentionally changes visual defaults.
-- Explicit brand contrast exceptions: white labels on exact light pink are 3.87:1; selected vivid department fills retain white outline icons, some below the 3:1 non-text target. Text/semantic roles retain their separate accessible tones.
+- Apply Satin Lift across shared components: Satoshi 400/500 interface and 600 headings, DM Mono code, 14px surfaces, 7px controls, neutral charcoal dark mode, satin rims and soft elevation. Satoshi loads from the official Fontshare service; consuming applications must allow its stylesheet and font hosts.
+- Unify all brand roles, icons, focus, navigation selection and primary hover on main ARLAB pink (#E414DB light, #F04EE8 dark). Keep the former accent-deep token as an alias, without a separate darker pink.
+- Unify checkbox/helper alignment, filter counts, table sorting controls, full-width row hover, action sizing, compact chips, date-only timestamps and metric alignment. FacetList uses neutral borderless hover with soft pink selection.
+- Share the full spaces SidebarShell: only the outer rail folds; tools and account remain fixed. Expanded and collapsed states use the real ARLAB marks. AccountMenu now renders informational identity and a separate Log out action; former menu items are not rendered. onLogout is preferred and onSelect('Log out') remains a fallback.
+- Rebuild EditorLayout, CodeDisplay, CollectionGroup and StateView with shared components. Dialog, Sheet and ConfirmDialog omit the footer separator.
+- Add framed ScrollArea headers and optional hideScrollbar. Kanban hides its scrollbar controls while preserving native scrolling. Calendar dates are square and DayTimeline empty content has consistent padding.
+- PageLoading defaults to centered content-preview loading with gently animated placeholders and no central spinner. Refreshing centers the shared circular loader over existing content, without visible badge text. Reduced motion is respected.
+- Complete dashboard contracts, public optional types and curated icon coverage. Add a CSS build guard for selectorless rules before theme scoping.
+- Exact bright-pink text, white button labels and some vivid department glyphs include documented contrast exceptions; the color report lists them explicitly.
 
 ## 2.0.0-beta.20
 
