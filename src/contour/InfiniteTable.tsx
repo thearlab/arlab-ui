@@ -2,6 +2,7 @@ import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } from './DataFilters.js';
 import { ScrollArea } from './scroll-area.js';
+import { TableHeader } from './TableChrome.js';
 import { Button } from './library.js';
 
 export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row> {
@@ -11,6 +12,12 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   title?: string;
   header?: ReactNode;
   headerActions?: ReactNode;
+  /** Search belongs to the fixed table header, beside its single count pill. */
+  search?: ReactNode;
+  /** Persistent creation or collection actions outside the row scroll surface. */
+  footerActions?: ReactNode;
+  /** Fill a bounded parent instead of using the default 480px viewport. */
+  fill?: boolean;
   variant?: 'contained' | 'flush';
   sortIndicators?:'all'|'active'|'none';
   /** Fixed geometry is required. Custom cells must fit in two lines inside this height. Minimum 44. */
@@ -64,7 +71,7 @@ export function infiniteTableWindow(count: number, scrollTop: number, viewportHe
  * Remote mode never reorders received rows and never infers server completeness from a page size.
  */
 export function InfiniteTable<Row extends Record<string, unknown>>(props: InfiniteTableProps<Row>) {
-  const { columns, rows, rowKey, title = 'Records', header, headerActions, height = 480, variant = 'contained', loading = false, emptyMessage = 'No results match these filters.', filterKey } = props;
+  const { columns, rows, rowKey, title = 'Records', header, headerActions, search, footerActions, fill = false, height = 480, variant = 'contained', loading = false, emptyMessage = 'No results match these filters.', filterKey } = props;
   const rowHeight = positiveInteger(props.rowHeight, 64, 44);
   const overscan = positiveInteger(props.overscan, 6, 0);
   const chunkSize = positiveInteger(props.chunkSize, 50, 1);
@@ -155,8 +162,9 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     };
   }, [scheduleRead]);
 
-  // Local row identity means a new filtered collection; remote rows normally append without resetting.
-  const localRows = remote ? null : rows;
+  // An explicit filterKey owns query resets, so unrelated host renders and mounted detail views retain scroll.
+  // Without a key, local row identity remains the backwards-compatible collection boundary.
+  const localRows = remote || filterKey !== undefined ? null : rows;
   useLayoutEffect(() => {
     setLoaded(chunkSize);
     const node = root.current?.querySelector<HTMLDivElement>('.ct-infinite-scroll > .scroll-viewport');
@@ -180,10 +188,10 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const total = props.mode === 'remote' ? props.totalCount ?? (props.hasMore ? -1 : rows.length) : rows.length;
   const colspan = Math.max(1, columns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
-  return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} style={style} aria-busy={loading || loadingMore}>
-    <header><div><div id={headingId}>{header || <h3>{title}</h3>}</div><span>{loading ? 'Loading…' : total < 0 ? `${rows.length.toLocaleString()} loaded` : `${total.toLocaleString()} records`}</span></div>{headerActions}</header>
-    <ScrollArea label={`${title} rows`} height={height} axis="both" className="ct-infinite-scroll">
-      <table aria-labelledby={headingId} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>
+  return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
+    <TableHeader title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions}/>
+    <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
+      <table aria-label={title} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>
         <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>
           {!loading && count > 0 && range.start > 0 && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: range.start * rowHeight }}/></tr>}
@@ -195,9 +203,10 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
         </tbody>
       </table>
     </ScrollArea>
-    <footer><span role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? `${count.toLocaleString()} records loaded. Scroll for more.` : `${count.toLocaleString()} records. All results loaded.`)}</span>
+    <footer><span role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? 'Scroll for more' : 'All results loaded')}</span>
       {remote && more && <Button disabled={!!loadingMore || loading} onClick={() => requestMore(true)}>{error ? 'Retry loading' : 'Load more'}</Button>}
       {!remote && more && <Button disabled={loading} onClick={() => setLoaded(old => Math.min(ordered.length, old + chunkSize))}>Load more</Button>}
+      {footerActions&&<div className="ct-table-footer-actions">{footerActions}</div>}
     </footer>
   </div>;
 }

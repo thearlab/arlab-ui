@@ -6,6 +6,7 @@ export type NavigationSlot = ReactNode | ((state: { collapsed: boolean }) => Rea
 
 export interface AppNavigationProps {
   brand: ReactNode;
+  compactBrand?: ReactNode;
   toolName: string;
   collapsed: boolean;
   onToggle: () => void;
@@ -18,10 +19,10 @@ export interface AppNavigationProps {
   toggleDisabled?: boolean;
 }
 /** Fixed identity and account areas around an independently scrolling navigation. */
-export function AppNavigation({ brand, toolName, collapsed, onToggle, children, footer, help, className = '', mode, toggleLabel, toggleDisabled = false }: AppNavigationProps) {
+export function AppNavigation({ brand, compactBrand, toolName, collapsed, onToggle, children, footer, help, className = '', mode, toggleLabel, toggleDisabled = false }: AppNavigationProps) {
   return <aside className={`contour-navigation ${className}`} data-mode={mode} data-collapsed={collapsed || undefined} aria-label={`${toolName} navigation`}>
     <header className="contour-navigation-header">
-      <div className="contour-navigation-brand"><div className="contour-navigation-logo">{brand}</div>
+      <div className="contour-navigation-brand"><div className="contour-navigation-logo" data-compact={collapsed && !!compactBrand || undefined}>{collapsed && compactBrand ? compactBrand : brand}</div>
         <button type="button" className="contour-nav-toggle" disabled={toggleDisabled} aria-label={toggleLabel ?? (collapsed ? 'Expand navigation' : 'Collapse navigation')} aria-expanded={!collapsed} onClick={onToggle}>
           {collapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
         </button>

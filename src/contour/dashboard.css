@@ -1342,7 +1342,9 @@
   border-radius: 5px;
   background: var(--raise);
   overflow: hidden;
-  font-size: var(--text-xs);
+  font-family:var(--font-sans);
+  font-size:var(--text-table);
+  font-weight:var(--weight-regular);
 }
 .ct-data-table > header {
   display: flex;
@@ -1381,8 +1383,8 @@
   top: 0;
   z-index: 1;
   background: var(--ground);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-medium);
+  font-size:var(--text-table-heading);
+  font-weight:var(--weight-medium);
   color: var(--dim);
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
@@ -1411,10 +1413,10 @@
   font-weight: var(--weight-medium);
 }
 .ct-data-table td small {
-  display: block;
-  color: var(--dim);
-  margin-top: 4px;
-  font-size: var(--text-2xs);
+  display:block;
+  color:var(--dim);
+  margin-top:var(--space-1);
+  font-size:var(--text-table-meta);
 }
 .ct-data-table > footer {
   display: flex;
@@ -1726,3 +1728,6 @@
 .ct-data-table tr[data-interactive]:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:calc(-1 * var(--line-width));}
 
 .ct-media-card figcaption > .ct-media-caption {flex-basis:100%;order:2;color:var(--dim);font-size:var(--text-2xs);font-family:var(--font-sans);}
+
+.ct-data-table > header:has(.detail-tabs) {padding-block:0;}
+.ct-data-table > header .detail-tabs {border:0;padding-inline:0;}

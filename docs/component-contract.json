@@ -326,6 +326,7 @@
     "description": "A small labeled state with a semantic color and dot.",
     "props": [
       "tone",
+      "dot",
       "children"
     ],
     "behavior": "Use ok, warn, bad, info, or quiet. A color never replaces the written state."
@@ -336,6 +337,7 @@
     "description": "The project-state vocabulary on the shared Pill.",
     "props": [
       "tone",
+      "dot",
       "children"
     ],
     "behavior": "Planning, In progress, In review, and Completed map to one shared set of tones."
@@ -579,21 +581,38 @@
   {
     "name": "SidebarShell",
     "category": "Surfaces & layout",
-    "description": "Reusable application shell with fixed identity and account areas.",
+    "description": "Application shell with optional department spaces rail, foldable tools and fixed account controls.",
     "props": [
       "brand",
       "toolName",
       "navigation",
+      "navigationKey",
       "children",
+      "header",
       "account",
       "help",
-      "header",
       "collapsed",
+      "defaultCollapsed",
       "onCollapsedChange",
       "storageKey",
-      "secondaryNavigation"
+      "spaces",
+      "activeSpace",
+      "onSpaceChange",
+      "brandMark",
+      "brandHref",
+      "panelLabel",
+      "panelCollapsed",
+      "onPanelCollapsedChange",
+      "defaultPanelCollapsed",
+      "railFooter",
+      "secondaryNavigation",
+      "secondaryLabel",
+      "defaultSecondaryCollapsed",
+      "mode",
+      "className",
+      "style"
     ],
-    "behavior": "Import navigation/styles.css. No provider or demo routes required. Main and secondary navigation collapse independently; mobile navigation uses a dialog."
+    "behavior": "Import navigation/styles.css. Spaces are app-controlled; arrow keys move focus and Cmd/Ctrl+backslash folds. The real ARLAB wordmark sits in a square brand area; fold controls stay in fixed bottom footers. Phone space/tool pickers use native dialogs. Existing single/context layouts remain available."
   },
   {
     "name": "PageBar",
@@ -601,6 +620,7 @@
     "description": "The page title and its primary action in a shared layout.",
     "props": [
       "title",
+      "showTitle",
       "description",
       "pills",
       "updated",
@@ -688,7 +708,9 @@
     "props": [
       "title",
       "description",
-      "onCancel"
+      "onCancel",
+      "mark",
+      "workspaceName"
     ],
     "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation."
   },
@@ -1112,6 +1134,9 @@
       "title",
       "header",
       "headerActions",
+      "search",
+      "footerActions",
+      "fill",
       "columns",
       "rows",
       "rowKey",
@@ -1134,7 +1159,7 @@
       "rowLabel",
       "sortIndicators"
     ],
-    "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
+    "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
   },
   {
     "name": "FacetList",
@@ -1225,6 +1250,7 @@
     "description": "A full-width collection destination with search and optional filters.",
     "props": [
       "title",
+      "showTitle",
       "description",
       "pills",
       "updated",
@@ -1238,7 +1264,7 @@
       "sidebar",
       "sidebarLabel"
     ],
-    "behavior": "Results own the remaining height. Filters expand on request; changing filters remains application-owned."
+    "behavior": "Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
   },
   {
     "name": "RecordCollection",
@@ -1250,7 +1276,12 @@
       "loading",
       "label",
       "emptyMessage",
-      "variant"
+      "variant",
+      "progressive",
+      "search",
+      "headerActions",
+      "footerActions",
+      "filterKey"
     ],
     "behavior": "Records carry id, title, description, category, status, tone, meta and real href. Modifier-click preserves browser navigation."
   },
@@ -1269,6 +1300,8 @@
     "description": "A record title, publication state, actions and accessible sections.",
     "props": [
       "title",
+      "showTitle",
+      "showBack",
       "badges",
       "description",
       "contextActions",
@@ -1282,7 +1315,7 @@
       "idPrefix",
       "panelId"
     ],
-    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host."
+    "behavior": "Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation."
   },
   {
     "name": "RecordBody",
@@ -1337,6 +1370,7 @@
       "title",
       "header",
       "headerActions",
+      "search",
       "columns",
       "rows",
       "rowKey",

@@ -65,7 +65,7 @@ export function Avatar({ initials = "AM", color = "lilac", name }) {
     </span>
   );
 }
-export function Status({ children, tone }) {
+export function Status({ children, tone, dot = true }) {
   const tones = {
     "In progress": "info",
     "In review": "warn",
@@ -79,7 +79,7 @@ export function Status({ children, tone }) {
   const t = tone || tones[children] || "quiet";
   return (
     <span className={`status ${t}`}>
-      <span className="status-dot" />
+      {dot&&<span className="status-dot" />}
       {children}
     </span>
   );

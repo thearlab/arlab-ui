@@ -62,3 +62,53 @@ import '@arlab/ui/scroll-area/styles.css';
 https://arlab-ui-showcase.pages.dev/navigation.html
 
 That entry imports only the navigation module, its stylesheet and fonts. It intentionally has no provider or showcase CSS. The full component catalogue also demonstrates SidebarShell.
+
+## Optional spaces rail
+
+Pass `spaces` to opt into a fixed outer department rail and foldable tool panel. Omit it to retain the existing single navigation shell. `secondaryNavigation` remains independent and can still be supplied. Selection and routing stay application-owned: update `activeSpace` and pass that space's sections through `navigation`.
+
+```tsx
+<SidebarShell
+  brand={<ArlabMark />}
+  toolName="Dashboard"
+  brandHref="/"
+  spaces={[
+    { id: 'company', label: 'Company', dept: 'company' },
+    { id: 'client', label: 'Client servicing', dept: 'client', count: 3 },
+    { id: 'creative', label: 'Creative', dept: 'creative' },
+  ]}
+  activeSpace={currentSpace}
+  onSpaceChange={id => navigate(`/spaces/${id}`)}
+  navigationKey={pathname}
+  navigation={<CurrentSpaceNavigation />}
+  storageKey="dashboard:navigation"
+  railFooter={({ collapsed }) => <><HelpButton /><AccountMenu collapsed={collapsed} /></>}
+>
+  <Page />
+</SidebarShell>
+```
+
+### Contract
+
+- `Space`: `{ id, label, dept?, icon?, color?, href?, count?, disabled? }`. Supported canonical departments are `company`, `client`, `creative`, `engineering`, `strategy`; legacy department display names also work. Custom icons/colors are optional. Department tokens inherit the host palette; standalone navigation has light/dark fallback colors.
+- `activeSpace` is controlled; selection calls `onSpaceChange(id)`. With only `href`, a tile is a normal link. With both, ordinary clicks call the callback and prevent navigation while modified link clicks keep browser behavior. A disabled tile cannot activate or receive arrow navigation.
+- `brandMark` overrides the square brand artwork; `brandHref` defaults to `/`. `panelLabel` overrides the selected space name. Long panel headings ellipsize with a native title; drawer space names wrap.
+- `panelCollapsed`, `onPanelCollapsedChange`, `defaultPanelCollapsed` control the new tools panel. These are separate from existing `collapsed` props. Uncontrolled fold state reads `${storageKey}:panel`; single navigation continues reading `storageKey`. Toggle changes persist when a storage key is supplied. Controlled state remains authoritative, including when no callback is provided.
+- `railFooter({collapsed:true})` supplies icon-only help/account controls. If omitted, existing `help` and `account` slots receive `{collapsed:true}`. Apps must supply accessible icon controls; the shell does not guess how to collapse arbitrary custom content.
+- CSS width knobs: `--cn-rail-width:60px` and `--cn-panel-width:240px`. Rail spaces and tool sections scroll independently; identity and footer stay fixed. Folding removes the tools panel and exposes its reopen control in the persistent rail.
+
+### Keyboard and phone
+
+The rail is a named `nav` and each tile exposes its full name and `aria-current="page"` when selected. Arrow keys move focus, skip disabled spaces and wrap; Home/End move to first/last enabled space. Focus movement does not select or navigate. Enter/Space retain normal link/button behavior. A visible non-color indicator accompanies the department tint; hover/focus show a tooltip, dismissed by Escape.
+
+Cmd/Ctrl+backslash folds the tools panel on desktop (the existing navigation in single mode). Below 760px, the top bar displays the square brand mark, a current-space button and a menu button. The space picker and tools menu open distinct content in a native modal dialog with Escape dismissal and focus restoration. Navigation-key or active-space changes dismiss an open drawer. Desktop breakpoint changes close drawers. No sliding animation is applied, including reduced-motion mode.
+
+`ArlabMark` is exported from the V2 and navigation entries. Its default full wordmark stays unchanged; `compact` renders the canonical leading symbol in a square SVG, with `height` controlling both dimensions. Folded single navigation displays a square canonical brand area as well.
+
+`PageLoading` accepts `mark?: ReactNode` and `workspaceName?: string`; its default mark is now compact ArlabMark. For example: `<PageLoading mark={<AppMark />} workspaceName="Studio" />`.
+
+### Focused checks
+
+`node scripts/check-spaces-shell.mjs` runs five isolated source-level DOM checks: selection/disabled arrow navigation and tooltip, fold persistence and shortcut, controlled read-only folding, native drawer content/focus restoration, and compact single-navigation identity. The optional harness uses Vite and happy-dom from a sibling `agents-studio` checkout; set `ARLAB_TEST_HARNESS` to another package.json with those test dependencies to relocate it. It does not add runtime dependencies or call live services. TypeScript also checks the public props. Actual responsive geometry, visual contrast and native browser focus trapping require browser/catalogue review.
+
+The spaces shell displays the complete canonical ARLAB vector wordmark inside a square brand area. It does not redraw the logo or replace it with initials. Pass `brandMark` for another application mark. The full/compact `ArlabMark` variants remain available for explicit use. The panel fold control sits in the fixed panel footer; when folded, its expand control moves to the fixed rail footer. Neither moves with the scrollable navigation.

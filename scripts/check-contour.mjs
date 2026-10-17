@@ -24,3 +24,13 @@ for (const file of ['navigation.css', 'scroll-area.css']) {
   });
 }
 console.log('Standalone navigation and scrollbar styles are isolated from application globals.');
+
+for (const file of ['dashboard.css','record-layouts.css','infinite-table.css']) {
+ postcss.parse(fs.readFileSync(`src/contour/${file}`,'utf8')).walkRules(rule=>{
+  if (!/\.ct-(?:data-table|record-collection|infinite|table-)/.test(rule.selector)) return;
+  rule.walkDecls(/^(font|font-size|font-weight|font-family)$/,decl=>{
+   assert.ok(!/\b\d+(?:\.\d+)?(?:px|rem|em)\b/.test(decl.value),`Hardcoded table typography: ${file} ${rule.selector} ${decl.toString()}`);
+  });
+ });
+}
+console.log('Table typography uses shared role tokens without hardcoded font sizes.');

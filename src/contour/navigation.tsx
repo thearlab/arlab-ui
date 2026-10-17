@@ -1,6 +1,6 @@
 import { NavigationDismissContext } from './NavigationContext.js';
 import { useContext, type MouseEvent, type ReactNode } from 'react';
-export { SidebarShell, type SidebarShellProps } from './SidebarShell.js';
+export { SidebarShell, type SidebarShellProps, type Space } from './SidebarShell.js';
 export { AppNavigation, type AppNavigationProps } from './AppNavigation.js';
 export { ScrollArea } from './scroll-area.js';
 export function NavigationSection({ label, children }: { label: string; children: ReactNode }) {
@@ -20,3 +20,5 @@ export function NavigationItem({ label, icon, active, count, href, onSelect, dis
   const shared = { className: 'contour-navigation-item', 'data-tour': tour, title: label, 'aria-label': label, 'aria-current': active ? 'page' as const : undefined };
   return href && !disabled ? <a {...shared} href={href} onClick={select}>{content}</a> : <button {...shared} type="button" disabled={disabled} onClick={select}>{content}</button>;
 }
+
+export { ArlabMark, type ArlabMarkProps } from '../ArlabMark.js';

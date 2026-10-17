@@ -651,6 +651,7 @@ Import: `import { Pill } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
+| `dot` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
 
 Live example: [Pill](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Pill)
@@ -666,6 +667,7 @@ Import: `import { StatusPill } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `tone` | ok  /  warn  /  bad  /  info  /  quiet. |
+| `dot` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
 
 Live example: [StatusPill](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StatusPill)
@@ -1020,9 +1022,9 @@ Live example: [SectionHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&
 
 #### SidebarShell
 
-Reusable application shell with fixed identity and account areas.
+Application shell with optional department spaces rail, foldable tools and fixed account controls.
 
-Import navigation/styles.css. No provider or demo routes required. Main and secondary navigation collapse independently; mobile navigation uses a dialog.
+Import navigation/styles.css. Spaces are app-controlled; arrow keys move focus and Cmd/Ctrl+backslash folds. The real ARLAB wordmark sits in a square brand area; fold controls stay in fixed bottom footers. Phone space/tool pickers use native dialogs. Existing single/context layouts remain available.
 
 Import: `import { SidebarShell } from '@arlab/ui';`
 
@@ -1031,14 +1033,31 @@ Import: `import { SidebarShell } from '@arlab/ui';`
 | `brand` | Optional pattern-specific value. Use the live example as the reference. |
 | `toolName` | Optional pattern-specific value. Use the live example as the reference. |
 | `navigation` | Optional pattern-specific value. Use the live example as the reference. |
+| `navigationKey` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
+| `header` | Optional pattern-specific value. Use the live example as the reference. |
 | `account` | Optional pattern-specific value. Use the live example as the reference. |
 | `help` | Optional pattern-specific value. Use the live example as the reference. |
-| `header` | Optional pattern-specific value. Use the live example as the reference. |
 | `collapsed` | Optional pattern-specific value. Use the live example as the reference. |
+| `defaultCollapsed` | Optional pattern-specific value. Use the live example as the reference. |
 | `onCollapsedChange` | Optional pattern-specific value. Use the live example as the reference. |
 | `storageKey` | Optional pattern-specific value. Use the live example as the reference. |
+| `spaces` | Optional pattern-specific value. Use the live example as the reference. |
+| `activeSpace` | Optional pattern-specific value. Use the live example as the reference. |
+| `onSpaceChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `brandMark` | Optional pattern-specific value. Use the live example as the reference. |
+| `brandHref` | Optional pattern-specific value. Use the live example as the reference. |
+| `panelLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `panelCollapsed` | Optional pattern-specific value. Use the live example as the reference. |
+| `onPanelCollapsedChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `defaultPanelCollapsed` | Optional pattern-specific value. Use the live example as the reference. |
+| `railFooter` | Optional pattern-specific value. Use the live example as the reference. |
 | `secondaryNavigation` | Optional pattern-specific value. Use the live example as the reference. |
+| `secondaryLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `defaultSecondaryCollapsed` | Optional pattern-specific value. Use the live example as the reference. |
+| `mode` | Optional pattern-specific value. Use the live example as the reference. |
+| `className` | Optional pattern-specific value. Use the live example as the reference. |
+| `style` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [SidebarShell](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SidebarShell)
 
@@ -1053,6 +1072,7 @@ Import: `import { PageBar } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
+| `showTitle` | Optional pattern-specific value. Use the live example as the reference. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `pills` | Optional pattern-specific value. Use the live example as the reference. |
 | `updated` | Optional pattern-specific value. Use the live example as the reference. |
@@ -1183,6 +1203,8 @@ Import: `import { PageLoading } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `onCancel` | Callback for the safe cancellation action. |
+| `mark` | Custom application mark. Defaults to canonical compact ArlabMark. |
+| `workspaceName` | Application identity displayed beside the mark. |
 
 Live example: [PageLoading](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageLoading)
 
@@ -1704,13 +1726,13 @@ Import: `import { CollectionWorkspace } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `collection` | Optional pattern-specific value. Use the live example as the reference. |
-| `navigator` | Optional pattern-specific value. Use the live example as the reference. |
-| `detail` | Optional pattern-specific value. Use the live example as the reference. |
-| `layout` | Optional pattern-specific value. Use the live example as the reference. |
-| `navigatorLabel` | Optional pattern-specific value. Use the live example as the reference. |
-| `detailLabel` | Optional pattern-specific value. Use the live example as the reference. |
-| `navigatorWidth` | Optional pattern-specific value. Use the live example as the reference. |
+| `collection` | Full browse destination, kept mounted while a record is selected so search, sort and pagination survive. |
+| `navigator` | Compact list React content. Use RecordNavigator for collection records. |
+| `detail` | Selected record React content. Omit or pass null to show the full collection. |
+| `layout` | split (default): list beside detail; focus: detail alone; stacked: bounded list above detail. Phone shows only the selected detail. |
+| `navigatorLabel` | Accessible label for the compact list region, default Records. |
+| `detailLabel` | Accessible label for the selected detail region, default Selected record. |
+| `navigatorWidth` | Desktop CSS width, default 280px; tablet uses 240px. The library preserves a usable detail column. |
 
 Live example: [CollectionWorkspace](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionWorkspace)
 
@@ -1724,17 +1746,17 @@ Import: `import { RecordNavigator } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `title` | A concise visible heading describing this context. |
-| `records` | Optional pattern-specific value. Use the live example as the reference. |
-| `selectedId` | Optional pattern-specific value. Use the live example as the reference. |
-| `onOpen` | Receives the row record when its explicit action is activated. |
-| `search` | Optional pattern-specific value. Use the live example as the reference. |
-| `actions` | Primary and supporting actions for the current page. |
-| `filters` | Optional pattern-specific value. Use the live example as the reference. |
-| `notice` | Optional pattern-specific value. Use the live example as the reference. |
-| `loading` | Optional pattern-specific value. Use the live example as the reference. |
-| `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
-| `density` | Optional pattern-specific value. Use the live example as the reference. |
+| `title` | Visible compact-list heading and accessible scroll-region name. |
+| `records` | CollectionRecord objects with id, title, description, category, status, tone, meta and real href. |
+| `selectedId` | ID of the selected record. Async loading and restored pane visibility reveal its full row. |
+| `onOpen` | Called with the record ID for ordinary activation. Modified clicks retain native link behavior. |
+| `search` | Optional shared SearchField or application-owned search control. |
+| `actions` | Optional header actions. |
+| `filters` | Optional compact filter controls beside search. |
+| `notice` | Optional contextual notice, such as a selected record outside active filters. |
+| `loading` | Shows the shared loading message instead of empty results. |
+| `emptyMessage` | Application-specific empty result message. |
+| `density` | comfortable (default) or compact. Compact hides the secondary description. |
 
 Live example: [RecordNavigator](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordNavigator)
 
@@ -1748,13 +1770,13 @@ Import: `import { RecordSection } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `title` | A concise visible heading describing this context. |
-| `description` | Supporting explanation, kept separate from the heading. |
-| `summary` | Optional pattern-specific value. Use the live example as the reference. |
-| `actions` | Primary and supporting actions for the current page. |
-| `children` | React content. Keep text concise and accessible. |
-| `footer` | Optional pattern-specific value. Use the live example as the reference. |
-| `variant` | primary  /  secondary (default)  /  quiet  /  ghost  /  danger. |
+| `title` | Semantic section heading. |
+| `description` | Supporting guidance below the heading. |
+| `summary` | Optional metadata between heading and content. |
+| `actions` | Optional wrapping heading actions. |
+| `children` | Reading content or shared form controls. |
+| `footer` | Optional section-level actions or explanation. |
+| `variant` | plain (default) is borderless; divided adds a quiet bottom separator. |
 
 Live example: [RecordSection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordSection)
 
@@ -1768,9 +1790,9 @@ Import: `import { ActionGroup } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `children` | React content. Keep text concise and accessible. |
-| `label` | Visible or accessible name describing the control. |
-| `align` | Optional pattern-specific value. Use the live example as the reference. |
+| `children` | Related shared controls. |
+| `label` | Optional accessible group name. |
+| `align` | start (default) or end. Controls always wrap safely. |
 
 Live example: [ActionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ActionGroup)
 
@@ -1778,7 +1800,7 @@ Live example: [ActionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&
 
 A virtualized sortable table that continues loading as you scroll.
 
-Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry.
+Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry.
 
 Import: `import { InfiniteTable } from '@arlab/ui';`
 
@@ -1787,6 +1809,9 @@ Import: `import { InfiniteTable } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `header` | Optional React content replacing the title. |
 | `headerActions` | Optional pattern-specific value. Use the live example as the reference. |
+| `search` | Optional pattern-specific value. Use the live example as the reference. |
+| `footerActions` | Optional pattern-specific value. Use the live example as the reference. |
+| `fill` | Optional pattern-specific value. Use the live example as the reference. |
 | `columns` | Optional pattern-specific value. Use the live example as the reference. |
 | `rows` | Loaded records. Remote mode preserves their server-provided order. |
 | `rowKey` | Optional pattern-specific value. Use the live example as the reference. |
@@ -1918,13 +1943,14 @@ Live example: [StatNoteRow](https://arlab-ui-showcase.pages.dev/?view=catalogue&
 
 A full-width collection destination with search and optional filters.
 
-Results own the remaining height. Filters expand on request; changing filters remains application-owned.
+Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned.
 
 Import: `import { CollectionLayout } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
+| `showTitle` | Default true. False retains the semantic heading without a large visible title; empty metadata bars disappear. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `pills` | React content beside the title, such as record counts and status pills. Wraps naturally on narrow screens. |
 | `updated` | Application-owned metadata beside the description. Use a time element with dateTime for an update timestamp. |
@@ -1933,7 +1959,7 @@ Import: `import { CollectionLayout } from '@arlab/ui';`
 | `search` | Optional pattern-specific value. Use the live example as the reference. |
 | `filters` | Optional pattern-specific value. Use the live example as the reference. |
 | `activeFilters` | Optional pattern-specific value. Use the live example as the reference. |
-| `children` | React content. Keep text concise and accessible. |
+| `children` | Results content or ({filterTrigger}) => content. Place filterTrigger in the table headerActions for phone filters. |
 | `variant` | contained (default) or flush. Flush results extend to the container edges. |
 | `sidebar` | Optional render callback receiving {mobile, close}. Desktop sits on the right; phone opens a Filters sheet. |
 | `sidebarLabel` | Accessible phone filter-sheet title, default Filters. |
@@ -1956,6 +1982,11 @@ Import: `import { RecordCollection } from '@arlab/ui';`
 | `label` | Visible or accessible name describing the control. |
 | `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
 | `variant` | contained or flush. Flush header, row and footer lines meet the container edges. |
+| `progressive` | Opt in to continuous virtualized rows with a fixed table header and footer, without pagination controls. |
+| `search` | Shared search field inside the table header. |
+| `headerActions` | Header filter or view controls. |
+| `footerActions` | Persistent collection creation and management controls. |
+| `filterKey` | Stable search/filter identity. Exclude selected records and detail tabs to retain scroll. |
 
 Live example: [RecordCollection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordCollection)
 
@@ -1977,13 +2008,15 @@ Live example: [RecordLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 A record title, publication state, actions and accessible sections.
 
-Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host.
+Controlled tabs support arrow/Home/End navigation. Secondary details open in a labelled side sheet with fixed heading and footer, shared scrolling and a clear Done action. Back behavior belongs to the host. showTitle and showBack can hide redundant chrome when the app header already provides record identity and breadcrumb navigation.
 
 Import: `import { RecordHeader } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
+| `showTitle` | Default true. False keeps the semantic heading for apps that expose the record name in breadcrumbs. |
+| `showBack` | Default true. False removes the Back button when the app provides collection breadcrumb navigation. |
 | `badges` | Optional pattern-specific value. Use the live example as the reference. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `contextActions` | Optional pattern-specific value. Use the live example as the reference. |
@@ -2077,6 +2110,7 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `header` | Optional React content replacing the default table title. |
 | `headerActions` | Optional React content in the trailing header area. |
+| `search` | Shared search field rendered inside the fixed table header. The table owns one numeric count pill. |
 | `columns` | Column definitions: key, accessible label, optional header content, width/minWidth/maxWidth (CSS lengths or percentages), align, sortable, sortValue accessor, value accessor and render callback. |
 | `rows` | Record array, sorted before pagination. Supply filtered records from your sidebar or host. |
 | `rowKey` | Unique record property or callback returning a stable string/number ID. |
@@ -2526,6 +2560,9 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
 | `--text-field` | `12px` | `12px` |
+| `--text-table` | `var(--text-sm)` | `var(--text-sm)` |
+| `--text-table-meta` | `var(--text-xs)` | `var(--text-xs)` |
+| `--text-table-heading` | `var(--text-xs)` | `var(--text-xs)` |
 | `--text-base` | `14px` | `14px` |
 | `--text-md` | `16px` | `16px` |
 | `--text-lg` | `18px` | `18px` |

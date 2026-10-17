@@ -8,6 +8,7 @@ import {
 } from "react";
 import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
 import { Button, PageBar } from "./library.js";
+import { InfiniteTable } from './InfiniteTable.js';
 import { FilterableTable } from "./DataFilters.js";
 import { Modal, Status } from "./ui.js";
 import { ScrollArea } from "./scroll-area.js";
@@ -28,8 +29,14 @@ export function RecordCollection({
   loading = false,
   label = "Records",
   variant = "contained",
+  progressive = false, search, headerActions, footerActions, filterKey,
   emptyMessage = "No records match your filters.",
 }: {
+  progressive?: boolean;
+  filterKey?: string | number;
+  search?: ReactNode;
+  headerActions?: ReactNode;
+  footerActions?: ReactNode;
   records: CollectionRecord[];
   onOpen: (id: string) => void;
   loading?: boolean;
@@ -53,10 +60,14 @@ export function RecordCollection({
       onOpen(row.id);
     }
   };
+  const Table = progressive ? InfiniteTable : FilterableTable;
   return (
-    <div className="ct-record-collection" data-variant={variant}>
+    <div data-progressive={progressive||undefined} className="ct-record-collection" data-variant={variant}>
       <div className="ct-record-collection-table">
-        <FilterableTable
+        <Table
+          search={search}
+          headerActions={headerActions}
+          {...(progressive?{footerActions,filterKey}:{})}
           fill
           variant={variant}
           title={label}
@@ -99,7 +110,7 @@ export function RecordCollection({
           ]}
         />
       </div>
-      <ScrollArea className="ct-record-collection-mobile" label={label}>
+      {!progressive&&<ScrollArea className="ct-record-collection-mobile" label={label}>
         <p className="ct-record-collection-count" role="status">
           {loading
             ? "Loading records…"
@@ -125,30 +136,32 @@ export function RecordCollection({
         {records.length > visible && (
           <Button onClick={() => setVisible(visible + 25)}>Show more</Button>
         )}
-      </ScrollArea>
+      </ScrollArea>}
     </div>
   );
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
- title:string;description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
+export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,showTitle=true,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
+ title:string;showTitle?:boolean;description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
  sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
- variant?:'contained'|'flush';activeFilters?:number;children:ReactNode;
+ variant?:'contained'|'flush';activeFilters?:number;children:ReactNode|((context:{filterTrigger:ReactNode})=>ReactNode);
 }) {
  const [expanded,setExpanded]=useState(false);
  const [mobile,setMobile]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(max-width:760px)').matches);
  const id=useId();
  useEffect(()=>{const media=window.matchMedia('(max-width:760px)');const update=()=>{setMobile(media.matches);setExpanded(false);};media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
  const close=()=>setExpanded(false);
+ const filterTrigger=(filters||sidebar&&mobile)?<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>:null;
+ const renderChildren=typeof children==='function';
  return <section className="ct-collection-layout" data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
-  <PageBar title={title} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>
+  {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>:<h1 className="sr-only">{title}</h1>}
   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
   <div className="ct-collection-body">
   <div className="ct-collection-main">
-   <div className="ct-collection-toolbar"><div>{search}</div>{(filters||sidebar&&mobile)&&<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>}</div>
+   {(search||!renderChildren&&filterTrigger)&&<div className="ct-collection-toolbar"><div>{search}</div>{!renderChildren&&filterTrigger}</div>}
    {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
-   <div className="ct-collection-results">{children}</div>
+   <div className="ct-collection-results">{renderChildren?children({filterTrigger}):children}</div>
   </div>
   {sidebar&&!mobile&&<div className="ct-collection-sidebar">{sidebar({mobile:false,close})}</div>}
   </div>
@@ -204,6 +217,8 @@ export function DetailSections({
 
 export interface RecordHeaderProps {
   title: ReactNode;
+  showTitle?: boolean;
+  showBack?: boolean;
   badges?: ReactNode;
   description?: ReactNode;
   contextActions?: ReactNode;
@@ -219,6 +234,8 @@ export interface RecordHeaderProps {
 }
 export function RecordHeader({
   title,
+  showTitle = true,
+  showBack = true,
   badges,
   description,
   contextActions,
@@ -257,11 +274,11 @@ export function RecordHeader({
   };
   return (
     <header className="ct-record-header">
-      <div className="ct-record-context">
-        <Button onClick={onBack}>
+      <div className="ct-record-context" data-back-hidden={!showBack||undefined}>
+        {showBack&&<Button onClick={onBack}>
           <ArrowLeft size={14} />
           {backLabel}
-        </Button>
+        </Button>}
         <div className="ct-record-context-actions">{contextActions}
         {metadata && (
           <>
@@ -277,9 +294,9 @@ export function RecordHeader({
         )}
         </div>
       </div>
-      <div className="ct-record-heading">
+      <div className="ct-record-heading" data-title-hidden={!showTitle||undefined}>
         <div>
-          <h1>{title}</h1>
+          <h1 className={showTitle?undefined:"sr-only"}>{title}</h1>
           {badges && <div className="ct-record-badges">{badges}</div>}
           {description&&<p className="ct-record-description">{description}</p>}
         </div>

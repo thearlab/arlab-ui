@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
-import { Button, Logo } from "./ui.js";
+import { Button } from "./ui.js";
+
+import { ArlabMark } from "../ArlabMark.js";
 
 export function Loader({ label = "Loading", size = 24, decorative = false }) {
   return (
@@ -44,12 +46,14 @@ export function PageLoading({
   title = "Getting your workspace ready",
   description = "Loading your projects, people, and latest updates.",
   onCancel,
+  mark = <ArlabMark compact height={28} />,
+  workspaceName = "ARLAB workspace",
 }) {
   return (
     <section className="page-loading" aria-label="Workspace loading">
       <header>
-        <Logo />
-        <span>ARLAB workspace</span>
+        {mark}
+        <span>{workspaceName}</span>
       </header>
       <div className="page-loading-center" role="status" aria-live="polite">
         <div className="loading-symbol">

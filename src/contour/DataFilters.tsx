@@ -1,3 +1,4 @@
+import { TableHeader } from './TableChrome.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties } from "react";
 import {
@@ -120,6 +121,7 @@ export interface FilterableTableProps<Row extends Record<string, unknown>> exten
   title?: string;
   header?: ReactNode;
   headerActions?: ReactNode;
+  search?: ReactNode;
   columns: FilterColumn<Row>[];
   rows: Row[];
   rowKey: keyof Row | ((row: Row) => string | number);
@@ -139,6 +141,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
   header,
   headerActions,
+  search,
   columns,
   rows,
   rowKey,
@@ -180,19 +183,9 @@ export function FilterableTable<Row extends Record<string, unknown>>({
       aria-label={title}
       aria-busy={loading || undefined}
     >
-      <header>
-        <div>
-          {header || <h3>{title}</h3>}
-          <span role="status">
-            {ordered.length} {ordered.length === 1 ? "record" : "records"}
-          </span>
-        </div>
-        {headerActions && (
-          <div className="ct-table-header-actions">{headerActions}</div>
-        )}
-      </header>
+      <TableHeader title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
       <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
-        <table style={{tableLayout}}>
+        <table aria-label={title} style={{tableLayout}}>
           <SharedTableHead columns={columns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>
           <tbody>
             {loading ? (

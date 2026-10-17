@@ -101,24 +101,6 @@
 .ct-record-collection .ct-record-collection-mobile {
   display: none;
 }
-.ct-record-collection-table .ct-data-table td {
-  font-size: var(--text-sm);
-}
-.ct-record-collection-table .ct-data-table td small {
-  font-size: var(--text-xs);
-}
-.ct-record-collection-table .lib-text-link {
-  font-size: var(--text-base);
-  font-weight: var(--weight-medium);
-  color: var(--ink);
-  text-decoration: none;
-}
-.ct-record-collection-table .lib-text-link:hover {
-  color: var(--link);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
 .ct-record-collection-meta {
   display: flex;
   flex-wrap: wrap;
@@ -375,3 +357,7 @@
 }
 
 .ct-record-tabs > button {border-bottom-width:1px;transition:color var(--dur-fast);}
+
+.ct-record-context[data-back-hidden] {justify-content:flex-end;}
+.ct-record-heading[data-title-hidden] .ct-record-badges {margin-top:0;}
+.lib-pagebar[data-title-hidden] .ct-pagebar-summary,.lib-pagebar[data-title-hidden] > div > p {margin-top:0;}

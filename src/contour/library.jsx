@@ -231,23 +231,7 @@ export function PillButton({ children, selected, onClick }) {
   );
 }
 export { TagInput } from './TagInput.js';
-export function DeptTile({ department = "Creative" }) {
-  const map = {
-    Creative: "creative",
-    Engineering: "engineering",
-    "Client services": "client",
-    Company: "company",
-    Strategy: "strategy",
-  };
-  return (
-    <span className="dept-tile">
-      <i
-        style={{ background: `var(--dept-${map[department] || "company"})` }}
-      />
-      {department}
-    </span>
-  );
-}
+export { DeptTile } from "./DeptTile.js";
 export function Timestamp({ date }) {
   const d = new Date(date);
   return (
@@ -860,12 +844,12 @@ export function NavTree({ items, value, onChange }) {
     </nav>
   );
 }
-/** @param {{title:import('react').ReactNode,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}} props */
-export function PageBar({ title, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2" }) {
+/** @param {{title:import('react').ReactNode,showTitle?:boolean,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}} props */
+export function PageBar({ title, showTitle = true, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2" }) {
   return (
-    <header className="lib-pagebar">
+    <header className="lib-pagebar" data-title-hidden={!showTitle||undefined}>
       <div>
-        {pillsPlacement === 'inline' ? <div className="ct-pagebar-title"><Heading>{title}</Heading>{pills&&<div className="ct-pagebar-pills">{pills}</div>}</div> : <Heading>{title}</Heading>}
+        {pillsPlacement === 'inline' ? <div className="ct-pagebar-title"><Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>{pills&&<div className="ct-pagebar-pills">{pills}</div>}</div> : <Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>}
         {updated ? <div className="ct-pagebar-summary">{description&&<p>{description}</p>}<div className="ct-pagebar-updated">{updated}</div></div> : description&&<p>{description}</p>}
         {pills && pillsPlacement !== 'inline' && <div className="ct-pagebar-pills">{pills}</div>}
       </div>

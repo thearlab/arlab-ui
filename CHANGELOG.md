@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0-beta.13
+
+- Table body, identity links, metadata, dates, column labels and pills share one token-based typography contract across all pages and variants. The build rejects hardcoded table font sizes.
+- Shared table headers place search beside one numeric count pill. InfiniteTable adds bounded fill and fixed footerActions; RecordCollection opts into progressive virtual rows without page controls. Explicit filterKey retains scroll across host renders and resets only when the query changes.
+- CollectionLayout accepts function children with a phone filterTrigger. Empty hidden headings and toolbars no longer consume space. PageBar/CollectionLayout/RecordHeader support showTitle; RecordHeader supports showBack for breadcrumb-led workspaces. Existing defaults remain available.
+- SidebarShell adds optional department spaces, controlled selection, keyboard navigation, tooltips/counts, a persisted foldable tools panel, separate native phone drawers and fixed account/help controls. Fold controls live in bottom footers. The complete canonical ARLAB logo sits inside a square brand area.
+- Exported ArlabMark (full/compact) from both V2 entries; folded single navigation retains the real brand. PageLoading accepts a custom mark and workspace name. DeptTile supports compact icon tiles and custom colours.
+- Verified 68 public component interaction checks, 5 isolated spaces-shell checks, 50 theme contrast pairs, scoped stylesheet/build checks and browser light/dark/phone layouts.
+
 ## 2.0.0-beta.12
 
 - Added CollectionWorkspace: a full collection becomes a compact navigator beside the selected record. Split, focus and stacked layouts are application-controlled; phones show the detail with app-owned Back navigation.

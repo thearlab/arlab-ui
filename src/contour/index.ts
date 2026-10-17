@@ -34,3 +34,6 @@ export type { TagInputProps } from './TagInput.js';
 export type { AppHeaderProps } from './AppHeader.js';
 
 export * from './CollectionWorkspace.js';
+
+export { ArlabMark, type ArlabMarkProps } from '../ArlabMark.js';
+export type { Space } from './SidebarShell.js';
