@@ -4,7 +4,10 @@ import postcss from 'postcss';
 import * as ui from '../dist/contour/index.js';
 const contract = JSON.parse(fs.readFileSync('docs/component-contract.json','utf8'));
 const entries = Array.isArray(contract) ? contract : contract.components;
-for (const entry of entries) assert.equal(typeof ui[entry.name], 'function', `${entry.name} exports`);
+for (const entry of entries) {
+  const component = ui[entry.name];
+  assert.ok(typeof component === 'function' || (component && typeof component === 'object' && [Symbol.for('react.forward_ref'), Symbol.for('react.memo')].includes(component.$$typeof)), `${entry.name} exports a React component`);
+}
 assert.equal(ui.iconRegistry.length, 164);
 assert.equal(new Set(ui.iconRegistry.map(({ name }) => name)).size, 164, 'Icon names are unique');
 for (const name of ['Sparkles', 'Presentation', 'ShoppingCart', 'Megaphone', 'Building2', 'Handshake']) {
