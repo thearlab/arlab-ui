@@ -179,13 +179,26 @@ export function SearchField({
     </div>
   );
 }
-/** @param {{options: string[], value: string, onChange: (value: string) => void, label?: string}} props */
+/** @param {{options: (string | {label: React.ReactNode, value: string, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string}} props */
 export function SegmentedControl({ options, value, onChange, label = "View" }) {
+  const items = options.map(option => typeof option === "string" ? {value:option,label:option} : option);
   return (
     <div className="segments" role="group" aria-label={label}>
-      {options.map((o) => (
-        <button key={o} aria-pressed={value === o} onClick={() => onChange(o)}>
-          {o}
+      {items.map(item => (
+        <button type="button" key={item.value} disabled={item.disabled}
+          aria-pressed={value === item.value} onClick={() => onChange(item.value)}
+          onKeyDown={event => {
+            if (!["ArrowLeft","ArrowRight","Home","End"].includes(event.key)) return;
+            const enabled = items.filter(option => !option.disabled);
+            if (!enabled.length) return;
+            event.preventDefault();
+            const index = enabled.findIndex(option => option.value === item.value);
+            const next = event.key === "Home" ? 0 : event.key === "End" ? enabled.length - 1
+              : (index + (event.key === "ArrowRight" ? 1 : enabled.length - 1)) % enabled.length;
+            onChange(enabled[next].value);
+            event.currentTarget.parentElement?.querySelectorAll("button:not(:disabled)")[next]?.focus();
+          }}>
+          {item.label}
         </button>
       ))}
     </div>
@@ -397,19 +410,19 @@ export function Refreshing({ busy, children }) {
     </div>
   );
 }
-/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, onRetry?: () => void, onCreate?: () => void}} props */
-export function StateView({ state = "empty", title, description, onRetry, onCreate }) {
+/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void}} props */
+export function StateView({ state = "empty", title, description, actionLabel, action, onAction, onRetry, onCreate }) {
   if (state === "loading") return <Skeleton />;
   const error = state === "error";
-  const action = error ? onRetry : onCreate;
+  const handleAction = onAction ?? (error ? onRetry : onCreate);
   return (
     <EmptyState
       title={title ?? (error ? "We couldn’t load your projects" : "A place for your next idea")}
       description={description ?? (error ? "Your work is safe. Check your connection and try again." : "Create a project to bring your team and ideas together.")}
     >
-      {action && <Button variant={error ? "" : "primary"} onClick={action}>
-        {error ? "Try again" : "Create project"}
-      </Button>}
+      {action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>
+        {actionLabel ?? (error ? "Try again" : "Create project")}
+      </Button>)}
     </EmptyState>
   );
 }

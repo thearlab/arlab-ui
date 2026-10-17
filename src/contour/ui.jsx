@@ -62,16 +62,23 @@ export function Logo({ small = false }) {
     </span>
   );
 }
-/** @param {{initials?: string, color?: string, name?: string}} props */
-export function Avatar({ initials = "AM", color = "lilac", name }) {
+/** @param {React.HTMLAttributes<HTMLSpanElement> & {initials?: string, color?: string, name?: string, size?: number, src?: string}} props */
+export function Avatar({ initials = "AM", color = "lilac", name, size, src, style, className = "", ...props }) {
+  const [failedSource, setFailedSource] = useState(null);
+  const dimensions = size !== undefined && Number.isFinite(size) && size > 0
+    ? {width:size, height:size, fontSize:size * 9 / 28} : {};
   return (
-    <span className={`avatar ${color}`} aria-label={name}>
-      {initials}
+    <span role={name ? "img" : undefined} aria-label={name} {...props}
+      className={`avatar ${color} ${className}`} style={{...dimensions,...style}}>
+      {src && failedSource !== src
+        ? <img src={src} alt="" aria-hidden="true" onError={() => setFailedSource(src)}
+            style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"inherit"}} />
+        : initials}
     </span>
   );
 }
-/** @param {{children?: React.ReactNode, tone?: string, dot?: boolean}} props */
-export function Status({ children, tone, dot = true }) {
+/** @param {React.HTMLAttributes<HTMLSpanElement> & {tone?: string, dot?: boolean}} props */
+export function Status({ children, tone, dot = true, className = "", ...props }) {
   const tones = {
     "In progress": "info",
     "In review": "warn",
@@ -84,7 +91,7 @@ export function Status({ children, tone, dot = true }) {
   };
   const t = tone || tones[children] || "quiet";
   return (
-    <span className={`status ${t}`}>
+    <span {...props} className={`status ${t} ${className}`}>
       {dot&&<span className="status-dot" />}
       {children}
     </span>
@@ -338,7 +345,7 @@ function PlusSymbol() {
 
 /** An event-shaped selection notification. This is not a browser ChangeEvent.
  * @typedef {{target: {value: string, name?: string}, currentTarget: {value: string, name?: string}}} DropdownChangeEvent
- * @typedef {{value: string, label: React.ReactNode, disabled?: boolean}} DropdownOption
+ * @typedef {{value: string, label: React.ReactNode, disabled?: boolean, count?: number, description?: React.ReactNode}} DropdownOption
  * @typedef {Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'|'defaultValue'|'onChange'|'children'|'name'> & {children?: React.ReactNode, options?: DropdownOption[], value?: string | number, defaultValue?: string | number, onChange?: (event: DropdownChangeEvent) => void, placeholder?: string, searchable?: boolean, name?: string}} DropdownProps
  */
 /** @param {DropdownProps} props */

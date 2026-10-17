@@ -30,11 +30,12 @@ export const minimumSettings = <ContourProvider mode="dark" aria-label="Workspac
   <Card title={<span>Settings</span>} action={<Button onClick={close}>Edit</Button>} />
   <Button disabled type="submit" onClick={event => event.currentTarget.focus()}>Save</Button>
   <IconButton label="Close" onClick={close}><span>×</span></IconButton>
-  <Avatar /><Status>Ready</Status><SectionHead title="Overview" />
+  <Avatar /><Avatar size={22} src="/avatar.png" name="Amal" title="Amal" /><Status title="Ready to run" role="status">Ready</Status><SectionHead title="Overview" />
   <TextAction onClick={close}>Open</TextAction><Meter value={20} />
   <Notice>Information</Notice><EmptyState /><FileUpload />
   <FileUpload onChange={file => {const selected: File | null = file; void selected;}} />
   <Dropdown options={options} onChange={dropdownChange} />
+  <Dropdown options={[{value:"all",label:"Every PM",count:12,description:"All project managers"}]} />
   <Dropdown name="project" defaultValue="a"><option value="a">Alpha</option></Dropdown>
   <Picker options={options} /><Select options={options} /><ComboboxPicker options={options} />
   <Checkbox label="Allow" checked onChange={event => event.currentTarget.checked} />
@@ -58,9 +59,11 @@ export const minimumSettings = <ContourProvider mode="dark" aria-label="Workspac
   <PageLoading /><ScrollArea>Content</ScrollArea><LoadingBar /><Skeleton /><Loader />
   <PageBar title="Projects" /><SaveBar dirty /><CopyBlock>const value = 1;</CopyBlock>
   <SegmentedControl options={['List', 'Grid']} value="List" onChange={close} />
+  <SegmentedControl options={[{value:"list",label:"List view"},{value:"grid",label:"Grid view",disabled:true}]} value="list" onChange={close} />
   <TabStrip options={['Overview', {label:'Settings', value:'settings'}]} value="Overview" onChange={close} />
   <TextLink href="/projects">Projects</TextLink><Timestamp date="2026-10-17" /><LegendDot>Projects</LegendDot>
-  <Stack /><StateView /><AccountMenu /><Tooltip label="Help"><Button>Help</Button></Tooltip>
+  <Stack /><StateView /><StateView actionLabel="Add person" onAction={close} />
+  <StateView action={<Button onClick={close}>Invite</Button>} /><AccountMenu /><Tooltip label="Help"><Button>Help</Button></Tooltip>
   <Rows /><StatRow /><PageGrid /><CardGrid /><ReadableDoc title="Guide" />
   <Markdown># Guide</Markdown><Toc items={[]} /><ColumnChart /><Sparkline /><StackedBar /><BarList />
   <Inspector items={[project]} /><DataTable rows={[project]} />
@@ -88,3 +91,10 @@ const invalidDropdown = <Dropdown options={options} onChange={(value: string) =>
 // @ts-expect-error Markdown must receive source text.
 const invalidMarkdown = <Markdown>{42}</Markdown>;
 void [unlabeledIcon, unownedModal, unlabeledField, invalidDisabled, invalidMode, invalidCheckbox, invalidDropdown, invalidMarkdown];
+
+// @ts-expect-error Numeric avatar sizing does not accept unvalidated CSS strings.
+const invalidAvatarSize = <Avatar size="tiny" />;
+// @ts-expect-error Object segmented options require a stable value.
+const invalidSegment = <SegmentedControl options={[{label:'List'}]} value="list" onChange={close} />;
+// @ts-expect-error Option counts are numbers, including zero.
+const invalidOptionCount = <Dropdown options={[{value:'all',label:'All',count:'twelve'}]} />;
