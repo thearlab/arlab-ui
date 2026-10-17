@@ -1,5 +1,7 @@
 import { type ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
+import {Panel, Rows, Row} from "./library.js";
+import {Button} from "./ui.js";
 export interface SectionHeaderProps {
   title: string;
   count?: number;
@@ -18,7 +20,7 @@ export interface CollectionGroupProps {
   title: string;
   count?: number;
   meta?: ReactNode;
-  items: { id: string; label: string; onOpen: () => void }[];
+  items: { id: string; label: string; description?: ReactNode; leading?: ReactNode; trailing?: ReactNode; onOpen?: () => void }[];
   onOpen?: () => void;
   more?: number;
 }
@@ -30,33 +32,15 @@ export function CollectionGroup({
   onOpen,
   more,
 }: CollectionGroupProps) {
+  const inlineMeta = typeof meta === "string" || typeof meta === "number";
   return (
-    <section className="ct-collection-group">
-      <header>
-        <h3>{title}</h3>
-        {count !== undefined && <span>{count}</span>}
-        {onOpen && (
-          <button type="button" className="ct-collection-open" onClick={onOpen}>
-            View all <ArrowUpRight size={13} />
-          </button>
-        )}
-      </header>
-      {meta && <div className="ct-collection-meta">{meta}</div>}
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            <button type="button" onClick={item.onOpen}>
-              <span>{item.label}</span>
-              <ArrowUpRight size={13} />
-            </button>
-          </li>
-        ))}
-      </ul>
-      {!!more && onOpen && (
-        <button type="button" className="ct-collection-more" onClick={onOpen}>
-          View {more} more
-        </button>
-      )}
-    </section>
+    <Panel className="ct-collection-group" aria-label={title}
+      title={<span className="ct-collection-title">{title}{count !== undefined && <span className="ct-collection-count" aria-label={`${count} items`}>{count}</span>}</span>}
+      description={inlineMeta ? meta : undefined}
+      action={onOpen && <Button variant="quiet" onClick={onOpen}>View all <ArrowUpRight size={13}/></Button>}>
+      {!inlineMeta && meta && <div className="ct-collection-meta">{meta}</div>}
+      <Rows>{items.map(item => <Row key={item.id} title={item.label} description={item.description} leading={item.leading} trailing={item.trailing} onClick={item.onOpen}/>)}</Rows>
+      {!!more && onOpen && <div className="ct-collection-footer"><Button variant="quiet" onClick={onOpen}>View {more} more</Button></div>}
+    </Panel>
   );
 }

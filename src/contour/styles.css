@@ -891,10 +891,11 @@ select {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  margin-top: 24px;
+  padding-top: 0;
+  border-top: 0;
+  margin-top: var(--space-5);
 }
+.modal-actions:only-child {margin-top:0;}
 .form-intro {
   margin-bottom: 24px !important;
   font-size: 13px;
