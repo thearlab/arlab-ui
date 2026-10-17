@@ -1,4 +1,6 @@
-import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type MouseEvent, type KeyboardEvent, type ComponentProps } from 'react';
+import {MoreHorizontal} from 'lucide-react';
+import {DropdownMenu, IconButton} from './library.js';
 import { ScrollArea } from './scroll-area.js';
 import { Status, Button, Modal } from './ui.js';
 import type { CollectionRecord } from './RecordLayouts.js';
@@ -113,8 +115,19 @@ export function RecordSection({title,description,summary,actions,children,footer
   </section>;
 }
 
-export interface ActionGroupProps {children:ReactNode;label?:string;align?:'start'|'end';equalWidth?:boolean}
-/** A compact wrapping group of related controls. Supply a label for an announced group. */
-export function ActionGroup({children,label,align='start',equalWidth=false}:ActionGroupProps) {
- return <div className="ct-action-group" role={label?'group':undefined} aria-label={label} data-align={align} data-equal-width={equalWidth||undefined}>{children}</div>;
+export interface ActionGroupProps {
+ children:ReactNode;
+ label?:string;
+ align?:'start'|'end';
+ equalWidth?:boolean;
+ /** Keep secondary actions in the shared accessible menu, without hiding primary controls. */
+ overflowActions?:ComponentProps<typeof DropdownMenu>['items'];
+ overflowLabel?:string;
+}
+/** Related controls retain their normal sizing; optional secondary actions use a quiet icon menu. */
+export function ActionGroup({children,label,align='start',equalWidth=false,overflowActions,overflowLabel='More actions'}:ActionGroupProps) {
+ const hasOverflow=!!overflowActions?.length;
+ return <div className="ct-action-group" role={label?'group':undefined} aria-label={label} data-align={align} data-overflow={hasOverflow||undefined} data-equal-width={!hasOverflow&&equalWidth||undefined}>
+  {hasOverflow?<><div className="ct-action-group-controls" data-equal-width={equalWidth||undefined}>{children}</div><DropdownMenu items={overflowActions} label={overflowLabel} trigger={<IconButton label={overflowLabel} aria-haspopup="menu"><MoreHorizontal size={14}/></IconButton>}/></>:children}
+ </div>;
 }

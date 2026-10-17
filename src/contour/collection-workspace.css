@@ -102,5 +102,8 @@
 .ct-workspace-collection[data-condensed] .ct-data-table thead,
 .ct-workspace-collection[data-condensed] .ct-data-table .ct-table-size {display:none;}
 
-.ct-action-group[data-equal-width] {display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:max-content;max-width:100%;}
-.ct-action-group[data-equal-width] > .btn {width:100%;}
+.ct-action-group[data-equal-width],.ct-action-group-controls[data-equal-width] {display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:max-content;max-width:100%;}
+.ct-action-group[data-equal-width] > .btn,.ct-action-group-controls[data-equal-width] > .btn {width:100%;}
+
+.ct-action-group-controls {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);min-width:0;}
+.ct-action-group[data-overflow] > .lib-popover {flex:0 0 auto;}
