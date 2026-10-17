@@ -1,3 +1,4 @@
+import { useCollectionColumns } from './CollectionViewContext.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } from './DataFilters.js';
@@ -103,6 +104,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const headingId = useId();
   const revealIndex=useRef<number|null>(null);
 
+  const visibleColumns = useCollectionColumns(columns);
   const ordered = useMemo(() => remote ? rows : sortTableRows(rows, columns, sort), [rows, columns, remote, sort?.key, sort?.direction]);
   const count = remote ? ordered.length : Math.min(loaded, ordered.length);
   const allEntries = useMemo(() => infiniteTableEntries(ordered, props.groupBy), [ordered, props.groupBy]);
@@ -212,14 +214,14 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const visibleEntries = entries.slice(range.start, range.end);
   const total = props.mode === 'remote' ? props.totalCount ?? (props.hasMore ? -1 : rows.length) : rows.length;
   const accessibleTotal = props.groupBy === undefined ? (total < 0 ? -1 : total + 1) : remote && more ? -1 : allEntries.length + 1;
-  const colspan = Math.max(1, columns.length);
+  const colspan = Math.max(1, visibleColumns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
     <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
-      <table aria-label={title} aria-rowcount={accessibleTotal} aria-colcount={columns.length}>
-        <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
+      <table aria-label={title} aria-rowcount={accessibleTotal} aria-colcount={visibleColumns.length}>
+        <SharedTableHead columns={visibleColumns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>
           {!loading && count > 0 && range.start > 0 && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: range.start * rowHeight }}/></tr>}
           {!loading && visibleEntries.map((entry, offset) => {
@@ -227,7 +229,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
             if (entry.kind === 'group') return <tr key={`group:${entry.firstRowIndex}:${entry.group}`} aria-rowindex={index + 2} className="ct-infinite-group"><th scope="rowgroup" colSpan={colspan}>{props.renderGroup ? props.renderGroup({label: entry.group, count: entry.count}) : entry.group}</th></tr>;
             const row = entry.row;
             return <tr {...tableRowProps(row,props,typeof rowKey==='function'?rowKey(row):row[rowKey])} key={`row:${typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])}`} aria-rowindex={index + 2} className="ct-infinite-row">
-              {columns.map(column => <td key={column.key} data-phone-hidden={column.hideOnPhone || undefined} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
+              {visibleColumns.map(column => <td key={column.key} data-phone-hidden={column.hideOnPhone || undefined} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
             </tr>;
           })}
           {!loading && entries.length > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (entries.length - range.end) * rowHeight }}/></tr>}

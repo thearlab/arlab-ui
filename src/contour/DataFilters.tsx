@@ -1,3 +1,4 @@
+import { useCollectionColumns } from './CollectionViewContext.js';
 import { SortControl } from './SortControl.js';
 import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
@@ -147,6 +148,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   } | null>(null);
   const [page, setPage] = useState(1),
     [size, setSize] = useState(pageSize);
+  const visibleColumns = useCollectionColumns(columns);
   const ordered = useMemo(()=>sortTableRows(rows,columns,sort),[rows,columns,sort]);
   const pages = Math.max(1, Math.ceil(ordered.length / size)),
     current = Math.min(page, pages),
@@ -172,11 +174,11 @@ export function FilterableTable<Row extends Record<string, unknown>>({
       <TableHeader showCount={showCount} countLabel={countLabel} formatCount={formatCount} searchWidth={searchWidth} title={title} header={header} count={ordered.length} loading={loading} search={search} actions={headerActions}/>
       <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
         <table aria-label={title} style={{tableLayout}}>
-          <SharedTableHead columns={columns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>
+          <SharedTableHead columns={visibleColumns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={columns.length}>
+                <td colSpan={Math.max(1, visibleColumns.length)}>
                   <div className="ct-table-empty" role="status">
                     Loading records…
                   </div>
@@ -190,7 +192,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
                     typeof rowKey === "function" ? rowKey(row) : row[rowKey],
                   )}
                 >
-                  {columns.map((column) => (
+                  {visibleColumns.map((column) => (
                     <td
                       key={column.key}
                       data-phone-hidden={column.hideOnPhone || undefined}
@@ -209,7 +211,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length}>
+                <td colSpan={Math.max(1, visibleColumns.length)}>
                   <div className="ct-table-empty">
                     <Search size={20} />
                     <strong>No results</strong>

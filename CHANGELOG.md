@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-beta.23
+
+- Fix condensed collection tables during virtual scrolling. Render one actual column, including one-column spacer/group/empty rows, instead of hiding the other columns while retaining their spans. Agent names and row dividers now fill the compact list pane.
+- Preserve the mounted collection, selection, sort state and scroll position when entering or leaving record details. Apply the same column contract to InfiniteTable and FilterableTable.
+- Validate with 90 regression tests and the exact Studio agents detail route, including scrolling through the compact list. No foundation or public API changes.
+
 ## 2.0.0-beta.22
 
 - Polish shared data components: borderless compact Chip, plain-date Timestamp with opt-in chip/time, quieter calendar dates and one-colour chart defaults with explicit category/highlight options.

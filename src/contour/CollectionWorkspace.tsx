@@ -1,3 +1,4 @@
+import { CondensedCollectionContext } from './CollectionViewContext.js';
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type MouseEvent, type KeyboardEvent, type ComponentProps } from 'react';
 import {MoreHorizontal} from 'lucide-react';
 import {DropdownMenu, IconButton} from './library.js';
@@ -37,7 +38,7 @@ export function CollectionWorkspace({collection,navigator,detail,layout='split',
     <div className="ct-workspace-main">
       {sidebar&&<div className="ct-workspace-toolbar"><Button aria-haspopup="dialog" aria-expanded={filtersOpen} onClick={()=>setFiltersOpen(true)}>{sidebarLabel}</Button></div>}
       <div className="ct-workspace-stage">
-        <div className="ct-workspace-collection" role={selected&&condensed?'region':undefined} data-condensed={selected&&condensed||undefined} aria-label={selected&&condensed?navigatorLabel:undefined} hidden={selected&&(!condensed||layout==='focus')}>{collection}</div>
+        <div className="ct-workspace-collection" role={selected&&condensed?'region':undefined} data-condensed={selected&&condensed||undefined} aria-label={selected&&condensed?navigatorLabel:undefined} hidden={selected&&(!condensed||layout==='focus')}><CondensedCollectionContext.Provider value={selected&&condensed}>{collection}</CondensedCollectionContext.Provider></div>
         {selected&&(condensed?<div className="ct-workspace-detail" role="region" aria-label={detailLabel}>{detail}</div>:<div className="ct-workspace-panes">
           <aside className="ct-workspace-navigator" aria-label={navigatorLabel} hidden={layout==='focus'}>{navigator}</aside>
           <div className="ct-workspace-detail" role="region" aria-label={detailLabel}>{detail}</div>
