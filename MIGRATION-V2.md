@@ -67,3 +67,7 @@ These are additive changes; beta.8 consumers stay on their immutable tag until e
 ### beta.10 additive APIs
 
 Existing table layout/sort-indicator defaults and string breadcrumbs remain supported. ConfirmDialog now uses generic Confirm action copy when labels are omitted and renders no description when none is supplied. Pass the operation-specific title, description and confirmLabel explicitly. See [integration examples](docs/RELEASE-beta.10.md).
+
+### beta.12 collection/detail workspaces
+
+Use CollectionWorkspace with RecordNavigator for selectable split dashboards; use RecordSection for borderless detail hierarchy and ActionGroup for related controls. Existing full collection and focused RecordLayout compositions remain valid. See [integration contracts](docs/RELEASE-beta.12.md).

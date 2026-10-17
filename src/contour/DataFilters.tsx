@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties, type MouseEvent, type KeyboardEvent } from "react";
+import { tableRowProps, type TableRowActivation } from './table-row.js';
+import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties } from "react";
 import {
   Filter,
   X,
@@ -115,7 +116,7 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false,
           </thead>);
 }
 
-export interface FilterableTableProps<Row extends Record<string, unknown>> {
+export interface FilterableTableProps<Row extends Record<string, unknown>> extends TableRowActivation<Row> {
   title?: string;
   header?: ReactNode;
   headerActions?: ReactNode;
@@ -132,9 +133,7 @@ export interface FilterableTableProps<Row extends Record<string, unknown>> {
   /** Auto sizes columns from content and optional min/max constraints. Fixed preserves existing layouts. */
   tableLayout?: 'fixed' | 'auto';
   sortIndicators?: 'all' | 'active' | 'none';
-  /** Activates with click, Enter or Space. Nested links/controls keep their own behavior. */
-  onRowClick?: (row: Row, event: MouseEvent<HTMLTableRowElement> | KeyboardEvent<HTMLTableRowElement>) => void;
-  rowLabel?: (row: Row) => string;
+
 }
 export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
@@ -207,18 +206,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
             ) : ordered.length ? (
               ordered.slice(start, start + size).map((row) => (
                 <tr
-                  tabIndex={onRowClick ? 0 : undefined}
-                  aria-label={rowLabel?.(row)}
-                  data-interactive={!!onRowClick || undefined}
-                  onClick={onRowClick ? event => {
-                    const control=(event.target as Element).closest('a,button,input,select,textarea,[role="button"],[role="link"],[contenteditable="true"],[tabindex]');
-                    if(event.defaultPrevented || control && control !== event.currentTarget) return;
-                    onRowClick(row,event);
-                  } : undefined}
-                  onKeyDown={onRowClick ? event => {
-                    if(event.target !== event.currentTarget || event.defaultPrevented || !['Enter',' '].includes(event.key)) return;
-                    event.preventDefault();onRowClick(row,event);
-                  } : undefined}
+                  {...tableRowProps(row,{onRowClick,rowLabel})}
                   key={String(
                     typeof rowKey === "function" ? rowKey(row) : row[rowKey],
                   )}

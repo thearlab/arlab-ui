@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0-beta.12
+
+- Added CollectionWorkspace: a full collection becomes a compact navigator beside the selected record. Split, focus and stacked layouts are application-controlled; phones show the detail with app-owned Back navigation.
+- Added RecordNavigator with quiet selection, full-name tooltips, real links, keyboard focus movement and shared scrolling. Selected records are revealed after async loading and when the navigator becomes visible again.
+- Added borderless RecordSection and wrapping ActionGroup for dashboard details and forms. DetailSections adds editor and wide arrangements; columns and forms adapt to record-container width.
+- RecordHeader accepts optional description/contextActions; Stack retains native div attributes.
+- RecordCollection opens from the whole row. Paginated and virtualized tables share click/Enter/Space activation and skip nested controls, links and labels.
+- MediaGallery adds controlled ordering and semantic captions, preserving first-image workflows without local thumbnail CSS.
+- Catalogue: 129 entries and 146 icons. Existing tags and API defaults remain available.
+
 ## 2.0.0-beta.11
 
 - CollectionLayout accepts pills beside its title and an updated metadata slot alongside its description. Rich description content is supported.

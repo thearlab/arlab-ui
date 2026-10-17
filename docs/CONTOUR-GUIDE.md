@@ -179,7 +179,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 ## Complete component contract
 
-125 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+129 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -711,7 +711,7 @@ Import: `import { DeptTile } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `department` | Creative  /  Engineering  /  Client services  /  Company. |
+| `department` | Creative  /  Engineering  /  Client services  /  Strategy  /  Company. |
 
 Live example: [DeptTile](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DeptTile)
 
@@ -1054,7 +1054,11 @@ Import: `import { PageBar } from '@arlab/ui';`
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
+| `pills` | Optional pattern-specific value. Use the live example as the reference. |
+| `updated` | Optional pattern-specific value. Use the live example as the reference. |
+| `pillsPlacement` | Optional pattern-specific value. Use the live example as the reference. |
 | `actions` | Primary and supporting actions for the current page. |
+| `heading` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [PageBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=PageBar)
 
@@ -1098,6 +1102,8 @@ Import: `import { Stack } from '@arlab/ui';`
 | --- | --- |
 | `children` | React content. Keep text concise and accessible. |
 | `gap` | Spacing in pixels from the shared 4px scale. |
+| `id` | Optional pattern-specific value. Use the live example as the reference. |
+| `className` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [Stack](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Stack)
 
@@ -1333,6 +1339,7 @@ Import: `import { Dialog } from '@arlab/ui';`
 | `open` | Controlled overlay visibility. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 | `title` | A concise visible heading describing this context. |
+| `label` | Visible or accessible name describing the control. |
 | `description` | Optional supporting text before the modal content. |
 | `children` | React content. Keep text concise and accessible. |
 | `width` | Optional CSS length or number in pixels. Clamped to the viewport; sheets default to 460px. |
@@ -1356,6 +1363,7 @@ Import: `import { Sheet } from '@arlab/ui';`
 | `open` | Controlled overlay visibility. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 | `title` | A concise visible heading describing this context. |
+| `label` | Visible or accessible name describing the control. |
 | `description` | Optional supporting text before the modal content. |
 | `children` | React content. Keep text concise and accessible. |
 | `width` | Optional CSS length or number in pixels. Clamped to the viewport; sheets default to 460px. |
@@ -1380,8 +1388,10 @@ Import: `import { ConfirmDialog } from '@arlab/ui';`
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 | `onConfirm` | Callback for the explicitly named confirmation action. |
 | `title` | A concise visible heading describing this context. |
+| `label` | Visible or accessible name describing the control. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `confirmLabel` | Explicit action label, such as Archive project. |
+| `pending` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [ConfirmDialog](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ConfirmDialog)
 
@@ -1684,6 +1694,86 @@ Live example: [ProjectStatusSheet](https://arlab-ui-showcase.pages.dev/?view=cat
 
 ### Dashboard & editors
 
+#### CollectionWorkspace
+
+A full collection that becomes a compact navigator beside the selected record.
+
+split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned Back navigation.
+
+Import: `import { CollectionWorkspace } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `collection` | Optional pattern-specific value. Use the live example as the reference. |
+| `navigator` | Optional pattern-specific value. Use the live example as the reference. |
+| `detail` | Optional pattern-specific value. Use the live example as the reference. |
+| `layout` | Optional pattern-specific value. Use the live example as the reference. |
+| `navigatorLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `detailLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `navigatorWidth` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [CollectionWorkspace](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionWorkspace)
+
+#### RecordNavigator
+
+A compact searchable record list with real links and quiet selection.
+
+Names truncate with full-title tooltips; arrow/Home/End keys move focus, Enter opens and modifier-click retains browser behavior. Shared ScrollArea owns the list.
+
+Import: `import { RecordNavigator } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `records` | Optional pattern-specific value. Use the live example as the reference. |
+| `selectedId` | Optional pattern-specific value. Use the live example as the reference. |
+| `onOpen` | Receives the row record when its explicit action is activated. |
+| `search` | Optional pattern-specific value. Use the live example as the reference. |
+| `actions` | Primary and supporting actions for the current page. |
+| `filters` | Optional pattern-specific value. Use the live example as the reference. |
+| `notice` | Optional pattern-specific value. Use the live example as the reference. |
+| `loading` | Optional pattern-specific value. Use the live example as the reference. |
+| `emptyMessage` | Optional pattern-specific value. Use the live example as the reference. |
+| `density` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [RecordNavigator](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordNavigator)
+
+#### RecordSection
+
+A borderless section for readable details and focused forms.
+
+Plain sections avoid nested card surfaces; divided adds a quiet bottom separator. Heading and actions wrap in narrow record panes.
+
+Import: `import { RecordSection } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `summary` | Optional pattern-specific value. Use the live example as the reference. |
+| `actions` | Primary and supporting actions for the current page. |
+| `children` | React content. Keep text concise and accessible. |
+| `footer` | Optional pattern-specific value. Use the live example as the reference. |
+| `variant` | primary  /  secondary (default)  /  quiet  /  ghost  /  danger. |
+
+Live example: [RecordSection](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=RecordSection)
+
+#### ActionGroup
+
+A compact wrapping group of related controls.
+
+Optional label names the group. start/end alignment and token spacing remain shared.
+
+Import: `import { ActionGroup } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `children` | React content. Keep text concise and accessible. |
+| `label` | Visible or accessible name describing the control. |
+| `align` | Optional pattern-specific value. Use the live example as the reference. |
+
+Live example: [ActionGroup](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ActionGroup)
+
 #### InfiniteTable
 
 A virtualized sortable table that continues loading as you scroll.
@@ -1715,6 +1805,9 @@ Import: `import { InfiniteTable } from '@arlab/ui';`
 | `chunkSize` | Local rows disclosed per load, default 50. |
 | `height` | Optional scroll viewport height in pixels or a CSS length. |
 | `variant` | contained (default) or flush. Dividers in flush touch the enclosing container edges. |
+| `onRowClick` | Optional pattern-specific value. Use the live example as the reference. |
+| `rowLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `sortIndicators` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [InfiniteTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=InfiniteTable)
 
@@ -1833,7 +1926,10 @@ Import: `import { CollectionLayout } from '@arlab/ui';`
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
+| `pills` | React content beside the title, such as record counts and status pills. Wraps naturally on narrow screens. |
+| `updated` | Application-owned metadata beside the description. Use a time element with dateTime for an update timestamp. |
 | `actions` | Primary and supporting actions for the current page. |
+| `tabs` | Tabs below the shared heading. Their 1px separator spans the entire collection width, including above desktop filters. |
 | `search` | Optional pattern-specific value. Use the live example as the reference. |
 | `filters` | Optional pattern-specific value. Use the live example as the reference. |
 | `activeFilters` | Optional pattern-specific value. Use the live example as the reference. |
@@ -1889,6 +1985,8 @@ Import: `import { RecordHeader } from '@arlab/ui';`
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `badges` | Optional pattern-specific value. Use the live example as the reference. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `contextActions` | Optional pattern-specific value. Use the live example as the reference. |
 | `actions` | Primary and supporting actions for the current page. |
 | `backLabel` | Optional pattern-specific value. Use the live example as the reference. |
 | `onBack` | Optional pattern-specific value. Use the live example as the reference. |
@@ -1921,7 +2019,7 @@ Live example: [RecordBody](https://arlab-ui-showcase.pages.dev/?view=catalogue&c
 
 Content proportions for reading, comparing and editing.
 
-reading reserves a secondary column; split balances two tasks; stacked gives editors a focused full-width column.
+reading reserves a secondary column; split balances two tasks; stacked gives editors a focused column; editor reserves a settings rail; wide uses the full content width. Columns adapt to their record container.
 
 Import: `import { DetailSections } from '@arlab/ui';`
 
@@ -1979,7 +2077,7 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `header` | Optional React content replacing the default table title. |
 | `headerActions` | Optional React content in the trailing header area. |
-| `columns` | Column definitions: key, accessible label, optional header content, width, align, sortable, sortValue accessor, value accessor and render callback. |
+| `columns` | Column definitions: key, accessible label, optional header content, width/minWidth/maxWidth (CSS lengths or percentages), align, sortable, sortValue accessor, value accessor and render callback. |
 | `rows` | Record array, sorted before pagination. Supply filtered records from your sidebar or host. |
 | `rowKey` | Unique record property or callback returning a stable string/number ID. |
 | `pageSize` | Initial number of visible rows, default 10. |
@@ -1988,6 +2086,10 @@ Import: `import { FilterableTable } from '@arlab/ui';`
 | `emptyMessage` | Message shown when no rows match. |
 | `variant` | contained (default) or flush. Flush dividers reach container edges with cell padding retained. |
 | `fill` | Allows the bounded results scroll to occupy the available layout height. |
+| `onRowClick` | Optional row activation on click, Enter or Space. Nested controls remain independent. |
+| `rowLabel` | Accessible row label callback. |
+| `tableLayout` | fixed (default, compatible) or auto for content-driven sizing. |
+| `sortIndicators` | all (default), active, or none. sortable:false removes sorting for individual columns. |
 
 Live example: [FilterableTable](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=FilterableTable)
 
@@ -2138,6 +2240,8 @@ Import: `import { MediaGallery } from '@arlab/ui';`
 | `onRemove` | Optional pattern-specific value. Use the live example as the reference. |
 | `onReplace` | Optional pattern-specific value. Use the live example as the reference. |
 | `onRetry` | Retries the failed operation without dropping the current context. |
+| `onReorder` | Optional pattern-specific value. Use the live example as the reference. |
+| `caption` | Optional pattern-specific value. Use the live example as the reference. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `emptyLabel` | Optional pattern-specific value. Use the live example as the reference. |
 
@@ -2161,6 +2265,8 @@ Import: `import { MediaUploadField } from '@arlab/ui';`
 | `onRemove` | Optional pattern-specific value. Use the live example as the reference. |
 | `onReplace` | Optional pattern-specific value. Use the live example as the reference. |
 | `onRetry` | Retries the failed operation without dropping the current context. |
+| `onReorder` | Optional pattern-specific value. Use the live example as the reference. |
+| `caption` | Optional pattern-specific value. Use the live example as the reference. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
 | `hint` | Optional supporting text connected to the control. |
 | `error` | An actionable validation message; sets aria-invalid. |
@@ -2456,6 +2562,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--dept-engineering` | `#6C62A6` | `#ADA5E3` |
 | `--dept-client` | `#8D617D` | `#CAA1BB` |
 | `--dept-company` | `#676171` | `#B6ADBF` |
+| `--dept-strategy` | `#497B8F` | `#8AB7C8` |
 | `--chart-1` | `#B344A6` | `#E28DD4` |
 | `--chart-2` | `#7563B2` | `#B0A0E0` |
 | `--chart-3` | `#9476AD` | `#C1A5D6` |
@@ -2662,11 +2769,3 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Command | Interface | [Download](icons/Command.svg) |
 | Keyboard | Interface | [Download](icons/Keyboard.svg) |
 | MousePointer2 | Interface | [Download](icons/MousePointer2.svg) |
-
-## Collection and header integration
-
-See [beta.10 integration contracts](RELEASE-beta.10.md) for row activation, flexible table columns, optional tabs, rich breadcrumbs, dialog labels and search-free app headers. Strategy uses `--dept-strategy` in both themes.
-
-## Unified list-page heading
-
-CollectionLayout supports `pills`, `updated` and `tabs` in its shared full-width heading. See [beta.11 integration](RELEASE-beta.11.md). Pass a `<time dateTime={updatedAt}>` for application-formatted update text.

@@ -1,5 +1,5 @@
 import { useRef, useState, useId, type ReactNode } from "react";
-import { Upload, X, RefreshCw, Plus, Image as ImageIcon } from "lucide-react";
+import { Upload, X, RefreshCw, Plus, Image as ImageIcon, ChevronLeft, ChevronRight } from "lucide-react";
 export interface ElementProgressProps {
   value?: number;
   label: string;
@@ -60,6 +60,9 @@ export interface MediaItem {
 export interface MediaGalleryProps {
   items: MediaItem[];
   onRemove?: (id: string) => void;
+  /** Controlled ordering; first-item meaning remains application-owned. */
+  onReorder?: (items:MediaItem[])=>void;
+  caption?: (item:MediaItem,index:number)=>ReactNode;
   onReplace?: (id: string, file: File) => void;
   onRetry?: (id: string) => void;
   onOpen?: (item: MediaItem) => void;
@@ -69,6 +72,8 @@ export interface MediaGalleryProps {
 export function MediaGallery({
   items,
   onRemove,
+  onReorder,
+  caption,
   onReplace,
   onRetry,
   onOpen,
@@ -77,6 +82,7 @@ export function MediaGallery({
 }: MediaGalleryProps) {
   const replacement = useRef<HTMLInputElement>(null);
   const replacing = useRef<string | null>(null);
+  const move=(from:number,to:number)=>{if(disabled||to<0||to>=items.length)return;const next=[...items];const [item]=next.splice(from,1);next.splice(to,0,item);onReorder?.(next);};
   return (
     <div className="ct-media-gallery">
       <input
@@ -96,7 +102,7 @@ export function MediaGallery({
           <p>{emptyLabel}</p>
         </div>
       )}
-      {items.map((item) => (
+      {items.map((item,index) => (
         <ElementProgress
           key={item.id}
           label={`Upload ${item.name}`}
@@ -136,6 +142,7 @@ export function MediaGallery({
             </div>
             <figcaption>
               <span title={item.name}>{item.name}</span>
+              {caption&&<small className="ct-media-caption">{caption(item,index)}</small>}
               {item.status === "uploading" && (
                 <small>
                   {item.progress === undefined
@@ -144,6 +151,7 @@ export function MediaGallery({
                 </small>
               )}
               <div>
+                {onReorder&&<><button className="ct-control-action" type="button" disabled={disabled||index===0||items.some(entry=>entry.status==='uploading')} aria-label={`Move ${item.name} earlier`} onClick={()=>move(index,index-1)}><ChevronLeft size={13}/></button><button className="ct-control-action" type="button" disabled={disabled||index===items.length-1||items.some(entry=>entry.status==='uploading')} aria-label={`Move ${item.name} later`} onClick={()=>move(index,index+1)}><ChevronRight size={13}/></button></>}
                 {item.status === "error" && onRetry && (
                   <button className="ct-control-action"
                     type="button"

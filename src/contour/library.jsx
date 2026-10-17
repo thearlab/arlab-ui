@@ -879,9 +879,10 @@ export function PageGrid({ children }) {
 export function CardGrid({ children }) {
   return <div className="lib-card-grid">{children}</div>;
 }
-export function Stack({ children, gap = 16 }) {
+/** @param {import('react').HTMLAttributes<HTMLDivElement> & {gap?:import('react').CSSProperties['gap']}} props */
+export function Stack({ children, gap = 16, className = '', style, ...props }) {
   return (
-    <div className="lib-stack" style={{ gap }}>
+    <div {...props} className={`lib-stack ${className}`} style={{gap,...style}}>
       {children}
     </div>
   );

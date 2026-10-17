@@ -32,3 +32,5 @@ export type { KanbanBoardProps, KanbanCard, KanbanColumn, KanbanTone } from './K
 export type { TagInputProps } from './TagInput.js';
 
 export type { AppHeaderProps } from './AppHeader.js';
+
+export * from './CollectionWorkspace.js';

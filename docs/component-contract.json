@@ -602,7 +602,11 @@
     "props": [
       "title",
       "description",
-      "actions"
+      "pills",
+      "updated",
+      "pillsPlacement",
+      "actions",
+      "heading"
     ],
     "behavior": "The page should explain where the user is before presenting controls."
   },
@@ -630,7 +634,9 @@
     "description": "A vertical layout using a deliberate spacing value.",
     "props": [
       "children",
-      "gap"
+      "gap",
+      "id",
+      "className"
     ],
     "behavior": "Choose gaps from the 4px spacing scale. Use Stack instead of repeated margin overrides."
   },
@@ -787,6 +793,7 @@
       "open",
       "onClose",
       "title",
+      "label",
       "description",
       "children",
       "width",
@@ -805,6 +812,7 @@
       "open",
       "onClose",
       "title",
+      "label",
       "description",
       "children",
       "width",
@@ -824,8 +832,10 @@
       "onClose",
       "onConfirm",
       "title",
+      "label",
       "description",
-      "confirmLabel"
+      "confirmLabel",
+      "pending"
     ],
     "behavior": "Initial focus starts on the safe Cancel action. Name the action instead of saying Yes."
   },
@@ -1035,6 +1045,66 @@
     "behavior": "A single status vocabulary and shared sheet replace the duplicated project-status implementations."
   },
   {
+    "name": "CollectionWorkspace",
+    "category": "Dashboard & editors",
+    "description": "A full collection that becomes a compact navigator beside the selected record.",
+    "props": [
+      "collection",
+      "navigator",
+      "detail",
+      "layout",
+      "navigatorLabel",
+      "detailLabel",
+      "navigatorWidth"
+    ],
+    "behavior": "split keeps list and detail side by side; focus gives the record all the width; stacked places a bounded list above detail. Phone shows the selected record with application-owned Back navigation."
+  },
+  {
+    "name": "RecordNavigator",
+    "category": "Dashboard & editors",
+    "description": "A compact searchable record list with real links and quiet selection.",
+    "props": [
+      "title",
+      "records",
+      "selectedId",
+      "onOpen",
+      "search",
+      "actions",
+      "filters",
+      "notice",
+      "loading",
+      "emptyMessage",
+      "density"
+    ],
+    "behavior": "Names truncate with full-title tooltips; arrow/Home/End keys move focus, Enter opens and modifier-click retains browser behavior. Shared ScrollArea owns the list."
+  },
+  {
+    "name": "RecordSection",
+    "category": "Dashboard & editors",
+    "description": "A borderless section for readable details and focused forms.",
+    "props": [
+      "title",
+      "description",
+      "summary",
+      "actions",
+      "children",
+      "footer",
+      "variant"
+    ],
+    "behavior": "Plain sections avoid nested card surfaces; divided adds a quiet bottom separator. Heading and actions wrap in narrow record panes."
+  },
+  {
+    "name": "ActionGroup",
+    "category": "Dashboard & editors",
+    "description": "A compact wrapping group of related controls.",
+    "props": [
+      "children",
+      "label",
+      "align"
+    ],
+    "behavior": "Optional label names the group. start/end alignment and token spacing remain shared."
+  },
+  {
     "name": "InfiniteTable",
     "category": "Dashboard & editors",
     "description": "A virtualized sortable table that continues loading as you scroll.",
@@ -1059,7 +1129,10 @@
       "overscan",
       "chunkSize",
       "height",
-      "variant"
+      "variant",
+      "onRowClick",
+      "rowLabel",
+      "sortIndicators"
     ],
     "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
   },
@@ -1153,7 +1226,10 @@
     "props": [
       "title",
       "description",
+      "pills",
+      "updated",
       "actions",
+      "tabs",
       "search",
       "filters",
       "activeFilters",
@@ -1194,6 +1270,8 @@
     "props": [
       "title",
       "badges",
+      "description",
+      "contextActions",
       "actions",
       "backLabel",
       "onBack",
@@ -1225,7 +1303,7 @@
       "layout",
       "children"
     ],
-    "behavior": "reading reserves a secondary column; split balances two tasks; stacked gives editors a focused full-width column."
+    "behavior": "reading reserves a secondary column; split balances two tasks; stacked gives editors a focused column; editor reserves a settings rail; wide uses the full content width. Columns adapt to their record container."
   },
   {
     "name": "FormGrid",
@@ -1267,7 +1345,11 @@
       "loading",
       "emptyMessage",
       "variant",
-      "fill"
+      "fill",
+      "onRowClick",
+      "rowLabel",
+      "tableLayout",
+      "sortIndicators"
     ],
     "behavior": "Column arrows toggle ascending and descending order before pagination. Headers and cells accept custom content; sortValue supports formatted values. Use FilterSidebar to filter data."
   },
@@ -1383,6 +1465,8 @@
       "onRemove",
       "onReplace",
       "onRetry",
+      "onReorder",
+      "caption",
       "disabled",
       "emptyLabel"
     ],
@@ -1401,6 +1485,8 @@
       "onRemove",
       "onReplace",
       "onRetry",
+      "onReorder",
+      "caption",
       "disabled",
       "hint",
       "error"

@@ -1724,3 +1724,5 @@
 .ct-data-table tr[data-interactive] {cursor:pointer;}
 .ct-data-table tr[data-interactive]:hover td {background:var(--ground);}
 .ct-data-table tr[data-interactive]:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:calc(-1 * var(--line-width));}
+
+.ct-media-card figcaption > .ct-media-caption {flex-basis:100%;order:2;color:var(--dim);font-size:var(--text-2xs);font-family:var(--font-sans);}

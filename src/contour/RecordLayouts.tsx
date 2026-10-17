@@ -63,6 +63,8 @@ export function RecordCollection({
           rows={records}
           loading={loading}
           emptyMessage={emptyMessage}
+          onRowClick={row=>onOpen(row.id)}
+          rowLabel={row=>`Open ${row.title}`}
           rowKey="id"
           pageSize={25}
           pageSizes={[10, 25, 50]}
@@ -190,7 +192,7 @@ export function DetailSections({
   layout = "reading",
   children,
 }: {
-  layout?: "reading" | "split" | "stacked";
+  layout?: "reading" | "split" | "stacked" | "editor" | "wide";
   children: ReactNode;
 }) {
   return (
@@ -203,6 +205,8 @@ export function DetailSections({
 export interface RecordHeaderProps {
   title: ReactNode;
   badges?: ReactNode;
+  description?: ReactNode;
+  contextActions?: ReactNode;
   actions?: ReactNode;
   backLabel: string;
   onBack: () => void;
@@ -216,6 +220,8 @@ export interface RecordHeaderProps {
 export function RecordHeader({
   title,
   badges,
+  description,
+  contextActions,
   actions,
   backLabel,
   onBack,
@@ -256,6 +262,7 @@ export function RecordHeader({
           <ArrowLeft size={14} />
           {backLabel}
         </Button>
+        <div className="ct-record-context-actions">{contextActions}
         {metadata && (
           <>
             <Button onClick={() => setDetailsOpen(true)} aria-haspopup="dialog" aria-expanded={detailsOpen}>
@@ -268,11 +275,13 @@ export function RecordHeader({
             </Modal>
           </>
         )}
+        </div>
       </div>
       <div className="ct-record-heading">
         <div>
           <h1>{title}</h1>
           {badges && <div className="ct-record-badges">{badges}</div>}
+          {description&&<p className="ct-record-description">{description}</p>}
         </div>
         {actions && <div className="ct-record-actions">{actions}</div>}
       </div>

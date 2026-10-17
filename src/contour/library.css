@@ -2778,3 +2778,6 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 .ct-pagebar-summary {display:flex;align-items:baseline;flex-wrap:wrap;column-gap:var(--space-3);row-gap:var(--space-1);margin-top:var(--space-2);}
 .lib-pagebar .ct-pagebar-summary p {margin:0;}
 .ct-pagebar-updated {font-size:var(--text-2xs);font-weight:var(--weight-regular);line-height:var(--leading-normal);color:var(--dim);}
+
+.lib-row-copy {overflow-wrap:anywhere;}
+@container(max-width:560px){.lib-row {flex-wrap:wrap;}}

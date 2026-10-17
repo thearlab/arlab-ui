@@ -1,9 +1,10 @@
+import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } from './DataFilters.js';
 import { ScrollArea } from './scroll-area.js';
 import { Button } from './library.js';
 
-export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> {
+export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row> {
   columns: FilterColumn<Row>[];
   rows: Row[];
   rowKey: keyof Row | ((row: Row) => string | number);
@@ -11,6 +12,7 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> {
   header?: ReactNode;
   headerActions?: ReactNode;
   variant?: 'contained' | 'flush';
+  sortIndicators?:'all'|'active'|'none';
   /** Fixed geometry is required. Custom cells must fit in two lines inside this height. Minimum 44. */
   rowHeight?: number;
   overscan?: number;
@@ -182,10 +184,10 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
     <header><div><div id={headingId}>{header || <h3>{title}</h3>}</div><span>{loading ? 'Loading…' : total < 0 ? `${rows.length.toLocaleString()} loaded` : `${total.toLocaleString()} records`}</span></div>{headerActions}</header>
     <ScrollArea label={`${title} rows`} height={height} axis="both" className="ct-infinite-scroll">
       <table aria-labelledby={headingId} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>
-        <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading}/>
+        <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>
           {!loading && count > 0 && range.start > 0 && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: range.start * rowHeight }}/></tr>}
-          {!loading && visibleRows.map((row, offset) => <tr key={typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])} aria-rowindex={range.start + offset + 2} className="ct-infinite-row">
+          {!loading && visibleRows.map((row, offset) => <tr {...tableRowProps(row,props)} key={typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])} aria-rowindex={range.start + offset + 2} className="ct-infinite-row">
             {columns.map(column => <td key={column.key} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
           </tr>)}
           {!loading && count > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (count - range.end) * rowHeight }}/></tr>}
