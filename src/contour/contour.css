@@ -2412,3 +2412,5 @@
 /* Selection controls communicate hover through surface and colour, not link underlines. */
 :is(.dropdown-option,[role=option],[role=menuitemradio],.ct-column-options button),
 :is(.dropdown-option,[role=option],[role=menuitemradio],.ct-column-options button) :is(span,strong,small) {text-decoration:none;}
+
+.arlab-contour.themed-preview {background-image:var(--page-gradient,none);}

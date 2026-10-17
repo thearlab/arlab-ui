@@ -107,3 +107,5 @@
 
 .ct-action-group-controls {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);min-width:0;}
 .ct-action-group[data-overflow] > .lib-popover {flex:0 0 auto;}
+
+.ct-workspace-collection[data-condensed] .ct-collection-results {padding:0;}

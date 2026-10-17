@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0-beta.24
+
+- Promote the approved subtle pink background treatment from the showcase into shared light/dark foundation tokens, including page, navigation, top bars, containers and controls. Preserve typography, geometry, primary colours and semantic states.
+- Add PageFrame, ReadingLayout, DocumentContent, DocumentOutline, Inline, ContentInset, Table, FileDropzone and DropRegion for application-owned knowledge and editing workflows.
+- Keep compact collection rows edge-to-edge when a consuming application composes its own table.
+- Existing tags remain immutable. Consumers must explicitly upgrade to beta.24.
+
 ## 2.0.0-beta.23
 
 - Fix condensed collection tables during virtual scrolling. Render one actual column, including one-column spacer/group/empty rows, instead of hiding the other columns while retaining their spans. Agent names and row dividers now fill the compact list pane.

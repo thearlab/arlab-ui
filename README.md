@@ -3,7 +3,7 @@
 The shared design system for ARLAB internal tools. Satin Lift: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
 
 ```json
-"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.21"
+"@arlab/ui": "git+https://github.com/thearlab/arlab-ui.git#v2.0.0-beta.24"
 ```
 
 ```jsx
@@ -36,3 +36,7 @@ See MIGRATION-V2.md for beta limitations and remaining stable-release gates.
 ## Persistent table workspaces
 
 Use `CollectionWorkspace collectionMode="condense"` to keep the same table alongside the selected record and `sidebar` for persistent right filters. Progressive tables support compact header/footer actions and selected-record reveal. See [the integration contract](docs/COLLECTION-WORKSPACE-CONDENSE.md), [Calendar](docs/CALENDAR.md) and [beta.15 release notes](docs/RELEASE-beta.15.md).
+
+## Subtle pink foundation and reading layouts
+
+Beta.24 promotes the approved pink-only canvas and chrome treatment into shared light/dark tokens. Use ContourProvider and the shared stylesheet; application CSS overrides are unnecessary. See [beta.24 notes](docs/RELEASE-beta.24.md) and [reading components](docs/READING-LAYOUTS.md).

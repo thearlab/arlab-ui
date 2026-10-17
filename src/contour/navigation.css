@@ -158,3 +158,7 @@
 .contour-navigation[data-collapsed] .contour-navigation-help .contour-rail-action {justify-content:center;padding-inline:0;}
 .contour-navigation[data-collapsed] .contour-navigation-help > [data-button="icon"] {display:flex;margin-inline:auto;}
 .contour-shell-content:has(> :is(.ct-content-loading,.page-loading)) {display:flex;flex-direction:column;}
+
+/* Shared approved pink canvas and chrome treatment, including both shell variants. */
+.contour-shell {background-image:var(--page-gradient,none);}
+.contour-shell-topbar,.contour-shell-secondary,.contour-spaces-rail,.contour-space-panel {background-image:var(--chrome-gradient,none);}

@@ -12,8 +12,8 @@ test('Satin Lift uses the approved brand, typography, corners and neutral dark s
   for(const tokens of [light,dark]) {
     assert.equal(tokens['font-sans'],"'Satoshi', sans-serif");assert.equal(tokens['font-display'],"'Satoshi', sans-serif");
     assert.equal(tokens['font-mono'],"'DM Mono', monospace");assert.equal(tokens['weight-heading'],'600');
-    assert.equal(tokens['radius-panel'],'14px');assert.equal(tokens['radius-sm'],'7px');assert.equal(tokens['page-gradient'],'none');
-    assert.equal(tokens['chrome-gradient'],'none');assert.notEqual(tokens['switch-off-track'],tokens.raise);
+    assert.equal(tokens['radius-panel'],'14px');assert.equal(tokens['radius-sm'],'7px');assert.match(tokens['page-gradient'],/^radial-gradient/);
+    assert.match(tokens['chrome-gradient'],/^linear-gradient/);assert.notEqual(tokens['switch-off-track'],tokens.raise);
   }
   assert.equal(directions.contour.dark.ground,dark.ground);
   assert.match(cssTokens('contour'),/--font-mono: 'DM Mono', monospace/);
