@@ -42,3 +42,7 @@ Dates use a single roving tab stop. Arrow keys move by day/week; Home and End mo
 ```
 
 The local showcase includes month and five-week examples, event details, light/dark themes and phone presentation. Released in beta.15.
+
+Day numbers use square controls with the shared 7px control corner, tabular numerals and a quiet chrome border. Regular targets are 36px; phone/coarse-pointer layouts prefer 44px and remain square when a constrained column is narrower. Today gets a thin accent outline. The selected date uses the action color and white action label, matching the custom DatePicker. The light brand pink retains its documented white-label contrast exception.
+
+The date, event and overflow controls are embedded calendar buttons rather than general toolbar Buttons. This keeps date width and height matched and prevents full-height toolbar styling from stretching every event row. The period navigation and Today action continue using the shared Button/IconButton. Date arithmetic, rolling weeks, bounds, selection, agenda events, roving focus and keyboard callbacks are unchanged.

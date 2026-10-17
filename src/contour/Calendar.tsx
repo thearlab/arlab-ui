@@ -398,8 +398,8 @@ export function Calendar({
                         }
                       >
                         <div className="ct-calendar-day-top">
-                          <Button
-                            variant="ghost"
+                          <button
+                            type="button"
                             className="ct-calendar-date"
                             data-calendar-date={key}
                             tabIndex={key === tabDate ? 0 : -1}
@@ -414,7 +414,7 @@ export function Calendar({
                             onClick={() => selectDate(key)}
                           >
                             <time dateTime={key}>{date.getDate()}</time>
-                          </Button>
+                          </button>
                         </div>
                         {items.length > 0 && (
                           <>
@@ -425,8 +425,8 @@ export function Calendar({
                               {items.slice(0, limit).map((item) => (
                                 <li key={item.id}>
                                   {onEventSelect ? (
-                                    <Button
-                                      variant="ghost"
+                                    <button
+                                      type="button"
                                       className="ct-calendar-event"
                                       {...eventProps(item)}
                                       disabled={disabled || item.disabled}
@@ -434,7 +434,7 @@ export function Calendar({
                                       aria-label={`${item.title}, ${full(date)}`}
                                     >
                                       {eventContent(item)}
-                                    </Button>
+                                    </button>
                                   ) : (
                                     <span
                                       className="ct-calendar-event"
@@ -447,18 +447,18 @@ export function Calendar({
                               ))}
                             </ul>
                             {overflow > 0 && (
-                              <Button
-                                variant="ghost"
+                              <button
+                                type="button"
                                 className="ct-calendar-more"
                                 aria-label={`View all ${items.length} events for ${full(date)}`}
                                 disabled={disabled}
                                 onClick={() => showDay(key)}
                               >
                                 +{overflow} more
-                              </Button>
+                              </button>
                             )}
-                            <Button
-                              variant="ghost"
+                            <button
+                              type="button"
                               className="ct-calendar-phone-count"
                               aria-label={`View ${items.length} events for ${full(date)}`}
                               disabled={disabled}
@@ -466,7 +466,7 @@ export function Calendar({
                             >
                               {items.length}
                               <span className="sr-only"> events</span>
-                            </Button>
+                            </button>
                           </>
                         )}
                       </td>
@@ -492,8 +492,8 @@ export function Calendar({
                 {agendaItems.map((item) => (
                   <li key={item.id}>
                     {onEventSelect ? (
-                      <Button
-                        variant="ghost"
+                      <button
+                        type="button"
                         className="ct-calendar-event"
                         {...eventProps(item)}
                         disabled={disabled || item.disabled}
@@ -506,7 +506,7 @@ export function Calendar({
                             {item.description}
                           </span>
                         )}
-                      </Button>
+                      </button>
                     ) : (
                       <div className="ct-calendar-event" {...eventProps(item)}>
                         {eventContent(item)}
