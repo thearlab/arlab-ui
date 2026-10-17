@@ -33,7 +33,7 @@ test('framed scroll geometry bounds the body while title rails share the selecte
  const ast=postcss.parse(fs.readFileSync(new URL('../src/contour/scroll-area.css',import.meta.url),'utf8'));
  function props(selector){const values={};ast.walkRules(rule=>{if(rule.selector===selector && rule.parent.type!=='atrule')rule.walkDecls(decl=>values[decl.prop]=decl.value);});return values;}
  const frame=props('.contour-scroll-area[data-framed]');assert.equal(frame.display,'flex');assert.equal(frame['flex-direction'],'column');assert.match(frame['border-radius'],/--radius-panel/);
- const body=props('.contour-scroll-body');assert.equal(body['min-height'],'0');assert.equal(body.flex,'1 1 0');assert.equal(body['grid-template-rows'],'minmax(0,1fr)');
+ const body=props('.contour-scroll-body');assert.equal(body['min-height'],'0');assert.equal(body.flex,'1 1 auto');assert.equal(body['grid-template-rows'],'minmax(0,1fr)');
  const header=props('.contour-scroll-header');assert.equal(header.flex,'0 0 auto');assert.match(header['background-image'],/--chrome-subtle-gradient/);
  assert.equal(props('.contour-scroll-heading h3::before').background,'var(--accent,#E414DB)');
 });

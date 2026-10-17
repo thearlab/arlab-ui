@@ -116,7 +116,7 @@
 .contour-scroll-heading h3::before {content:'';display:block;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--accent,#E414DB);}
 .contour-scroll-heading p {margin:4px 0 0;color:var(--dim,var(--cn-dim,#665C70));font-size:var(--text-xs,12px);line-height:var(--leading-normal,1.5);}
 .contour-scroll-actions {display:flex;align-items:center;gap:8px;flex:0 0 auto;}
-.contour-scroll-body {position:relative;display:grid;grid-template-rows:minmax(0,1fr);flex:1 1 0;min-height:0;min-width:0;}
+.contour-scroll-body {position:relative;display:grid;grid-template-rows:minmax(0,1fr);flex:1 1 auto;min-height:0;min-width:0;}
 .contour-scroll-body > .scroll-viewport > .scroll-content {padding:var(--scroll-panel-padding);}
 @media(max-width:640px) {.contour-scroll-area[data-framed] {--scroll-panel-padding:17px;}.contour-scroll-header {flex-wrap:wrap;}}
 .contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows {margin-inline:calc(-1 * var(--scroll-panel-padding));}
