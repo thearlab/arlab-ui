@@ -5,7 +5,7 @@
 .ct-facet-list > button:hover:not(:disabled) { background:var(--sunken); border-color:var(--line); }
 .ct-facet-list > button[aria-checked="true"] { background:var(--tint); border-color:transparent; color:var(--link); font-weight:var(--weight-regular); }
 .ct-facet-list > button:disabled { opacity:.5; }
-.ct-facet-count { max-width:45%; overflow-wrap:anywhere; font-size:var(--text-2xs); font-weight:var(--weight-regular); font-variant-numeric:tabular-nums; color:var(--dim); text-align:right; }
+.ct-facet-count { flex:0 0 auto; max-width:none; white-space:nowrap; overflow-wrap:normal; font-size:var(--text-2xs); font-weight:var(--weight-regular); font-variant-numeric:tabular-nums; color:var(--dim); text-align:right; }
 .ct-facet-list > p, .ct-ranked-list p { margin:0; color:var(--dim); font-size:var(--text-xs); line-height:var(--leading-normal); }
 .ct-ranked-list { min-width:0; font-family:var(--font-sans); }
 .ct-ranked-list ol { display:flex; flex-direction:column; gap:0; padding:0; margin:0; list-style:none; }

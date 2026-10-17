@@ -7,7 +7,7 @@ import {
   type Ref,
   type KeyboardEvent,
 } from "react";
-import { ArrowLeft, Info, SlidersHorizontal } from "lucide-react";
+import { ArrowLeft, Info } from "lucide-react";
 import { Button, IconButton, PageBar } from "./library.js";
 import { InfiniteTable } from './InfiniteTable.js';
 import type { TableChromeOptions } from "./TableChrome.js";
@@ -160,7 +160,7 @@ export function CollectionLayout({title,description,pills,updated,actions,tabs,s
  const id=useId();
  useEffect(()=>{const media=window.matchMedia('(max-width:760px)');const update=()=>{setMobile(media.matches);setExpanded(false);};media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
  const close=()=>setExpanded(false);
- const filterTrigger=(filters||sidebar&&mobile)?<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>:null;
+ const filterTrigger=(filters||sidebar&&mobile)?<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>:null;
  const renderChildren=typeof children==='function';
  return <section className="ct-collection-layout" data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
   {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>:<h1 className="sr-only">{title}</h1>}

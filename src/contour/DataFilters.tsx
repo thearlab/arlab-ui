@@ -2,7 +2,6 @@ import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { tableRowProps, type TableRowActivation } from './table-row.js';
 import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties } from "react";
 import {
-  Filter,
   X,
   ChevronLeft,
   ChevronRight,
@@ -358,7 +357,6 @@ export function FilterSidebar({
       aria-label={title}
     >
       {showHeader && <header>
-        <Filter size={14} />
         <h3>{title}</h3>
         {active > 0 && <span className="ct-filter-count">{active}</span>}
         <div>
@@ -423,8 +421,8 @@ export function FilterSidebar({
                       : [];
                     return (
                       <Checkbox key={option.value}
-                          hint={undefined}
                           checked={selected.includes(option.value)}
+                          aria-label={option.count === undefined ? option.label : `${option.label}, ${option.count.toLocaleString()}`}
                           onChange={(e:ChangeEvent<HTMLInputElement>) =>
                             update(
                               filter.id,
@@ -433,7 +431,8 @@ export function FilterSidebar({
                                 : selected.filter((v) => v !== option.value),
                             )
                           }
-                        label={<>{option.label}{option.count !== undefined && <small>{option.count}</small>}</>}/>
+                        label={<span className="ct-filter-option-label" title={option.label}>{option.label}</span>}
+                        trailing={option.count === undefined ? undefined : <span className="ct-filter-option-count" aria-hidden="true">{option.count.toLocaleString()}</span>}/>
                     );
                   })}
                 </div>
