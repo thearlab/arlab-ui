@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0-beta.22
+
+- Polish shared data components: borderless compact Chip, plain-date Timestamp with opt-in chip/time, quieter calendar dates and one-colour chart defaults with explicit category/highlight options.
+- Quiet table controls, share whole-row DataTable activation and show InfiniteTable recovery actions only after failed or stalled loads. Preserve full-width row dividers and sticky headers while scrolling.
+- Restore distinct dark semantic hues and tinted surfaces; error notices and destructive actions retain red. Add a separate Planning tone.
+- Align single and double navigation styling, footer action geometry and fixed bottom collapse controls. Remove the light toggle inset highlight and replace the logout glyph with the shared outline DoorOpen icon.
+- Add inline DeadlineCountdown and block SegmentedControl options; bring Facts labels closer to values, place required markers beside labels and align record-header status placement.
+- Reduce nested disclosure/upload chrome, use an Info icon for information notices, quiet kanban editing furniture and demonstrate contextual empty states and media/footer collection cards.
+- Keep loading previews full-size inside bounded containers and reduce TimePicker to equal 56px controls with 12px shared field typography.
+- Keep the pink-only background experiment isolated to the local showcase proposal. No new shared canvas gradient is introduced.
+- Validate the library with 88 regression tests, public type checks and the complete CSS/component build. Previous immutable tags remain unchanged.
+
 ## 2.0.0-beta.21
 
 - Apply Satin Lift across shared components: Satoshi 400/500 interface and 600 headings, DM Mono code, 14px surfaces, 7px controls, neutral charcoal dark mode, satin rims and soft elevation. Satoshi loads from the official Fontshare service; consuming applications must allow its stylesheet and font hosts.

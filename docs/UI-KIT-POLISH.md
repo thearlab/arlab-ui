@@ -1,6 +1,6 @@
 # UI kit polish follow-up
 
-Implemented in shared Contour source against `ARLAB-UI-KIT-TELLS.md`, 17 October 2026. These changes follow beta.21 and are not a new published tag yet. Bright pink primary buttons and browser-header title dots are retained.
+Implemented in shared Contour source against `ARLAB-UI-KIT-TELLS.md`, 17 October 2026. These changes are included in v2.0.0-beta.22. Bright pink primary buttons and browser-header title dots are retained.
 
 | Request | Shared implementation |
 | --- | --- |
