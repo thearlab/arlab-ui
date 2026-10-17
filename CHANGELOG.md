@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased: Satin Lift and dashboard contracts
+
+- Apply the approved Urbanist/DM Mono foundation, vivid ARLAB Pink department palette, neutral charcoal dark mode, satin rims and soft elevation. Containers use 14px corners and controls use 7px. Fonts ship with the package.
+- Shared Panel and table headers use full-width browser-style rails and a single pink heading marker. Full-width row hover, restrained field focus, quiet icon borders and visible inactive switches are shared component styles.
+- Replace AppSwitcher with a keyboard-accessible application menu and configurable app options. Refine the shared LogOut outline.
+- Complete requested dashboard component contracts, documented in docs/DASHBOARD-REQUESTS-STATUS.md, including real document rendering, controlled upload links, grouped tables/reordering, queued toasts and preview APIs.
+- Preserve component sizing and current public callbacks. The new foundation intentionally changes visual defaults.
+- Explicit brand contrast exceptions: white labels on exact light pink are 3.87:1; selected vivid department fills retain white outline icons, some below the 3:1 non-text target. Text/semantic roles retain their separate accessible tones.
+
 ## 2.0.0-beta.20
 
 - Compact TagInput chips use dedicated 24px remove actions, 28px tags and shared field typography without enlarging the public Button/IconButton contract. Long labels wrap safely and retain a full-name tooltip.

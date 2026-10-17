@@ -137,3 +137,9 @@ import {ReorderList as ContractReorderList} from '@arlab/ui';
 const groupedReorderContract = <ContractReorderList label="Stages" groups={[{id:'brief',label:'Brief',items:[{id:'a',label:'Idea'}]},{id:'ready',label:'Ready',items:[]}]} onGroupsChange={groups=>groups.map(group=>group.items.map(item=>item.id))}/>;
 // @ts-expect-error Grouped mode requires its controlled change callback.
 const invalidGroupedReorder = <ContractReorderList label="Stages" groups={[]}/>;
+
+const selectedFoundationExamples = <>
+  <PageLoading variant="content-preview" title="Opening your workspace" />
+  <AppSwitcher value="ops" onChange={value=>void value} options={[{value:'ops',label:'Operations',description:'Daily work'}]} />
+</>;
+void selectedFoundationExamples;

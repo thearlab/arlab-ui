@@ -23,18 +23,18 @@ test('Foundation preserves component sizing and edition/instrument identities',(
  for(const [key,value] of Object.entries({'control-h':'38px','button-height':'38px','control-h-touch':'44px','button-padding-inline':'13px','text-field':'12px','text-sm':'13px','space-1':'4px','space-2':'8px','space-3':'12px','space-4':'16px','page-pad':'32px','side-w':'210px','top-h':'60px','list-w':'280px','scrollbar-size':'2px'}))assert.equal(tokens[key],value,key);
  assert.equal(tokensFor('edition')['font-sans'],"'DM Sans', sans-serif");assert.equal(tokensFor('instrument').action,'#2357CB');
 });
-test('Text, semantic notes and department tiles pass contrast; light brand button exception stays explicit',()=>{
+test('Text and semantic notes pass contrast; exact brand choices stay explicit',()=>{
  let checks=0;
  for(const mode of ['light','dark']){
   const t=tokensFor('contour',mode);
   for(const bg of ['ground','raise','sunken'])for(const text of ['ink','dim','link']){assert.ok(contrast(t[text],t[bg])>=4.5,`${mode} ${text}/${bg}`);checks++;}
   for(const role of ['ok','warn','bad','info']){assert.ok(contrast(t[role],t[`${role}Tint`])>=4.5,`${mode} ${role} note`);checks++;}
-  for(const department of ['creative','engineering','client','company','strategy']){assert.ok(contrast(t[`dept-${department}-solid`],t['on-dept-solid'])>=4.5,`${mode} ${department} tile`);checks++;}
+  for(const department of ['creative','engineering','client','company','strategy']){assert.equal(t[`dept-${department}-solid`],t[`dept-${department}`]);assert.equal(t[`dept-${department}-ink`],'#FFFFFF');}
   if(mode==='dark')assert.ok(contrast(t.action,t.actionInk)>=4.5);
  }
  const light=tokensFor('contour');const brandRatio=contrast(light.action,light.actionInk);
  assert.ok(brandRatio>=3 && brandRatio<4.5,`Explicit white-on-brand-pink exception: ${brandRatio.toFixed(2)}:1`);
- console.log(`${checks} text/note/tile checks pass. Approved light button exception: ${brandRatio.toFixed(2)}:1 (normal-text target 4.5:1).`);
+ console.log(`${checks} text/note checks pass. Approved light button exception: ${brandRatio.toFixed(2)}:1 (normal-text target 4.5:1).`);
 });
 test('Chosen fonts are self-hosted and build copies every referenced asset',()=>{
  const css=fs.readFileSync(new URL('../src/contour/fonts.css',import.meta.url),'utf8');

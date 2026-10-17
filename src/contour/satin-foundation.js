@@ -31,11 +31,11 @@ export function satinLiftTokens(mode) {
     : ['#E414DB','#FB923C','#8058D6','#198BC2','#128D83','#9560C7','#BF870D'];
   charts.forEach((color,index)=>colors[`chart-${index+1}`]=color);
   colors['chart-trend']=colors['chart-4'];
-  // Department/chart hues stay coordinated. Solid tiles get separate darker
-  // counterparts so white icons and initials remain legible in either mode.
-  const solid = ['#B414AE','#A45514','#8058D6','#176A96','#13766F'];
+  // Department tiles retain the approved vivid hues and white outline icons.
   ['creative','engineering','client','company','strategy'].forEach((department,index)=>{
-    colors[`dept-${department}`]=charts[index];colors[`dept-${department}-solid`]=solid[index];
+    const color=charts[index];
+    colors[`dept-${department}`]=color;colors[`dept-${department}-solid`]=color;
+    colors[`dept-${department}-ink`]='#FFFFFF';
   });
   return {...colors,
     'font-sans':"'Urbanist', sans-serif",'font-display':"'Urbanist', sans-serif",'font-mono':"'DM Mono', monospace",

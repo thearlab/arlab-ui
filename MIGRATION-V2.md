@@ -11,7 +11,7 @@ Known consumers: internal dashboard, internal tool template, Studio, Reader and 
 ## Required migration
 
 1. Pin the published V2 tag, install, verify the lockfile commit and installed package version.
-2. Load `@arlab/ui/styles.css`, Manrope and IBM Plex Mono. Wrap the app in `ContourProvider mode="light"` or `mode="dark"`. The provider owns the theme boundary; v1 initTheme alone does not configure it.
+2. Load `@arlab/ui/styles.css`; it includes self-hosted Urbanist and DM Mono. Wrap the app in `ContourProvider mode="light"` or `mode="dark"`. The provider owns the theme boundary; v1 initTheme alone does not configure it.
 3. Migrate props and compositions, not just the dependency version. IconButton uses label (aria-label is still forwarded); Avatar uses initials/color/name; SortHead uses direction none/ascending/descending; Dropdown/Picker use the new documented options API. Card is now a Panel composition. SidebarShell now accepts application-owned navigation and content; see docs/NAVIGATION.md for the beta.2 contract. Other specialized gallery compositions still require real data and callbacks.
 4. Replace removed root exports using the new contract. Temporary `@arlab/ui/legacy` and `@arlab/ui/legacy/styles.css` retain the old implementation for staged migrations only. They are not the final unified design.
 5. Validate navigation, forms, dialogs, permissions, empty/loading/error states and light/dark responsive layouts with the application's actual data. Preserve backend behavior and deploy separately from the dependency change.
@@ -28,7 +28,7 @@ Restore each consumer's previous package.json and lockfile commit, rebuild and r
 
 ## Beta.3 additions
 
-The dashboard request families are exported with application-owned state and callbacks. See [Dashboard components](docs/DASHBOARD-COMPONENTS.md) for integration details and native date/time picker limitations. Added typography weight tokens and the 10px/11px micro scales. NavigationItem supports router click handlers without removing real anchor destinations. Existing beta.2 navigation and v1 compatibility paths remain available.
+The dashboard request families are exported with application-owned state and callbacks. See [Dashboard components](docs/DASHBOARD-COMPONENTS.md) for integration details and custom date/time picker contracts. Added typography weight tokens and the 10px/11px micro scales. NavigationItem supports router click handlers without removing real anchor destinations. Existing beta.2 navigation and v1 compatibility paths remain available.
 
 ## Beta.7: application layouts and calendar
 

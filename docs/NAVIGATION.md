@@ -27,7 +27,7 @@ import '@arlab/ui/navigation/styles.css';
 </SidebarShell>
 ```
 
-No ContourProvider, global reset, `.themed-preview` class, copied source or full V2 stylesheet is required. Import the dedicated stylesheet once. It includes the shared scrollbar. Manrope is recommended; the component falls back to system UI if the app has not loaded it yet. Colors inherit Contour tokens when present, otherwise use built-in light/dark defaults. Supply `mode="dark"` or inherit an ancestor's `data-theme="dark"` / `data-mode="dark"`.
+No ContourProvider, global reset, `.themed-preview` class, copied source or full V2 stylesheet is required. Import the dedicated stylesheet once. It includes the shared scrollbar. The stylesheet includes self-hosted Urbanist, matching the shared Satin Lift foundation. Colors inherit Contour tokens when present, otherwise use built-in light/dark defaults. Supply `mode="dark"` or inherit an ancestor's `data-theme="dark"` / `data-mode="dark"`.
 
 Existing V1 applications can adopt the navigation subpath while temporarily retaining their original primitives through `@arlab/ui/legacy` and `@arlab/ui/legacy/styles.css`. This is staged migration, not a claim that changing the package version migrates the whole app. Check your other root imports before upgrading.
 

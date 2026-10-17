@@ -838,24 +838,20 @@ export function Breadcrumbs({ items, onNavigate, truncate = false }) {
     })}
   </nav>;
 }
-/** @param {{value: string, onChange: (value: string) => void}} props */
-export function AppSwitcher({ value, onChange }) {
-  return (
-    <div className="lib-app-switcher" role="group" aria-label="Application">
-      {["Workspace", "Agents Studio", "Knowledge"].map((x) => (
-        <button key={x} aria-pressed={x === value} onClick={() => onChange(x)}>
-          {x === "Workspace" ? (
-            <Folder size={16} />
-          ) : x === "Knowledge" ? (
-            <BookOpen size={16} />
-          ) : (
-            <Settings2 size={16} />
-          )}
-          <span>{x}</span>
-        </button>
-      ))}
-    </div>
-  );
+/** @param {{value:string,onChange:(value:string)=>void,options?:Array<{value:string,label:string,description?:string,icon?:React.ReactNode,disabled?:boolean}>,label?:string,disabled?:boolean}} props */
+export function AppSwitcher({value,onChange,options,label="Switch application",disabled=false}) {
+ const apps=options ?? [
+  {value:'Workspace',label:'Workspace',description:'Projects, people and daily work',icon:<RegistryIcon name="LayoutDashboard" size={14}/>},
+  {value:'Agents Studio',label:'Agents Studio',description:'Agents, workflows and connections',icon:<RegistryIcon name="Workflow" size={14}/>},
+  {value:'Knowledge',label:'Knowledge',description:'Documents, context and references',icon:<RegistryIcon name="BookOpen" size={14}/>},
+ ];
+ const selected=apps.find(app=>app.value===value) ?? {value,label:value||'Choose application',icon:<RegistryIcon name="Grid2X2" size={14}/>};
+ return <div className="lib-app-switcher"><Popover label={label} trigger={<button type="button" className="ct-app-switcher-trigger" disabled={disabled} aria-label={`${label}: ${selected.label}`} aria-haspopup="menu"><span className="ct-app-switcher-glyph">{selected.icon??<RegistryIcon name="Grid2X2" size={14}/>}</span><strong>{selected.label}</strong><ChevronDown size={12} aria-hidden="true"/></button>}>
+  {close=><div className="ct-app-switcher-menu" role="menu" aria-label={label} onKeyDown={event=>{
+   if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
+   event.preventDefault();const buttons=Array.from(event.currentTarget.querySelectorAll('button:not(:disabled)'));const at=buttons.indexOf(document.activeElement);const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(at+(event.key==='ArrowDown'?1:buttons.length-1))%buttons.length;buttons[next]?.focus();
+  }}><div className="ct-app-switcher-caption">Applications</div>{apps.map(app=><button type="button" key={app.value} role="menuitemradio" aria-checked={value===app.value} disabled={app.disabled} onClick={()=>{onChange(app.value);close();}}><span className="ct-app-switcher-glyph">{app.icon??<RegistryIcon name="Grid2X2" size={14}/>}</span><span><strong>{app.label}</strong>{app.description&&<small>{app.description}</small>}</span></button>)}</div>}
+ </Popover></div>;
 }
 /** @param {{items: Array<{label: string, children: string[]}>, value: string, onChange: (value: string) => void}} props */
 export function NavTree({ items, value, onChange }) {

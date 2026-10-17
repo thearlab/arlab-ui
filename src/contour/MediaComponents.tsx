@@ -230,7 +230,7 @@ export function MediaUploadField({
     [dragging, setDragging] = useState(false);
   const [linkOpen,setLinkOpen] = useState(false), [link,setLink] = useState('');
   const accept = suppliedAccept ?? (kinds.includes('file') ? '' : kinds.map(kind=>kind==='pdf' ? 'application/pdf,.pdf' : `${kind}/*`).join(','));
-  const fileLabel = kinds.includes('file') ? 'files' : kinds.map(kind=>kind==='pdf' ? 'PDF documents' : `${kind}s`).join(', ');
+  const fileLabel = kinds.includes('file') ? 'files' : kinds.map(kind=>kind==='pdf' ? 'PDF documents' : `${kind}s`).join(' or ');
   const accepts = (file: File) => !accept || accept.split(',').some(rule=>{
     const pattern=rule.trim().toLowerCase();
     return pattern.startsWith('.') ? file.name.toLowerCase().endsWith(pattern)

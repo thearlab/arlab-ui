@@ -72,7 +72,6 @@ import {
   ShieldAlert,
   KeyRound,
   LogIn,
-  LogOut,
   User,
   Users,
   UserPlus,
@@ -157,6 +156,13 @@ import {
 } from "lucide-react";
 import { Button, Dropdown, Status } from "./ui.js";
 
+/** Compact sign-out glyph with the same optical weight as the shared outline set. */
+function LogOut({size=20,strokeWidth=1.5,...props}) {
+ return <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <path d="M10 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h4"/>
+  <path d="M15.5 8.5 19 12l-3.5 3.5M9 12h10"/>
+ </svg>;
+}
 const groups = {
   "Social & platforms": {Github, Gitlab, Instagram, Linkedin, Youtube, Facebook, Twitter, Slack, Figma, Dribbble, Twitch, Chrome},
   Navigation: {
@@ -338,7 +344,7 @@ export function Icon({ name, size = 20, label = undefined, ...props }) {
   return (
     <Glyph
       size={size}
-      strokeWidth="var(--icon-stroke, 1.65)"
+      strokeWidth="var(--icon-stroke, 1.5)"
       aria-hidden={label ? undefined : true}
       role={label ? "img" : undefined}
       aria-label={label}
@@ -437,7 +443,7 @@ export function IconsPage({ notify }) {
               >
                 <Item
                   size={Number(size)}
-                  strokeWidth="var(--icon-stroke, 1.65)"
+                  strokeWidth="var(--icon-stroke, 1.5)"
                   aria-hidden="true"
                 />
                 <span>{name}</span>
@@ -461,14 +467,14 @@ export function IconsPage({ notify }) {
         </div>
         <aside className="icon-inspector">
           <div className="icon-large-preview">
-            <Glyph size={48} strokeWidth="var(--icon-stroke, 1.65)" />
+            <Glyph size={48} strokeWidth="var(--icon-stroke, 1.5)" />
           </div>
           <h3>{selected}</h3>
           <p>{current.category}</p>
           <div className="icon-optical-sizes">
             {[16, 20, 24, 32].map((s) => (
               <div key={s}>
-                <Glyph size={s} strokeWidth="var(--icon-stroke, 1.65)" />
+                <Glyph size={s} strokeWidth="var(--icon-stroke, 1.5)" />
                 <span>{s}px</span>
               </div>
             ))}
