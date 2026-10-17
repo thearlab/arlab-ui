@@ -2662,3 +2662,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Command | Interface | [Download](icons/Command.svg) |
 | Keyboard | Interface | [Download](icons/Keyboard.svg) |
 | MousePointer2 | Interface | [Download](icons/MousePointer2.svg) |
+
+## Collection and header integration
+
+See [beta.10 integration contracts](RELEASE-beta.10.md) for row activation, flexible table columns, optional tabs, rich breadcrumbs, dialog labels and search-free app headers. Strategy uses `--dept-strategy` in both themes.

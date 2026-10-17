@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ReactNode, type ChangeEvent, type CSSProperties, type MouseEvent, type KeyboardEvent } from "react";
 import {
   Filter,
   X,
@@ -19,7 +19,9 @@ export interface FilterColumn<Row> {
   key: string;
   label: string;
   header?: ReactNode;
-  width?: string;
+  width?: CSSProperties['width'];
+  minWidth?: CSSProperties['minWidth'];
+  maxWidth?: CSSProperties['maxWidth'];
   align?: "left" | "right" | "center";
   /** Header controls sort. Use FilterSidebar for filtering. */
   filterable?: boolean;
@@ -59,7 +61,7 @@ export function sortTableRows<Row extends Record<string,unknown>>(rows:Row[],col
   }
 
 /** The shared header for paginated and virtualized tables. */
-export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false}:{columns:FilterColumn<Row>[];sort:TableSort|null;onSort:(key:string)=>void;sortingDisabled?:boolean}) {
+export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false,sortIndicators='all'}:{columns:FilterColumn<Row>[];sort:TableSort|null;onSort:(key:string)=>void;sortingDisabled?:boolean;sortIndicators?:'all'|'active'|'none'}) {
  return (<thead>
             <tr>
               {columns.map((column) => (
@@ -71,6 +73,8 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false}
                   }
                   style={{
                     width: column.width,
+                    minWidth: column.minWidth,
+                    maxWidth: column.maxWidth,
                     textAlign: column.align || "left",
                   }}
                 >
@@ -85,7 +89,7 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false}
                       onClick={() => onSort(column.key)}
                     >
                       <span>{column.header ?? column.label}</span>
-                      <span className="ct-sort-arrows" aria-hidden="true">
+                      {sortIndicators!=='none' && (sortIndicators==='all' || sort?.key===column.key) && <span className="ct-sort-arrows" aria-hidden="true">
                         <ChevronUp
                           size={12}
                           data-active={
@@ -102,7 +106,7 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false}
                             undefined
                           }
                         />
-                      </span>
+                      </span>}
                     </button>
                   )}
                 </th>
@@ -125,6 +129,12 @@ export interface FilterableTableProps<Row extends Record<string, unknown>> {
   /** Fill the bounded height supplied by a collection layout. */
   fill?: boolean;
   variant?: "contained" | "flush";
+  /** Auto sizes columns from content and optional min/max constraints. Fixed preserves existing layouts. */
+  tableLayout?: 'fixed' | 'auto';
+  sortIndicators?: 'all' | 'active' | 'none';
+  /** Activates with click, Enter or Space. Nested links/controls keep their own behavior. */
+  onRowClick?: (row: Row, event: MouseEvent<HTMLTableRowElement> | KeyboardEvent<HTMLTableRowElement>) => void;
+  rowLabel?: (row: Row) => string;
 }
 export function FilterableTable<Row extends Record<string, unknown>>({
   title = "Records",
@@ -139,6 +149,10 @@ export function FilterableTable<Row extends Record<string, unknown>>({
   emptyMessage = "No results match these filters.",
   fill = false,
   variant = "contained",
+  tableLayout = 'fixed',
+  sortIndicators = 'all',
+  onRowClick,
+  rowLabel,
 }: FilterableTableProps<Row>) {
   const [sort, setSort] = useState<{
     key: string;
@@ -179,8 +193,8 @@ export function FilterableTable<Row extends Record<string, unknown>>({
         )}
       </header>
       <ScrollArea label={`${title} table`} className="ct-table-scroll" axis="both" maxHeight={fill ? undefined : 520}>
-        <table>
-          <SharedTableHead columns={columns} sort={sort} onSort={toggleSort}/>
+        <table style={{tableLayout}}>
+          <SharedTableHead columns={columns} sort={sort} onSort={toggleSort} sortIndicators={sortIndicators}/>
           <tbody>
             {loading ? (
               <tr>
@@ -193,6 +207,18 @@ export function FilterableTable<Row extends Record<string, unknown>>({
             ) : ordered.length ? (
               ordered.slice(start, start + size).map((row) => (
                 <tr
+                  tabIndex={onRowClick ? 0 : undefined}
+                  aria-label={rowLabel?.(row)}
+                  data-interactive={!!onRowClick || undefined}
+                  onClick={onRowClick ? event => {
+                    const control=(event.target as Element).closest('a,button,input,select,textarea,[role="button"],[role="link"],[contenteditable="true"],[tabindex]');
+                    if(event.defaultPrevented || control && control !== event.currentTarget) return;
+                    onRowClick(row,event);
+                  } : undefined}
+                  onKeyDown={onRowClick ? event => {
+                    if(event.target !== event.currentTarget || event.defaultPrevented || !['Enter',' '].includes(event.key)) return;
+                    event.preventDefault();onRowClick(row,event);
+                  } : undefined}
                   key={String(
                     typeof rowKey === "function" ? rowKey(row) : row[rowKey],
                   )}
@@ -200,7 +226,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      style={{ textAlign: column.align || "left" }}
+                      style={{ textAlign: column.align || "left", width:column.width,minWidth:column.minWidth,maxWidth:column.maxWidth }}
                     >
                       {column.render
                         ? column.render(row)

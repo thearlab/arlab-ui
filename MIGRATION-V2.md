@@ -63,3 +63,7 @@ TagInput accepts label={null} inside FormFieldGroup, an external id, native inpu
 Dialog, Sheet and Modal accept width, footer, description, scrollable, contentLabel and dismissible. Use scrollable for one shared scrolling content region with fixed framing/actions. Set dismissible={false} while a sensitive operation is pending; Escape, backdrop and close controls then remain inactive. Existing custom-child layouts remain the default when scrollable is omitted.
 
 These are additive changes; beta.8 consumers stay on their immutable tag until explicitly upgraded.
+
+### beta.10 additive APIs
+
+Existing table layout/sort-indicator defaults and string breadcrumbs remain supported. ConfirmDialog now uses generic Confirm action copy when labels are omitted and renders no description when none is supplied. Pass the operation-specific title, description and confirmLabel explicitly. See [integration examples](docs/RELEASE-beta.10.md).

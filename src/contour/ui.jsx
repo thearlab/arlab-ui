@@ -120,8 +120,8 @@ export function Meter({ value, label }) {
     </span>
   );
 }
-/** @param {{open: boolean, onClose: () => void, title?: import('react').ReactNode, children?: import('react').ReactNode, sheet?: boolean, className?: string, width?: import('react').CSSProperties['width'], description?: import('react').ReactNode, footer?: import('react').ReactNode, scrollable?: boolean, contentLabel?: string, dismissible?: boolean}} props */
-export function Modal({open,onClose,title,children,sheet=false,className='',width,description,footer,scrollable=false,contentLabel='Dialog content',dismissible=true}) {
+/** @param {{open: boolean, onClose: () => void, title?: import('react').ReactNode, label?: import('react').ReactNode, children?: import('react').ReactNode, sheet?: boolean, className?: string, width?: import('react').CSSProperties['width'], description?: import('react').ReactNode, footer?: import('react').ReactNode, scrollable?: boolean, contentLabel?: string, dismissible?: boolean}} props */
+export function Modal({open,onClose,title,label,children,sheet=false,className='',width,description,footer,scrollable=false,contentLabel='Dialog content',dismissible=true}) {
   const ref=useRef(null),id=useId();
   useEffect(()=>{const node=ref.current;if(open&&!node.open)node.showModal();else if(!open&&node.open)node.close();},[open]);
   const close=()=>{if(dismissible)onClose();};
@@ -129,7 +129,7 @@ export function Modal({open,onClose,title,children,sheet=false,className='',widt
   return <dialog ref={ref} className={`modal ${sheet?'sheet':''} ${scrollable?'ct-modal-scroll-layout':''} ${className}`} aria-labelledby={id} aria-describedby={description?`${id}-description`:undefined} style={width===undefined?undefined:{'--ct-modal-width':typeof width==='number'?`${width}px`:width}}
     onCancel={event=>{event.preventDefault();close();}}
     onClick={event=>{if(event.target===event.currentTarget){const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)close();}}}>
-    <div className="modal-head"><h2 id={id}>{title}</h2><IconButton label="Close dialog" disabled={!dismissible} onClick={close}><X size={14}/></IconButton></div>
+    <div className="modal-head"><div className="ct-modal-heading">{label&&<div className="ct-modal-label">{label}</div>}<h2 id={id}>{title}</h2></div><IconButton label="Close dialog" disabled={!dismissible} onClick={close}><X size={14}/></IconButton></div>
     {open&&<>{scrollable?<ScrollArea label={contentLabel} className="ct-modal-scroll"><div className="ct-modal-content">{content}</div></ScrollArea>:<div className="modal-body">{content}</div>}{footer&&<div className="ct-modal-footer">{footer}</div>}</>}
   </dialog>;
 }

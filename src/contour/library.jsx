@@ -237,6 +237,7 @@ export function DeptTile({ department = "Creative" }) {
     Engineering: "engineering",
     "Client services": "client",
     Company: "company",
+    Strategy: "strategy",
   };
   return (
     <span className="dept-tile">
@@ -301,7 +302,7 @@ export function Row({ title, description, leading, trailing, onClick }) {
     </>
   );
   return onClick ? (
-    <div className="lib-row lib-row-interactive"><button type="button" className="lib-row-open" onClick={onClick}>{content}<ChevronRight size={16}/></button>{trailing}</div>
+    <div className="lib-row lib-row-interactive"><button type="button" className="lib-row-open" onClick={onClick}>{content}</button>{trailing}<ChevronRight className="lib-row-chevron" size={14} aria-hidden="true"/></div>
   ) : (
     <div className="lib-row">{content}{trailing}</div>
   );
@@ -620,22 +621,24 @@ export function Dialog(props) {
 export function Sheet(props) {
   return <Modal {...props} sheet />;
 }
+/** @param {{open:boolean,onClose:()=>void,onConfirm:()=>void|Promise<void>,title?:import('react').ReactNode,description?:import('react').ReactNode,label?:import('react').ReactNode,confirmLabel?:string,pending?:boolean}} props */
 export function ConfirmDialog({
   open,
   onClose,
   onConfirm,
-  title = "Archive project?",
-  description = "The project will move out of active work. You can restore it later.",
-  confirmLabel = "Archive project",
+  title = "Confirm action",
+  description,
+  label,
+  confirmLabel = "Confirm",
+  pending = false,
 }) {
   return (
-    <Dialog open={open} onClose={onClose} title={title}>
-      <p>{description}</p>
+    <Dialog open={open} onClose={onClose} title={title} label={label} description={description} dismissible={!pending}>
       <div className="modal-actions">
-        <Button autoFocus variant="quiet" onClick={onClose}>
+        <Button autoFocus variant="quiet" disabled={pending} onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="danger" onClick={onConfirm}>
+        <Button variant="danger" disabled={pending} onClick={onConfirm}>
           {confirmLabel}
         </Button>
       </div>
@@ -793,21 +796,26 @@ export function CopyBlock({ children }) {
     </div>
   );
 }
+/** Strings remain supported; object items accept rich labels, real links and individual actions. */
 export function Breadcrumbs({ items, onNavigate, truncate = false }) {
-  return (
-    <nav className="lib-breadcrumbs" aria-label="Breadcrumb" data-truncate={truncate || undefined}>
-      {items.map((item, i) => (
-        <React.Fragment key={item}>
-          {i > 0 && <ChevronRight size={13} />}{" "}
-          {i === items.length - 1 ? (
-            <span aria-current="page" title={truncate ? item : undefined}>{item}</span>
-          ) : (
-            <button onClick={() => onNavigate?.(item)}>{item}</button>
-          )}
-        </React.Fragment>
-      ))}
-    </nav>
-  );
+  return <nav className="lib-breadcrumbs" aria-label="Breadcrumb" data-truncate={truncate || undefined}>
+    {items.map((item, i) => {
+      const entry = typeof item === 'string' ? {label:item} : item;
+      const last = i === items.length - 1;
+      const tooltip = entry.title ?? (typeof entry.label === 'string' ? entry.label : undefined);
+      const activate = event => {
+        if(event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0) return;
+        if(entry.onClick || onNavigate) {event.preventDefault(); entry.onClick ? entry.onClick(event) : onNavigate(item);}
+      };
+      return <React.Fragment key={entry.id ?? entry.href ?? i}>
+        {i > 0 && <ChevronRight size={13} aria-hidden="true"/>}
+        {last ? <span aria-current="page" title={truncate ? tooltip : undefined}>{entry.label}</span>
+          : entry.href ? <a href={entry.href} onClick={activate} title={tooltip}>{entry.label}</a>
+          : entry.onClick || onNavigate ? <button type="button" onClick={activate} title={tooltip}>{entry.label}</button>
+          : <span title={tooltip}>{entry.label}</span>}
+      </React.Fragment>;
+    })}
+  </nav>;
 }
 export function AppSwitcher({ value, onChange }) {
   return (

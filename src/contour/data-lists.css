@@ -92,3 +92,5 @@ a.ct-status-stat:hover, button.ct-status-stat:hover { background:var(--sunken); 
 @media (max-width:640px) {
  .ct-facet-list > button, .ct-facet-list[data-compact] > button { min-height:var(--control-h-touch); }
 }
+
+.ct-list-dot[data-dept="strategy"] {background:var(--dept-strategy);}

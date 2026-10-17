@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0-beta.10
+
+- Clickable Row places its navigation arrow after the trailing value, retaining independent trailing controls.
+- FilterableTable adds optional click/Enter/Space row activation, accessible row labels, content-driven auto layout, min/max column widths and all/active/none sort indicators. Per-column sortable:false remains supported. Existing fixed layout and indicator defaults are retained.
+- CollectionLayout accepts an optional tabs slot above the search toolbar; search is optional.
+- Added --dept-strategy for both themes, DeptTile and department list marks.
+- ConfirmDialog no longer injects archive-project copy when description is omitted. Optional description is linked accessibly; pending disables confirmation and dismissal.
+- Modal, Dialog, Sheet and ConfirmDialog support an optional small label above the title.
+- Breadcrumbs supports string items and rich-label objects with id, href, title and onClick. Real links preserve modified-click navigation.
+- AppHeader works with no search, the existing search-action object, or custom React search content.
+- 55 interaction checks and 50 theme contrast pairs pass. No changes to previous immutable releases.
+
 ## 2.0.0-beta.9
 
 - Added AppHeader with a shrinking context slot, responsive search action and stable action alignment. Breadcrumbs supports one-line truncation with a full-title tooltip.

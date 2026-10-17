@@ -129,8 +129,8 @@ export function RecordCollection({
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({title,description,actions,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
- title:string;description?:string;actions?:ReactNode;search:ReactNode;filters?:ReactNode;
+export function CollectionLayout({title,description,actions,tabs,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
+ title:string;description?:string;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
  sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
  variant?:'contained'|'flush';activeFilters?:number;children:ReactNode;
 }) {
@@ -142,6 +142,7 @@ export function CollectionLayout({title,description,actions,search,filters,sideb
  return <section className="ct-collection-layout" data-variant={variant} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
   <div className="ct-collection-main">
    <PageBar title={title} description={description} actions={actions} heading="h1"/>
+   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
    <div className="ct-collection-toolbar"><div>{search}</div>{(filters||sidebar&&mobile)&&<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>}</div>
    {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
    <div className="ct-collection-results">{children}</div>
