@@ -81,7 +81,7 @@
 :where([data-mode="dark"], [data-theme="dark"]) .contour-scroll-area { --scrollbar-thumb: color-mix(in srgb, var(--accent, #f04ee8) 35%, transparent); --scrollbar-hover: color-mix(in srgb, var(--accent, #f04ee8) 60%, transparent); }
 @media (prefers-reduced-motion: reduce) { .contour-scroll-area .scroll-thumb::after { transition: none; } }
 
-.contour-scroll-area .scroll-viewport:focus-visible { outline: 1px solid var(--focus, var(--cn-accent, #a80fa3)); outline-offset: -1px; }
+.contour-scroll-area .scroll-viewport:focus-visible { outline: 1px solid var(--focus, var(--cn-accent, #e414db)); outline-offset: -1px; }
 
 /* Opt-in framed composition. Internal primitive instances keep their existing geometry. */
 .contour-scroll-area[data-framed] {

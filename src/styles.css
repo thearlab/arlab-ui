@@ -22,11 +22,11 @@
   --ink-inactive: #788396;   /* placeholders only */
 
   --accent: #e414db;
-  --action: #d000c6;
-  --action-hover: #bf00b6;
-  --action-pressed: #a8009f;
+  --action: var(--accent);
+  --action-hover: var(--accent);
+  --action-pressed: var(--accent);
   --action-ink: #fff;
-  --accent-deep: #a80fa3;
+  --accent-deep: #e414db;
   --accent-tint: rgba(228, 20, 219, 0.10);
   --accent-soft: rgba(228, 20, 219, 0.08);
   --accent-line: rgba(228, 20, 219, 0.35);
@@ -97,7 +97,7 @@
   --ground: #171a21; --raise: #20252e; --sunken: #14171d; --sunken-2: #272c36;
   --line: #343b48; --line-soft: #2b303b; --line-hover: #515c6e;
   --ink: #edf0f5; --ink-dim: #b8c1d0; --ink-faint: #929eb2; --ink-inactive: #8591a5;
-  --accent: #f04ee8; --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
+  --accent: #f04ee8; --accent-deep: #f04ee8; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
   --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #14171d;
   --surface-nav: #14171d; --surface-hover: #292f3a;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
@@ -109,7 +109,7 @@
   --ground: #171a21; --raise: #20252e; --sunken: #14171d; --sunken-2: #272c36;
   --line: #343b48; --line-soft: #2b303b; --line-hover: #515c6e;
   --ink: #edf0f5; --ink-dim: #b8c1d0; --ink-faint: #929eb2; --ink-inactive: #8591a5;
-  --accent: #f04ee8; --accent-deep: #f47cee; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
+  --accent: #f04ee8; --accent-deep: #f04ee8; --accent-tint: rgba(240, 78, 232, 0.14); --accent-soft: rgba(240, 78, 232, 0.10); --accent-line: rgba(240, 78, 232, 0.4); --accent-secondary: #e8823a;
   --live: #5cc48b; --live-tint: rgba(92, 196, 139, 0.14); --warn: #e6a94a; --warn-tint: rgba(230, 169, 74, 0.14); --crit: #f07171; --crit-tint: rgba(240, 113, 113, 0.14); --info: #7aa7f0; --info-tint: rgba(122, 167, 240, 0.14); --code-bg: #14171d;
   --surface-nav: #14171d; --surface-hover: #292f3a;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.16); --shadow-card: var(--shadow);
@@ -163,10 +163,7 @@ html { scrollbar-color: var(--line-hover) transparent; }
 .arlab-btn.sm { height: var(--control-h-sm); padding: 0 11px; font-size: var(--text-xs); }
 .arlab-btn-label { display: inline-flex; align-items: center; gap: 6px; }
 /* Primary: flat accent, brightens on hover. No gradient sweep, no lift, no glow: the accent is the signal. */
-/* The brand pink is 3.87:1 against white, under the 4.5:1 that text on a button needs. --action is
-   the same pink a step deeper, 4.67:1, and it is what every primary action uses; --accent stays the
-   brand colour for dots, tints and edges, where contrast is not the question. Hover darkens rather
-   than brightening, which used to lower the contrast further. */
+/* All brand action states use the main accent. Contrast exceptions are documented in the shared foundation. */
 .arlab-btn.primary { background: var(--action); border-color: var(--action); color: var(--action-ink); }
 .arlab-btn.primary:hover:not(:disabled) { background: var(--action-hover); border-color: var(--action-hover); filter: none; }
 .arlab-btn.primary:active:not(:disabled) { background: var(--action-pressed); border-color: var(--action-pressed); }

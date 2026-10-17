@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {Checkbox,AccountMenu,Chip,Timestamp,SortHead} from '../dist/contour/library.js';
+import {Checkbox,AccountMenu,Chip,Timestamp,SortHead,Refreshing} from '../dist/contour/library.js';
 import {Loader,PageLoading} from '../dist/contour/loading.js';
 const html=(C,p)=>renderToStaticMarkup(React.createElement(C,p));
 test('Checkbox separates supporting description and retains supplied accessible descriptions',()=>{
@@ -28,9 +28,17 @@ test('SortHead shares the table sort control and announces the next direction',(
  assert.match(output,/class="ct-table-sort"/);assert.match(output,/aria-label="Sort Project descending"/);
  assert.match(output,/ct-sort-arrows/);assert.equal((output.match(/data-active="true"/g)||[]).length,1);
 });
-test('Content preview loading includes one live message and a decorative circular loader',()=>{
+test('Content preview loading animates content without a central spinner',()=>{
  const output=html(PageLoading,{title:'Opening your workspace'});
  assert.equal((output.match(/role="status"/g)||[]).length,1);
  assert.match(output,/aria-busy="true"/);assert.match(output,/ct-content-loading-copy/);
- assert.equal((output.match(/<circle/g)||[]).length,2);
+ assert.equal((output.match(/<circle/g)||[]).length,0);assert.match(output,/ct-content-loading-skeleton/);
+});
+
+test('Refreshing centers the shared loader without a visible text badge',()=>{
+ const busy=html(Refreshing,{busy:true,children:'Existing data'});
+ assert.match(busy,/aria-busy="true"/);assert.match(busy,/lib-refresh-indicator/);
+ assert.match(busy,/aria-label="Refreshing"/);assert.doesNotMatch(busy,/lib-refresh-label|Refreshing…/);
+ assert.equal((busy.match(/role="status"/g)||[]).length,1);assert.match(busy,/Existing data/);
+ assert.doesNotMatch(html(Refreshing,{busy:false,children:'Existing data'}),/lib-refresh-indicator|role="status"/);
 });

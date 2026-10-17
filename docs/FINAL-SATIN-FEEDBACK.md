@@ -31,3 +31,7 @@ The user-selected white text on bright pink and vivid department glyph colors in
 The CSS build guard now checks every active Contour stylesheet and rejects selectorless blocks. Previously, selector removal could leave declarations that the scoping build accidentally converted into `.arlab-contour` rules affecting every component. A regression test reproduces and rejects that failure.
 
 Satoshi delivery uses the official Fontshare service. The review browser loaded the publisher stylesheet and passed its font check. Direct command-line downloads are blocked, so the font is served by its publisher rather than bundled. The tokens and showcase default are Satoshi; DM Mono remains locally packaged.
+
+## Follow-up refinements
+
+All accent roles and compatibility aliases now resolve to the main pink in their active mode, including icon, link, focus, navigation and primary hover states. No darker pink literal remains in library source. PageLoading animates only its content placeholders, without a central spinner. Refreshing centers the shared accessible Loader over existing content without a visible badge. DayTimeline empty content has shared 16px padding. KanbanBoard hides custom scrollbar controls through the reusable ScrollArea hideScrollbar option while retaining native scroll viewports and gestures.

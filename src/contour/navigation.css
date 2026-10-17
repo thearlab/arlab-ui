@@ -3,8 +3,8 @@
   --cn-nav: var(--nav, #FFFDFF); --cn-ground: var(--ground, #F7F5F9);
   --cn-raise: var(--raise, #FFFDFF); --cn-ink: var(--ink, #2C2532);
   --cn-dim: var(--dim, #665C70); --cn-line: var(--line, #DDD4E5);
-  --cn-dept-creative:var(--dept-creative-solid,#B414AE);--cn-dept-engineering:var(--dept-engineering-solid,#A45514);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#176A96);--cn-dept-strategy:var(--dept-strategy-solid,#13766F);
-  --cn-accent: var(--accent-deep, #a80fa3); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
+  --cn-dept-creative:var(--dept-creative-solid,#E414DB);--cn-dept-engineering:var(--dept-engineering-solid,#A45514);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#176A96);--cn-dept-strategy:var(--dept-strategy-solid,#13766F);
+  --cn-accent: var(--accent, #e414db); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
   font-family: var(--font-sans, "Satoshi", system-ui, sans-serif); font-size: 14px; line-height: 1.5;
   box-sizing: border-box; color: var(--cn-ink);
 }
@@ -13,7 +13,8 @@
   --cn-nav: var(--nav, #29292C); --cn-ground: var(--ground, #202022);
   --cn-raise: var(--raise, #29292C); --cn-ink: var(--ink, #F4F4F6);
   --cn-dim: var(--dim, #BDBDC5); --cn-line: var(--line, #414146);
-  --cn-accent: var(--accent-deep, #f47cee); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
+  --cn-dept-creative:var(--dept-creative-solid,#F04EE8);
+  --cn-accent: var(--accent, #f04ee8); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
 }
 .contour-shell *, .contour-navigation * { box-sizing: border-box; }
 .contour-nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: 0 0 auto; padding: 0; border: 1px solid var(--cn-line); border-radius: var(--radius-control, 7px); background: var(--cn-raise); background-image:var(--chrome-control-gradient,linear-gradient(180deg,#FFFFFF0D,#00000004)); box-shadow:var(--chrome-control-shadow,0 1px 2px #00000008); color: var(--cn-dim); cursor: pointer; }

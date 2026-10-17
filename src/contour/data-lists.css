@@ -1,8 +1,8 @@
 /* Controlled data compositions; typography and semantic colors use Contour tokens. */
-.ct-facet-list { display:flex; flex-direction:column; gap:var(--space-1); min-width:0; font-family:var(--font-sans); }
-.ct-facet-list > button { display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-3); width:100%; min-width:0; min-height:32px; padding:var(--space-1) var(--space-3); border:1px solid transparent; border-radius:var(--radius-sm); background:transparent; color:var(--ink); text-align:left; font-size:var(--text-sm); font-weight:var(--weight-regular); line-height:var(--leading-normal); }
+.ct-facet-list { display:flex; flex-direction:column; gap:0; min-width:0; font-family:var(--font-sans); }
+.ct-facet-list > button { display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-3); width:100%; min-width:0; min-height:32px; padding:var(--space-1) var(--space-3); border:1px solid transparent; border-radius:0; background:transparent; box-shadow:none; color:var(--ink); text-align:left; font-size:var(--text-sm); font-weight:var(--weight-regular); line-height:var(--leading-normal); }
 .ct-facet-list .ct-facet-label { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.ct-facet-list > button:hover:not(:disabled) { background:var(--sunken); border-color:var(--line); }
+.ct-facet-list > button:hover:not(:disabled):not([aria-checked="true"]) { background:var(--chrome-row-hover); border-color:transparent; box-shadow:none; }
 .ct-facet-list > button[aria-checked="true"] { background:var(--tint); border-color:transparent; color:var(--link); font-weight:var(--weight-regular); }
 .ct-facet-list > button:disabled { opacity:.5; }
 .ct-facet-count { flex:0 0 auto; max-width:none; white-space:nowrap; overflow-wrap:normal; font-size:var(--text-2xs); font-weight:var(--weight-regular); font-variant-numeric:tabular-nums; color:var(--dim); text-align:right; }
@@ -112,3 +112,5 @@ button.ct-rank-row:focus-visible {outline:var(--line-width) solid var(--focus);o
 .ct-stat-note-row .ct-status-stat-main > :is(.status,.ct-status-stat-status) {grid-row:3;align-self:start;justify-self:start;max-width:100%;min-height:22px;box-sizing:border-box;}
 .ct-stat-note-row > .ct-status-stat > .ct-status-stat-caption {grid-row:4;align-self:start;padding-top:var(--space-2);border-top:var(--line-width) solid var(--chrome-divider);}
 .ct-stat-note-row > .ct-status-stat > .ct-status-stat-footer {grid-row:5;align-self:start;}
+
+.ct-facet-list > button:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:-1px;box-shadow:none;}

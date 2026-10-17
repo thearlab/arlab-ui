@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.19 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.20 · Satin Lift review · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -9,56 +9,57 @@ Contour is the selected design language for Workspace, Agents Studio and Knowled
 - Make location obvious. Keep app selection, page navigation and contextual navigation distinct.
 - Use clear labels, consistent alignment and generous spacing before adding decoration.
 - Use one primary action per decision. Secondary actions retain a visible border or underline.
-- Use restrained corners: 3px details, 5px controls, 8px floating surfaces. Circles are reserved for meaningful symbols and avatars.
-- Typography is Manrope. IBM Plex Mono is reserved for code, identifiers and compact time values. No Inter.
-- Avoid gradients, glowing controls, oversized icon badges, decorative dashboards and em dashes in interface copy.
+- Use shared corners: 7px controls and details, 14px panels and floating surfaces. Circles are reserved for meaningful symbols and avatars.
+- Typography is Satoshi: interface 400/500 and headings 600, with normal letter spacing. DM Mono 400 is reserved for code and identifiers.
+- Keep the canvas neutral and free of gradients. Use faint satin surface rims, quiet chrome borders and restrained elevation. Avoid glowing controls, oversized icon badges and em dashes in interface copy.
 
 ## Color and contrast
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Canvas | #F7F7FA | #201D25 |
-| Raised surface | #FFFFFF | #29252F |
-| Inset surface | #F0F0F5 | #19161F |
-| Main text | #24212A | #F3EFF6 |
-| Supporting text | #66616E | #B8AFBF |
-| Quiet separator | #E1DEE7 | #49414F |
-| Essential control outline | #908897 | #8D8297 |
+| Canvas | #F7F5F9 | #202022 |
+| Raised surface | #FFFDFF | #29292C |
+| Inset surface | #EDE8F1 | #1B1B1E |
+| Main text | #2C2532 | #F4F4F6 |
+| Supporting text | #665C70 | #BDBDC5 |
+| Quiet separator | #DDD4E5 | #414146 |
 | Brand pink | #E414DB | #F04EE8 |
-| Text links and emphasis | #A80FA3 | #F47CEE |
-| Primary button surface | #A80FA3 | #F04EE8 |
-| Primary button label | #FFFFFF | #251123 |
-| Primary hover | #8E0D89 | #F47CEE |
+| Text links and emphasis | #E414DB | #F04EE8 |
+| Primary button surface | #E414DB | #F04EE8 |
+| Primary button label | #FFFFFF | #FFFFFF |
+| Primary hover | #E414DB | #F04EE8 |
+| Orange support | #FB923C | #FB923C |
+| Orange text | #984414 | #FDBA74 |
 | Selection wash | Brand pink at 8–10% | Brand pink at 10–14% |
 | Selection outline | Brand pink at 35% | Brand pink at 40% |
-| Sparkline | #8D617D | #CAA1BB |
+| Sparkline | #198BC2 | #38BDF8 |
 
-The light primary button deliberately uses deeper pink with a white label. White on the bright brand pink is insufficient for small text; the accepted deep-pink combination is 6.44:1. Bright pink remains appropriate for active markers and progress. Dark-mode primary labels use dark ink for contrast.
+The light primary button uses the exact selected brand pink with white text. This requested combination is approximately 3.87:1 and does not meet the 4.5:1 normal-text target. Keep that exception explicit; do not describe the whole palette as passing every text contrast check. Dark-mode primary buttons also use white labels. The main pink is shared by icons, links, focus and emphasis. Light accent text on pale surfaces is also an explicit contrast exception.
 
-Department colors share a muted pink, plum and lavender family. Their meaning is organizational, not status. Creative, Engineering, Client services and Company have distinct tokens. Charts use a related six-color scale with labels and table alternatives. Success, warning, failure and information retain separate semantic colors and explicit labels.
+Department and chart colors coordinate saturated pink, orange, violet, blue and teal. Organization colors do not imply status. Department tiles use the approved vivid hues with white glyphs and explicitly recorded contrast exceptions. Charts keep labels and table alternatives. Success, warning, failure and information retain separate semantic colors and explicit labels.
 
 Quiet separators group already-understandable content. Essential controls use the stronger outline token. Disabled controls are visibly disabled. Selection never depends on color alone: include a check, underline, shape, label or selected-state announcement.
 
-`npm run check:colors` verifies 46 foreground/background pairs in both themes. This is a token audit, not a complete accessibility certification. The intentionally subtle scrollbar is supplementary to native wheel, touch and keyboard scrolling.
+`npm run check:colors` verifies foreground/background pairs in both themes and reports the explicit light primary-button exception separately. This is a token audit, not a complete accessibility certification. The intentionally subtle scrollbar is supplementary to native wheel, touch and keyboard scrolling.
 
 ## Typography, spacing and geometry
 
 | Use | Font / size | Weight / leading |
 | --- | --- | --- |
-| Page heading | Manrope, 28–34px | 500–600 / 1.2 |
-| Section heading | Manrope, 18–22px | 500–600 / 1.35 |
-| Body | Manrope, 14px | 400 / 1.5 |
-| Reading content | Manrope, 14–16px | 400 / 1.75 |
-| Form controls | Manrope, 13px | 400–500 / 1.5 |
-| Supporting labels | Manrope, 11–12px | 400–500 / 1.5 |
-| Compact metadata | Manrope, 10–11px | 400 / 1.6 |
-| Code and timestamps | IBM Plex Mono | 400 / 1.6 |
+| Page heading | Urbanist, 28–34px | 600 / 1.2 |
+| Section heading | Urbanist, 18–22px | 600 / 1.2 |
+| Body | Urbanist, 14px | 400 / 1.5 |
+| Reading content | Urbanist, 14–16px | 400 / 1.75 |
+| Form controls | Urbanist, 12px | 400 / 1.5 |
+| Supporting labels | Urbanist, 11–12px | 400–500 / 1.5 |
+| Compact metadata | Urbanist, 10–11px | 400 / 1.6 |
+| Code and identifiers | DM Mono, 12px | 400 / 1.5 |
 
 Use tabular numbers for counts and metrics. Reading columns should remain approximately 64–72 characters wide. Never truncate essential instructions or errors. Single-line identity labels may truncate when the complete value is available through context or a title.
 
 Spacing uses a 4px base: 4, 8, 12, 16, 20, 24, 32, 40, 48 and 64px. Related controls generally use 8px gaps, form fields 18–24px, page sections 28–32px. Desktop controls are 38px high; touch controls target 44px. Small contextual reset actions use a 28px visual height on fine pointers.
 
-Use a 1px separator, a 1px essential control border, and elevation only for floating content. Regular input focus is a 1px deeper-pink border with a faint 2px wash. Buttons retain an explicit keyboard focus outline. Do not remove focus indicators to simplify the appearance.
+Use 1px separators and quiet essential control borders. Panels have faint satin rims and restrained surface lift; floating content receives deeper elevation. Panel corners are 14px and controls 7px. Surface title rails run across the full panel width. Hover fills the available row width without side gaps. Regular input focus is a 1px deeper-pink border with a faint 2px wash. Buttons retain an explicit keyboard focus outline. Do not remove focus indicators to simplify the appearance.
 
 ## Actions and iconography
 
@@ -144,11 +145,11 @@ Default transitions are 120ms for immediate feedback, 180ms for controls and 240
 - Timestamp uses a semantic time element inside a quiet outlined metadata container.
 - DataTable provides selection, filtering, sorting, pagination and explicit row actions. SortHead stays a standard sort button with aria-sort; no drag interaction is introduced.
 - Kanban has a move-to-column dropdown in addition to dragging. Essential actions cannot depend on dragging.
-- Markdown is a deliberately limited renderer for headings, paragraphs, lists and fenced code. It escapes content and does not support raw HTML. Use a maintained sanitized parser if production requires richer Markdown.
+- Markdown is a deliberately limited renderer for headings, paragraphs, lists, bold, safe links and fenced code. It escapes content and does not support raw HTML. Use a maintained sanitized parser if production requires richer Markdown.
 
 ## Using the source
 
-Import components from `src/library.jsx`, icons from `src/icons.jsx`, and tokens from `src/system.js`. Load styles in this order: `styles.css`, `contour.css`, `library.css`. Load Manrope 400/500/600/700 and IBM Plex Mono 400. The demo bundles fonts locally.
+Import components from `src/library.jsx`, icons from `src/icons.jsx`, and tokens from `src/system.js`. Load styles in this order: `styles.css`, `contour.css`, `library.css`. The shared `@arlab/ui/styles.css` includes self-hosted Urbanist 400/500/600 and DM Mono 400. Do not import a second legacy font family. The live Foundations page and token downloads read the package’s `tokensFor` export directly, so labels and values follow the same source as components.
 
 ```jsx
 const tokens = tokensFor('contour', mode);
@@ -298,7 +299,7 @@ Live example: [Input](https://arlab-ui-showcase.pages.dev/?view=catalogue&compon
 
 A resizable multi-line field for longer content.
 
-Preserve newlines and let the field grow vertically. Code variant uses IBM Plex Mono and a 220px minimum; short size uses 96px. Use a visible label.
+Preserve newlines and let the field grow vertically. Code variant uses DM Mono and a 220px minimum; short size uses 96px. Use a visible label.
 
 Import: `import { Textarea } from '@arlab/ui';`
 
@@ -308,7 +309,7 @@ Import: `import { Textarea } from '@arlab/ui';`
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `rows` | DataTable: project records. Textarea: visible line count. Skeleton: placeholder row count. |
 | `disabled` | Boolean. Prevents interaction and shows a muted state. |
-| `variant` | default or code. Both use 12px regular text; code uses IBM Plex Mono. |
+| `variant` | default or code. Both use 12px regular text; code uses DM Mono. |
 | `size` | default or short. Short sets a 96px minimum. |
 | `textareaRef` | Ref to the native textarea. |
 
@@ -532,7 +533,7 @@ Live example: [Dropzone](https://arlab-ui-showcase.pages.dev/?view=catalogue&com
 
 A stable, labeled entry to Workspace, Agents Studio, and Knowledge.
 
-Changing apps preserves the surrounding navigation grammar.
+A keyboard-accessible application menu. Custom options keep stable values separate from labels; the selected app uses a soft tint.
 
 Import: `import { AppSwitcher } from '@arlab/ui';`
 
@@ -540,6 +541,9 @@ Import: `import { AppSwitcher } from '@arlab/ui';`
 | --- | --- |
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
+| `options` | Application options with value, label, optional description/icon/disabled. |
+| `label` | Accessible menu name. |
+| `disabled` | Disables the application trigger. |
 
 Live example: [AppSwitcher](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AppSwitcher)
 
@@ -611,21 +615,21 @@ Live example: [NavTree](https://arlab-ui-showcase.pages.dev/?view=catalogue&comp
 
 #### AccountMenu
 
-A predictable menu for profile, workspace, and support actions.
+Static account identity with a separate sign-out action.
 
-Keep account actions separate from project actions. The trigger includes a person’s name.
+The avatar, name and role are informational. Only the small sign-out action is interactive.
 
 Import: `import { AccountMenu } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
-| `onSelect` | Receives the selected date, event, or menu action. |
 | `name` | Visible account name; defaults to Alex Morgan. |
 | `initials` | One or two letters identifying the person. |
 | `workspace` | Workspace name shown below the account identity. |
-| `items` | Application-owned account action definitions. Omit to use the showcase defaults. |
 | `roleCaption` | Secondary account line, such as the actual user role. |
-| `collapsed` | Show the shared compact avatar trigger without clipping the menu. |
+| `collapsed` | Show compact avatar and separate sign-out action without identity text. |
+| `onLogout` | Application-owned sign-out action. The identity itself has no menu or button. |
+| `onSelect` | Receives the selected date, event, or menu action. |
 
 Live example: [AccountMenu](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AccountMenu)
 
@@ -895,7 +899,7 @@ Live example: [AppHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&co
 
 Native scrolling with a short, transparent pink indicator flush to the container edge.
 
-The 2px rectangular thumb is at most 28px long. Wheel, touch, keyboard, and thumb dragging work together. No indicator appears when content fits.
+The 2px thumb is at most 28px long. Adding title or header opts into a framed surface with a fixed title rail; height bounds the entire frame. Plain instances remain unframed. hideScrollbar removes indicator controls while preserving native scrolling.
 
 Import: `import { ScrollArea } from '@arlab/ui';`
 
@@ -905,6 +909,11 @@ Import: `import { ScrollArea } from '@arlab/ui';`
 | `height` | Optional scroll viewport height in pixels or a CSS length. |
 | `maxHeight` | Maximum scroll viewport height; content may use less space. |
 | `axis` | vertical  /  horizontal  /  both; default vertical. |
+| `hideScrollbar` | Optional boolean. Hide custom indicator controls while preserving native scrolling and keyboard access. |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `actions` | Primary and supporting actions for the current page. |
+| `header` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
 
 Live example: [ScrollArea](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ScrollArea)
@@ -1182,7 +1191,7 @@ Live example: [Gate](https://arlab-ui-showcase.pages.dev/?view=catalogue&compone
 
 #### Loader
 
-A small geometric loader with a fine traveling stroke.
+A fine circular loader with a restrained moving arc.
 
 Announces loading once. Uses no fabricated percentage. Reduced-motion preferences stop the animation.
 
@@ -1208,6 +1217,7 @@ Import: `import { PageLoading } from '@arlab/ui';`
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
+| `variant` | signature or content-preview. Content preview fills a bounded shell body with centered live copy and decorative placeholders. |
 | `onCancel` | Callback for the safe cancellation action. |
 | `mark` | Custom application mark. Defaults to canonical compact ArlabMark. |
 | `workspaceName` | Application identity displayed beside the mark. |
@@ -2386,19 +2396,26 @@ Live example: [PreviewFrame](https://arlab-ui-showcase.pages.dev/?view=catalogue
 
 A full-height editing workspace.
 
-Fixed toolbar and footer; properties stack below the preview on narrow screens.
+Independent canvas and inspector scroll regions, a fixed save footer and shared desktop/tablet/phone controls. Properties open in a shared side sheet when the editor becomes narrow.
 
 Import: `import { EditorLayout } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
 | `toolbar` | Optional pattern-specific value. Use the live example as the reference. |
 | `sidebar` | Optional pattern-specific value. Use the live example as the reference. |
 | `children` | React content. Keep text concise and accessible. |
 | `footer` | Optional pattern-specific value. Use the live example as the reference. |
 | `onExit` | Optional pattern-specific value. Use the live example as the reference. |
 | `style` | Optional pattern-specific value. Use the live example as the reference. |
+| `viewport` | Optional pattern-specific value. Use the live example as the reference. |
+| `defaultViewport` | Optional pattern-specific value. Use the live example as the reference. |
+| `onViewportChange` | Optional pattern-specific value. Use the live example as the reference. |
+| `showViewportControls` | Optional pattern-specific value. Use the live example as the reference. |
+| `propertiesLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `previewLabel` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [EditorLayout](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=EditorLayout)
 
@@ -2584,7 +2601,7 @@ Live example: [SectionHeader](https://arlab-ui-showcase.pages.dev/?view=catalogu
 
 A collection with individual, clearly actionable items.
 
-Each item has its own action. Long names truncate without widening the card.
+Composes the shared Panel, Rows and Row components, including full-width hover. Items without onOpen stay informational; group and more actions remain separate.
 
 Import: `import { CollectionGroup } from '@arlab/ui';`
 
@@ -2614,20 +2631,20 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--text-xs` | `12px` | `12px` |
 | `--text-sm` | `13px` | `13px` |
 | `--text-field` | `12px` | `12px` |
-| `--icon-stroke` | `1.65` | `1.65` |
-| `--shadow-surface` | `none` | `none` |
-| `--shadow-control` | `none` | `none` |
-| `--shadow-control-hover` | `none` | `none` |
-| `--shadow-primary` | `none` | `none` |
-| `--shadow-primary-hover` | `none` | `none` |
-| `--surface-gradient` | `none` | `none` |
-| `--surface-border-color` | `var(--line)` | `var(--line)` |
+| `--icon-stroke` | `1.5` | `1.5` |
+| `--shadow-surface` | `inset 0 1px 0 #FFFFFF,0 1px 2px #20283808,0 10px 26px -16px #20283830` | `inset 0 1px 0 #FFFFFF04,0 1px 2px #00000025,0 10px 26px -16px #00000080` |
+| `--shadow-control` | `0 1px 2px #20283809` | `inset 0 1px 0 #FFFFFF05` |
+| `--shadow-control-hover` | `inset 0 1px 0 #FFFFFF,0 3px 10px #20283812` | `inset 0 1px 0 #FFFFFF0A,0 3px 10px #00000025` |
+| `--shadow-primary` | `inset 0 1px 0 #FFFFFF20` | `inset 0 1px 0 #FFFFFF14` |
+| `--shadow-primary-hover` | `inset 0 1px 0 #FFFFFF30,0 4px 12px rgba(228,20,219,.14)` | `inset 0 1px 0 #FFFFFF20,0 4px 12px #00000040` |
+| `--surface-gradient` | `linear-gradient(150deg,#FFFDFF,#FDFCFE),linear-gradient(135deg,#E3DCE9,#D2C9DB 32%,#F4EFF7 65%,#D8CEDE)` | `linear-gradient(150deg,#29292C,#28282B),linear-gradient(135deg,#48484E,#38383D 32%,#414146 65%,#46464B)` |
+| `--surface-border-color` | `transparent` | `transparent` |
 | `--page-gradient` | `none` | `none` |
 | `--chrome-gradient` | `none` | `none` |
-| `--shadow-chrome` | `none` | `none` |
-| `--action-gradient` | `none` | `none` |
-| `--icon-hover-color` | `var(--ink)` | `var(--ink)` |
-| `--icon-hover-surface` | `var(--sunken)` | `var(--sunken)` |
+| `--shadow-chrome` | `0 2px 10px #20283808` | `0 2px 10px #00000020` |
+| `--action-gradient` | `none` | `linear-gradient(135deg,rgba(251,146,60,.08),transparent 70%)` |
+| `--icon-hover-color` | `#2C2532` | `#F4F4F6` |
+| `--icon-hover-surface` | `#f9f6fa` | `#242427` |
 | `--hover-duration` | `140ms` | `140ms` |
 | `--button-height` | `38px` | `38px` |
 | `--button-padding-inline` | `13px` | `13px` |
@@ -2669,70 +2686,104 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--dur-slow` | `240ms` | `240ms` |
 | `--ease` | `cubic-bezier(.2,.8,.2,1)` | `cubic-bezier(.2,.8,.2,1)` |
 | `--on-dept-solid` | `#FFFFFF` | `#FFFFFF` |
-| `--dept-creative-solid` | `#B344A6` | `#B344A6` |
-| `--dept-engineering-solid` | `#6C62A6` | `#6C62A6` |
-| `--dept-client-solid` | `#8D617D` | `#8D617D` |
-| `--dept-company-solid` | `#676171` | `#676171` |
-| `--dept-strategy-solid` | `#497B8F` | `#497B8F` |
-| `--dept-creative` | `#B344A6` | `#E28DD4` |
-| `--dept-engineering` | `#6C62A6` | `#ADA5E3` |
-| `--dept-client` | `#8D617D` | `#CAA1BB` |
-| `--dept-company` | `#676171` | `#B6ADBF` |
-| `--dept-strategy` | `#497B8F` | `#8AB7C8` |
-| `--chart-1` | `#B344A6` | `#E28DD4` |
-| `--chart-2` | `#7563B2` | `#B0A0E0` |
-| `--chart-3` | `#9476AD` | `#C1A5D6` |
-| `--chart-4` | `#497B8F` | `#8AB7C8` |
-| `--chart-5` | `#A46B87` | `#D6A0BC` |
-| `--chart-6` | `#6E6878` | `#B6ADBF` |
-| `--chart-7` | `#9C7B64` | `#C9B19E` |
-| `--chart-trend` | `#8D617D` | `#CAA1BB` |
+| `--dept-creative-solid` | `#E414DB` | `#F04EE8` |
+| `--dept-engineering-solid` | `#FB923C` | `#FB923C` |
+| `--dept-client-solid` | `#8058D6` | `#A78BFA` |
+| `--dept-company-solid` | `#198BC2` | `#38BDF8` |
+| `--dept-strategy-solid` | `#128D83` | `#2DD4BF` |
+| `--dept-creative` | `#E414DB` | `#F04EE8` |
+| `--dept-engineering` | `#FB923C` | `#FB923C` |
+| `--dept-client` | `#8058D6` | `#A78BFA` |
+| `--dept-company` | `#198BC2` | `#38BDF8` |
+| `--dept-strategy` | `#128D83` | `#2DD4BF` |
+| `--chart-1` | `#E414DB` | `#F04EE8` |
+| `--chart-2` | `#FB923C` | `#FB923C` |
+| `--chart-3` | `#8058D6` | `#A78BFA` |
+| `--chart-4` | `#198BC2` | `#38BDF8` |
+| `--chart-5` | `#128D83` | `#2DD4BF` |
+| `--chart-6` | `#9560C7` | `#C4B5FD` |
+| `--chart-7` | `#BF870D` | `#FBBF24` |
+| `--chart-trend` | `#198BC2` | `#38BDF8` |
 | `--icon-button-size` | `14px` | `14px` |
 | `--scrollbar-size` | `2px` | `2px` |
-| `--ground` | `#F7F7FA` | `#201D25` |
-| `--raise` | `#FFFFFF` | `#29252F` |
-| `--sunken` | `#F0F0F5` | `#19161F` |
-| `--ink` | `#24212A` | `#F3EFF6` |
-| `--dim` | `#66616E` | `#B8AFBF` |
-| `--line` | `#E1DEE7` | `#49414F` |
-| `--strong` | `#908897` | `#8D8297` |
+| `--ground` | `#F7F5F9` | `#202022` |
+| `--raise` | `#FFFDFF` | `#29292C` |
+| `--sunken` | `#EDE8F1` | `#1B1B1E` |
+| `--ink` | `#2C2532` | `#F4F4F6` |
+| `--dim` | `#665C70` | `#BDBDC5` |
+| `--line` | `#DDD4E5` | `#414146` |
+| `--strong` | `#665C70` | `#BDBDC5` |
+| `--nav` | `#FFFDFF` | `#29292C` |
+| `--navInk` | `#665C70` | `#BDBDC5` |
+| `--navActive` | `#fdeafc` | `#452e46` |
+| `--navSelected` | `#E414DB` | `#F04EE8` |
 | `--accent` | `#E414DB` | `#F04EE8` |
-| `--tint` | `#FDECFC` | `#452B49` |
-| `--action` | `#A80FA3` | `#F04EE8` |
-| `--actionHover` | `#8E0D89` | `#F47CEE` |
-| `--actionInk` | `#FFFFFF` | `#251123` |
-| `--nav` | `#FCFBFD` | `#231F28` |
-| `--navInk` | `#66616E` | `#B8AFBF` |
-| `--navActive` | `#FDECFC` | `#452B49` |
-| `--navSelected` | `#A80FA3` | `#F47CEE` |
-| `--accent-deep` | `#A80FA3` | `#F47CEE` |
-| `--accent-soft` | `rgba(228, 20, 219, 0.08)` | `rgba(240, 78, 232, 0.10)` |
-| `--accent-tint` | `rgba(228, 20, 219, 0.10)` | `rgba(240, 78, 232, 0.14)` |
-| `--accent-line` | `rgba(228, 20, 219, 0.35)` | `rgba(240, 78, 232, 0.40)` |
-| `--link` | `#A80FA3` | `#F47CEE` |
-| `--focus` | `#A80FA3` | `#F47CEE` |
-| `--ok` | `#226A4B` | `#98D7B4` |
-| `--okTint` | `#EAF4ED` | `#223F34` |
-| `--warn` | `#835713` | `#F0CA83` |
-| `--warnTint` | `#FCF3DF` | `#493B24` |
-| `--bad` | `#AF333C` | `#FFABB0` |
-| `--badTint` | `#FBECEF` | `#4B2B33` |
-| `--info` | `#285B9B` | `#A7CAFF` |
-| `--infoTint` | `#EAF1FB` | `#263D58` |
-| `--font-sans` | `'Manrope', sans-serif` | `'Manrope', sans-serif` |
-| `--scrollbar-thumb` | `rgba(228, 20, 219, 0.35)` | `rgba(240, 78, 232, 0.35)` |
-| `--scrollbar-hover` | `rgba(228, 20, 219, 0.60)` | `rgba(240, 78, 232, 0.60)` |
+| `--tint` | `#fdeafc` | `#452e46` |
+| `--action` | `#E414DB` | `#F04EE8` |
+| `--actionHover` | `#E414DB` | `#F04EE8` |
+| `--actionInk` | `#FFFFFF` | `#FFFFFF` |
+| `--link` | `#E414DB` | `#F04EE8` |
+| `--focus` | `#E414DB` | `#F04EE8` |
+| `--accent-deep` | `#E414DB` | `#F04EE8` |
+| `--accent-soft` | `rgba(228,20,219,.08)` | `rgba(240,78,232,.10)` |
+| `--accent-tint` | `rgba(228,20,219,.10)` | `rgba(240,78,232,.14)` |
+| `--accent-line` | `rgba(228,20,219,.35)` | `rgba(240,78,232,.40)` |
+| `--secondary-accent` | `#FB923C` | `#FB923C` |
+| `--secondary-accent-text` | `#984414` | `#FDBA74` |
+| `--secondary-accent-soft` | `#FDF0E4` | `#503826` |
+| `--scrollbar-thumb` | `rgba(228,20,219,.35)` | `rgba(240,78,232,.35)` |
+| `--scrollbar-hover` | `rgba(228,20,219,.60)` | `rgba(240,78,232,.60)` |
 | `--scrollbar-track` | `transparent` | `transparent` |
-| `--font-display` | `'Manrope', sans-serif` | `'Manrope', sans-serif` |
-| `--font-mono` | `'IBM Plex Mono', monospace` | `'IBM Plex Mono', monospace` |
-| `--radius-xs` | `3px` | `3px` |
-| `--radius-sm` | `5px` | `5px` |
-| `--radius-lg` | `8px` | `8px` |
+| `--ok` | `#356A5A` | `#b2c6c0` |
+| `--okTint` | `#f0f2f3` | `#3f4244` |
+| `--bad` | `#AD4053` | `#e0b6be` |
+| `--badTint` | `#f9eff2` | `#464043` |
+| `--info` | `#4B619D` | `#bbc3da` |
+| `--infoTint` | `#f2f1f8` | `#404248` |
+| `--warn` | `#984414` | `#FDBA74` |
+| `--warnTint` | `#FDF0E4` | `#503826` |
+| `--dept-creative-ink` | `#FFFFFF` | `#FFFFFF` |
+| `--dept-engineering-ink` | `#FFFFFF` | `#FFFFFF` |
+| `--dept-client-ink` | `#FFFFFF` | `#FFFFFF` |
+| `--dept-company-ink` | `#FFFFFF` | `#FFFFFF` |
+| `--dept-strategy-ink` | `#FFFFFF` | `#FFFFFF` |
+| `--font-sans` | `'Satoshi', sans-serif` | `'Satoshi', sans-serif` |
+| `--font-display` | `'Satoshi', sans-serif` | `'Satoshi', sans-serif` |
+| `--font-mono` | `'DM Mono', monospace` | `'DM Mono', monospace` |
+| `--weight-heading` | `600` | `600` |
+| `--font-weight-heading` | `600` | `600` |
+| `--radius-xs` | `7px` | `7px` |
+| `--radius-sm` | `7px` | `7px` |
+| `--radius-lg` | `14px` | `14px` |
+| `--radius-md` | `14px` | `14px` |
+| `--radius-panel` | `14px` | `14px` |
+| `--radius-control` | `7px` | `7px` |
+| `--shadow-card` | `inset 0 1px 0 #FFFFFF,0 1px 2px #20283808,0 10px 26px -16px #20283830` | `inset 0 1px 0 #FFFFFF04,0 1px 2px #00000025,0 10px 26px -16px #00000080` |
+| `--shadow-pop` | `0 4px 8px #2028380A,0 20px 48px -12px #20283830` | `0 4px 8px #00000035,0 20px 48px -12px #00000090` |
+| `--icon-rest-border` | `#e4e1e4` | `#525254` |
+| `--icon-hover-border` | `#d9d6da` | `#626265` |
+| `--icon-rest-surface` | `#fdfafd` | `#27272a` |
+| `--icon-rest-gradient` | `linear-gradient(180deg,rgba(255,255,255,.6),transparent 65%)` | `linear-gradient(180deg,rgba(255,255,255,.025),transparent 65%)` |
+| `--icon-hover-gradient` | `linear-gradient(180deg,rgba(255,255,255,.8),transparent 70%)` | `linear-gradient(180deg,rgba(255,255,255,.045),transparent 70%)` |
+| `--icon-rest-shadow` | `inset 0 1px 0 #FFFFFFB0,0 1px 1px #20283804` | `inset 0 1px 0 #FFFFFF04` |
+| `--icon-hover-shadow` | `inset 0 1px 0 #FFFFFFD0,0 1px 3px #2028380A` | `inset 0 1px 0 #FFFFFF08,0 1px 3px #00000015` |
+| `--chrome-line` | `#e4e1e4` | `#525254` |
+| `--chrome-line-hover` | `#d9d6da` | `#606063` |
+| `--chrome-control-surface` | `#FFFDFF` | `#29292C` |
+| `--chrome-control-gradient` | `linear-gradient(180deg,#FFFDFF,#fbf9fc)` | `linear-gradient(180deg,#29292C,#262629)` |
+| `--control-gradient` | `linear-gradient(180deg,#FFFDFF,#fbf9fc)` | `linear-gradient(180deg,#29292C,#262629)` |
+| `--chrome-control-shadow` | `inset 0 1px 0 #FFFFFFC0,0 1px 2px #20283805` | `inset 0 1px 0 #FFFFFF04` |
+| `--chrome-control-hover-shadow` | `inset 0 1px 0 #FFFFFF,0 1px 3px #2028380A` | `inset 0 1px 0 #FFFFFF06,0 1px 3px #00000018` |
+| `--chrome-divider` | `#edebee` | `#434346` |
+| `--chrome-row-hover` | `#faf8fa` | `#303033` |
+| `--chrome-subtle-gradient` | `linear-gradient(180deg,#fdfbfe,#fbf9fc)` | `linear-gradient(180deg,#28282b,#262629)` |
+| `--switch-off-track` | `#e4e1e4` | `#49494c` |
+| `--switch-off-border` | `#b5b1b7` | `#767679` |
+| `--switch-thumb` | `#665C70` | `#EBEBEF` |
 | `--side-w` | `210px` | `210px` |
 | `--page-pad` | `32px` | `32px` |
 | `--control-h` | `38px` | `38px` |
 | `--text-3xl` | `34px` | `34px` |
-| `--shadow-pop` | `0 12px 40px #25242c18` | `0 16px 48px #00000055` |
 | `--scrim` | `#20222e55` | `#00000080` |
 
 ## Icon reference

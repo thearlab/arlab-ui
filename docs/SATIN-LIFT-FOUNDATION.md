@@ -8,13 +8,13 @@ Containers, panels, dialogs and tables use 14px corners. Controls, buttons, tags
 
 Light surfaces: page #F7F5F9, raised #FFFDFF, inset #EDE8F1. Dark surfaces: page #202022, raised #29292C, inset #1B1B1E, primary text #F4F4F6, secondary text #BDBDC5, line #414146. Dark greys are neutral, with no purple page wash. Page and chrome background gradients are none; a subtle two-layer surface gradient supplies the satin rim. Quiet chrome edges and Soft Lift shadows are shared tokens.
 
-Main pink is #E414DB in light mode and #F04EE8 in dark mode. Light primary actions use exact #E414DB with no gradient. Dark actions use #B414AE so white labels meet normal-text contrast. Links and emphasis use #A80FA3 light and #F47CEE dark. Orange #FB923C supports charts and accents; accessible orange text uses #984414 light and #FDBA74 dark.
+Main pink is #E414DB in light mode and #F04EE8 in dark mode. Light primary actions use exact #E414DB with no gradient. Dark actions use #F04EE8 with the documented white-label contrast exception. Links, icons, focus and emphasis use that same main pink. Orange #FB923C supports charts and accents; accessible orange text uses #984414 light and #FDBA74 dark.
 
-Department colors follow the chart hue system. Separate darker dept-*-solid tones preserve white icon and initial contrast on solid navigation tiles. This intentionally avoids white icons on the bright orange chart hue.
+Department colors follow the chart hue system. Department solid tokens retain the vivid chart colors with white glyphs. The contrast report records their explicit exceptions.
 
 ## Explicit brand contrast choice
 
-The user requested exact #E414DB with white button labels in light mode. This is 3.87:1, below the 4.5:1 normal-text target. It is an explicit approved brand exception, not a passing normal-text combination. Links retain the deeper pink. Dark primary buttons, semantic notes, primary/secondary text and department tiles are checked independently.
+The user requested exact #E414DB with white button labels in light mode. This is 3.87:1, below the 4.5:1 normal-text target. It is an explicit approved brand exception, not a passing normal-text combination. Links use the main pink and their light-mode contrast exceptions are also recorded. Dark primary buttons, semantic notes, primary/secondary text and department tiles are checked independently.
 
 ## Verification
 

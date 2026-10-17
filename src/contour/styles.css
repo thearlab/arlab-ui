@@ -44,7 +44,7 @@ summary:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 1px solid var(--focus, #A80FA3);
+  outline: 1px solid var(--focus, #E414DB);
   outline-offset: 1px;
 }
 button {

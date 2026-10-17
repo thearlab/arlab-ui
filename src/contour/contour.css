@@ -101,7 +101,7 @@
   height: 62px;
 }
 :where(button, a, input, textarea, select, summary):focus-visible {
-  outline-color: var(--focus, #a80fa3);
+  outline-color: var(--focus, #e414db);
 }
 .btn.quiet,
 .ct-data-table > .ct-table-header .btn.quiet {

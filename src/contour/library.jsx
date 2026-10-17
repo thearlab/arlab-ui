@@ -412,9 +412,7 @@ export function Refreshing({ busy, children }) {
   return (
     <div className={`lib-refreshing ${busy ? "busy" : ""}`} aria-busy={busy}>
       {busy && (
-        <span className="lib-refresh-label" role="status">
-          Refreshing…
-        </span>
+        <span className="lib-refresh-indicator"><Loader label="Refreshing" size={28}/></span>
       )}
       {children}
     </div>

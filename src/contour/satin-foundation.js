@@ -11,13 +11,12 @@ export function satinLiftTokens(mode) {
   const dark = mode === 'dark';
   const {ground,raise,sunken,ink,dim,line} = palettes[dark ? 'dark' : 'light'];
   const accent = dark ? '#F04EE8' : '#E414DB';
-  const deep = dark ? '#F47CEE' : '#A80FA3';
   const channels = rgb(accent).join(',');
   const soft = `rgba(${channels},${dark ? '.10' : '.08'})`;
   const colors = {ground,raise,sunken,ink,dim,line,strong:dim,
-    nav:raise,navInk:dim,navActive:blend(raise,accent,dark?.14:.08),navSelected:deep,
-    accent,tint:blend(raise,accent,dark?.14:.08),action:accent,actionHover:dark?'#E414DB':'#CA12C2',actionInk:'#FFFFFF',
-    link:deep,focus:deep,'accent-deep':deep,'accent-soft':soft,
+    nav:raise,navInk:dim,navActive:blend(raise,accent,dark?.14:.08),navSelected:accent,
+    accent,tint:blend(raise,accent,dark?.14:.08),action:accent,actionHover:accent,actionInk:'#FFFFFF',
+    link:accent,focus:accent,'accent-deep':accent,'accent-soft':soft,
     'accent-tint':`rgba(${channels},${dark?'.14':'.10'})`,'accent-line':`rgba(${channels},${dark?'.40':'.35'})`,
     'secondary-accent':'#FB923C','secondary-accent-text':dark?'#FDBA74':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
     'scrollbar-thumb':`rgba(${channels},.35)`,'scrollbar-hover':`rgba(${channels},.60)`,'scrollbar-track':'transparent',

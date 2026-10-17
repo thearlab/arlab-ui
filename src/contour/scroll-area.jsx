@@ -20,7 +20,7 @@ export function scrollThumbMetrics(viewport, content, position) {
 }
 
 /**
- * @param {{children: import('react').ReactNode, label?: string, height?: import('react').CSSProperties['height'], maxHeight?: import('react').CSSProperties['maxHeight'], axis?: 'vertical' | 'horizontal' | 'both', className?: string, contentClassName?: string, tabIndex?: number, title?: import('react').ReactNode, description?: import('react').ReactNode, actions?: import('react').ReactNode, header?: import('react').ReactNode}} props
+ * @param {{children: import('react').ReactNode, label?: string, height?: import('react').CSSProperties['height'], maxHeight?: import('react').CSSProperties['maxHeight'], axis?: 'vertical' | 'horizontal' | 'both', className?: string, contentClassName?: string, tabIndex?: number, hideScrollbar?: boolean, title?: import('react').ReactNode, description?: import('react').ReactNode, actions?: import('react').ReactNode, header?: import('react').ReactNode}} props
  */
 export function ScrollArea({
   children,
@@ -35,6 +35,7 @@ export function ScrollArea({
   className = "",
   contentClassName = "",
   tabIndex = 0,
+  hideScrollbar = false,
 }) {
   const framed = title != null || description != null || actions != null || header != null;
   const accessibleLabel = label ?? (typeof title === "string" ? title : "Scrollable content");
@@ -76,7 +77,7 @@ export function ScrollArea({
   const thumb = (orientation) => {
     const m = metrics[orientation],
       vertical = orientation === "vertical";
-    if (!m.range || (axis !== "both" && axis !== orientation)) return null;
+    if (hideScrollbar || !m.range || (axis !== "both" && axis !== orientation)) return null;
     const property = vertical ? "scrollTop" : "scrollLeft";
     return (
       <button
