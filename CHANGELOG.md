@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0-beta.20
+
+- Compact TagInput chips use dedicated 24px remove actions, 28px tags and shared field typography without enlarging the public Button/IconButton contract. Long labels wrap safely and retain a full-name tooltip.
+- TimePicker uses two equal 64px hour/minute dropdowns instead of inheriting the generic 150px minimum. Time values, disabled bounds and keyboard behavior are preserved.
+- Dropdown marks selection with its semantic selected background and aria-selected, without an extra checkmark.
+- Existing Contour foundation tokens remain unchanged; local Platinum and typography previews are not deployed.
+
 ## 2.0.0-beta.19
 
 - Fix optional public prop declarations and add a strict consumer type check.

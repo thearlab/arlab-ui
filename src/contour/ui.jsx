@@ -593,7 +593,6 @@ export function Dropdown({
                   {o.count !== undefined && (
                     <span className="option-count">{o.count}</span>
                   )}
-                  {String(o.value) === String(value) && <Check size={15} />}
                 </div>
               ))}
               {!filtered.length && (

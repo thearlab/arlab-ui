@@ -208,11 +208,11 @@ export function TabStrip({ options, value, onChange, label = "Sections" }) {
 export function Chip({ children, onRemove }) {
   return (
     <span className="removable-tag">
-      {children}
+      <span className="ct-chip-label" title={typeof children === 'string' ? children : undefined}>{children}</span>
       {onRemove && (
-        <IconButton label={`Remove ${children}`} onClick={onRemove}>
-          <X size={12} />
-        </IconButton>
+        <button type="button" className="ct-chip-remove" aria-label={`Remove ${children}`} onClick={onRemove}>
+          <X size={12} aria-hidden="true" />
+        </button>
       )}
     </span>
   );
