@@ -4,6 +4,7 @@ import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } fro
 import { ScrollArea } from './scroll-area.js';
 import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { Button } from './library.js';
+import { infiniteTableEntries } from './table-groups.js';
 
 export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row>, TableChromeOptions {
   columns: FilterColumn<Row>[];
@@ -25,6 +26,10 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   sortIndicators?:'all'|'active'|'none';
   /** Fixed geometry is required. Custom cells must fit in two lines inside this height. Minimum 44. */
   rowHeight?: number;
+  /** Insert headings for contiguous groups. Records retain local sort or server order.
+   * Group headings share rowHeight, so virtualization remains bounded and predictable. */
+  groupBy?: keyof Row | ((row: Row) => string | number | null | undefined);
+  renderGroup?: (group: { label: string; count: number }) => ReactNode;
   overscan?: number;
   chunkSize?: number;
   /** Bounded scroll surface; use an explicit height or a height constrained by the parent. */
@@ -100,6 +105,8 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
 
   const ordered = useMemo(() => remote ? rows : sortTableRows(rows, columns, sort), [rows, columns, remote, sort?.key, sort?.direction]);
   const count = remote ? ordered.length : Math.min(loaded, ordered.length);
+  const allEntries = useMemo(() => infiniteTableEntries(ordered, props.groupBy), [ordered, props.groupBy]);
+  const entries = useMemo(() => remote ? allEntries : infiniteTableEntries(ordered.slice(0, count), props.groupBy), [remote, allEntries, ordered, count, props.groupBy]);
   const error = failure || (props.mode === 'remote' ? props.error : '') || '';
   const loadingMore = pending || (props.mode === 'remote' && props.loadingMore);
   const more = props.mode === 'remote' ? props.hasMore : count < ordered.length;
@@ -181,41 +188,48 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   }, [localRows, remote, filterKey, sortIdentity, chunkSize, rowHeight]);
 
   const selectedIndex=props.selectedRowKey===undefined?-1:ordered.findIndex(row=>String(typeof rowKey==='function'?rowKey(row):row[rowKey])===String(props.selectedRowKey));
+  const selectedEntryIndex=selectedIndex<0?-1:allEntries.findIndex(entry=>entry.kind==='row'&&entry.rowIndex===selectedIndex);
   useLayoutEffect(()=>{
-    revealIndex.current=selectedIndex<0?null:selectedIndex;
+    revealIndex.current=selectedEntryIndex<0?null:selectedEntryIndex;
     if(selectedIndex<0)return;
     if(!remote)setLoaded(old=>Math.max(old,Math.ceil((selectedIndex+1)/chunkSize)*chunkSize));
     scheduleRead();
-  },[props.selectedRowKey,selectedIndex,remote,chunkSize,rowHeight,scheduleRead]);
+  },[props.selectedRowKey,selectedIndex,selectedEntryIndex,remote,chunkSize,rowHeight,scheduleRead]);
 
   useEffect(() => {
     if (loading || error || loadingMore || !more) return;
-    const distance = position.header + count * rowHeight - (position.top + position.height);
+    const distance = position.header + entries.length * rowHeight - (position.top + position.height);
     if (distance > Math.max(200, overscan * rowHeight)) return;
     if (remote) requestMore(); else setLoaded(old => Math.min(ordered.length, old + chunkSize));
-  }, [loading, error, loadingMore, more, position, count, rowHeight, overscan, remote, requestMore, ordered.length, chunkSize]);
+  }, [loading, error, loadingMore, more, position, count, entries.length, rowHeight, overscan, remote, requestMore, ordered.length, chunkSize]);
 
   const changeSort = (key: string) => {
     const next: TableSort = { key, direction: sort?.key === key && sort.direction === 'ascending' ? 'descending' : 'ascending' };
     if (props.mode === 'remote') props.onSortChange(next); else setLocalSort(next);
   };
-  const range = infiniteTableWindow(count, position.top, position.height, rowHeight, overscan, position.header);
-  const visibleRows = ordered.slice(range.start, range.end);
+  const range = infiniteTableWindow(entries.length, position.top, position.height, rowHeight, overscan, position.header);
+  const visibleEntries = entries.slice(range.start, range.end);
   const total = props.mode === 'remote' ? props.totalCount ?? (props.hasMore ? -1 : rows.length) : rows.length;
+  const accessibleTotal = props.groupBy === undefined ? (total < 0 ? -1 : total + 1) : remote && more ? -1 : allEntries.length + 1;
   const colspan = Math.max(1, columns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
     <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
-      <table aria-label={title} aria-rowcount={total < 0 ? -1 : total + 1} aria-colcount={columns.length}>
+      <table aria-label={title} aria-rowcount={accessibleTotal} aria-colcount={columns.length}>
         <SharedTableHead columns={columns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>
           {!loading && count > 0 && range.start > 0 && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: range.start * rowHeight }}/></tr>}
-          {!loading && visibleRows.map((row, offset) => <tr {...tableRowProps(row,props,typeof rowKey==='function'?rowKey(row):row[rowKey])} key={typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])} aria-rowindex={range.start + offset + 2} className="ct-infinite-row">
-            {columns.map(column => <td key={column.key} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
-          </tr>)}
-          {!loading && count > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (count - range.end) * rowHeight }}/></tr>}
+          {!loading && visibleEntries.map((entry, offset) => {
+            const index = range.start + offset;
+            if (entry.kind === 'group') return <tr key={`group:${entry.firstRowIndex}:${entry.group}`} aria-rowindex={index + 2} className="ct-infinite-group"><th scope="rowgroup" colSpan={colspan}>{props.renderGroup ? props.renderGroup({label: entry.group, count: entry.count}) : entry.group}</th></tr>;
+            const row = entry.row;
+            return <tr {...tableRowProps(row,props,typeof rowKey==='function'?rowKey(row):row[rowKey])} key={`row:${typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])}`} aria-rowindex={index + 2} className="ct-infinite-row">
+              {columns.map(column => <td key={column.key} data-phone-hidden={column.hideOnPhone || undefined} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
+            </tr>;
+          })}
+          {!loading && entries.length > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (entries.length - range.end) * rowHeight }}/></tr>}
           {(loading || count === 0) && <tr><td colSpan={colspan}><div className="ct-table-empty" role="status">{loading ? 'Loading records…' : error ? 'Records could not be loaded.' : emptyMessage}</div></td></tr>}
         </tbody>
       </table>

@@ -23,8 +23,9 @@ try {
   const emitted = library.emit();
   const declarationErrors = [...ts.getPreEmitDiagnostics(library), ...emitted.diagnostics];
   if(declarationErrors.length) throw new Error(format(declarationErrors));
-  const fixture = path.join(root, 'scripts/type-tests/public-api.tsx');
-  const consumer = ts.createProgram([fixture], {
+  const fixtureDirectory = path.join(root, 'scripts/type-tests');
+  const fixtures = fs.readdirSync(fixtureDirectory).filter(file => file.endsWith('.tsx')).map(file => path.join(fixtureDirectory, file));
+  const consumer = ts.createProgram(fixtures, {
     target: ts.ScriptTarget.ES2020, lib:['lib.es2020.d.ts','lib.dom.d.ts'],
     module: ts.ModuleKind.ESNext, moduleResolution: ts.ModuleResolutionKind.Bundler,
     jsx: ts.JsxEmit.ReactJSX, strict:true, skipLibCheck:false,

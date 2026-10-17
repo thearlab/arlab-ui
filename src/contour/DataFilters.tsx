@@ -21,6 +21,8 @@ export interface FilterColumn<Row> {
   key: string;
   label: string;
   header?: ReactNode;
+  /** Hide this column and its header below 600px; data remains available on wider screens. */
+  hideOnPhone?: boolean;
   width?: CSSProperties['width'];
   minWidth?: CSSProperties['minWidth'];
   maxWidth?: CSSProperties['maxWidth'];
@@ -69,6 +71,7 @@ export function SharedTableHead<Row>({columns,sort,onSort,sortingDisabled=false,
               {columns.map((column) => (
                 <th
                   key={column.key}
+                  data-phone-hidden={column.hideOnPhone || undefined}
                   scope="col"
                   aria-sort={
                     sort?.key === column.key ? sort.direction : undefined
@@ -209,6 +212,7 @@ export function FilterableTable<Row extends Record<string, unknown>>({
                   {columns.map((column) => (
                     <td
                       key={column.key}
+                      data-phone-hidden={column.hideOnPhone || undefined}
                       style={{ textAlign: column.align || "left", width:column.width,minWidth:column.minWidth,maxWidth:column.maxWidth }}
                     >
                       {column.render

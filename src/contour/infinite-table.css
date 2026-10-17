@@ -50,3 +50,10 @@
 .ct-data-table[data-fill] > .ct-table-scroll > .scroll-viewport {height:100%;}
 .ct-data-table > .ct-table-header {font-size:var(--text-table);}
 .ct-table-expanded-heading {min-width:0;overflow-wrap:anywhere;}
+
+/* The same opt-in responsive column contract covers both table modes. */
+@media(max-width:600px){
+ .ct-data-table :is(th,td)[data-phone-hidden] {display:none;}
+}
+.ct-infinite-table .ct-infinite-group {height:var(--ct-infinite-row-height);}
+.ct-infinite-table .ct-infinite-group > th {box-sizing:border-box;height:var(--ct-infinite-row-height);padding:var(--space-3) var(--space-4);text-align:left;background:var(--ground);color:var(--dim);font-size:var(--text-table-meta);font-weight:var(--weight-medium);border-bottom:var(--line-width) solid var(--line);}
