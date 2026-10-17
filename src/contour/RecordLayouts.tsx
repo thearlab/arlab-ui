@@ -184,12 +184,15 @@ export function RecordBody({
   children,
   id,
   labelledBy,
+  label = "Record content",
   footer,
   footerRef,
 }: {
   children: ReactNode;
   id: string;
-  labelledBy: string;
+  labelledBy?: string;
+  /** Accessible region name for records without tabs. */
+  label?: string;
   /** Persistent record actions, outside the content scroll area. */
   footer?: ReactNode;
   /** Optional target for application-owned action portals. Empty targets occupy no space. */
@@ -202,7 +205,8 @@ export function RecordBody({
       ref={body}
       className="ct-record-body"
       id={id}
-      role="tabpanel"
+      role={labelledBy?"tabpanel":"region"}
+      aria-label={labelledBy?undefined:label}
       aria-labelledby={labelledBy}
       tabIndex={-1}
     >

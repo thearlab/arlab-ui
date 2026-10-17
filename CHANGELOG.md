@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0-beta.18
+
+- DetailSections wide now explicitly fills its parent, including when nested inside a flex Stack. It no longer shrinks into a centered content-width column.
+- RecordBody supports un-tabbed records as labelled regions. Existing labelledBy usage keeps the tabpanel contract, scroll resets and fixed footer.
+- Hidden-title RecordHeaders no longer force their tools onto a second row in compact containers when the status/actions fit together.
+- The real ARLAB mark is standalone: its compact sidebar link has no square border or background; the existing hit area and keyboard focus remain.
+
 ## 2.0.0-beta.17
 
 - Completed dashboard requests 6–12: bounded paginated fill, scoped header typography, countLabel/formatCount and responsive searchWidth across table variants, consistent quiet toolbar buttons, tab-free RecordHeader and aligned condensed headings. Existing tabbed records and default numeric counts remain compatible.

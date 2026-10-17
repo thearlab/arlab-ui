@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.17 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.18 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -2091,7 +2091,8 @@ Import: `import { RecordBody } from '@arlab/ui';`
 | --- | --- |
 | `children` | Full tab content in the shared ScrollArea. |
 | `id` | The tabpanel ID linked from its tabs. |
-| `labelledBy` | The ID of the selected tab. |
+| `label` | Accessible region name for a record without tabs. |
+| `labelledBy` | Optional selected tab ID. Omit for a labelled region instead of a tabpanel. |
 | `footer` | Persistent record actions outside the scrolling content. The footer spans the selected pane and stays visible while content scrolls. |
 | `footerRef` | Optional React ref for application-owned action portals. Empty footer targets occupy no space. |
 

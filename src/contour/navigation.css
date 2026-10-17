@@ -137,6 +137,6 @@
 .contour-shell[data-mode="dark"], :where([data-mode="dark"], [data-theme="dark"]) .contour-shell { --cn-dept-creative: #E28DD4; --cn-dept-engineering: #ADA5E3; --cn-dept-client: #CAA1BB; --cn-dept-company: #B6ADBF; --cn-dept-strategy: #8AB7C8; }
 
 /* Brand artwork stays intact inside a square; panel folding lives in the fixed footer. */
-.contour-shell-mark {width:40px;height:40px;flex-basis:40px;border:1px solid var(--cn-line);border-radius:4px;background:var(--cn-raise);}
+.contour-shell-mark {width:40px;height:40px;flex-basis:40px;border:0;border-radius:0;background:transparent;}
 .contour-shell-mark > svg {max-width:34px;max-height:32px;}
 .contour-space-panel-footer {display:flex;justify-content:flex-end;flex:0 0 auto;padding:12px;border-top:1px solid var(--cn-line);}

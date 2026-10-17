@@ -1366,6 +1366,7 @@
     "props": [
       "children",
       "id",
+      "label",
       "labelledBy",
       "footer",
       "footerRef"
