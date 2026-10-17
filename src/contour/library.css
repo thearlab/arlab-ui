@@ -168,6 +168,7 @@ textarea.lib-input {
   min-height: var(--control-h);
   background: var(--raise);
 }
+.tag-input[data-disabled] {background:var(--sunken);color:var(--dim);}
 .tag-input:focus-within {
   border-color: var(--focus);
   box-shadow: none;
@@ -2754,3 +2755,14 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 @media (pointer: coarse) {
   .lib-input:not(.ct-input-embedded) { min-height: var(--control-h-touch); }
 }
+
+/* Shared scrollable modal geometry keeps framing and actions outside the content scroll. */
+.modal.ct-modal-scroll-layout[open] {display:flex;flex-direction:column;overflow:hidden;}
+.modal.ct-modal-scroll-layout > .modal-head,.ct-modal-footer {flex-shrink:0;}
+.ct-modal-scroll {flex:1 1 auto;min-height:0;}
+.ct-modal-scroll > .scroll-viewport {min-height:0;max-height:inherit;}
+.ct-modal-content {padding:var(--space-6);}
+.ct-modal-description {margin:0 0 var(--space-5);font-size:var(--text-xs);color:var(--dim);line-height:var(--leading-normal);}
+.ct-modal-footer {display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:var(--space-2);border-top:var(--line-width) solid var(--line);padding:var(--space-4) var(--space-6);}
+.modal.sheet.ct-modal-scroll-layout {height:100dvh;}
+@media(max-width:640px){.ct-modal-content {padding:var(--space-4);}.ct-modal-footer {padding:var(--space-4);}}

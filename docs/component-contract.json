@@ -209,7 +209,12 @@
     "props": [
       "value",
       "onChange",
-      "label"
+      "label",
+      "hint",
+      "id",
+      "placeholder",
+      "disabled",
+      "commitOnBlur"
     ],
     "behavior": "Enter or comma adds a trimmed, unique tag. Backspace on an empty input removes the last tag."
   },
@@ -251,7 +256,8 @@
     "description": "A compact path showing the current location and its parents.",
     "props": [
       "items",
-      "onNavigate"
+      "onNavigate",
+      "truncate"
     ],
     "behavior": "Only the final item is current. Parent items are actionable; separators are decorative."
   },
@@ -463,6 +469,17 @@
       "onSort"
     ],
     "behavior": "Use aria-sort on the enclosing column header and a button inside it."
+  },
+  {
+    "name": "AppHeader",
+    "category": "Surfaces & layout",
+    "description": "A responsive application header with context, search and actions.",
+    "props": [
+      "context",
+      "search",
+      "actions"
+    ],
+    "behavior": "Context shrinks before actions. Search becomes an icon button on phone; use Breadcrumbs truncate to keep long record titles on one line."
   },
   {
     "name": "ScrollArea",
@@ -770,7 +787,13 @@
       "open",
       "onClose",
       "title",
-      "children"
+      "description",
+      "children",
+      "width",
+      "footer",
+      "scrollable",
+      "contentLabel",
+      "dismissible"
     ],
     "behavior": "Focus stays inside. Escape closes; the opening control regains focus."
   },
@@ -782,7 +805,13 @@
       "open",
       "onClose",
       "title",
-      "children"
+      "description",
+      "children",
+      "width",
+      "footer",
+      "scrollable",
+      "contentLabel",
+      "dismissible"
     ],
     "behavior": "Shares Dialog focus behavior. It becomes full width on a phone."
   },

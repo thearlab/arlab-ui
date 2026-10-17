@@ -230,38 +230,7 @@ export function PillButton({ children, selected, onClick }) {
     </button>
   );
 }
-export function TagInput({ value, onChange, label = "Tags" }) {
-  const [draft, setDraft] = useState("");
-  const id = useId();
-  return (
-    <div className="lib-field">
-      <label htmlFor={id}>{label}</label>
-      <div className="tag-input">
-        {value.map((t) => (
-          <Chip key={t} onRemove={() => onChange(value.filter((x) => x !== t))}>
-            {t}
-          </Chip>
-        ))}
-        <Input variant="embedded"
-          id={id}
-          placeholder="Add a tag"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === ",") {
-              e.preventDefault();
-              const v = draft.trim();
-              if (v && !value.includes(v)) onChange([...value, v]);
-              setDraft("");
-            }
-            if (e.key === "Backspace" && !draft) onChange(value.slice(0, -1));
-          }}
-        />
-      </div>
-      <p>Press Enter to add. Use each tag’s remove button to delete it.</p>
-    </div>
-  );
-}
+export { TagInput } from './TagInput.js';
 export function DeptTile({ department = "Creative" }) {
   const map = {
     Creative: "creative",
@@ -824,14 +793,14 @@ export function CopyBlock({ children }) {
     </div>
   );
 }
-export function Breadcrumbs({ items, onNavigate }) {
+export function Breadcrumbs({ items, onNavigate, truncate = false }) {
   return (
-    <nav className="lib-breadcrumbs" aria-label="Breadcrumb">
+    <nav className="lib-breadcrumbs" aria-label="Breadcrumb" data-truncate={truncate || undefined}>
       {items.map((item, i) => (
         <React.Fragment key={item}>
           {i > 0 && <ChevronRight size={13} />}{" "}
           {i === items.length - 1 ? (
-            <span aria-current="page">{item}</span>
+            <span aria-current="page" title={truncate ? item : undefined}>{item}</span>
           ) : (
             <button onClick={() => onNavigate?.(item)}>{item}</button>
           )}
@@ -1523,3 +1492,5 @@ export function ProjectStatusSheet({ open, onClose, project, onSave }) {
     </Sheet>
   );
 }
+
+export { AppHeader } from './AppHeader.js';

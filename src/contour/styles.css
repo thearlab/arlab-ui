@@ -826,7 +826,7 @@ select {
   border: 1px solid var(--line);
   background: var(--raise);
   padding: 0;
-  width: min(480px, calc(100vw - 32px));
+  width: min(var(--ct-modal-width, 480px), calc(100vw - 32px));
   max-height: 85dvh;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-pop);
@@ -840,7 +840,8 @@ select {
   margin: 0 0 0 auto;
   min-height: 100dvh;
   max-height: 100dvh;
-  width: min(460px, 100vw);
+  width: min(var(--ct-modal-width, 460px), 100vw);
+  max-width: 100vw;
   border-radius: 0;
   border-right: 0;
 }

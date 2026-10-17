@@ -431,7 +431,7 @@ export function FilterSidebar({
       </ScrollArea>
       <footer>
         {resultCount !== undefined && (
-          <span role="status">{resultCount} results</span>
+          <span role="status">{resultCount.toLocaleString()} {resultCount === 1 ? 'result' : 'results'}</span>
         )}
         <Button disabled={!active} onClick={() => onChange({})}>
           Reset filters

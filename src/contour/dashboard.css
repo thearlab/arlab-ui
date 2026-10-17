@@ -1663,7 +1663,8 @@
 .ct-table-size .custom-select {
   min-width: 0;
 }
-.ct-filter-sidebar .custom-select {
+.ct-filter-sidebar .custom-select,
+.ct-filter-sections > section > .dropdown {
   width: 100%;
 }
 

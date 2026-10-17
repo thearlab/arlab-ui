@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0-beta.9
+
+- Added AppHeader with a shrinking context slot, responsive search action and stable action alignment. Breadcrumbs supports one-line truncation with a full-title tooltip.
+- Extended TagInput for externally labelled forms, disabled fields, native input attributes and batch commit on blur. Studio can use the shared tag field directly.
+- Added shared scrollable dialog/sheet layout with fixed actions, configurable viewport-clamped width, descriptions and controlled dismissal. Native Escape now respects pending-state dismissal guards.
+- Filter-sidebar selects fill their section width and result labels use singular/plural correctly.
+- Catalogue: 125 entries, 146 icons; 49 interaction checks and 46 contrast pairs. Existing tags and APIs remain available.
+
 ## 2.0.0-beta.8
 
 - Unified nested text/number fields through Input and Textarea, with 12px regular text, quiet 1px focus, cohesive dropdown options and a soft half-pixel search separator.

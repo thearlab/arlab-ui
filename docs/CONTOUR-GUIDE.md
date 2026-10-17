@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.8 · October 2026
+ARLAB internal applications · Version 2.0.0-beta.9 · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -179,7 +179,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 ## Complete component contract
 
-124 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
+125 implemented entries, including compatibility aliases. All have live specimens in the catalogue.
 
 ### Actions
 
@@ -481,6 +481,11 @@ Import: `import { TagInput } from '@arlab/ui';`
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `label` | Visible or accessible name describing the control. |
+| `hint` | Optional supporting text connected to the control. |
+| `id` | Optional pattern-specific value. Use the live example as the reference. |
+| `placeholder` | A brief example; never a replacement for a visible label. |
+| `disabled` | Boolean. Prevents interaction and shows a muted state. |
+| `commitOnBlur` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [TagInput](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=TagInput)
 
@@ -545,6 +550,7 @@ Import: `import { Breadcrumbs } from '@arlab/ui';`
 | --- | --- |
 | `items` | Structured items appropriate to the pattern; see the working example. |
 | `onNavigate` | Optional pattern-specific value. Use the live example as the reference. |
+| `truncate` | Optional pattern-specific value. Use the live example as the reference. |
 
 Live example: [Breadcrumbs](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Breadcrumbs)
 
@@ -860,6 +866,22 @@ Import: `import { SortHead } from '@arlab/ui';`
 Live example: [SortHead](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SortHead)
 
 ### Surfaces & layout
+
+#### AppHeader
+
+A responsive application header with context, search and actions.
+
+Context shrinks before actions. Search becomes an icon button on phone; use Breadcrumbs truncate to keep long record titles on one line.
+
+Import: `import { AppHeader } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `context` | Optional pattern-specific value. Use the live example as the reference. |
+| `search` | Optional pattern-specific value. Use the live example as the reference. |
+| `actions` | Primary and supporting actions for the current page. |
+
+Live example: [AppHeader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=AppHeader)
 
 #### ScrollArea
 
@@ -1311,7 +1333,13 @@ Import: `import { Dialog } from '@arlab/ui';`
 | `open` | Controlled overlay visibility. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 | `title` | A concise visible heading describing this context. |
+| `description` | Optional supporting text before the modal content. |
 | `children` | React content. Keep text concise and accessible. |
+| `width` | Optional CSS length or number in pixels. Clamped to the viewport; sheets default to 460px. |
+| `footer` | React actions fixed outside the content scroll when scrollable is enabled. |
+| `scrollable` | Uses the shared ScrollArea, with the heading and footer kept fixed. |
+| `contentLabel` | Accessible name of the shared content scroll region. |
+| `dismissible` | Default true. False disables close, backdrop and Escape dismissal while an operation is pending. |
 
 Live example: [Dialog](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Dialog)
 
@@ -1328,7 +1356,13 @@ Import: `import { Sheet } from '@arlab/ui';`
 | `open` | Controlled overlay visibility. |
 | `onClose` | Called on Escape, close action, or backdrop dismissal. |
 | `title` | A concise visible heading describing this context. |
+| `description` | Optional supporting text before the modal content. |
 | `children` | React content. Keep text concise and accessible. |
+| `width` | Optional CSS length or number in pixels. Clamped to the viewport; sheets default to 460px. |
+| `footer` | React actions fixed outside the content scroll when scrollable is enabled. |
+| `scrollable` | Uses the shared ScrollArea, with the heading and footer kept fixed. |
+| `contentLabel` | Accessible name of the shared content scroll region. |
+| `dismissible` | Default true. False disables close, backdrop and Escape dismissal while an operation is pending. |
 
 Live example: [Sheet](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Sheet)
 

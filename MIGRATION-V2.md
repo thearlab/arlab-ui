@@ -18,7 +18,7 @@ Known consumers: internal dashboard, internal tool template, Studio, Reader and 
 
 ## Beta limitations and release gates
 
-124 showcased entries and 146 icons are packaged. Calendar and Kanban now accept application data; other specialized gallery compositions still require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18.3.1 is exercised by Studio integration and the isolated navigation smoke test. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
+125 showcased entries and 146 icons are packaged. Calendar and Kanban now accept application data; other specialized gallery compositions still require application integration work. JSX-generated declarations are an initial contract, not a fully curated TypeScript API. React 19 is exercised by the source showcase; React 18.3.1 is exercised by Studio integration and the isolated navigation smoke test. DOM interaction checks do not replace browser visual testing. No consumer is claimed migrated until its build and workflows pass.
 
 V2 CSS is scoped to `.arlab-contour`. Legacy CSS remains separately available. Do not mix legacy and V2 components in the same theme boundary without checking their visual interaction.
 
@@ -53,3 +53,13 @@ InfiniteTable is additive; paginated FilterableTable remains available. See [Inf
 KanbanBoard no longer injects demo cards or persists its own records. Supply columns, cards and renderCard; implement onMove to update application state and persist as needed. Omitting onMove makes it read-only. The emitted index excludes the moved card. See [KanbanBoard](docs/KANBAN-BOARD.md).
 
 Tags are immutable. Pin v2.0.0-beta.8 explicitly; applications on older exact tags retain their versions. This remains an integration beta; publishing the library does not deploy or certify all consuming applications.
+
+## Beta.9: application frames and access sheets
+
+Use AppHeader with context, optional search and actions inside SidebarShell's header slot. Breadcrumbs truncate keeps long titles on one line with their complete title available on hover.
+
+TagInput accepts label={null} inside FormFieldGroup, an external id, native input attributes, disabled state and commitOnBlur for comma/newline batches. Existing standalone labels and Enter/Backspace behavior remain available.
+
+Dialog, Sheet and Modal accept width, footer, description, scrollable, contentLabel and dismissible. Use scrollable for one shared scrolling content region with fixed framing/actions. Set dismissible={false} while a sensitive operation is pending; Escape, backdrop and close controls then remain inactive. Existing custom-child layouts remain the default when scrollable is omitted.
+
+These are additive changes; beta.8 consumers stay on their immutable tag until explicitly upgraded.

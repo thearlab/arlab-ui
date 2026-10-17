@@ -28,3 +28,7 @@ export type { InputProps, TextareaProps } from './BaseFields.js';
 export * from './InfiniteTable.js';
 
 export type { KanbanBoardProps, KanbanCard, KanbanColumn, KanbanTone } from './KanbanBoard.js';
+
+export type { TagInputProps } from './TagInput.js';
+
+export type { AppHeaderProps } from './AppHeader.js';
