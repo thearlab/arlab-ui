@@ -116,7 +116,7 @@ export function NumberInput({
     <div className="ct-field">
       <label htmlFor={id}>
         {label}
-        {props.required && <span>Required</span>}
+        {props.required && <span aria-hidden="true">*</span>}
       </label>
       <div className="ct-number">
         <button className="ct-control-action"

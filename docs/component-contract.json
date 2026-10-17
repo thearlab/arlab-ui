@@ -9,7 +9,7 @@
       "onClick",
       "children"
     ],
-    "behavior": "Use one primary action per decision. Cancel always has a subtle border and surface."
+    "behavior": "Use one primary action per decision. Secondary keeps a border; ghost recedes with a transparent surface and a soft hover fill."
   },
   {
     "name": "IconButton",
@@ -91,7 +91,7 @@
       "size",
       "textareaRef"
     ],
-    "behavior": "Preserve newlines and let the field grow vertically. Code variant uses IBM Plex Mono and a 220px minimum; short size uses 96px. Use a visible label."
+    "behavior": "Preserve newlines and let the field grow vertically. Code variant uses DM Mono and a 220px minimum; short size uses 96px. Use a visible label."
   },
   {
     "name": "Select",
@@ -251,9 +251,12 @@
     "description": "A stable, labeled entry to Workspace, Agents Studio, and Knowledge.",
     "props": [
       "value",
-      "onChange"
+      "onChange",
+      "options",
+      "label",
+      "disabled"
     ],
-    "behavior": "Changing apps preserves the surrounding navigation grammar."
+    "behavior": "A keyboard-accessible application menu. Custom options keep stable values separate from labels; the selected app uses a soft tint."
   },
   {
     "name": "Breadcrumbs",
@@ -286,7 +289,8 @@
       "options",
       "value",
       "onChange",
-      "label"
+      "label",
+      "block"
     ],
     "behavior": "Uses a group of pressed buttons, not mixed tab semantics. Keep labels brief and meaningful."
   },
@@ -304,17 +308,17 @@
   {
     "name": "AccountMenu",
     "category": "Navigation",
-    "description": "A predictable menu for profile, workspace, and support actions.",
+    "description": "Static account identity with a separate sign-out action.",
     "props": [
-      "onSelect",
       "name",
       "initials",
       "workspace",
-      "items",
       "roleCaption",
-      "collapsed"
+      "collapsed",
+      "onLogout",
+      "onSelect"
     ],
-    "behavior": "Keep account actions separate from project actions. The trigger includes a person’s name."
+    "behavior": "The avatar, name and role are informational. Only the small sign-out action is interactive."
   },
   {
     "name": "Toc",
@@ -380,9 +384,13 @@
   {
     "name": "Timestamp",
     "category": "Data & identity",
-    "description": "A human-readable date with a machine-readable datetime value.",
+    "description": "A plain human-readable date with an optional time or chip treatment.",
     "props": [
-      "date"
+      "date",
+      "format",
+      "showTime",
+      "variant",
+      "locale"
     ],
     "behavior": "The title contains the complete localized date. Timezone context belongs in the surrounding screen."
   },
@@ -498,9 +506,14 @@
       "height",
       "maxHeight",
       "axis",
+      "hideScrollbar",
+      "title",
+      "description",
+      "actions",
+      "header",
       "children"
     ],
-    "behavior": "The 2px rectangular thumb is at most 28px long. Wheel, touch, keyboard, and thumb dragging work together. No indicator appears when content fits."
+    "behavior": "The 2px thumb is at most 28px long. Adding title or header opts into a framed surface with a fixed title rail; height bounds the entire frame. Plain instances remain unframed. hideScrollbar removes indicator controls while preserving native scrolling."
   },
   {
     "name": "Panel",
@@ -535,6 +548,8 @@
       "title",
       "description",
       "meta",
+      "media",
+      "footer",
       "onClick"
     ],
     "behavior": "The full card is one action. Do not nest interactive buttons inside it."
@@ -699,7 +714,7 @@
   {
     "name": "Loader",
     "category": "Feedback",
-    "description": "A small geometric loader with a fine traveling stroke.",
+    "description": "A fine circular loader with a restrained moving arc.",
     "props": [
       "label",
       "size",
@@ -714,6 +729,7 @@
     "props": [
       "title",
       "description",
+      "variant",
       "onCancel",
       "mark",
       "workspaceName"
@@ -775,6 +791,12 @@
     "description": "A unified empty, error, or loading state with a useful next action.",
     "props": [
       "state",
+      "title",
+      "description",
+      "icon",
+      "action",
+      "actionLabel",
+      "onAction",
       "onRetry",
       "onCreate"
     ],
@@ -982,7 +1004,12 @@
     "category": "Documents & operations",
     "description": "A labeled comparison of values with a data-table alternative.",
     "props": [
-      "data"
+      "data",
+      "secondaryData",
+      "primaryLabel",
+      "secondaryLabel",
+      "color",
+      "highlight"
     ],
     "behavior": "Use a zero baseline. Values and category labels are visible; color is supplementary."
   },
@@ -1000,16 +1027,22 @@
     "category": "Documents & operations",
     "description": "A part-to-whole comparison with a labeled legend and data table.",
     "props": [
-      "data"
+      "data",
+      "categorical",
+      "color",
+      "highlight"
     ],
-    "behavior": "Categories use the dedicated chart palette. Totals and category values remain available as text."
+    "behavior": "One hue by default. Enable categorical colours only for meaningful groups. Values remain available as text."
   },
   {
     "name": "BarList",
     "category": "Documents & operations",
     "description": "A ranked or ordered set of values with horizontal bars.",
     "props": [
-      "data"
+      "data",
+      "categorical",
+      "color",
+      "highlight"
     ],
     "behavior": "Labels and values align consistently. The bar width is proportional to the maximum value."
   },
@@ -1598,14 +1631,21 @@
     "description": "A full-height editing workspace.",
     "props": [
       "title",
+      "description",
       "toolbar",
       "sidebar",
       "children",
       "footer",
       "onExit",
-      "style"
+      "style",
+      "viewport",
+      "defaultViewport",
+      "onViewportChange",
+      "showViewportControls",
+      "propertiesLabel",
+      "previewLabel"
     ],
-    "behavior": "Fixed toolbar and footer; properties stack below the preview on narrow screens."
+    "behavior": "Independent canvas and inspector scroll regions, a fixed save footer and shared desktop/tablet/phone controls. Properties open in a shared side sheet when the editor becomes narrow."
   },
   {
     "name": "ReorderList",
@@ -1667,7 +1707,8 @@
       "deadline",
       "label",
       "showSeconds",
-      "now"
+      "now",
+      "variant"
     ],
     "behavior": "Invalid dates have a fallback. The timer stops on unmount; now can freeze previews and tests."
   },
@@ -1747,6 +1788,6 @@
       "onOpen",
       "more"
     ],
-    "behavior": "Each item has its own action. Long names truncate without widening the card."
+    "behavior": "Composes the shared Panel, Rows and Row components, including full-width hover. Items without onOpen stay informational; group and more actions remain separate."
   }
 ]

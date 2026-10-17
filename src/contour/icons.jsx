@@ -147,6 +147,7 @@ import {
   MousePointer2,
   Accessibility,
   Sparkles,
+  DoorOpen as LogOut,
   Presentation,
   ShoppingCart,
   Megaphone,
@@ -156,13 +157,6 @@ import {
 } from "lucide-react";
 import { Button, Dropdown, Status } from "./ui.js";
 
-/** Compact sign-out glyph with the same optical weight as the shared outline set. */
-function LogOut({size=20,strokeWidth=1.5,...props}) {
- return <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
-  <path d="M10 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h4"/>
-  <path d="M15.5 8.5 19 12l-3.5 3.5M9 12h10"/>
- </svg>;
-}
 const groups = {
   "Social & platforms": {Github, Gitlab, Instagram, Linkedin, Youtube, Facebook, Twitter, Slack, Figma, Dribbble, Twitch, Chrome},
   Navigation: {

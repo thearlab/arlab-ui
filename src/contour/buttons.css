@@ -43,6 +43,12 @@
 a.btn[data-button="text"] {text-decoration:none;}
 a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
 /* Secondary actions share the field finish; semantic actions keep their own paint. */
-.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(:disabled) {border-color:var(--chrome-line);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);}
-.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):hover:not(:disabled) {border-color:var(--chrome-line-hover);}
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):not(:disabled) {border-color:var(--chrome-line);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);}
+.btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):hover:not(:disabled) {border-color:var(--chrome-line-hover);}
 .btn[data-button="text"]:disabled,.icon-btn[data-button="icon"]:disabled {background:var(--sunken);background-image:none;box-shadow:none;}
+
+/* Destructive actions never inherit a neutral chrome gradient on hover. */
+.btn.danger[data-button="text"],.btn.danger[data-button="text"]:hover:not(:disabled) {color:var(--bad);background:var(--badTint);background-image:none;border-color:color-mix(in srgb,var(--bad) 40%,var(--badTint));}
+
+.btn.ghost[data-button="text"] {border-color:transparent;background:transparent;background-image:none;box-shadow:none;}
+.btn.ghost[data-button="text"]:hover:not(:disabled) {border-color:transparent;background:var(--sunken);box-shadow:none;}

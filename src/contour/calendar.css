@@ -82,7 +82,7 @@
 }
 .ct-calendar-day-top {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 .ct-event-calendar .ct-calendar-date {
   display: inline-flex;
@@ -94,32 +94,27 @@
   min-height: 36px;
   aspect-ratio: 1;
   padding: 0;
-  border: var(--line-width) solid var(--chrome-line);
-  background: var(--chrome-control-surface);
-  background-image: var(--chrome-control-gradient);
+  border:1px solid transparent;
+  background:transparent;
+  background-image:none;
   border-radius: var(--radius-control);
-  box-shadow: var(--chrome-control-shadow);
+  box-shadow:none;
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  color: var(--ink);
+  color:var(--dim);
 }
 .ct-event-calendar-grid td[data-outside] .ct-calendar-date {
   color: var(--dim);
 }
-.ct-event-calendar .ct-calendar-date[aria-current="date"] {
-  border-color: var(--accent-line);
-  background: var(--accent-soft);
-  color: var(--link);
-}
-.ct-event-calendar .ct-calendar-date:hover:not(:disabled):not([aria-pressed="true"]) {
+.ct-event-calendar .ct-calendar-date[aria-current="date"] {background:var(--action);color:var(--actionInk);border-color:transparent;}
+.ct-event-calendar .ct-calendar-date:hover:not(:disabled):not([aria-pressed="true"]):not([aria-current="date"]) {
   border-color: var(--chrome-line-hover);
   background: var(--sunken);
 }
-.ct-event-calendar .ct-calendar-date[aria-pressed="true"] {
-  border-color:var(--action);background:var(--action);background-image:var(--action-gradient);color:var(--actionInk);box-shadow:var(--shadow-primary);
-}
+.ct-event-calendar .ct-calendar-date[aria-pressed="true"]:not([aria-current="date"]) {border-color:transparent;background:transparent;color:var(--ink);box-shadow:none;}
+
 .ct-event-calendar .ct-calendar-date[aria-pressed="true"]:hover:not(:disabled) {background-color:var(--actionHover);border-color:var(--actionHover);}
 .ct-event-calendar .ct-calendar-date > time {font:inherit;font-variant-numeric:tabular-nums;}
 .ct-event-calendar :is(.ct-calendar-date, .ct-calendar-event):focus-visible {

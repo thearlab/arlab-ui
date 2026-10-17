@@ -63,7 +63,7 @@ Use 1px separators and quiet essential control borders. Panels have faint satin 
 
 ## Actions and iconography
 
-Primary, secondary, quiet, ghost and destructive actions share one Button implementation. In Contour, even the legacy ghost variant has a subtle border and surface. Cancel, Show a toast, reset and disclosure actions must be visually identifiable before hover. A text link keeps its 1px underline on hover; hover changes underline contrast, not thickness.
+Primary, secondary, quiet, ghost and destructive actions share one Button implementation. Secondary and quiet actions retain a subtle border and surface. Ghost is transparent and borderless with a soft hover fill; use it only when its surrounding action group supplies clear context. A text link keeps its 1px underline on hover; hover changes underline contrast, not thickness.
 
 Button icons are 14px, with comfortable surrounding space. Compact reset icons are 11–12px. Navigation icons are normally 16px, section icons 24px. Icon-only actions have accessible names, tooltips and the same hit area as equivalent text actions. Keep the icon centered rather than enlarging it to fill the button.
 
@@ -127,7 +127,7 @@ Other native scroll regions use the same pink and transparent track. Browser-nat
 
 ## Loading, feedback and motion
 
-Loader uses a fine traveling stroke around a small geometric outline. PageLoading provides workspace context, a clear title, explanatory text and one status announcement. It does not fabricate a completion percentage. Use LoadingBar only when actual progress is measurable. Use Skeleton for partial content, Refreshing to retain already-loaded data, and StateView for recoverable failures or empty collections.
+Loader uses a fine traveling stroke around a circular outline. PageLoading provides workspace context, a clear title, explanatory text and one status announcement. It does not fabricate a completion percentage. Use LoadingBar only when actual progress is measurable. Use Skeleton for partial content, Refreshing to retain already-loaded data, and StateView for recoverable failures or empty collections.
 
 The dedicated Loading page includes manual completion/replay controls to review the transition. Production callers must replace loading with content or an actionable error when their request resolves. The optional Cancel callback must abort the real operation.
 
@@ -142,7 +142,7 @@ Default transitions are 120ms for immediate feedback, 180ms for controls and 240
 - Modal dialogs and sheets use the native dialog layer. Destructive confirmations initially focus the safe action.
 - Toast confirmations do not steal focus. Persistent problems belong in an inline Notice.
 - AccountMenu aligns its avatar, two-line identity and separate chevron on one centerline.
-- Timestamp uses a semantic time element inside a quiet outlined metadata container.
+- Timestamp defaults to a semantic plain-text date with tabular numbers. Time and a metadata chip are explicit options.
 - DataTable provides selection, filtering, sorting, pagination and explicit row actions. SortHead stays a standard sort button with aria-sort; no drag interaction is introduced.
 - Kanban has a move-to-column dropdown in addition to dragging. Essential actions cannot depend on dragging.
 - Markdown is a deliberately limited renderer for headings, paragraphs, lists, bold, safe links and fenced code. It escapes content and does not support raw HTML. Use a maintained sanitized parser if production requires richer Markdown.
@@ -188,7 +188,7 @@ Form values, placeholders, dropdown options and embedded fields use `--text-fiel
 
 A clear action with primary, secondary, quiet, ghost, or destructive emphasis.
 
-Use one primary action per decision. Cancel always has a subtle border and surface.
+Use one primary action per decision. Secondary keeps a border; ghost recedes with a transparent surface and a soft hover fill.
 
 Import: `import { Button } from '@arlab/ui';`
 
@@ -594,6 +594,7 @@ Import: `import { SegmentedControl } from '@arlab/ui';`
 | `value` | Controlled value. Update it from onChange. |
 | `onChange` | Change handler. Native fields and Dropdown receive an event-shaped value; other controls receive the next value. |
 | `label` | Visible or accessible name describing the control. |
+| `block` | False by default: the track hugs its segments. True fills available width. |
 
 Live example: [SegmentedControl](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=SegmentedControl)
 
@@ -728,7 +729,7 @@ Live example: [DeptTile](https://arlab-ui-showcase.pages.dev/?view=catalogue&com
 
 #### Timestamp
 
-A human-readable date with a machine-readable datetime value.
+A plain human-readable date with an optional time or chip treatment.
 
 The title contains the complete localized date. Timezone context belongs in the surrounding screen.
 
@@ -737,6 +738,10 @@ Import: `import { Timestamp } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `date` | A valid date or ISO 8601 date-time string. |
+| `format` | date by default. datetime and time remain available. |
+| `showTime` | Opt into date plus time when format is not supplied. |
+| `variant` | plain by default. chip adds a soft container and date/time icon. |
+| `locale` | Locale for human-readable date and time, default en-GB. |
 
 Live example: [Timestamp](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Timestamp)
 
@@ -966,6 +971,8 @@ Import: `import { CollectionCard } from '@arlab/ui';`
 | `title` | A concise visible heading describing this context. |
 | `description` | Supporting explanation, kept separate from the heading. |
 | `meta` | A short metadata summary for a collection. |
+| `media` | Optional image or video content; displayed at 16:9 with cover cropping. Replaces the fallback icon. |
+| `footer` | Optional React footer outside the primary button; may contain independent links or actions. |
 | `onClick` | Action callback. Use a link for navigation. |
 
 Live example: [CollectionCard](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=CollectionCard)
@@ -1309,6 +1316,12 @@ Import: `import { StateView } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `state` | empty  /  loading  /  error. |
+| `title` | A concise visible heading describing this context. |
+| `description` | Supporting explanation, kept separate from the heading. |
+| `icon` | Optional React content replacing the generic mark. |
+| `action` | An optional section-level action. |
+| `actionLabel` | Application-specific next action. Never hard-coded to a project. |
+| `onAction` | Application-owned action callback. |
 | `onRetry` | Retries the failed operation without dropping the current context. |
 | `onCreate` | Starts the first useful action from an empty state. |
 
@@ -1606,6 +1619,11 @@ Import: `import { ColumnChart } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
+| `secondaryData` | Optional pattern-specific value. Use the live example as the reference. |
+| `primaryLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `secondaryLabel` | Optional pattern-specific value. Use the live example as the reference. |
+| `color` | One series uses this CSS colour, default var(--chart-1). |
+| `highlight` | Optional datum label highlighted in the accent colour. |
 
 Live example: [ColumnChart](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ColumnChart)
 
@@ -1627,13 +1645,16 @@ Live example: [Sparkline](https://arlab-ui-showcase.pages.dev/?view=catalogue&co
 
 A part-to-whole comparison with a labeled legend and data table.
 
-Categories use the dedicated chart palette. Totals and category values remain available as text.
+One hue by default. Enable categorical colours only for meaningful groups. Values remain available as text.
 
 Import: `import { StackedBar } from '@arlab/ui';`
 
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
+| `categorical` | False by default. Enable separate colours for meaningful categorical parts. |
+| `color` | Single-series CSS colour. |
+| `highlight` | Optional datum label highlighted in the accent colour. |
 
 Live example: [StackedBar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StackedBar)
 
@@ -1648,6 +1669,9 @@ Import: `import { BarList } from '@arlab/ui';`
 | Prop | Contract |
 | --- | --- |
 | `data` | Array of { label: string, value: number }. |
+| `categorical` | False by default. Enable one colour per category only when categories have distinct meanings. |
+| `color` | Single-series CSS colour. |
+| `highlight` | Optional datum label highlighted in the accent colour. |
 
 Live example: [BarList](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=BarList)
 
@@ -2505,6 +2529,7 @@ Import: `import { DeadlineCountdown } from '@arlab/ui';`
 | `label` | Visible or accessible name describing the control. |
 | `showSeconds` | Optional pattern-specific value. Use the live example as the reference. |
 | `now` | Optional pattern-specific value. Use the live example as the reference. |
+| `variant` | card by default. inline renders compact in 3d, Due today, or 26d late text. |
 
 Live example: [DeadlineCountdown](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=DeadlineCountdown)
 
@@ -2734,12 +2759,14 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--scrollbar-thumb` | `rgba(228,20,219,.35)` | `rgba(240,78,232,.35)` |
 | `--scrollbar-hover` | `rgba(228,20,219,.60)` | `rgba(240,78,232,.60)` |
 | `--scrollbar-track` | `transparent` | `transparent` |
-| `--ok` | `#356A5A` | `#b2c6c0` |
-| `--okTint` | `#f0f2f3` | `#3f4244` |
-| `--bad` | `#AD4053` | `#e0b6be` |
-| `--badTint` | `#f9eff2` | `#464043` |
-| `--info` | `#4B619D` | `#bbc3da` |
-| `--infoTint` | `#f2f1f8` | `#404248` |
+| `--ok` | `#356A5A` | `#75D6A6` |
+| `--okTint` | `#f0f2f3` | `#233D32` |
+| `--bad` | `#AD4053` | `#FF94A3` |
+| `--badTint` | `#f9eff2` | `#4B2630` |
+| `--info` | `#4B619D` | `#8DBBFF` |
+| `--infoTint` | `#f2f1f8` | `#253B58` |
+| `--planning` | `#7053A1` | `#C3AAFF` |
+| `--planningTint` | `#f4f0f8` | `#3B2D54` |
 | `--warn` | `#984414` | `#FDBA74` |
 | `--warnTint` | `#FDF0E4` | `#503826` |
 | `--dept-creative-ink` | `#FFFFFF` | `#FFFFFF` |
@@ -2752,6 +2779,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--font-mono` | `'DM Mono', monospace` | `'DM Mono', monospace` |
 | `--weight-heading` | `600` | `600` |
 | `--font-weight-heading` | `600` | `600` |
+| `--radius-tag` | `5px` | `5px` |
 | `--radius-xs` | `7px` | `7px` |
 | `--radius-sm` | `7px` | `7px` |
 | `--radius-lg` | `14px` | `14px` |
@@ -2777,6 +2805,8 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | `--chrome-divider` | `#edebee` | `#434346` |
 | `--chrome-row-hover` | `#faf8fa` | `#303033` |
 | `--chrome-subtle-gradient` | `linear-gradient(180deg,#fdfbfe,#fbf9fc)` | `linear-gradient(180deg,#28282b,#262629)` |
+| `--toggle-shadow` | `0 1px 2px #20283808` | `0 1px 2px #00000018` |
+| `--toggle-hover-shadow` | `0 1px 3px #2028380C` | `0 1px 3px #00000020` |
 | `--switch-off-track` | `#e4e1e4` | `#49494c` |
 | `--switch-off-border` | `#b5b1b7` | `#767679` |
 | `--switch-thumb` | `#665C70` | `#EBEBEF` |

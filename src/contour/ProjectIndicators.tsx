@@ -4,12 +4,14 @@ export interface DeadlineCountdownProps {
   deadline: string | number | Date;
   label?: string;
   showSeconds?: boolean;
+  variant?: "card" | "inline";
   now?: number;
 }
 export function DeadlineCountdown({
   deadline,
   label = "Deadline",
   showSeconds = false,
+  variant = "card",
   now: fixedNow,
 }: DeadlineCountdownProps) {
   const [now, setNow] = useState(() => fixedNow ?? Date.now());
@@ -31,12 +33,19 @@ export function DeadlineCountdown({
     hours = Math.floor((seconds % 86400) / 3600),
     minutes = Math.floor((seconds % 3600) / 60);
   const text = days
-    ? `${days}d ${hours}h`
+    ? `${days}d${hours ? ` ${hours}h` : ""}`
     : hours
       ? `${hours}h ${minutes}m`
       : showSeconds
         ? `${minutes}m ${seconds % 60}s`
         : `${minutes}m`;
+  if(variant==='inline') {
+    const today=Number.isFinite(end)&&new Date(end).toDateString()===new Date(now).toDateString();
+    const short=days ? `${days}d` : hours ? `${hours}h` : `${minutes}m`;
+    return <span className="ct-countdown-inline" data-overdue={delta<0||undefined} data-due-today={delta>=0&&today||undefined} title={Number.isFinite(end)?new Date(end).toLocaleString():undefined}>
+      {Number.isFinite(end)?delta<0?`${short} late`:today?'Due today':`in ${short}`:'Date unavailable'}
+    </span>;
+  }
   return (
     <div className="ct-countdown" data-overdue={delta < 0 || undefined}>
       <span>{label}</span>

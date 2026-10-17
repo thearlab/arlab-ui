@@ -121,3 +121,6 @@
 @media(max-width:640px) {.contour-scroll-area[data-framed] {--scroll-panel-padding:17px;}.contour-scroll-header {flex-wrap:wrap;}}
 .contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows {margin-inline:calc(-1 * var(--scroll-panel-padding));}
 .contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows > .lib-row {padding-inline:var(--scroll-panel-padding);}
+
+/* Scroll content measures across its complete intrinsic width. Row dividers travel with it. */
+.contour-scroll-area > .scroll-viewport > .scroll-content {min-width:100%;display:flow-root;}

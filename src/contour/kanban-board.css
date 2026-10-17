@@ -54,3 +54,9 @@
   .ct-kanban-card { transition:none; }
   .ct-kanban-card[data-settled] { animation:none; }
 }
+
+.ct-kanban-card[tabindex] {cursor:pointer;}
+.ct-kanban-card:focus-visible {outline:1px solid var(--focus);outline-offset:2px;border-radius:var(--radius-panel);}
+.ct-kanban-card .ct-kanban-card-actions,.ct-kanban-card .ct-panel-content > .dropdown {opacity:0;transition:opacity var(--dur-fast);}
+.ct-kanban-card:is(:hover,:focus-within,[data-lifted]) .ct-kanban-card-actions,.ct-kanban-card:is(:hover,:focus-within,[data-lifted]) .ct-panel-content > .dropdown {opacity:1;}
+@media(hover:none){.ct-kanban-card .ct-kanban-card-actions,.ct-kanban-card .ct-panel-content > .dropdown {opacity:1;}}

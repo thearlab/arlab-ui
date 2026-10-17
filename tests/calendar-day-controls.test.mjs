@@ -22,11 +22,12 @@ test('Embedded calendar events and overflow actions do not inherit general toolb
  }
  assert.match(html,/data-button="text">Today/);
 });
-test('Calendar and custom date picker share square date geometry, tabular numerals and selected action tokens',()=>{
+test('Calendar highlights today while the selected day uses the whole cell; picker remains a date control',()=>{
  const calendar=fs.readFileSync(new URL('../src/contour/calendar.css',import.meta.url),'utf8');
  assert.match(calendar,/width: 36px;\s*height: 36px;/);assert.match(calendar,/aspect-ratio: 1/);
  assert.match(calendar,/width:min\(44px,100%\);height:auto/);assert.match(calendar,/font-variant-numeric: tabular-nums/);
- assert.match(calendar,/ct-calendar-date\[aria-pressed="true"\][\s\S]*?color:var\(--actionInk\)/);
+ assert.match(calendar,/ct-calendar-date\[aria-current="date"\][^}]*color:var\(--actionInk\)/);
+ assert.match(calendar,/td\[data-selected\][^}]*background: var\(--accent-soft\)/);
  assert.match(calendar,/border-radius: var\(--radius-control\)/);
  const picker=fs.readFileSync(new URL('../src/contour/dashboard.css',import.meta.url),'utf8');
  assert.match(picker,/ct-calendar-days button \{[\s\S]*?aspect-ratio:1/);

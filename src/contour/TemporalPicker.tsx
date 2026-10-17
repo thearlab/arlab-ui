@@ -115,7 +115,7 @@ export function TemporalPicker({
       <div className="ct-field ct-time-picker">
         <label id={`${id}-label`}>
           {label}
-          {required && <span>Required</span>}
+          {required && <span aria-hidden="true">*</span>}
         </label>
         <div
           className="ct-time-controls"
@@ -214,7 +214,7 @@ export function TemporalPicker({
     <div className="ct-field ct-date-picker">
       <label htmlFor={id}>
         {label}
-        {required && <span>Required</span>}
+        {required && <span aria-hidden="true">*</span>}
       </label>
       <button
         ref={trigger}

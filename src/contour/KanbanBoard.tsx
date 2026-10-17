@@ -100,7 +100,7 @@ export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCar
   const cancel=()=>{release();setMovement(null);setMessage('Move cancelled.');};
   const focusCard=(id:string)=>{
     const row=Array.from(board.current?.querySelectorAll<HTMLElement>('[data-kanban-card]')||[]).find(node=>node.dataset.kanbanCard===id);
-    row?.querySelector<HTMLElement>('[data-card-primary]')?.focus();
+    (row?.matches('[data-card-primary]')?row:row?.querySelector<HTMLElement>('[data-card-primary]'))?.focus();
   };
   const commit=(move:Drag)=>{
     const current=props.current;release();setMovement(null);
@@ -168,6 +168,8 @@ export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCar
         setMessage(`${label(card)}: ${columns.find(column=>column.id===to)?.title}, position ${target.index+1} of ${target.count}.`);
       }return;
     }
+    if(event.key==='Enter'&&onCardOpen){event.preventDefault();onCardOpen(card);return;}
+    if(event.key===' '&&!onMove&&onCardOpen){event.preventDefault();onCardOpen(card);return;}
     if(event.key===' '&&onMove){event.preventDefault();start(card,'keyboard');return;}
     if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     event.preventDefault();const siblings=columnCards(card.columnId),index=siblings.findIndex(item=>item.id===card.id);
@@ -196,10 +198,10 @@ export function KanbanBoard<T extends KanbanCard>({columns=[],cards=[],renderCar
           {!column.collapsed&&<ScrollArea hideScrollbar label={`${column.title} cards`} className="ct-kanban-column-scroll"><ul className="ct-kanban-card-list">
             {loading?[0,1,2].map(index=><li key={index}><Panel title={undefined} description={undefined} action={undefined}><Skeleton rows={2}/></Panel></li>):shown.length?shown.map(card=>{
               const destinationIndex=shown.filter(item=>item.id!==drag?.id).findIndex(item=>item.id===card.id);
-              return <li key={card.id} className="ct-kanban-card-slot">{card.id!==drag?.id&&marker(column.id,destinationIndex)&&<div className="ct-kanban-insertion" aria-hidden="true"/>}<article data-kanban-card={card.id} data-lifted={drag?.id===card.id||undefined} data-settled={settled===card.id||undefined} className="ct-kanban-card"><Panel title={undefined} description={undefined} action={undefined}>
-                <div className="ct-kanban-card-actions">{onCardOpen?<Button data-card-primary aria-label={`Open ${label(card)}`} aria-describedby={instructionsId} onClick={()=>onCardOpen(card)} onKeyDown={(event:KeyboardEvent<HTMLElement>)=>keyboard(event,card)}>Open</Button>:<span data-card-primary tabIndex={0} role="group" aria-label={label(card)} aria-describedby={instructionsId} onKeyDown={(event:KeyboardEvent<HTMLElement>)=>keyboard(event,card)}>{label(card)}</span>}
-                {onMove&&<IconButton label={`Move ${label(card)}`} className="ct-kanban-drag-handle" aria-describedby={instructionsId} aria-pressed={drag?.id===card.id} onKeyDown={(event:KeyboardEvent<HTMLElement>)=>keyboard(event,card)} onPointerDown={(event:PointerEvent<HTMLButtonElement>)=>{if(event.button!==0)return;event.preventDefault();event.currentTarget.focus();start(card,'pointer',event);}} onPointerMove={pointerMove} onPointerUp={(event:PointerEvent<HTMLButtonElement>)=>{if(dragRef.current?.pointerId===event.pointerId){point.current={x:event.clientX,y:event.clientY};tick();if(dragRef.current)commit(dragRef.current);}}} onPointerCancel={()=>cancel()}><GripVertical size={14}/></IconButton>}</div>
-                <div className="ct-kanban-card-content" onClick={event=>{const interactive=(event.target as HTMLElement).closest('button,a,input,select,textarea,summary,label,[role],[tabindex],[contenteditable="true"]');if(onCardOpen&&(!interactive||!event.currentTarget.contains(interactive)))onCardOpen(card);}}>{renderCard(card)}</div>
+              return <li key={card.id} className="ct-kanban-card-slot">{card.id!==drag?.id&&marker(column.id,destinationIndex)&&<div className="ct-kanban-insertion" aria-hidden="true"/>}<article data-kanban-card={card.id} data-lifted={drag?.id===card.id||undefined} data-settled={settled===card.id||undefined} className="ct-kanban-card" data-card-primary tabIndex={onCardOpen||onMove?0:undefined} role="group" aria-label={onCardOpen?`Open ${label(card)}`:label(card)} aria-describedby={onMove?instructionsId:undefined} onKeyDown={event=>{if(event.target===event.currentTarget)keyboard(event,card);}} onClick={event=>{const target=event.target as HTMLElement;if(onCardOpen&&!target.closest('button,a,input,select,textarea,summary,label,[contenteditable="true"]'))onCardOpen(card);}}><Panel title={undefined} description={undefined} action={undefined}>
+                {onMove&&<div className="ct-kanban-card-actions">
+                <IconButton label={`Move ${label(card)}`} className="ct-kanban-drag-handle" aria-describedby={instructionsId} aria-pressed={drag?.id===card.id} onKeyDown={(event:KeyboardEvent<HTMLElement>)=>keyboard(event,card)} onPointerDown={(event:PointerEvent<HTMLButtonElement>)=>{if(event.button!==0)return;event.preventDefault();event.currentTarget.focus();start(card,'pointer',event);}} onPointerMove={pointerMove} onPointerUp={(event:PointerEvent<HTMLButtonElement>)=>{if(dragRef.current?.pointerId===event.pointerId){point.current={x:event.clientX,y:event.clientY};tick();if(dragRef.current)commit(dragRef.current);}}} onPointerCancel={()=>cancel()}><GripVertical size={14}/></IconButton></div>}
+                <div className="ct-kanban-card-content">{renderCard(card)}</div>
                 {onMove&&<Dropdown children={undefined} defaultValue={undefined} searchable={false} name={undefined} aria-invalid={undefined} aria-describedby={undefined} aria-label={`Move ${label(card)} to column`} placeholder="Move to…" value="" options={columns.map(target=>({value:target.id,label:target.title}))} onChange={(event:{target:{value:string}})=>{const to=event.target.value;commit({id:card.id,from:card.columnId,original:all.findIndex(item=>item.id===card.id),to,index:cards.filter(item=>item.columnId===to&&item.id!==card.id).length,mode:'keyboard'});}}/>}
               </Panel></article></li>;
             }):<li className="ct-kanban-empty">{column.emptyLabel||'No projects in this phase'}</li>}

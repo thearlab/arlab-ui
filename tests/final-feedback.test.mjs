@@ -17,7 +17,7 @@ test('Account identity is not a trigger and only sign out is interactive',()=>{
 });
 test('action Chip does not submit forms and date-only Timestamp omits the time',()=>{
  const chip=html(Chip,{children:'Reset tags',onClick:()=>{},disabled:true});assert.match(chip,/<button[^>]*type="button"/);assert.match(chip,/disabled=""/);
- const stamp=html(Timestamp,{date:'2026-10-21T12:00:00Z',format:'date'});assert.match(stamp,/21 October/);assert.doesNotMatch(stamp,/timestamp-divider|timestamp-time/);
+ const stamp=html(Timestamp,{date:'2026-10-21T12:00:00Z',format:'date'});assert.match(stamp,/21 Oct 2026/);assert.doesNotMatch(stamp,/timestamp-divider|timestamp-time/);
 });
 test('Loader uses the selected circular outline and one accessible status',()=>{
  const output=html(Loader,{});assert.equal((output.match(/<circle/g)||[]).length,2);assert.doesNotMatch(output,/<rect/);assert.equal((output.match(/role="status"/g)||[]).length,1);

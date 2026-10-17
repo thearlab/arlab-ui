@@ -24,3 +24,12 @@ test('expanded rail uses the supplied full wordmark and neutral glyph tiles sepa
 test('explicit legacy visibility remains host-owned without reintroducing a fold control',()=>{
  const html=render({panelCollapsed:true});assert.match(html,/class="contour-space-panel"[^>]+hidden=""/);assert.doesNotMatch(html,/Expand space navigation/);assert.match(html,/Expand spaces rail/);
 });
+
+test('single shell keeps help, settings and collapse together in its fixed footer',()=>{
+ const html=render({spaces:undefined,collapsed:false});
+ const nav=html.match(/<aside[^>]+class="contour-navigation [^"]*"[\s\S]*?<\/aside>/)[0];
+ const footer=nav.slice(nav.indexOf('<footer'));
+ assert.match(footer,/aria-label="Help"/);assert.match(footer,/aria-label="Settings"/);assert.match(footer,/aria-label="Collapse navigation" aria-expanded="true"/);
+ assert.ok(footer.indexOf('aria-label="Settings"')<footer.indexOf('aria-label="Collapse navigation"'));
+ assert.doesNotMatch(nav.slice(0,nav.indexOf('</header>')),/Collapse navigation/);
+});

@@ -21,9 +21,14 @@ export function satinLiftTokens(mode) {
     'secondary-accent':'#FB923C','secondary-accent-text':dark?'#FDBA74':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
     'scrollbar-thumb':`rgba(${channels},.35)`,'scrollbar-hover':`rgba(${channels},.60)`,'scrollbar-track':'transparent',
   };
-  [['ok','#356A5A'],['bad','#AD4053'],['info','#4B619D']].forEach(([role,color])=>{
-    colors[role]=dark?blend(color,'#FFFFFF',.62):color;
-    colors[`${role}Tint`]=blend(raise,colors[role],dark?.16:.075);
+  // Explicit dark semantic hues retain their meaning on neutral chrome surfaces.
+  const semantic = dark
+    ? {ok:'#75D6A6',bad:'#FF94A3',info:'#8DBBFF',planning:'#C3AAFF'}
+    : {ok:'#356A5A',bad:'#AD4053',info:'#4B619D',planning:'#7053A1'};
+  Object.entries(semantic).forEach(([role,color])=>{
+    colors[role]=color;
+    const darkTints={ok:'#233D32',bad:'#4B2630',info:'#253B58',planning:'#3B2D54'};
+    colors[`${role}Tint`]=dark ? darkTints[role] : blend(raise,color,.075);
   });
   colors.warn=colors['secondary-accent-text'];colors.warnTint=colors['secondary-accent-soft'];
   const charts = dark ? ['#F04EE8','#FB923C','#A78BFA','#38BDF8','#2DD4BF','#C4B5FD','#FBBF24']
@@ -39,7 +44,7 @@ export function satinLiftTokens(mode) {
   return {...colors,
     'font-sans':"'Satoshi', sans-serif",'font-display':"'Satoshi', sans-serif",'font-mono':"'DM Mono', monospace",
     'weight-regular':'400','weight-medium':'500','weight-semibold':'600','weight-heading':'600','font-weight-heading':'600','icon-stroke':'1.5',
-    'radius-xs':'7px','radius-sm':'7px','radius-lg':'14px','radius-md':'14px','radius-panel':'14px','radius-control':'7px',
+    'radius-tag':'5px','radius-xs':'7px','radius-sm':'7px','radius-lg':'14px','radius-md':'14px','radius-panel':'14px','radius-control':'7px',
     'surface-border-color':'transparent',
     'surface-gradient':dark?'linear-gradient(150deg,#29292C,#28282B),linear-gradient(135deg,#48484E,#38383D 32%,#414146 65%,#46464B)':'linear-gradient(150deg,#FFFDFF,#FDFCFE),linear-gradient(135deg,#E3DCE9,#D2C9DB 32%,#F4EFF7 65%,#D8CEDE)',
     'shadow-surface':dark?'inset 0 1px 0 #FFFFFF04,0 1px 2px #00000025,0 10px 26px -16px #00000080':'inset 0 1px 0 #FFFFFF,0 1px 2px #20283808,0 10px 26px -16px #20283830',
@@ -65,6 +70,8 @@ export function satinLiftTokens(mode) {
     'chrome-control-hover-shadow':dark?'inset 0 1px 0 #FFFFFF06,0 1px 3px #00000018':'inset 0 1px 0 #FFFFFF,0 1px 3px #2028380A',
     'chrome-divider':blend(raise,ink,dark?.13:.085),'chrome-row-hover':blend(raise,ink,dark?.035:.025),
     'chrome-subtle-gradient':`linear-gradient(180deg,${blend(raise,sunken,.1)},${blend(raise,sunken,.2)})`,
+    'toggle-shadow':dark?'0 1px 2px #00000018':'0 1px 2px #20283808',
+    'toggle-hover-shadow':dark?'0 1px 3px #00000020':'0 1px 3px #2028380C',
     'switch-off-track':blend(raise,ink,dark?.16:.13),'switch-off-border':blend(raise,ink,dark?.38:.35),'switch-thumb':dark?'#EBEBEF':dim,
   };
 }

@@ -1,6 +1,6 @@
 # Dashboard components in Contour V2
 
-The components requested by the internal dashboard are application-controlled exports from `@arlab/ui`. They use `ContourProvider` and `@arlab/ui/styles.css`, including Manrope, IBM Plex Mono, light/dark colours, restrained borders and focus outlines. Import fonts once in the host app.
+The components requested by the internal dashboard are application-controlled exports from `@arlab/ui`. They use `ContourProvider` and `@arlab/ui/styles.css`, including the Satin Lift foundation: Urbanist 400/500 interface text, Urbanist 600 headings, DM Mono 400 code, light/dark colours, 14px panels, 7px controls and discreet focus outlines. The package stylesheet includes the self-hosted fonts.
 
 ```tsx
 import { ContourProvider, DateRangePicker, NumberInput, MediaUploadField } from '@arlab/ui';
@@ -16,7 +16,7 @@ import '@arlab/ui/styles.css';
 
 ## Field contracts
 
-- `DatePicker` uses a custom Contour calendar with month navigation, arrow-key day navigation, date bounds and Escape dismissal. `TimePicker` uses custom hour/minute dropdowns. Icons inherit the theme and focus uses a thin border. Values remain local date/time strings. The host chooses timezone semantics.
+- `DatePicker` and `TimePicker` use custom shared controls with explicit labels, limits, validation messages and disabled/required states. Date selection uses the shared calendar styling. Time selection uses equal-width compact hour and minute dropdowns. Values remain local date/time strings. The host chooses timezone semantics.
 - `DateRangePicker` receives `{start, end}` and reports invalid ranges without discarding either value.
 - `NumberInput` uses `number | null`, finite step increments, bounded stepper actions, and visible validation for typed values outside limits. Null means empty, not zero.
 - `ColorPicker` accepts six-digit hex colours. A partial draft stays editable; only valid complete values reach `onChange`. It includes optional labelled preset swatches.
@@ -31,7 +31,7 @@ import '@arlab/ui/styles.css';
 
 ## Editing and navigation
 
-`ReorderList` emits reordered items with the same IDs. Mouse and touch users drag the handle with a lifted row and insertion marker; keyboard users have explicit move-up/down actions. Escape cancels a drag. Reordering announces the new position. Persist changes in the host and report failures there.
+`ReorderList` emits reordered items with the same IDs. Desktop users can drag the handle; keyboard and touch users have explicit move-up/down actions. Reordering announces the new position. Persist changes in the host and report failures there.
 
 `InlineEdit` does not save on blur. Enter or Save invokes `onSave`, including async saves. Escape or Cancel discards the draft. A rejected save keeps the editor and draft open; pending saves disable both actions. Focus returns to the edit trigger after closing.
 
@@ -48,14 +48,8 @@ import '@arlab/ui/styles.css';
 
 ## Typography
 
-Shared tokens: `text-micro` 10px, `text-2xs` 11px, `text-xs` 12px, `text-sm` 13px, `text-base` 14px, `text-md` 16px, `text-lg` 18px, `text-xl` 22px, `text-2xl` 28px. Weights: regular 400, medium 500, semibold 600, bold 700. Line heights: tight 1.2, normal 1.5, reading 1.75. Use role-based sizes; do not introduce fractional local sizes.
+Shared tokens: `text-micro` 10px, `text-2xs` 11px, `text-xs` 12px, `text-sm` 13px, `text-base` 14px, `text-md` 16px, `text-lg` 18px, `text-xl` 22px, `text-2xl` 28px. Weights: regular 400, medium 500, semibold 600, headings 600. Line heights: tight 1.2, normal 1.5, reading 1.75. Use role-based sizes; do not introduce fractional local sizes.
 
 ## Integration boundary
 
 This release adds components and preserves the V2 navigation and existing V1 compatibility entry point. The dashboard's `window.confirm` calls still need to be replaced in the dashboard repository using the existing `ConfirmDialog`; publishing this library cannot change those call sites automatically. Studio uses shared navigation, fields, dropdowns, switches, dialogs, action menus, tour, overview statistics, collection groups and scrolling regions. Remaining legacy-specific screens can migrate incrementally through `@arlab/ui/legacy` without copying these components locally.
-
-## Filterable tables and right-side filters
-
-`FilterableTable` owns client-side sorting and pagination. Pass `columns`, filtered `rows` and a stable `rowKey`. Headers toggle ascending/descending order with paired arrows, and `aria-sort` announces the active direction. Sorting resets to page one and runs before pagination. A column defines `key`, accessible `label`, optional React `header`, `render(row)`, `value(row)`, a separate `sortValue(row)` for dates or formatted content, `sortable`, `width` and `align`. Missing values stay last in both directions. The table accepts custom React `header` and `headerActions`. Footer includes result range, rows per page and previous/next controls. Use FilterSidebar or the host to filter rows. Large remote datasets should use server-side sorting/pagination instead of this client-side component.
-
-`FilterSidebar` is controlled independently of the list it filters. Definitions support search, select and multi-select inputs; `value` maps IDs to strings or arrays and `onChange` emits the complete new map. `variant="full"` is 280px, `variant="compact"` is 212px, and `collapsed` renders a 52px rail. Provide `onCollapsedChange` to toggle. Header and reset/results footer are fixed while options use the shared ScrollArea. Place it in a bounded-height parent; on small screens the host may stack the panel or put it in a dialog.

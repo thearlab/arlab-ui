@@ -1,3 +1,4 @@
+import { tableRowProps } from './table-row.js';
 import { SortControl } from './SortControl.js';
 import { Input, Textarea } from "./BaseFields.js";
 import { Icon as RegistryIcon } from "./icons.js";
@@ -94,12 +95,13 @@ export function Field({ label, hint, error, required, children }) {
     <div className="lib-field">
       <label htmlFor={id}>
         {label}
-        {required && <span>Required</span>}
+        {required && <span aria-hidden="true">*</span>}
       </label>
       {React.isValidElement(children)
         ? React.cloneElement(children, {
             id,
             required,
+            "aria-required": required || undefined,
             "aria-invalid": !!error,
             "aria-describedby": hint || error ? `${id}-hint` : undefined,
           })
@@ -175,11 +177,11 @@ export function SearchField({
     </div>
   );
 }
-/** @param {{options: (string | {label: React.ReactNode, value: string, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string}} props */
-export function SegmentedControl({ options, value, onChange, label = "View" }) {
+/** @param {{options: (string | {label: React.ReactNode, value: string, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string, block?: boolean}} props */
+export function SegmentedControl({ options, value, onChange, label = "View", block = false }) {
   const items = options.map(option => typeof option === "string" ? {value:option,label:option} : option);
   return (
-    <div className="segments" role="group" aria-label={label}>
+    <div className="segments" data-block={block || undefined} role="group" aria-label={label}>
       {items.map(item => (
         <button type="button" key={item.value} disabled={item.disabled}
           aria-pressed={value === item.value} onClick={() => onChange(item.value)}
@@ -236,27 +238,17 @@ export function PillButton({ children, selected=false, onClick, variant='default
 }
 export { TagInput } from './TagInput.js';
 export { DeptTile } from "./DeptTile.js";
-/** @param {{date:string|number|Date,format?:"datetime"|"date"|"time",locale?:string}} props */
-export function Timestamp({ date,format="datetime",locale="en-GB" }) {
-  const d = new Date(date);
-  if(Number.isNaN(d.getTime()))return <span className="lib-timestamp">Date unavailable</span>;
-  if(format!=='datetime')return <time className="lib-timestamp" dateTime={d.toISOString()} title={d.toLocaleString(locale)}>{format==='date'?<CalendarDays size={13} aria-hidden="true"/>:<Clock3 size={13} aria-hidden="true"/>}<span>{format==='date'?d.toLocaleDateString(locale,{day:'numeric',month:'long'}):d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'})}</span></time>;
-  return (
-    <time
-      className="lib-timestamp"
-      dateTime={d.toISOString()}
-      title={d.toLocaleString()}
-    >
-      <Clock3 size={13} aria-hidden="true" />
-      <span>
-        {d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-      </span>
-      <span className="timestamp-divider" aria-hidden="true" />
-      <span className="timestamp-time">
-        {d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
-      </span>
-    </time>
-  );
+/** @param {{date:string|number|Date,format?:"datetime"|"date"|"time",showTime?:boolean,variant?:"plain"|"chip",locale?:string}} props */
+export function Timestamp({date,format,showTime=false,variant="plain",locale="en-GB"}) {
+ const d=new Date(date),kind=format ?? (showTime ? 'datetime' : 'date');
+ const className=`lib-timestamp ${variant==='chip'?'lib-timestamp-chip':''}`;
+ if(!Number.isFinite(d.getTime()))return <span className={className}>Date unavailable</span>;
+ return <time className={className} dateTime={d.toISOString()} title={d.toLocaleString(locale)}>
+  {variant==='chip'&&(kind==='date'?<CalendarDays size={13} aria-hidden="true"/>:<Clock3 size={13} aria-hidden="true"/>)}
+  {kind!=='time'&&<span>{d.toLocaleDateString(locale,{day:'numeric',month:'short',year:'numeric'})}</span>}
+  {kind==='datetime'&&<span className="timestamp-divider" aria-hidden="true"/>}
+  {kind!=='date'&&<span className="timestamp-time">{d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'})}</span>}
+ </time>;
 }
 /** @param {{color?: string, children?: React.ReactNode}} props */
 export function LegendDot({ color = "var(--chart-1)", children }) {
@@ -418,17 +410,17 @@ export function Refreshing({ busy, children }) {
     </div>
   );
 }
-/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void}} props */
-export function StateView({ state = "empty", title, description, actionLabel, action, onAction, onRetry, onCreate }) {
+/** @param {{state?: string, title?: import('react').ReactNode, description?: import('react').ReactNode, actionLabel?: React.ReactNode, action?: React.ReactNode, icon?: React.ReactNode, onAction?: () => void, onRetry?: () => void, onCreate?: () => void}} props */
+export function StateView({ state = "empty", title, description, actionLabel, action, icon, onAction, onRetry, onCreate }) {
   const id = useId();
   const loading = state === "loading", error = state === "error";
   const handleAction = onAction ?? (error ? onRetry : onCreate);
   const heading = title ?? (loading ? "Loading content" : error ? "We couldn’t load this view" : "Nothing here yet");
   const message = description ?? (loading ? "Please wait while we prepare this view." : error ? "Your changes are safe. Try again in a moment." : "Items will appear here when they are added.");
   return <div className="ct-state-view" data-state={loading ? 'loading' : error ? 'error' : 'empty'} role={loading ? 'status' : error ? 'alert' : 'group'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-message`} aria-busy={loading || undefined}>
-    <span className="ct-state-glyph" aria-hidden="true">{loading ? <Loader size={20} decorative/> : error ? <Info size={20}/> : <Folder size={20}/>}</span>
+    <span className="ct-state-glyph" aria-hidden="true">{icon ?? (loading ? <Loader size={20} decorative/> : error ? <Info size={20}/> : <Folder size={20}/>)}</span>
     <div className="ct-state-copy"><h3 id={`${id}-title`}>{heading}</h3><p id={`${id}-message`}>{message}</p></div>
-    {!loading && (action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>{actionLabel ?? (error ? "Try again" : onCreate ? "Create project" : "Continue")}</Button>))}
+    {!loading && (action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>{actionLabel ?? (error ? "Try again" : onCreate ? "Create item" : "Continue")}</Button>))}
   </div>;
 }
 /** @param {{children?: React.ReactNode, onClose?: React.MouseEventHandler<HTMLButtonElement>}} props */
@@ -876,8 +868,8 @@ export function DetailHeader({ title, description, status, children }) {
   return (
     <div className="lib-detail-header">
       <div>
-        <Status>{status}</Status>
         <h2>{title}</h2>
+        {status && (React.isValidElement(status) ? status : <Status>{status}</Status>)}
         <p>{description}</p>
       </div>
       {children}
@@ -1040,6 +1032,7 @@ export function DataTable({ rows, onOpen }) {
               <tr
                 key={r.id}
                 className={selected.includes(r.id) ? "selected" : ""}
+                {...tableRowProps(r,{onRowClick:onOpen?(row)=>onOpen(row):undefined,rowLabel:row=>`Open ${row.name}`},r.id)}
               >
                 <td>
                   <Checkbox
@@ -1059,12 +1052,7 @@ export function DataTable({ rows, onOpen }) {
                   <Meter value={r.progress} label={`${r.name} completion`} />
                 </td>
                 <td>
-                  <IconButton
-                    label={`Open ${r.name}`}
-                    onClick={() => onOpen?.(r)}
-                  >
-                    <ChevronRight size={16} />
-                  </IconButton>
+                  <ChevronRight className="ct-table-row-chevron" size={14} aria-hidden="true"/>
                 </td>
               </tr>
             ))}
@@ -1274,8 +1262,8 @@ function ChartTable({ data, secondaryData, primaryLabel = "Value", secondaryLabe
     </details>
   );
 }
-/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string}} props */
-export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison" }) {
+/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string,color?:string,highlight?:string}} props */
+export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison", color="var(--chart-1)", highlight }) {
   const secondary = new Map(secondaryData?.map(point => [point.label, point.value]));
   const max = Math.max(...data.flatMap(d => [d.value, secondary.get(d.label) ?? 0]), 1);
   return (
@@ -1286,7 +1274,7 @@ export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "V
           {secondaryData ? <div className="lib-column-pair">
             <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: 'var(--chart-1)'}} />
             <span style={{height: `${Math.max(0, (secondary.get(d.label) ?? 0) / max) * 125}px`, background: 'var(--chart-2)'}} />
-          </div> : <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: `var(--chart-${(i % 6) + 1})`}} />}
+          </div> : <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: d.label===highlight ? "var(--accent)" : color}} />}
           <small>{d.label}</small>
         </div>)}
       </div>
@@ -1320,7 +1308,8 @@ export function Sparkline({ data = chartData, secondaryData, primaryLabel = "Val
     <ChartTable data={data} secondaryData={secondaryData} primaryLabel={primaryLabel} secondaryLabel={secondaryLabel} />
   </div>;
 }
-export function StackedBar({ data = chartData }) {
+/** @param {{data?:ChartPoint[],categorical?:boolean,color?:string,highlight?:string}} props */
+export function StackedBar({ data = chartData,categorical=false,color="var(--chart-1)",highlight }) {
   const total = data.reduce((a, d) => a + d.value, 0);
   return (
     <div className="lib-chart">
@@ -1335,14 +1324,14 @@ export function StackedBar({ data = chartData }) {
             title={`${d.label}: ${d.value}`}
             style={{
               width: `${total > 0 ? (d.value / total) * 100 : 0}%`,
-              background: `var(--chart-${(i % 6) + 1})`,
+              background: d.label===highlight ? "var(--accent)" : categorical ? `var(--chart-${(i % 6) + 1})` : color,
             }}
           />
         ))}
       </div>
       <div className="lib-chart-legend">
         {data.map((d, i) => (
-          <LegendDot key={d.label} color={`var(--chart-${(i % 6) + 1})`}>
+          <LegendDot key={d.label} color={d.label===highlight ? "var(--accent)" : categorical ? `var(--chart-${(i % 6) + 1})` : color}>
             {d.label} {d.value}
           </LegendDot>
         ))}
@@ -1351,7 +1340,8 @@ export function StackedBar({ data = chartData }) {
     </div>
   );
 }
-export function BarList({ data = chartData }) {
+/** @param {{data?:ChartPoint[],categorical?:boolean,color?:string,highlight?:string}} props */
+export function BarList({ data = chartData,categorical=false,color="var(--chart-1)",highlight }) {
   const max = Math.max(...data.map((d) => d.value), 1);
   return (
     <div className="lib-bar-list">
@@ -1362,7 +1352,7 @@ export function BarList({ data = chartData }) {
             <i
               style={{
                 width: `${(d.value / max) * 100}%`,
-                background: `var(--chart-${(i % 6) + 1})`,
+                background: d.label===highlight ? "var(--accent)" : categorical ? `var(--chart-${(i % 6) + 1})` : color,
               }}
             />
           </span>

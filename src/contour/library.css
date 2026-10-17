@@ -86,8 +86,8 @@ textarea.lib-input {
   font-size: 12px;
   font-weight: 500;
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content: flex-start;
+  gap: var(--space-2);
 }
 .lib-field > label > span {
   font-size: 10px;
@@ -199,13 +199,15 @@ textarea.lib-input {
   box-sizing: border-box;
   min-width: 0;
   max-width: 100%;
-  height: 28px;
+  height: 22px;
   gap: var(--space-1);
-  padding: 1px 1px 1px var(--space-2);
+  padding: 0 1px 0 var(--space-2);
   font: var(--weight-medium) var(--text-xs)/var(--leading-normal) var(--font-sans);
-  color: var(--ink);
-  background: var(--ground);
-  border: var(--line-width) solid var(--line);
+  color: var(--dim);
+  background: var(--sunken);
+  border: 0;
+  border-radius:var(--radius-tag,5px);
+  white-space:nowrap;
 }
 .removable-tag:not(:has(.ct-chip-remove)) { padding-inline-end: var(--space-2); }
 .ct-chip-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -213,9 +215,9 @@ textarea.lib-input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
   min-height: 0;
   padding: 0;
   border: var(--line-width) solid transparent;
@@ -224,7 +226,7 @@ textarea.lib-input {
   background: transparent;
   cursor: pointer;
 }
-.ct-chip-remove:hover { background: var(--raise); color: var(--ink); border-color: var(--line); }
+.ct-chip-remove:hover { background: var(--raise); color: var(--ink); border-color: transparent; }
 .ct-chip-remove:focus-visible { outline: var(--line-width) solid var(--focus); outline-offset: -1px; }
 .ct-chip-remove > svg { flex-shrink: 0; width: 12px; height: 12px; }
 .ct-chip-reset {
@@ -271,26 +273,8 @@ textarea.lib-input {
   flex: 0 0 6px;
   border-radius: 2px;
 }
-.lib-timestamp {
-  display: inline-flex;
-  align-self: flex-start;
-  justify-self: start;
-  flex: 0 0 auto;
-  width: max-content;
-  max-width: 100%;
-  overflow: hidden;
-  align-items: center;
-  gap: 9px;
-  min-height: 32px;
-  padding: 7px 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-control);
-  background: var(--ground);
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--dim);
-  white-space: nowrap;
-}
+ .lib-timestamp {display:inline-flex;align-self:flex-start;justify-self:start;align-items:center;gap:var(--space-2);flex:0 0 auto;width:max-content;max-width:100%;color:var(--dim);font:var(--weight-regular) var(--text-xs)/var(--leading-normal) var(--font-sans);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.lib-timestamp-chip {padding:var(--space-1) var(--space-2);border:var(--line-width) solid var(--chrome-divider);border-radius:var(--radius-control);background:var(--sunken);}
 .timestamp-divider {
   width: 1px;
   height: 11px;
@@ -995,7 +979,8 @@ button.lib-row:hover {
   min-width: 150px;
 }
 .lib-data-table table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing:0;
   width: 100%;
   min-width: 540px;
   text-align: left;
@@ -2805,7 +2790,10 @@ button.lib-row:hover {
 .page-loading {
   display: flex;
   flex-direction: column;
-  min-height: 480px;
+  flex:1 0 auto;
+  align-self:stretch;
+  height:100%;
+  min-height:100%;
   width: 100%;
   background: var(--raise);
 }
@@ -3007,7 +2995,7 @@ dl.ct-facts {
 }
 dl.ct-facts > div {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-columns: minmax(112px,200px) minmax(0,1fr);
   align-items: start;
   gap: var(--space-4);
   min-width: 0;
@@ -3040,7 +3028,7 @@ dl.ct-facts dd {display:block;color:var(--ink);}
 .ct-form-field-label {
   display:flex;
   align-items:baseline;
-  justify-content:space-between;
+  justify-content:flex-start;
   gap:var(--space-2);
   color:var(--ink);
   font-family:var(--font-sans);
@@ -3204,7 +3192,7 @@ a.lib-link-tile {text-decoration:none;}
 .ct-data-table > header::before {content:'';display:block;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-inline-end:2px;}
 
 /* Content loading fills the bounded shell body; copy stays at the exact center. */
-.ct-content-loading {position:relative;display:grid;place-items:center;flex:1;width:100%;height:100%;min-height:240px;min-width:0;overflow:hidden;background:var(--ground);color:var(--ink);}
+.ct-content-loading {position:relative;display:grid;place-items:center;flex:1 0 auto;align-self:stretch;width:100%;height:100%;min-height:100%;min-width:0;overflow:hidden;background:var(--ground);color:var(--ink);}
 .ct-content-loading-copy {position:relative;z-index:1;width:min(100% - 48px,440px);text-align:center;}
 .ct-content-loading-copy h2 {font:var(--weight-heading,500) var(--text-xl)/var(--leading-tight) var(--font-display);letter-spacing:0;}
 .ct-content-loading-copy p {margin-top:var(--space-3);color:var(--dim);font:var(--weight-regular) var(--text-sm)/var(--leading-normal) var(--font-sans);}
@@ -3263,3 +3251,13 @@ a.lib-link-tile {text-decoration:none;}
 .ct-content-loading-rows > div:nth-child(4) {animation-delay:.54s;}
 @keyframes ct-content-loading-row {0%,100% {opacity:.48;}50% {opacity:1;}}
 @media(prefers-reduced-motion:reduce) {.ct-content-loading-rows > div {animation:none;opacity:1;}}
+
+/* Data owns the full row; the trailing glyph is only an affordance. */
+.lib-data-table tr[data-interactive] {cursor:pointer;}
+.lib-data-table tr[data-interactive]:focus-visible {outline:1px solid var(--focus);outline-offset:-1px;}
+.ct-table-row-chevron {color:var(--dim);opacity:0;}
+.lib-data-table tr:is(:hover,:focus-within) .ct-table-row-chevron {opacity:1;}
+.lib-collection-card-media {border-radius:var(--radius-panel);}
+.ct-countdown-inline {font:var(--weight-medium) var(--text-xs)/var(--leading-normal) var(--font-sans);font-variant-numeric:tabular-nums;color:var(--dim);white-space:nowrap;}
+.ct-countdown-inline[data-overdue] {color:var(--bad);}
+.ct-countdown-inline[data-due-today] {color:var(--warn);}

@@ -13,6 +13,7 @@ import {
   ArrowUpRight,
   Check,
   Circle,
+  Info,
   AlertTriangle,
   Clock3,
   Search,
@@ -92,7 +93,7 @@ export function Status({ children, tone, dot = true, className = "", ...props })
   const tones = {
     "In progress": "info",
     "In review": "warn",
-    Planning: "quiet",
+    Planning: "planning",
     Completed: "ok",
     Ready: "ok",
     Published: "ok",
@@ -183,7 +184,7 @@ export function Notice({ tone = "info", children }) {
       ) : tone === "ok" ? (
         <Check size={17} />
       ) : (
-        <Circle size={16} />
+        <Info size={16} />
       )}
       <div>{children}</div>
     </div>

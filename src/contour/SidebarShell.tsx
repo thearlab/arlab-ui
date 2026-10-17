@@ -37,7 +37,7 @@ export interface SidebarShellProps {
   brandMark?: ReactNode; brandHref?: string; panelLabel?: string;
   /** @deprecated Host-controlled legacy visibility only; no panel-fold control is rendered. */
   panelCollapsed?: boolean; onPanelCollapsedChange?: (collapsed: boolean) => void; defaultPanelCollapsed?: boolean;
-  railFooter?: (opts: {collapsed: true}) => ReactNode;
+  railFooter?: (opts: {collapsed: boolean}) => ReactNode;
   mode?: 'light' | 'dark'; className?: string; style?: CSSProperties;
 }
 /** Router-independent navigation. Import @arlab/ui/navigation/styles.css for standalone use. */
@@ -95,7 +95,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     return()=>{if(node.open)node.close();if(previous?.isConnected)previous.focus();};
   },[drawer]);
   useEffect(()=>{setDrawer(null);},[navigationKey,activeSpace]);
-  const mainNav=(mobile=false)=><AppNavigation brand={brand} compactBrand={brandLink} toolName={toolName} collapsed={mobile?false:isCollapsed} onToggle={mobile?()=>setDrawer(null):toggle} toggleDisabled={!mobile&&collapsed!==undefined&&!onCollapsedChange} toggleLabel={mobile?'Close navigation':undefined} footer={account} help={help ?? (onHelp ? ({collapsed})=>railAction('help',collapsed) : undefined)}>
+  const mainNav=(mobile=false)=><AppNavigation brand={brand} compactBrand={brandLink} toolName={toolName} collapsed={mobile?false:isCollapsed} onToggle={mobile?()=>setDrawer(null):toggle} toggleDisabled={!mobile&&collapsed!==undefined&&!onCollapsedChange} toggleLabel={mobile?'Close navigation':undefined} footer={account} help={help || onHelp || settings || onSettings ? ({collapsed})=><>{help ? slot(help,collapsed) : railAction('help',collapsed)}{railAction('settings',collapsed)}</> : undefined}>
     <NavigationDismissContext.Provider value={mobile?()=>setDrawer(null):undefined}>{navigation}</NavigationDismissContext.Provider>
   </AppNavigation>;
   const tile=(space:Space)=>space.dept?<DeptTile compact department={space.dept} icon={space.icon} color={space.color}/>:<span className="contour-rail-action-glyph" aria-hidden="true">{space.icon || <LayoutGrid size={14}/>}</span>;
@@ -123,7 +123,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     {account&&<footer className="contour-space-panel-footer">{slot(account,false)}</footer>}
   </aside>;
   const railToggle=<button type="button" className="contour-rail-action contour-rail-toggle" aria-label={isRailCollapsed?'Expand spaces rail':'Collapse spaces rail'} aria-expanded={!isRailCollapsed} aria-controls={railId} title={isRailCollapsed?'Expand spaces rail':undefined} disabled={railDisabled} onClick={toggleRail}><span className="contour-rail-action-glyph" aria-hidden="true">{isRailCollapsed?<PanelLeftOpen size={14}/>:<PanelLeftClose size={14}/>}</span><span className="contour-rail-action-label">Collapse rail</span></button>;
-  const railEnd=railFooter?railFooter({collapsed:true}):<>{railAction('help')}{railAction('settings')}</>;
+  const railEnd=railFooter?railFooter({collapsed:isRailCollapsed}):<>{railAction('help')}{railAction('settings')}</>;
   return <div className={`contour-shell ${className}`} data-spaces={hasSpaces||undefined} data-collapsed={!hasSpaces&&isCollapsed||undefined} data-panel-collapsed={hasSpaces&&isPanelCollapsed||undefined} data-rail-collapsed={hasSpaces&&isRailCollapsed||undefined} data-secondary-collapsed={secondaryCollapsed||undefined} data-mode={mode} style={style}>
     {hasSpaces?<><aside id={railId} className="contour-spaces-rail" aria-label="Workspace spaces"><header>{railBrand}</header><ScrollArea className="contour-spaces-scroll" label="Available spaces" height={undefined} maxHeight={undefined}>{spaceList()}</ScrollArea><footer>{railEnd}{railToggle}</footer></aside>{panel()}</>:<div className="contour-shell-primary">{mainNav()}</div>}
     {secondaryNavigation&&<aside className="contour-shell-secondary" aria-label={secondaryLabel}><header><span>{secondaryLabel}</span><button type="button" className="contour-nav-toggle" aria-label={`${secondaryCollapsed?'Expand':'Collapse'} ${secondaryLabel}`} aria-expanded={!secondaryCollapsed} onClick={()=>setSecondaryCollapsed(!secondaryCollapsed)}>{secondaryCollapsed?<PanelLeftOpen size={14}/>:<PanelLeftClose size={14}/>}</button></header>{!secondaryCollapsed&&<div className="contour-shell-secondary-content">{secondaryNavigation}</div>}</aside>}

@@ -235,9 +235,9 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
         </tbody>
       </table>
     </ScrollArea>
-    <footer data-error={!!error||undefined} data-condensed-actions={!!props.condensedFooterActions||undefined}><span className={error?'ct-table-error':'ct-table-progress'} role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? 'Scroll for more' : 'All results loaded')}</span>
-      {remote && more && <Button className={error?'ct-table-retry':'ct-table-load-more'} disabled={!!loadingMore || loading} onClick={() => requestMore(true)}>{error ? 'Retry loading' : 'Load more'}</Button>}
-      {!remote && more && <Button className="ct-table-load-more" disabled={loading} onClick={() => setLoaded(old => Math.min(ordered.length, old + chunkSize))}>Load more</Button>}
+    <footer data-error={!!error||undefined} data-condensed-actions={!!props.condensedFooterActions||undefined}>
+      <span className={`${error?'ct-table-error':'ct-table-progress'} ${!error&&!loading&&!loadingMore?'sr-only':''}`} role={error ? 'alert' : 'status'}>{error || (loadingMore ? 'Loading more records…' : loading ? 'Loading records…' : more ? 'More records load as you scroll' : 'All results loaded')}</span>
+      {remote && more && !loadingMore && !loading && (error || attemptedLength.current===rows.length) && <Button className="ct-table-retry" onClick={() => requestMore(true)}>{error ? 'Retry loading' : 'Load more'}</Button>}
       {footerActions&&<div className="ct-table-footer-actions">{footerActions}</div>}
       {props.condensedFooterActions&&<div className="ct-table-condensed-footer-actions">{props.condensedFooterActions}</div>}
     </footer>

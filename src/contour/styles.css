@@ -655,6 +655,7 @@ select {
   color: var(--info);
   background: var(--infoTint);
 }
+.status.planning {color:var(--planning,var(--info));background:var(--planningTint,var(--infoTint));}
 .status.quiet {
   color: var(--dim);
   background: var(--sunken);
@@ -1423,7 +1424,8 @@ select {
   margin-bottom: 28px;
 }
 .project-table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing:0;
   width: 100%;
   text-align: left;
   white-space: nowrap;
@@ -3412,7 +3414,7 @@ select {
   pointer-events: none;
   background-image: var(--chrome-control-gradient);
   border-color: var(--switch-off-border);
-  box-shadow: var(--chrome-control-shadow);
+  box-shadow: var(--toggle-shadow);
 }
 .switch-visual:after {
   content: "";
@@ -3476,6 +3478,9 @@ select {
 }
 .segments {
   display: inline-flex;
+  width:fit-content;
+  justify-self:start;
+  align-self:flex-start;
   padding: 3px;
   background: var(--ground);
   border: 1px solid var(--line);
@@ -3484,6 +3489,7 @@ select {
   max-width: 100%;
   flex-wrap: wrap;
 }
+.segments[data-block] {display:flex;width:100%;align-self:stretch;}
 .segments > button {
   border: 1px solid transparent;
   border-radius: var(--radius-control);
