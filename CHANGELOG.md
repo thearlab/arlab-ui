@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0-beta.11
+
+- CollectionLayout accepts pills beside its title and an updated metadata slot alongside its description. Rich description content is supported.
+- Heading and tabs now span the full collection width. The single 1px tab separator extends above the desktop filter sidebar; results and filters begin below it.
+- Title pills, actions and update metadata wrap on phones without page overflow. Existing simple title/description calls remain supported.
+- PageBar exposes updated and pillsPlacement. Its existing below-title pill placement remains the default outside CollectionLayout.
+- Verified package/showcase builds, 57 interaction checks, 50 theme contrast pairs, and desktop/light/dark/phone geometry. Studio compatibility is checked separately.
+
 ## 2.0.0-beta.10
 
 - Clickable Row places its navigation arrow after the trailing value, retaining independent trailing controls.

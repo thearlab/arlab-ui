@@ -860,13 +860,14 @@ export function NavTree({ items, value, onChange }) {
     </nav>
   );
 }
-export function PageBar({ title, description, actions, pills = undefined, heading: Heading = "h2" }) {
+/** @param {{title:import('react').ReactNode,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}} props */
+export function PageBar({ title, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2" }) {
   return (
     <header className="lib-pagebar">
       <div>
-        <Heading>{title}</Heading>
-        {description && <p>{description}</p>}
-        {pills && <div className="ct-pagebar-pills">{pills}</div>}
+        {pillsPlacement === 'inline' ? <div className="ct-pagebar-title"><Heading>{title}</Heading>{pills&&<div className="ct-pagebar-pills">{pills}</div>}</div> : <Heading>{title}</Heading>}
+        {updated ? <div className="ct-pagebar-summary">{description&&<p>{description}</p>}<div className="ct-pagebar-updated">{updated}</div></div> : description&&<p>{description}</p>}
+        {pills && pillsPlacement !== 'inline' && <div className="ct-pagebar-pills">{pills}</div>}
       </div>
       {actions}
     </header>

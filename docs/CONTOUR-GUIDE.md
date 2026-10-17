@@ -2666,3 +2666,7 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 ## Collection and header integration
 
 See [beta.10 integration contracts](RELEASE-beta.10.md) for row activation, flexible table columns, optional tabs, rich breadcrumbs, dialog labels and search-free app headers. Strategy uses `--dept-strategy` in both themes.
+
+## Unified list-page heading
+
+CollectionLayout supports `pills`, `updated` and `tabs` in its shared full-width heading. See [beta.11 integration](RELEASE-beta.11.md). Pass a `<time dateTime={updatedAt}>` for application-formatted update text.

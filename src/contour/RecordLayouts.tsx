@@ -129,8 +129,8 @@ export function RecordCollection({
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({title,description,actions,tabs,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
- title:string;description?:string;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
+export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,sidebar,sidebarLabel='Filters',variant='contained',activeFilters=0,children}:{
+ title:string;description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
  sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
  variant?:'contained'|'flush';activeFilters?:number;children:ReactNode;
 }) {
@@ -139,15 +139,17 @@ export function CollectionLayout({title,description,actions,tabs,search,filters,
  const id=useId();
  useEffect(()=>{const media=window.matchMedia('(max-width:760px)');const update=()=>{setMobile(media.matches);setExpanded(false);};media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
  const close=()=>setExpanded(false);
- return <section className="ct-collection-layout" data-variant={variant} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
+ return <section className="ct-collection-layout" data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
+  <PageBar title={title} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>
+  {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
+  <div className="ct-collection-body">
   <div className="ct-collection-main">
-   <PageBar title={title} description={description} actions={actions} heading="h1"/>
-   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
    <div className="ct-collection-toolbar"><div>{search}</div>{(filters||sidebar&&mobile)&&<Button aria-expanded={expanded} aria-controls={id} onClick={()=>setExpanded(!expanded)}><SlidersHorizontal size={14}/>Filters{activeFilters>0?` (${activeFilters})`:''}</Button>}</div>
    {filters&&!sidebar&&<div id={id} className="ct-collection-filter-fields" hidden={!expanded}>{filters}</div>}
    <div className="ct-collection-results">{children}</div>
   </div>
   {sidebar&&!mobile&&<div className="ct-collection-sidebar">{sidebar({mobile:false,close})}</div>}
+  </div>
   {sidebar&&mobile&&<Modal open={expanded} onClose={close} title={sidebarLabel} sheet className="ct-collection-filter-sheet"><div id={id} className="ct-collection-filter-content">{sidebar({mobile:true,close})}</div></Modal>}
  </section>;
 }

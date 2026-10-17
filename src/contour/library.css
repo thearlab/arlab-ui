@@ -2772,3 +2772,9 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 .ct-modal-label {font-size:var(--text-2xs);font-weight:var(--weight-medium);color:var(--dim);margin-bottom:var(--space-1);}
 .lib-breadcrumbs a {color:inherit;text-decoration:none;}
 .lib-breadcrumbs a:hover {color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;}
+
+.ct-pagebar-title {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-3);min-width:0;}
+.ct-pagebar-title > .ct-pagebar-pills {margin-top:0;}
+.ct-pagebar-summary {display:flex;align-items:baseline;flex-wrap:wrap;column-gap:var(--space-3);row-gap:var(--space-1);margin-top:var(--space-2);}
+.lib-pagebar .ct-pagebar-summary p {margin:0;}
+.ct-pagebar-updated {font-size:var(--text-2xs);font-weight:var(--weight-regular);line-height:var(--leading-normal);color:var(--dim);}
