@@ -57,7 +57,7 @@
 :is(.ct-surface[data-surface-interactive],a.lib-link-tile,button.lib-link-tile,a.lib-collection-card,button.lib-collection-card,a.knowledge-glance):hover:not(:disabled) {box-shadow:var(--surface-hover-elevation);}
 /* Embedded surfaces remain edge-to-edge; their parent owns the visible frame. */
 :is(.ct-data-table[data-variant="flush"],.ct-event-calendar[data-variant="flush"],.ct-surface[data-surface-variant="flush"]) {border:0;border-radius:0;box-shadow:none;background-origin:padding-box;background-clip:padding-box;background-image:var(--chrome-subtle-gradient);}
-.modal.sheet {border-radius:var(--surface-radius) 0 0 var(--surface-radius);}
+.modal.sheet {border-radius:0;}
 /* Native shortcuts and Kbd share DM Mono and the micro-text role. */
 kbd,.ct-kbd {font-family:var(--font-mono);font-size:var(--text-kbd);font-weight:var(--weight-regular);line-height:var(--leading-normal);letter-spacing:0;font-variant-numeric:tabular-nums;}
 @media(prefers-reduced-motion:reduce){.ct-surface[data-surface-interactive],a.knowledge-glance {transition:none;}}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-beta.29
+
+- Give every Kanban column a full-width divider beneath its fixed header so cards remain visually separate while the column scrolls. Reduce the colored top accent from 3px to 2px in both light and dark modes.
+- Remove rounded corners from right-side Sheets, including record, detail, and filter popups. Centered Dialogs keep their panel radius.
+- The change is shared by editable and read-only Kanban boards; application card content and workflow behavior remain controlled by the host.
+
 ## 2.0.0-beta.26
 
 - Add CollectionLayout scroll="content" for ordinary card/list results, using a bounded shared ScrollArea with fixed heading, tabs and search. Preserve default table-owned scrolling. Keep result insets inside the viewport so the scrollbar meets the edge.

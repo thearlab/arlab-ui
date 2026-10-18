@@ -9,7 +9,7 @@
 .ct-kanban-column[data-tone="warn"] { --ct-kanban-phase:var(--warn); }
 .ct-kanban-column[data-tone="bad"] { --ct-kanban-phase:var(--bad); }
 .ct-kanban-column[data-tone="info"] { --ct-kanban-phase:var(--info); }
-.ct-kanban-column-header { flex:none; display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); padding:var(--space-3); border-top:3px solid var(--ct-kanban-phase); }
+.ct-kanban-column-header { flex:none; display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2); padding:var(--space-3); border-top:2px solid var(--ct-kanban-phase); border-bottom:1px solid var(--line); }
 .ct-kanban-column-title { display:flex; align-items:center; gap:var(--space-2); flex:1; min-width:0; }
 .ct-kanban-column-title > h3 { font-size:var(--text-sm); font-weight:var(--weight-semibold); line-height:var(--leading-normal); margin:0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .ct-kanban-count { color:var(--dim); font-size:var(--text-2xs); font-variant-numeric:tabular-nums; margin-left:auto; }
