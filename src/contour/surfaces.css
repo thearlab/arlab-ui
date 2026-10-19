@@ -74,7 +74,7 @@ kbd,.ct-kbd {font-family:var(--font-mono);font-size:var(--text-kbd);font-weight:
 .ct-panel[data-content-inset="flush"] > .section-head {margin-bottom:0;}
 .ct-panel[data-content-inset="flush"] > .ct-panel-content {margin:0 calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding));gap:0;}
 .ct-panel[data-content-inset="flush"] > .ct-panel-content:first-child {margin-top:calc(-1 * var(--panel-padding));}
-.ct-panel[data-content-inset="flush"] > .ct-panel-content > :is(.lib-rows,.ct-ranked-list) {margin-inline:0;width:100%;}
+.ct-panel[data-content-inset="flush"] > .ct-panel-content > :is(.lib-rows,.ct-ranked-list,.ct-facet) {margin-inline:0;width:100%;}
 .ct-panel[data-content-inset="flush"] > .ct-panel-content > :last-child {border-bottom-left-radius:var(--surface-radius);border-bottom-right-radius:var(--surface-radius);}
 /* Embedded feedback borrows its parent's frame, never adding a nested card. */
 .ct-state-view[data-variant="embedded"] {border:0;border-radius:0;background:none;box-shadow:none;padding:0;}

@@ -11,3 +11,5 @@ Includes beta.35 shared inner chrome, transparent favicon, centered rail logo, p
 AccountMenu sign-out inherits the standard IconButton chrome in both resting and hover states. There is no account-only transparent override.
 
 Selected department icons use one 1px black border at 30% opacity in light mode. Dark mode uses a discreet light edge, retaining the pressed finish and shadow.
+
+Glass rim is the approved shared material: luminous inner edges, soft lift, reflective neutral rims and cohesive control/tag/field shadows. Department navigation is 82% opaque at rest, 96% on hover, 100% selected/focused. All outer rail actions use raised/recessed Glass rim icon containers and transparent row backgrounds. Flush Panel + FacetList no longer receives duplicate negative insets.
