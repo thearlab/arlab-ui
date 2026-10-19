@@ -2,10 +2,10 @@
 
 The shared design system for ARLAB internal tools. Glass rim finish with Satin Lift geometry: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
 
-Version `2.0.0-beta.39` adds a shared recessed pressed finish, bounded editor frame previews with fixed full-width SaveBar footers, optional unruled Facts, and a more saturated dark Engineering orange. See [release notes](docs/RELEASE-beta.39.md).
+Version `2.0.0-beta.40` limits shared pressed feedback to Button and IconButton. Tabs, pills, rows, dropdowns, cards and navigation retain their own interaction styling. Colors, contrast and glass/chrome finishes remain unchanged. See [release notes](docs/RELEASE-beta.40.md).
 
 ```json
-"@arlab/ui": "github:thearlab/arlab-ui#v2.0.0-beta.39"
+"@arlab/ui": "github:thearlab/arlab-ui#v2.0.0-beta.40"
 ```
 
 ```jsx

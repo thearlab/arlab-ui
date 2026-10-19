@@ -3298,4 +3298,4 @@ Use `<EditorLayout previewLayout="fill" footer={<SaveBar ... />}>` when the prev
 
 Use `<Facts separators={false} items={...} />` for metadata separated with whitespace. The label/value geometry is identical to the default ruled list.
 
-Enabled buttons use `button-pressed-gradient` and `button-pressed-shadow` while activated. Press feedback does not change action colors, focus treatment or button dimensions.
+Only shared Button and IconButton primitives use `button-pressed-gradient` and `button-pressed-shadow` while activated (beta.40). Composite controls retain their own states. Press feedback does not change action colors, focus treatment or button dimensions.
