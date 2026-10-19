@@ -2,7 +2,7 @@
 
 Pin `github:thearlab/arlab-ui#v2.0.0-beta.32`. Earlier tags remain unchanged.
 
-Department navigation now uses its own colour: outlined icon at rest, subtle own-colour icon hover, then a filled icon when active. The surrounding row stays transparent without a background strip. Regular page links retain the shared selected-page treatment. `NavigationItem department` supports this identity in single-navigation compositions as well as the spaces rail.
+Department navigation now uses its own colour: outlined metallic icon at rest, subtle own-colour chrome hover, then a filled icon when active. The surrounding row stays transparent without a background strip. Regular page links retain the shared selected-page treatment. `NavigationItem department` supports this identity in single-navigation compositions as well as the spaces rail.
 
 The outer rail keeps its logo variants and labels mounted while its width changes. Crossfades and clipped label transitions avoid the previous reflow jump; reduced motion disables animation.
 

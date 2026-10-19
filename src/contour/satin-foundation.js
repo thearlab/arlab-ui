@@ -74,6 +74,8 @@ export function satinLiftTokens(mode) {
     'icon-rest-surface':blend(raise,sunken,.12),'icon-hover-surface':blend(raise,sunken,.35),
     'icon-rest-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.025)':'rgba(255,255,255,.6)'},transparent 65%)`,
     'icon-hover-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.045)':'rgba(255,255,255,.8)'},transparent 70%)`,
+    'dept-icon-gradient':dark?'linear-gradient(150deg,#FFFFFF12,#FFFFFF03 36%,#00000014 54%,#FFFFFF08)':'linear-gradient(150deg,#FFFFFFF2,#FFFFFF70 36%,#00000008 54%,#FFFFFFA0)',
+    'dept-icon-shadow':dark?'inset 0 1px 0 #FFFFFF12,inset 0 -1px 0 #00000024,0 1px 2px #00000018':'inset 0 1px 0 #FFFFFF,inset 0 -1px 0 #2C25320A,0 1px 2px #20283808',
     'icon-rest-shadow':dark?'inset 0 1px 0 #FFFFFF04':'inset 0 1px 0 #FFFFFFB0,0 1px 1px #20283804',
     'icon-hover-shadow':dark?'inset 0 1px 0 #FFFFFF08,0 1px 3px #00000015':'inset 0 1px 0 #FFFFFFD0,0 1px 3px #2028380A',
     'chrome-line':blend(raise,ink,dark?.2:.13),'chrome-line-hover':blend(raise,ink,dark?.27:.18),
