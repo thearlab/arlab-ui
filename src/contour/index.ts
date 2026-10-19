@@ -50,3 +50,5 @@ export * from './ReadingLayouts.js';
 export * from './Surface.js';
 
 export * from './WorkspaceLayouts.js';
+
+export {departmentThemeTokens} from './department-theme.js';

@@ -126,3 +126,11 @@ The foundation owns `--nav-hover-surface`, `--nav-active-surface` and `--nav-act
 ## Beta.34 department identity
 
 Department glyphs remain white on their own solid color at rest, on hover and when selected. Selection recesses the icon with a reversed metallic gradient, inner shadow and clean drop shadow. No pink stroke or outer outline is added. Hover strengthens the metallic highlight. The row stays transparent. Page-link selection retains its separate full-width treatment.
+
+## Department accents (beta.36)
+
+SidebarShell derives its accent from the active space's `dept`. Existing spaces and route callbacks keep their behavior. `dept` accepts canonical names or aliases such as `clients-servicing` and `strategy-growth`. A space without `dept`, such as Website or Admin, restores ARLAB pink. To keep brand pink, pass `department={null}`; for a single-sidebar department tool, pass `department="creative"`.
+
+Apply the department to the application's root provider when overlays are portalled outside the shell: `<ContourProvider mode={mode} department={department}>`. Root/document tokens use `tokensFor('contour', mode, {department})`. Nested providers, including GuidedTour, inherit the current department and mode unless explicitly overridden. This keeps fields, actions, scrollbars, tabs, links and selection tints together. Status hues, department identity tiles and chart series do not change. Bright department action fills use readable dark labels where needed; dark actions retain white labels.
+
+Both sidebar variants use the approved fine Glass rim, soft reflective surfaces and quiet full-width separators. No app-level chrome overrides are needed.

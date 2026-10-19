@@ -13,3 +13,7 @@ AccountMenu sign-out inherits the standard IconButton chrome in both resting and
 Selected department icons use one 2px border in their own department color at 45% opacity. The fill clips to the padding box so the translucent border remains distinct; pressed finish and shadow stay in place.
 
 Glass rim is the approved shared material: luminous inner edges, soft lift, reflective neutral rims and cohesive control/tag/field shadows. Department navigation is 82% opaque at rest, 96% on hover, 100% selected/focused. All outer rail actions use raised/recessed Glass rim icon containers and transparent row backgrounds. Flush Panel + FacetList no longer receives duplicate negative insets.
+
+Department spaces now apply their identity as the interface accent. SidebarShell follows the active Space.dept automatically; department={null} opts out, and an explicit department scopes a single sidebar. Website/Admin spaces restore pink. ContourProvider department and tokensFor('contour', mode, {department}) support app roots and portalled content. Nested providers inherit mode and department. Semantic status colors and chart series stay independent. Bright department actions get readable labels; approved pink and white labels remain exact.
+
+The approved sidebar finish is a fine reflective inner edge and soft neutral surface sheen. Removed projecting dark shadows and the heavy separator bands from the trial. Both sidebar formats and the top bar consume the same shared tokens.

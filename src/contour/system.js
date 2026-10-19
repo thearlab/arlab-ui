@@ -1,3 +1,4 @@
+import {departmentThemeTokens} from './department-theme.js';
 import {satinLiftTokens} from "./satin-foundation.js";
 
 export const directions = {
@@ -238,7 +239,10 @@ export const scale = {
   "scrollbar-size": "2px",
 };
 
-export function tokensFor(id, mode = "light") {
+/** @param {string} id
+ * @param {string} [mode]
+ * @param {{department?: string | null}} [options] */
+export function tokensFor(id, mode = "light", options = {}) {
   const d = directions[id];
   return {
     ...scale,
@@ -279,7 +283,7 @@ export function tokensFor(id, mode = "light") {
     "shadow-pop":
       mode === "dark" ? "0 16px 48px #00000055" : "0 12px 40px #25242c18",
     scrim: mode === "dark" ? "#00000080" : "#20222e55",
-    ...(id === "contour" ? satinLiftTokens(mode) : {}),
+    ...(id === "contour" ? {...satinLiftTokens(mode),...departmentThemeTokens(mode,options.department)} : {}),
   };
 }
 

@@ -2,9 +2,9 @@
 .contour-shell, .contour-navigation {
   --cn-nav: var(--nav, #FFFDFF); --cn-ground: var(--ground, #F7F5F9);
   --cn-raise: var(--raise, #FFFDFF); --cn-ink: var(--ink, #2C2532);
-  --cn-dim: var(--dim, #665C70); --cn-line: var(--line, #DDD4E5);
+  --cn-dim: var(--dim, #665C70); --cn-line: var(--chrome-divider, var(--line, #DDD4E5));
   --cn-dept-creative:var(--dept-creative-solid,#E414DB);--cn-dept-engineering:var(--dept-engineering-solid,#FB923C);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#198BC2);--cn-dept-strategy:var(--dept-strategy-solid,#128D83);
-  --cn-accent: var(--accent, #e414db); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
+  --cn-accent: var(--link,var(--accent, #e414db)); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
   --cn-hover-surface: var(--nav-hover-surface, color-mix(in srgb, var(--cn-ground) 70%, var(--cn-line)));
   --cn-active-surface: var(--nav-active-surface, color-mix(in srgb, var(--cn-raise) 92%, var(--cn-accent)));
   --cn-active-edge: var(--nav-active-border, color-mix(in srgb, var(--cn-line) 75%, var(--cn-accent)));
@@ -15,10 +15,10 @@
 :is(.contour-shell, .contour-navigation)[data-mode="dark"] {
   --cn-nav: var(--nav, #29292C); --cn-ground: var(--ground, #202022);
   --cn-raise: var(--raise, #29292C); --cn-ink: var(--ink, #F4F4F6);
-  --cn-dim: var(--dim, #BDBDC5); --cn-line: var(--line, #414146);
+  --cn-dim: var(--dim, #BDBDC5); --cn-line: var(--chrome-divider, var(--line, #414146));
   --cn-dept-creative:var(--dept-creative-solid,#BE36B3);--cn-dept-engineering:var(--dept-engineering-solid,#AE6332);
   --cn-dept-client:var(--dept-client-solid,#8863C3);--cn-dept-company:var(--dept-company-solid,#307DA6);--cn-dept-strategy:var(--dept-strategy-solid,#2D8177);
-  --cn-accent: var(--accent, #D572CC); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
+  --cn-accent: var(--link,var(--accent, #D572CC)); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
 }
 .contour-shell *, .contour-navigation * { box-sizing: border-box; }
 .contour-nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: 0 0 auto; padding: 0; border: 1px solid var(--cn-line); border-radius: var(--radius-control, 7px); background: var(--cn-raise); background-image:var(--chrome-control-gradient,linear-gradient(180deg,#FFFFFF0D,#00000004)); box-shadow:var(--toggle-shadow,0 1px 2px #00000008); color: var(--cn-dim); cursor: pointer; }

@@ -1,8 +1,10 @@
-import { Fragment, useEffect, useId, useRef, useState, type ReactNode, type CSSProperties, type KeyboardEvent } from 'react';
+import { Fragment, useContext, useEffect, useId, useRef, useState, type ReactNode, type CSSProperties, type KeyboardEvent } from 'react';
 import { Menu, X, PanelLeftClose, PanelLeftOpen, CircleHelp, Settings2, LayoutGrid } from 'lucide-react';
 import { NavigationDismissContext } from './NavigationContext.js';
 import { AppNavigation, type NavigationSlot } from './AppNavigation.js';
 import { ArlabMark } from '../ArlabMark.js';
+import { ContourThemeContext, ContourDepartmentContext } from './ThemeContext.js';
+import {departmentThemeTokens,normalizeDepartment} from './department-theme.js';
 import { DeptTile, departmentIdentity } from './DeptTile.js';
 import { ScrollArea } from './scroll-area.js';
 
@@ -41,13 +43,30 @@ export interface SidebarShellProps {
   /** @deprecated Host-controlled legacy visibility only; no panel-fold control is rendered. */
   panelCollapsed?: boolean; onPanelCollapsedChange?: (collapsed: boolean) => void; defaultPanelCollapsed?: boolean;
   railFooter?: (opts: {collapsed: boolean}) => ReactNode;
+  /** Automatically follows the active department space. Pass null to keep brand pink. */
+  department?: string | null;
   mode?: 'light' | 'dark'; className?: string; style?: CSSProperties;
 }
 /** Router-independent navigation. Import @arlab/ui/navigation/styles.css for standalone use. */
 export function SidebarShell({brand,toolName,navigation,children,account,help,header,navigationKey,
   collapsed,defaultCollapsed=false,onCollapsedChange,railCollapsed,defaultRailCollapsed=true,onRailCollapsedChange,onHelp,onSettings,settings,storageKey,secondaryNavigation,secondaryLabel='Context navigation',defaultSecondaryCollapsed=false,
   spaces,activeSpace,onSpaceChange,brandMark,brandHref='/',panelLabel,panelCollapsed,onPanelCollapsedChange,defaultPanelCollapsed=false,railFooter,
-  mode,className='',style,contentLayout='scroll'}:SidebarShellProps) {
+  mode,department,className='',style,contentLayout='scroll'}:SidebarShellProps) {
+  const themeMode=useContext(ContourThemeContext);
+  const inheritedDepartment=useContext(ContourDepartmentContext);
+  const [domMode,setDomMode]=useState<'light'|'dark'>('light');
+  const themeRoot=useRef<HTMLDivElement>(null);
+  const resolvedMode=mode??themeMode??domMode;
+  useEffect(()=>{
+    if(mode!==undefined||themeMode!==undefined)return;
+    const ancestor=themeRoot.current?.parentElement?.closest('[data-mode],[data-theme]');
+    if(!ancestor)return;
+    const sync=()=>setDomMode((ancestor.getAttribute('data-mode')??ancestor.getAttribute('data-theme'))==='dark'?'dark':'light');
+    sync();
+    const observer=new MutationObserver(sync);
+    observer.observe(ancestor,{attributes:true,attributeFilter:['data-mode','data-theme']});
+    return()=>observer.disconnect();
+  },[mode,themeMode]);
   const hasSpaces=spaces!==undefined;
   const [ownRailCollapsed,setOwnRailCollapsed]=useState(defaultRailCollapsed);
   const [secondaryCollapsed,setSecondaryCollapsed]=useState(defaultSecondaryCollapsed);
@@ -59,6 +78,8 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
   const isPanelCollapsed=panelCollapsed??defaultPanelCollapsed;
   const isRailCollapsed=railCollapsed??ownRailCollapsed;
   const active=spaces?.find(space=>space.id===activeSpace);
+  const activeDepartment=normalizeDepartment(department!==undefined?department:hasSpaces?active?.dept:inheritedDepartment);
+  const themeStyle=Object.fromEntries(Object.entries(departmentThemeTokens(resolvedMode,activeDepartment)).map(([key,value])=>[`--${key}`,value])) as CSSProperties;
   const label=panelLabel || active?.label || toolName;
   const compactMark=brandMark ?? <ArlabMark compact height={32}/>;
   const brandLink=<a className="contour-shell-mark" href={brandHref} aria-label={`${toolName} home`}>{compactMark}</a>;
@@ -119,7 +140,7 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
   </aside>;
   const railToggle=<button type="button" className="contour-rail-action contour-rail-toggle" aria-label={isRailCollapsed?'Expand spaces rail':'Collapse spaces rail'} aria-expanded={!isRailCollapsed} aria-controls={railId} title={isRailCollapsed?'Expand spaces rail':undefined} disabled={railDisabled} onClick={toggleRail}><span className="contour-rail-action-glyph" aria-hidden="true">{isRailCollapsed?<PanelLeftOpen size={14}/>:<PanelLeftClose size={14}/>}</span><span className="contour-rail-action-label">Collapse rail</span></button>;
   const railEnd=railFooter?railFooter({collapsed:isRailCollapsed}):<>{railAction('settings')}</>;
-  return <div className={`contour-shell ${className}`} data-spaces={hasSpaces||undefined} data-collapsed={!hasSpaces&&isCollapsed||undefined} data-panel-collapsed={hasSpaces&&isPanelCollapsed||undefined} data-rail-collapsed={hasSpaces&&isRailCollapsed||undefined} data-secondary-collapsed={secondaryCollapsed||undefined} data-mode={mode} style={style}>
+  return <ContourDepartmentContext.Provider value={activeDepartment}><ContourThemeContext.Provider value={resolvedMode}><div ref={themeRoot} className={`contour-shell ${className}`} data-spaces={hasSpaces||undefined} data-collapsed={!hasSpaces&&isCollapsed||undefined} data-panel-collapsed={hasSpaces&&isPanelCollapsed||undefined} data-rail-collapsed={hasSpaces&&isRailCollapsed||undefined} data-secondary-collapsed={secondaryCollapsed||undefined} data-mode={resolvedMode} data-department-theme={activeDepartment} style={{...themeStyle,...style}}>
     {hasSpaces?<><aside id={railId} className="contour-spaces-rail" aria-label="Workspace spaces"><header>{railBrand}</header><ScrollArea className="contour-spaces-scroll" label="Available spaces" height={undefined} maxHeight={undefined}>{spaceList()}</ScrollArea><footer>{railEnd}{railToggle}</footer></aside>{panel()}</>:<div className="contour-shell-primary">{mainNav()}</div>}
     {secondaryNavigation&&<aside className="contour-shell-secondary" aria-label={secondaryLabel}><header><span>{secondaryLabel}</span><button type="button" className="contour-nav-toggle" aria-label={`${secondaryCollapsed?'Expand':'Collapse'} ${secondaryLabel}`} aria-expanded={!secondaryCollapsed} onClick={()=>setSecondaryCollapsed(!secondaryCollapsed)}>{secondaryCollapsed?<PanelLeftOpen size={14}/>:<PanelLeftClose size={14}/>}</button></header>{!secondaryCollapsed&&<div className="contour-shell-secondary-content">{secondaryNavigation}</div>}</aside>}
     <div className="contour-shell-workspace"><header className="contour-shell-topbar" data-empty={!header||undefined}>
@@ -129,5 +150,5 @@ export function SidebarShell({brand,toolName,navigation,children,account,help,he
     <dialog className="contour-navigation-drawer" ref={dialog} aria-labelledby={titleId} onCancel={()=>setDrawer(null)} onClose={()=>setDrawer(null)}><div className="contour-navigation-drawer-heading"><span id={titleId}>{drawer==='spaces'?'Spaces':drawer==='secondary'?secondaryLabel:hasSpaces?label:toolName}</span><button type="button" className="contour-nav-toggle" aria-label="Close navigation drawer" onClick={()=>setDrawer(null)}><X size={14}/></button></div>
       {drawer==='spaces'?<><ScrollArea className="contour-space-panel-scroll" label="Available spaces" height={undefined} maxHeight={undefined}>{spaceList(true)}</ScrollArea><footer className="contour-spaces-mobile-footer">{railAction('settings',false)}</footer></>:drawer==='main'?hasSpaces?panel(true):mainNav(true):drawer==='secondary'?<div className="contour-shell-secondary-content"><NavigationDismissContext.Provider value={()=>setDrawer(null)}>{secondaryNavigation}</NavigationDismissContext.Provider></div>:null}
     </dialog>
-  </div>;
+  </div></ContourThemeContext.Provider></ContourDepartmentContext.Provider>;
 }

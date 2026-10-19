@@ -1,4 +1,4 @@
-import {SidebarShell, ArlabMark, NavigationSection, NavigationItem, AccountMenu} from '@arlab/ui';
+import {SidebarShell, ArlabMark, NavigationSection, NavigationItem, AccountMenu,ContourProvider,tokensFor,departmentThemeTokens} from '@arlab/ui';
 export const shell = <SidebarShell brand={<ArlabMark/>} toolName="Studio"
   spaces={[{id:'creative',label:'Creative',dept:'creative'},{id:'admin',label:'Admin'}]} activeSpace="creative"
   railCollapsed={false} onRailCollapsedChange={collapsed=>{const next:boolean=collapsed;void next;}}
@@ -9,3 +9,11 @@ export const legacyPanelProps = <SidebarShell brand="ARLAB" toolName="Legacy" sp
 // @ts-expect-error Rail state is a boolean, not a width or string.
 const invalid = <SidebarShell brand="ARLAB" toolName="Studio" railCollapsed="yes" navigation="Tools">Content</SidebarShell>;
 void invalid;
+
+// Department scope is optional; null restores brand pink, including in nested portals.
+export const scopedProvider=<ContourProvider department="clients-servicing"><span>Client tools</span></ContourProvider>;
+export const singleScope=<SidebarShell brand="ARLAB" toolName="Creative" department="creative" navigation="Pages">Content</SidebarShell>;
+export const brandScope=<SidebarShell brand="ARLAB" toolName="Admin" department={null} navigation="Pages">Content</SidebarShell>;
+const scopedTokens=tokensFor('contour','dark',{department:'company'});
+const accentTokens=departmentThemeTokens('light','Engineering');
+void scopedTokens;void accentTokens;
