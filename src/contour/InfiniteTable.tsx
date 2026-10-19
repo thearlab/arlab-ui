@@ -5,6 +5,7 @@ import { SharedTableHead, sortTableRows, type FilterColumn, type TableSort } fro
 import { ScrollArea } from './scroll-area.js';
 import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { Button } from './library.js';
+import { Loader } from './loading.js';
 import { infiniteTableEntries } from './table-groups.js';
 
 export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row>, TableChromeOptions {
@@ -25,7 +26,8 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   fill?: boolean;
   variant?: 'contained' | 'flush';
   sortIndicators?:'all'|'active'|'none';
-  /** Fixed geometry is required. Custom cells must fit in two lines inside this height. Minimum 44. */
+  /** Fixed geometry is required. Cells default to two lines; columns may set lineClamp.
+   * Custom cells must fit within rowHeight - 16 pixels. Minimum 44. */
   rowHeight?: number;
   /** Insert headings for contiguous groups. Records retain local sort or server order.
    * Group headings share rowHeight, so virtualization remains bounded and predictable. */
@@ -229,11 +231,11 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
             if (entry.kind === 'group') return <tr key={`group:${entry.firstRowIndex}:${entry.group}`} aria-rowindex={index + 2} className="ct-infinite-group"><th scope="rowgroup" colSpan={colspan}>{props.renderGroup ? props.renderGroup({label: entry.group, count: entry.count}) : entry.group}</th></tr>;
             const row = entry.row;
             return <tr {...tableRowProps(row,props,typeof rowKey==='function'?rowKey(row):row[rowKey])} key={`row:${typeof rowKey === 'function' ? rowKey(row) : String(row[rowKey])}`} aria-rowindex={index + 2} className="ct-infinite-row">
-              {visibleColumns.map(column => <td key={column.key} data-phone-hidden={column.hideOnPhone || undefined} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell">{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
+              {visibleColumns.map(column => <td key={column.key} data-phone-hidden={column.hideOnPhone || undefined} style={{ textAlign: column.align || 'left' }}><div className="ct-infinite-cell" data-line-clamp={column.lineClamp === false ? 'none' : undefined} style={column.lineClamp === false ? undefined : { WebkitLineClamp: positiveInteger(column.lineClamp, 2, 1) }}>{column.render ? column.render(row) : column.value ? column.value(row) : String(row[column.key] ?? '')}</div></td>)}
             </tr>;
           })}
           {!loading && entries.length > range.end && <tr aria-hidden="true" className="ct-infinite-spacer"><td colSpan={colspan} style={{ height: (entries.length - range.end) * rowHeight }}/></tr>}
-          {(loading || count === 0) && <tr><td colSpan={colspan}><div className="ct-table-empty" role="status">{loading ? 'Loading records…' : error ? 'Records could not be loaded.' : emptyMessage}</div></td></tr>}
+          {(loading || count === 0) && <tr><td colSpan={colspan}><div className="ct-table-empty" role="status" aria-label={loading ? 'Loading records' : undefined}>{loading ? <Loader size={24} decorative /> : error ? 'Records could not be loaded.' : emptyMessage}</div></td></tr>}
         </tbody>
       </table>
     </ScrollArea>

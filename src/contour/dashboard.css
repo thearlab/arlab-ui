@@ -1541,11 +1541,12 @@
 .themed-preview.ct-guided-tour {z-index:var(--z-tour);}
 .themed-preview.ct-guided-tour .ct-tour-layer {position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;overflow:visible;pointer-events:none;z-index:var(--z-tour);}
 .themed-preview.ct-guided-tour .ct-tour-layer::backdrop {background:transparent;pointer-events:none;}
-.themed-preview.ct-guided-tour .arlab-tour {padding:0;border:0;background:none;box-shadow:none;animation:ct-tour-appear 160ms ease-out;}
+.themed-preview.ct-guided-tour .arlab-tour {padding:0;border:0;background:none;box-shadow:none;animation:none;pointer-events:auto;}
 .themed-preview.ct-guided-tour .ct-tour-card {padding:var(--space-5);}
-.themed-preview.ct-guided-tour .arlab-tour-ring {transition:top 180ms ease,left 180ms ease,width 180ms ease,height 180ms ease;}
-@keyframes ct-tour-appear {from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-@media(prefers-reduced-motion:reduce){.themed-preview.ct-guided-tour .arlab-tour {animation:none;}.themed-preview.ct-guided-tour .arlab-tour-ring {transition:none;}}
+.themed-preview.ct-guided-tour :is(.arlab-tour,.arlab-tour-ring) {opacity:1;transition:opacity var(--dur-fast,140ms) ease-out;}
+.themed-preview.ct-guided-tour .ct-tour-layer[data-phase="leaving"] :is(.arlab-tour,.arlab-tour-ring) {opacity:0;transition-duration:90ms;pointer-events:none;}
+.themed-preview.ct-guided-tour .ct-tour-layer[data-phase="entering"] :is(.arlab-tour,.arlab-tour-ring) {opacity:0;transition:none;pointer-events:none;}
+@media(prefers-reduced-motion:reduce){.themed-preview.ct-guided-tour :is(.arlab-tour,.arlab-tour-ring) {transition:none;}}
 .ct-table-sort {min-height:28px;padding:var(--space-1) var(--space-2);gap:var(--space-2);color:var(--dim);font:inherit;transition:background var(--dur-fast),color var(--dur-fast);}
 .ct-table-sort:hover:not(:disabled) {color:var(--ink);}
 .ct-table-sort:focus-visible {outline-offset:calc(-1 * var(--line-width));}

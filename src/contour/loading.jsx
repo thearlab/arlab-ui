@@ -27,7 +27,14 @@ export function Loader({ label = "Loading", size = 24, decorative = false }) {
   );
 }
 
-/** @param {{title?: React.ReactNode, description?: React.ReactNode, onCancel?: React.MouseEventHandler<HTMLButtonElement>, mark?: React.ReactNode, workspaceName?: string, variant?: "signature" | "content-preview"}} props */
+/** An indeterminate route transition at the viewport's top edge. No estimated percentage.
+ * @param {{active?: boolean, label?: string}} props */
+export function NavigationProgress({ active = true, label = 'Loading page' }) {
+  if (!active) return null;
+  return <div className="ct-navigation-progress" role="progressbar" aria-label={label} aria-busy="true"><span aria-hidden="true"/></div>;
+}
+
+/** @param {{title?: React.ReactNode, description?: React.ReactNode, onCancel?: React.MouseEventHandler<HTMLButtonElement>, mark?: React.ReactNode, workspaceName?: string, variant?: "signature" | "content-preview", layout?: "container" | "viewport"}} props */
 export function PageLoading({
   title = "Opening your workspace",
   description = "Fetching your projects and recent activity.",
@@ -35,13 +42,14 @@ export function PageLoading({
   mark = <ArlabMark height={28} />,
   workspaceName = "ARLAB workspace",
   variant = "content-preview",
+  layout = "container",
 }) {
-  if(variant === "content-preview") return <section className="ct-content-loading" aria-label="Workspace loading" aria-busy="true">
+  if(variant === "content-preview") return <section className="ct-content-loading" data-layout={layout} aria-label="Workspace loading" aria-busy="true">
     <div className="ct-content-loading-skeleton" aria-hidden="true"><div className="ct-content-loading-heading"><span/><span/></div><div className="ct-content-loading-cards">{[0,1,2].map(index=><div key={index}><span/><strong/><span/></div>)}</div><div className="ct-content-loading-rows">{[0,1,2,3].map(index=><div key={index}><span/><span/><span/></div>)}</div></div>
     <div className="ct-content-loading-copy" role="status" aria-live="polite">{mark && <div className="ct-content-loading-mark">{mark}</div>}<h2>{title}<span className="ct-loading-ellipsis" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></h2><p>{description}</p>{onCancel&&<Button variant="quiet" onClick={onCancel}>Cancel loading</Button>}</div>
   </section>;
   return (
-    <section className="page-loading" aria-label="Workspace loading">
+    <section className="page-loading" data-layout={layout} aria-label="Workspace loading" aria-busy="true">
       <header>
         {mark}
         <span>{workspaceName}</span>

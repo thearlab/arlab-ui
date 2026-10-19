@@ -35,6 +35,9 @@ export interface FilterColumn<Row> {
   options?: { value: string; label: string }[];
   value?: (row: Row) => string | number;
   render?: (row: Row) => ReactNode;
+  /** InfiniteTable only: default 2 lines; false lets a composite cell own its line limits.
+   * Content is still clipped to rowHeight - 16 pixels to preserve fixed virtualization. */
+  lineClamp?: number | false;
 }
 export interface TableSort {key:string;direction:'ascending'|'descending'}
 export function sortTableRows<Row extends Record<string,unknown>>(rows:Row[],columns:FilterColumn<Row>[],sort:TableSort|null):Row[] {

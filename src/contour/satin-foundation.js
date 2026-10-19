@@ -15,6 +15,9 @@ export function satinLiftTokens(mode) {
   const soft = `rgba(${channels},${dark ? '.10' : '.08'})`;
   const colors = {ground,raise,sunken,ink,dim,line,strong:dim,
     nav:raise,navInk:dim,navActive:blend(raise,accent,dark?.14:.08),navSelected:accent,
+    'nav-hover-surface':blend(ground,line,.30),
+    'nav-active-surface':blend(raise,accent,dark?.14:.08),
+    'nav-active-border':blend(line,accent,.25),
     accent,tint:blend(raise,accent,dark?.14:.08),action:accent,actionHover:accent,actionInk:'#FFFFFF',
     link:accent,focus:accent,'accent-deep':accent,'accent-soft':soft,
     'accent-tint':`rgba(${channels},${dark?'.14':'.10'})`,'accent-line':`rgba(${channels},${dark?'.40':'.35'})`,

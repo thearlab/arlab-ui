@@ -58,7 +58,8 @@ test('inline skeleton can appear inside a text line and keeps its accessible sta
 test('both chart types align comparison values by category and expose accessible alternative data',()=>{
   for (const Chart of [ColumnChart,Sparkline]) {
     const html=render(Chart,{data:[{label:'Mon',value:4},{label:'Tue',value:9}],secondaryData:[{label:'Tue',value:8},{label:'Mon',value:3}],primaryLabel:'Actual',secondaryLabel:'Budget'});
-    assert.match(html,/Mon: Actual 4, Budget 3, Tue: Actual 9, Budget 8/);
+    assert.match(html,/Mon: Actual 4, Budget 3/);
+    assert.match(html,/Tue: Actual 9, Budget 8/);
     assert.match(html,/<th scope="col">Actual<\/th><th scope="col">Budget<\/th>/);
     assert.match(html,/<th scope="row">Mon<\/th><td>4<\/td><td>3<\/td>/);
   }

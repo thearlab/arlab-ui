@@ -1,6 +1,6 @@
 # Contour design system
 
-ARLAB internal applications · Version 2.0.0-beta.25 · Satin Lift · October 2026
+ARLAB internal applications · Version 2.0.0-beta.30 · Satin Lift · October 2026
 
 Contour is the selected design language for Workspace, Agents Studio and Knowledge. This repository contains an interactive React library and sample layouts. Application data, sign-in, uploads and agent runs are demonstrations; production services are not connected.
 
@@ -11,7 +11,7 @@ Contour is the selected design language for Workspace, Agents Studio and Knowled
 - Use one primary action per decision. Secondary actions retain a visible border or underline.
 - Use shared corners: 7px controls and details, 14px panels and floating surfaces. Circles are reserved for meaningful symbols and avatars.
 - Typography is Satoshi: interface 400/500 and headings 600, with normal letter spacing. DM Mono 400 is reserved for code and identifiers.
-- Keep the canvas neutral and free of gradients. Use faint satin surface rims, quiet chrome borders and restrained elevation. Avoid glowing controls, oversized icon badges and em dashes in interface copy.
+- Keep the canvas neutral, with only the approved faint pink gradient supplied by shared tokens. Use faint satin surface rims, quiet chrome borders and restrained elevation. Avoid glowing controls, oversized icon badges and em dashes in interface copy.
 
 ## Color and contrast
 
@@ -565,6 +565,8 @@ Live example: [Breadcrumbs](https://arlab-ui-showcase.pages.dev/?view=catalogue&
 
 #### TabStrip
 
+Labels and counts remain on one line at intrinsic width. Standalone strips scroll horizontally; collection and board compositions retain their existing outer scroll owner.
+
 Keyboard-navigable tabs for sections of one object.
 
 Left/Right, Home, and End move between tabs. Selection uses aria-selected and a clear underline.
@@ -811,6 +813,8 @@ Aligned labels and values for object properties.
 Use a semantic definition list. Long values wrap instead of widening the page.
 
 Import: `import { Facts } from '@arlab/ui';`
+
+`Facts` accepts `layout="rows"` (default aligned labels/values) or `layout="stacked"` (label above value). Use stacked facts for narrow rails and long contact values.
 
 | Prop | Contract |
 | --- | --- |
@@ -1306,6 +1310,12 @@ Live example: [Gate](https://arlab-ui-showcase.pages.dev/?view=catalogue&compone
 
 ### Feedback
 
+#### NavigationProgress
+
+An indeterminate route transition at the viewport top edge while the current page remains visible.
+
+Import from `@arlab/ui` or `@arlab/ui/loading`, with the shared stylesheet loaded. `active` defaults to true; pass the route pending state to remove the component when idle. `label` defaults to “Loading page” and names the progress indicator for assistive technology. The fixed 2px strip uses no visible label or estimated percentage and stops animation for reduced motion.
+
 #### Loader
 
 A fine circular loader with a restrained moving arc.
@@ -1323,6 +1333,8 @@ Import: `import { Loader } from '@arlab/ui';`
 Live example: [Loader](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Loader)
 
 #### PageLoading
+
+Use optional `layout="container"` (default) inside a bounded parent, or `layout="viewport"` for application boot at 100dvh. Both signature and content-preview variants honor the mode and retain a single status announcement. The parent must give container loading a definite height.
 
 A full-page loading state with clear context and a quiet animated loader.
 
@@ -1434,6 +1446,7 @@ Import: `import { StateView } from '@arlab/ui';`
 | `onAction` | Application-owned action callback. |
 | `onRetry` | Retries the failed operation without dropping the current context. |
 | `onCreate` | Starts the first useful action from an empty state. |
+| `size`, `variant` | `regular`/`compact` and `framed`/`embedded`. Compact or embedded loading uses a bounded shared skeleton; regular/framed loading uses PageLoading. |
 
 Live example: [StateView](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=StateView)
 
@@ -1894,6 +1907,7 @@ Import: `import { ColumnChart } from '@arlab/ui';`
 | `secondaryLabel` | Optional pattern-specific value. Use the live example as the reference. |
 | `color` | One series uses this CSS colour, default var(--chart-1). |
 | `highlight` | Optional datum label highlighted in the accent colour. |
+| `labelInterval` | Numeric tick interval, default 1. Use 7 for weekly labels over daily bars. Every value remains available on hover/focus and in the complete data table. |
 
 Live example: [ColumnChart](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=ColumnChart)
 
@@ -1974,6 +1988,8 @@ Import: `import { Calendar } from '@arlab/ui';`
 Live example: [Calendar](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Calendar)
 
 #### DayTimeline
+
+Use optional `daySize="compact"` for smaller day selectors. The default is `regular`; selection, disabled days, callbacks and schedule content remain available.
 
 A time-based view of a day with selectable events.
 
@@ -3269,3 +3285,9 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 | Command | Interface | [Download](icons/Command.svg) |
 | Keyboard | Interface | [Download](icons/Keyboard.svg) |
 | MousePointer2 | Interface | [Download](icons/MousePointer2.svg) |
+
+## Fixed framing and independent scrolling (beta.30)
+
+Use PageFrame's `tabs` slot for a fixed tab row directly against its separator. Modal's `headerActions` slot places named icon actions beside Close, outside scrolling content. IconButton supports a real `href` and optional `external` for link actions with consistent button sizing.
+
+For a padded page containing KanbanBoard, `bleed` lets the board scroll to the page edges while its first and last columns retain their resting inset. Use `DayTimeline itemsMaxHeight={360}` to scroll only schedule entries while the heading and day selectors remain fixed. Use InfiniteTable `loading` for tab changes within a mounted collection; reserve PageLoading for page entry. See [beta.30 notes](RELEASE-beta.30.md).

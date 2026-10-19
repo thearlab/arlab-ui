@@ -42,6 +42,8 @@
 @media(max-width:640px),(pointer:coarse) {.switch-row {min-height:var(--control-h-touch);}.switch-row[data-standalone] {min-width:var(--control-h-touch);}}
 a.btn[data-button="text"] {text-decoration:none;}
 a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
+a.icon-btn[data-button="icon"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;pointer-events:none;background:var(--sunken);background-image:none;box-shadow:none;}
+.icon-btn[data-button="icon"][aria-pressed="true"],.icon-btn[data-button="icon"][aria-pressed="true"]:hover:not(:disabled) {color:var(--accent);background:var(--accent-soft);background-image:var(--button-chrome-gradient);border-color:var(--accent-line);}
 /* Secondary actions share the field finish; semantic actions keep their own paint. */
 .btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):not(:disabled) {border-color:var(--chrome-line);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);}
 .btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):hover:not(:disabled) {border-color:var(--chrome-line-hover);}
@@ -64,3 +66,6 @@ a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
 
 /* Compact tags receive a lighter sheen without changing their semantic tint or size. */
 .removable-tag,.quiet-tag,.dept-title {background-image:var(--tag-gradient);box-shadow:var(--tag-shadow);}
+
+/* Disabled primaries must stay quiet after the primary chrome rules above. */
+.btn.primary[data-button="text"]:disabled,.btn.primary[data-button="text"][aria-disabled="true"] {background:var(--sunken);background-image:none;border-color:var(--line);color:var(--dim);box-shadow:none;}

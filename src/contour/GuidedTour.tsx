@@ -42,6 +42,7 @@ export interface GuidedTourProps {
 }
 
 const WAIT = 1500; // a slow page gets this long to draw its targets
+const STEP_FADE_OUT = 90;
 const sels = (s: TourStep) => ([] as string[]).concat(s.target);
 const shown = (el: Element | null): el is HTMLElement => {
   if (!el) return false;
@@ -80,6 +81,9 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
   const opener = useRef<HTMLElement | null>(null);
   const [list, setList] = useState<TourStep[] | null>(null);
   const [i, setI] = useState(0);
+  const [phase, setPhase] = useState<'entering' | 'visible' | 'leaving'>('entering');
+  const moving = useRef(false);
+  const stepTimer = useRef<ReturnType<typeof setTimeout>>();
   const pop = useRef<HTMLDivElement>(null);
   const layer = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
@@ -89,8 +93,15 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
   latest.current = { steps, onClose };
   const id = useId();
 
+  const cancelMove = useCallback(() => {
+    clearTimeout(stepTimer.current);
+    moving.current = false;
+  }, []);
+  useEffect(() => cancelMove, [cancelMove]);
+
   // Opening: give the page up to WAIT to draw, then keep only the steps whose target is on screen.
   useEffect(() => {
+    cancelMove();
     if (!open) {
       setList(null);
       return;
@@ -121,11 +132,12 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
         return;
       }
       setI(0);
+      setPhase('entering');
       setList(found);
     };
     poll();
     return () => clearTimeout(timer);
-  }, [open]);
+  }, [open, cancelMove]);
 
   // A native top-layer popover stays above dialogs, sticky chrome and app stacking contexts.
   useLayoutEffect(() => {
@@ -137,10 +149,26 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
   },[list]);
 
   const end = useCallback((why: TourEnd) => {
+    cancelMove();
     setList(null);
     latest.current.onClose(why);
     opener.current?.focus({ preventScroll: true });
-  }, []);
+  }, [cancelMove]);
+
+  // Fade the current stop before changing coordinates. Never fly the spotlight across the page.
+  const goTo = useCallback((index: number) => {
+    if (!list || moving.current || index < 0 || index >= list.length || index === i) return;
+    if (reduced()) {
+      setI(index);
+      return;
+    }
+    moving.current = true;
+    setPhase('leaving');
+    stepTimer.current = setTimeout(() => {
+      setPhase('entering');
+      setI(index);
+    }, STEP_FADE_OUT);
+  }, [list, i]);
 
   const place = useCallback(() => {
     const p = pop.current,
@@ -188,8 +216,10 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
       setList(rest);
       return;
     }
+    moving.current = true;
     target.current = el;
-    const behavior: ScrollBehavior = reduced() ? "auto" : "smooth";
+    // Instant overrides an application's scroll-behavior while the tour is hidden.
+    const behavior: ScrollBehavior = "instant";
     el.scrollIntoView({ block: "nearest", inline: "nearest", behavior });
     place();
     // On a phone the card docks at the bottom: keep the target clear of it.
@@ -198,14 +228,28 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
       if (r.bottom > window.innerHeight - pop.current.offsetHeight - 28)
         el.scrollIntoView({ block: "center", behavior: "auto" });
     }
-    const raf = requestAnimationFrame(place);
+    let revealFrame = 0;
+    const raf = requestAnimationFrame(() => {
+      place();
+      revealFrame = requestAnimationFrame(() => {
+        setPhase('visible');
+        moving.current = false;
+      });
+    });
     pop.current?.focus({ preventScroll: true });
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      cancelAnimationFrame(revealFrame);
+    };
   }, [list, i, place, end]);
 
   useEffect(() => {
     if (!list) return;
-    const next = () => (i < list.length - 1 ? setI(i + 1) : end("done"));
+    const next = () => {
+      if (moving.current) return;
+      if (i < list.length - 1) goTo(i + 1);
+      else end('done');
+    };
     const onKey = (e: KeyboardEvent) => {
       if (typing(document.activeElement) && e.key !== "Escape") return;
       if (e.key === "Escape") {
@@ -219,7 +263,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
         next();
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        if (i > 0) setI(i - 1);
+        if (i > 0) goTo(i - 1);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -230,7 +274,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
       window.removeEventListener("resize", place);
       window.removeEventListener("scroll", place, true);
     };
-  }, [list, i, place, end]);
+  }, [list, i, place, end, goTo]);
 
   if (!list || !list[i] || typeof document === "undefined") return null;
   const s = list[i];
@@ -246,7 +290,7 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
       }
       className="ct-guided-tour"
     >
-      <div ref={layer} className="ct-tour-layer">
+      <div ref={layer} className="ct-tour-layer" data-phase={phase}>
       <div ref={ring} className="arlab-tour-ring" aria-hidden="true" />
       <div
         key={i}
@@ -281,14 +325,15 @@ export function GuidedTour({ steps, open, onClose }: GuidedTourProps) {
           </Button>
           <span className="arlab-tour-grow" />
           {i > 0 && (
-            <Button type="button" onClick={() => setI(i - 1)}>
+            <Button type="button" disabled={phase === 'leaving'} onClick={() => goTo(i - 1)}>
               Back
             </Button>
           )}
           <Button
             type="button"
             variant="primary"
-            onClick={() => (last ? end("done") : setI(i + 1))}
+            disabled={phase === 'leaving'}
+            onClick={() => (last ? end("done") : goTo(i + 1))}
           >
             {last ? "Done" : "Next"}
           </Button>

@@ -38,7 +38,7 @@ import {
   Clock3,
 } from "lucide-react";
 export { ScrollArea } from "./scroll-area.js";
-export { Loader, PageLoading } from "./loading.js";
+export { Loader, PageLoading, NavigationProgress } from "./loading.js";
 import { Loader, PageLoading } from "./loading.js";
 import { ScrollArea } from "./scroll-area.js";
 import {
@@ -217,20 +217,7 @@ export function TabStrip({ options, value, onChange, label = "Sections", inset='
     const target=enabled[next];onChange(target.tab.value);document.getElementById(`${id}-${target.index}`)?.focus();
   }}><span>{tab.label}</span>{tab.count!==undefined&&<span className="ct-tab-count">{tab.count.toLocaleString()}</span>}</button>)}</div>;
 }
-/** @param {{children?:React.ReactNode,onRemove?:React.MouseEventHandler<HTMLButtonElement>,onClick?:React.MouseEventHandler<HTMLButtonElement>,disabled?:boolean}} props */
-export function Chip({children,onRemove,onClick,disabled=false}) {
-  if(onClick)return <button type="button" className="ct-chip-reset" onClick={onClick} disabled={disabled}>{children}</button>;
-  return (
-    <span className="removable-tag">
-      <span className="ct-chip-label" title={typeof children === 'string' ? children : undefined}>{children}</span>
-      {onRemove && (
-        <button type="button" className="ct-chip-remove" aria-label={`Remove ${children}`} onClick={onRemove}>
-          <X size={12} aria-hidden="true" />
-        </button>
-      )}
-    </span>
-  );
-}
+export { Chip } from './Chip.js';
 /** @param {import('react').ButtonHTMLAttributes<HTMLButtonElement> & {children?: import('react').ReactNode,selected?:boolean,variant?:'default'|'quiet',tone?:'quiet'|'ok'|'warn'|'bad'|'info',count?:number,dot?:boolean}} props */
 export function PillButton({ children, selected=false, onClick, variant='default', tone='quiet', count, dot=true, className='', ...props }) {
   return <button {...props} type={props.type||'button'} className={`lib-pill-button ${selected?'selected':''} ${className}`} data-variant={variant} data-tone={tone} aria-pressed={selected} onClick={onClick}>
@@ -296,10 +283,10 @@ export function Row({ title, description, leading, trailing, onClick }) {
     <div className="lib-row">{content}{trailing}</div>
   );
 }
-/** @param {React.HTMLAttributes<HTMLDListElement> & {items: ReadonlyArray<ReadonlyArray<React.ReactNode>>}} props */
-export function Facts({ items, className = "", ...props }) {
+/** @param {React.HTMLAttributes<HTMLDListElement> & {items: ReadonlyArray<ReadonlyArray<React.ReactNode>>, layout?: 'rows' | 'stacked'}} props */
+export function Facts({ items, className = "", layout = 'rows', ...props }) {
   return (
-    <dl {...props} className={`ct-facts ${className}`}>
+    <dl {...props} className={`ct-facts ${className}`} data-layout={layout}>
       {items.map(([label, value]) => (
         <div key={label}>
           <dt>{label}</dt>
@@ -419,12 +406,12 @@ export function Refreshing({ busy, children }) {
 export function StateView({ state = "empty", title, description, actionLabel, action, icon, onAction, onRetry, onCreate, size = "regular", variant = "framed" }) {
   const id = useId();
   const loading = state === "loading", error = state === "error";
-  if (loading) return <PageLoading title={title} description={description}/>;
+  if (loading && size === 'regular' && variant === 'framed') return <PageLoading title={title} description={description}/>;
   const handleAction = onAction ?? (error ? onRetry : onCreate);
   const heading = title ?? (loading ? "Loading content" : error ? "We couldn’t load this view" : "Nothing here yet");
   const message = description ?? (loading ? "Please wait while we prepare this view." : error ? "Your changes are safe. Try again in a moment." : "Items will appear here when they are added.");
   return <div className="ct-state-view" data-size={size} data-variant={variant} data-state={loading ? 'loading' : error ? 'error' : 'empty'} role={loading ? 'status' : error ? 'alert' : 'group'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-message`} aria-busy={loading || undefined}>
-    <span className="ct-state-glyph" aria-hidden="true">{icon ?? (loading ? <Loader size={20} decorative/> : error ? <Info size={20}/> : <Folder size={20}/>)}</span>
+    {loading ? <div className="lib-skeleton ct-state-loading-skeleton" aria-hidden="true">{[0,1,2].map(row => <div key={row}><span/><span style={{width:`${85 - row * 12}%`}}/></div>)}</div> : <span className="ct-state-glyph" aria-hidden="true">{icon ?? (error ? <Info size={20}/> : <Folder size={20}/>)}</span>}
     <div className="ct-state-copy"><h3 id={`${id}-title`}>{heading}</h3><p id={`${id}-message`}>{message}</p></div>
     {!loading && (action ?? (handleAction && <Button variant={error ? "" : "primary"} onClick={handleAction}>{actionLabel ?? (error ? "Try again" : onCreate ? "Create item" : "Continue")}</Button>))}
   </div>;
@@ -848,7 +835,7 @@ export function NavTree({ items, value, onChange }) {
 /** @param {{title:import('react').ReactNode,showTitle?:boolean,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}} props */
 export function PageBar({ title, showTitle = true, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2" }) {
   return (
-    <header className="lib-pagebar" data-title-hidden={!showTitle||undefined}>
+    <header className="lib-pagebar" data-title-hidden={!showTitle||undefined} data-pills-placement={pillsPlacement}>
       <div>
         {pillsPlacement === 'inline' ? <div className="ct-pagebar-title"><Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>{pills&&<div className="ct-pagebar-pills">{pills}</div>}</div> : <Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>}
         {updated ? <div className="ct-pagebar-summary">{description&&<p>{description}</p>}<div className="ct-pagebar-updated">{updated}</div></div> : description&&<p>{description}</p>}
@@ -1273,20 +1260,23 @@ function ChartTable({ data, secondaryData, primaryLabel = "Value", secondaryLabe
     </details>
   );
 }
-/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string,color?:string,highlight?:string}} props */
-export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison", color="var(--chart-1)", highlight }) {
+/** @param {{data?: ChartPoint[], secondaryData?: ChartPoint[], primaryLabel?: string, secondaryLabel?: string,color?:string,highlight?:string,labelInterval?:number}} props */
+export function ColumnChart({ data = chartData, secondaryData, primaryLabel = "Value", secondaryLabel = "Comparison", color="var(--chart-1)", highlight, labelInterval = 1 }) {
   const secondary = new Map(secondaryData?.map(point => [point.label, point.value]));
   const max = Math.max(...data.flatMap(d => [d.value, secondary.get(d.label) ?? 0]), 1);
+  const interval = Number.isFinite(labelInterval) ? Math.max(1, Math.floor(labelInterval)) : 1;
+  const pointLabel = d => `${d.label}: ${primaryLabel} ${d.value}${secondaryData ? `, ${secondaryLabel} ${secondary.get(d.label) ?? 'not available'}` : ''}`;
   return (
     <div className="lib-chart">
-      <div className="lib-columns" role="img" aria-label={data.map(d => `${d.label}: ${primaryLabel} ${d.value}${secondaryData ? `, ${secondaryLabel} ${secondary.get(d.label) ?? 'not available'}` : ''}`).join(", ")}>
-        {data.map((d, i) => <div key={d.label}>
-          <strong>{d.value}</strong>
+      <div className="lib-columns" data-dense={interval > 1 || undefined} role="group" aria-label={`${primaryLabel} by category`}>
+        {data.map((d, i) => <div key={d.label} tabIndex={0} role="img" aria-label={pointLabel(d)} title={pointLabel(d)} data-label-visible={i % interval === 0}>
+          <strong aria-hidden="true">{d.value}</strong>
           {secondaryData ? <div className="lib-column-pair">
             <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: 'var(--chart-1)'}} />
             <span style={{height: `${Math.max(0, (secondary.get(d.label) ?? 0) / max) * 125}px`, background: 'var(--chart-2)'}} />
           </div> : <span style={{height: `${Math.max(0, d.value / max) * 125}px`, background: d.label===highlight ? "var(--accent)" : color}} />}
-          <small>{d.label}</small>
+          <small aria-hidden="true">{d.label}</small>
+          <div className="ct-column-tooltip" aria-hidden="true">{pointLabel(d)}</div>
         </div>)}
       </div>
       {secondaryData && <div className="lib-chart-legend"><LegendDot color="var(--chart-1)">{primaryLabel}</LegendDot><LegendDot color="var(--chart-2)">{secondaryLabel}</LegendDot></div>}
@@ -1375,20 +1365,21 @@ export function BarList({ data = chartData,categorical=false,color="var(--chart-
 }
 export { Calendar } from "./Calendar.js";
 /** @typedef {{id: string, time: string, title: string, description?: React.ReactNode, href?: string, state?: 'past'|'late'|'secondary'}} DayTimelineItem
- * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void, dayVariant?:'default'|'quiet'}} props
+ * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void, dayVariant?:'default'|'quiet', daySize?:'regular'|'compact', itemsMaxHeight?:React.CSSProperties['maxHeight'],itemsLabel?:string}} props
  */
-export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange, dayVariant='default'}) {
+export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange, dayVariant='default', daySize='regular',itemsMaxHeight,itemsLabel='Schedule entries'}) {
   const dateValue = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T12:00:00`) : date ? new Date(date) : null;
   const heading = dateValue && Number.isFinite(dateValue.getTime()) ? dateValue.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}) : 'Schedule';
-  return <div className="lib-day-timeline">
-    <header><CalendarDays size={17}/><strong>{heading}</strong>{timezone && <span>{timezone}</span>}</header>
-    {days?.length ? <nav className="ct-day-strip" data-variant={dayVariant} aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
-    {items.length ? items.map(item => <div key={item.id} data-state={item.state}>
+  const entries=items.length ? items.map(item => <div key={item.id} className="ct-day-timeline-entry" data-state={item.state}>
       <time>{item.time}</time><div>{item.href
         ? <a href={item.href} onClick={() => onSelect?.(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</a>
         : onSelect ? <button type="button" onClick={() => onSelect(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</button>
         : <article><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</article>}
-      </div></div>) : <p className="ct-day-empty">{empty}</p>}
+      </div></div>) : <p className="ct-day-empty">{empty}</p>;
+  return <div className="lib-day-timeline">
+    <header><CalendarDays size={17}/><strong>{heading}</strong>{timezone && <span>{timezone}</span>}</header>
+    {days?.length ? <nav className="ct-day-strip" data-variant={dayVariant} data-size={daySize} aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
+    {itemsMaxHeight !== undefined ? <ScrollArea className="ct-day-timeline-items-scroll" maxHeight={itemsMaxHeight} label={itemsLabel}>{entries}</ScrollArea> : entries}
   </div>;
 }
 export { KanbanBoard } from './KanbanBoard.js';

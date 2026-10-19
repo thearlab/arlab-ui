@@ -1,6 +1,6 @@
 import { useId, useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Input } from './BaseFields.js';
-import { Chip } from './library.js';
+import { Chip } from './Chip.js';
 
 export interface TagInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue' | 'onChange' | 'size'> {
   value: string[];

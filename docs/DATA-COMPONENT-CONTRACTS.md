@@ -44,6 +44,8 @@ Group headings use the same fixed `rowHeight` as records, retaining bounded DOM 
 
 `ColumnChart` and `Sparkline` accept `secondaryData?: {label: string; value: number}[]`, `primaryLabel?: string` and `secondaryLabel?: string`.
 
+`ColumnChart` also accepts `labelInterval?: number` (default 1). Use `labelInterval={7}` for weekly category/value ticks across thirty daily bars: labels appear at indices 0, 7, 14, 21 and 28. The interval is floored, bounded to at least one, and non-finite values fall back to one. Every datum remains focusable with its complete category and exact values, including comparison values. Hover/focus reveals the same complete values; the native title and accessible data table remain available. Sparse ticks reduce text density without dropping records or changing bar heights. Use `color` to choose a quieter series hue and `highlight` for the selected datum.
+
 Comparison values match the primary categories by `label`, regardless of input order. Extra secondary categories are ignored. Missing categories are shown as “Not available” in the table and accessible description. A sparkline leaves a gap instead of connecting through missing values. The charts share a scale across both series; columns display paired bars and the sparkline uses a dashed second line. A legend and the existing accessible data-table alternative expose both series. The single-series appearance stays unchanged.
 
 ```tsx

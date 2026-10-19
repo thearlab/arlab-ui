@@ -1,9 +1,9 @@
 /* Controlled board geometry. Shared Panel/Button/Dropdown retain their own visual styles. */
-.ct-kanban-board { display:flex; flex-direction:column; min-height:0; min-width:0; max-width:100%; position:relative; font-family:var(--font-sans); box-sizing:border-box; padding:var(--space-4); }
+.ct-kanban-board { --ct-kanban-inset:var(--space-4); display:flex; flex-direction:column; min-height:0; min-width:0; max-width:100%; position:relative; font-family:var(--font-sans); box-sizing:border-box; padding:var(--ct-kanban-inset) 0; }
 .ct-kanban-horizontal { flex:1; min-height:0; max-width:100%; }
 .ct-kanban-horizontal > .scroll-viewport, .ct-kanban-horizontal > .scroll-viewport > .scroll-content { height:100%; }
 .ct-kanban-board[data-fill] { flex:1; }
-.ct-kanban-columns { display:flex; align-items:stretch; gap:var(--space-3); width:max-content; min-width:100%; height:100%; box-sizing:border-box; padding-block:var(--space-2); }
+.ct-kanban-columns { display:flex; align-items:stretch; gap:var(--space-3); width:max-content; min-width:100%; height:100%; box-sizing:border-box; padding-block:var(--space-2); padding-inline:var(--ct-kanban-track-inset,var(--ct-kanban-inset)); }
 .ct-kanban-column { display:flex; flex-direction:column; flex:0 0 var(--ct-kanban-column-width); width:var(--ct-kanban-column-width); min-width:0; height:100%; min-height:0; --ct-kanban-phase:var(--line); }
 .ct-kanban-column[data-tone="ok"] { --ct-kanban-phase:var(--ok); }
 .ct-kanban-column[data-tone="warn"] { --ct-kanban-phase:var(--warn); }
@@ -38,12 +38,12 @@
 .ct-kanban-column[data-collapsed] .ct-kanban-column-title > h3 { writing-mode:vertical-rl; max-height:340px; }
 .ct-kanban-column[data-collapsed] .ct-kanban-count { margin:0; }
 .ct-kanban-drag-preview { position:fixed; z-index:1200; pointer-events:none; max-width:calc(100vw - 24px); transform:rotate(1deg); filter:drop-shadow(0 6px 12px #0002); font-size:var(--text-xs); }
-.ct-kanban-phone-tabs { display:none; flex:none; }
+.ct-kanban-phone-tabs { display:none; flex:none; padding-inline:var(--ct-kanban-track-inset,var(--ct-kanban-inset)); }
 .ct-kanban-board[data-density="compact"] .ct-kanban-card-list { gap:var(--space-2);padding:var(--space-2); }
 .ct-kanban-board[data-density="compact"] .ct-kanban-column-header { padding-block:var(--space-2); }
 @keyframes ct-kanban-settle { from { transform:translateY(-4px); } to { transform:translateY(0); } }
 @media(max-width:640px) {
-  .ct-kanban-board { touch-action:pan-y;padding:var(--space-3); }
+  .ct-kanban-board { --ct-kanban-inset:var(--space-3); touch-action:pan-y; }
   .ct-kanban-phone-tabs { display:block; margin-bottom:var(--space-3); }
   .ct-kanban-columns { width:100%; }
   .ct-kanban-column, .ct-kanban-column[data-collapsed] { display:none; width:100%; flex-basis:100%; }
@@ -62,5 +62,10 @@
 @media(hover:none){.ct-kanban-card .ct-kanban-card-actions,.ct-kanban-card .ct-panel-content > .dropdown {opacity:1;}}
 
 /* The host chooses who owns the outer gutter; columns always keep readable insets. */
-.ct-kanban-board[data-inset="flush"] {padding:0;}
+.ct-kanban-board[data-inset="flush"] {--ct-kanban-inset:0px;padding:0;}
+/* Gutters live inside the moving track, so cards scroll to the viewport edges. */
+.ct-kanban-board[data-bleed] {--ct-kanban-track-inset:calc(var(--ct-kanban-inset) + var(--page-content-inset,0px));margin-inline:calc(-1 * var(--page-content-inset,0px));max-width:none;}
 .ct-kanban-column-header {border-start-start-radius:var(--radius-panel);border-start-end-radius:var(--radius-panel);}
+
+/* The existing outer ScrollArea owns scrolling; the nested tabs retain intrinsic labels. */
+.ct-kanban-phone-tabs .detail-tabs {width:max-content;min-width:100%;max-width:none;overflow:visible;}

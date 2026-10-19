@@ -19,7 +19,9 @@
       "label",
       "disabled",
       "onClick",
-      "children"
+      "children",
+      "href",
+      "external"
     ],
     "behavior": "The accessible label describes the action. Touch targets expand to 44px."
   },
@@ -441,9 +443,10 @@
     "category": "Data & identity",
     "description": "Aligned labels and values for object properties.",
     "props": [
-      "items"
+      "items",
+      "layout"
     ],
-    "behavior": "Use a semantic definition list. Long values wrap instead of widening the page."
+    "behavior": "Use a semantic definition list. Rows aligns labels and values; stacked puts each label above its value in narrow rails. Long values wrap without widening the page."
   },
   {
     "name": "Meter",
@@ -814,6 +817,16 @@
     "behavior": "Announces loading once. Uses no fabricated percentage. Reduced-motion preferences stop the animation."
   },
   {
+    "name": "NavigationProgress",
+    "category": "Feedback",
+    "description": "An indeterminate route transition at the viewport top edge.",
+    "props": [
+      "active",
+      "label"
+    ],
+    "behavior": "Fixed 2px strip without a visible label or estimated percentage. Inactive renders nothing. One accessible progress label; reduced motion stops animation. Exported from the root and /loading."
+  },
+  {
     "name": "PageLoading",
     "category": "Feedback",
     "description": "A full-page loading state with clear context and a quiet animated loader.",
@@ -823,9 +836,10 @@
       "variant",
       "onCancel",
       "mark",
-      "workspaceName"
+      "workspaceName",
+      "layout"
     ],
-    "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation."
+    "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation. Optional layout container (default) fills a bounded parent; viewport explicitly fills 100dvh for application boot. Both variants retain one status announcement."
   },
   {
     "name": "Notice",
@@ -893,7 +907,7 @@
       "size",
       "variant"
     ],
-    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action."
+    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action. Compact or embedded loading uses a bounded skeleton with one status announcement; regular framed loading uses PageLoading."
   },
   {
     "name": "Tooltip",
@@ -943,7 +957,8 @@
       "footer",
       "scrollable",
       "contentLabel",
-      "dismissible"
+      "dismissible",
+      "headerActions"
     ],
     "behavior": "Focus stays inside. Escape closes; the opening control regains focus."
   },
@@ -962,7 +977,8 @@
       "footer",
       "scrollable",
       "contentLabel",
-      "dismissible"
+      "dismissible",
+      "headerActions"
     ],
     "behavior": "Shares Dialog focus behavior. It becomes full width on a phone."
   },
@@ -1075,7 +1091,8 @@
       "footer",
       "label",
       "padding",
-      "children"
+      "children",
+      "tabs"
     ],
     "behavior": "Application owns data, validation and persistence. DocumentContent requires caller-sanitised HTML."
   },
@@ -1212,9 +1229,10 @@
       "primaryLabel",
       "secondaryLabel",
       "color",
-      "highlight"
+      "highlight",
+      "labelInterval"
     ],
-    "behavior": "Use a zero baseline. Values and category labels are visible; color is supplementary."
+    "behavior": "Use a zero baseline. Numeric labelInterval controls visible category/value ticks, default 1; 7 labels weekly ticks over daily bars. Every datum retains exact hover/focus values and its data-table row. Color is supplementary."
   },
   {
     "name": "Sparkline",
@@ -1277,9 +1295,16 @@
     "category": "Documents & operations",
     "description": "A time-based view of a day with selectable events.",
     "props": [
-      "onSelect"
+      "onSelect",
+      "daySize",
+      "days",
+      "value",
+      "onChange",
+      "dayVariant",
+      "itemsMaxHeight",
+      "itemsLabel"
     ],
-    "behavior": "Display the timezone. Event details remain available through normal buttons."
+    "behavior": "Display the timezone. Event details remain available through normal buttons. Optional daySize compact reduces day-selector spacing; regular remains the default."
   },
   {
     "name": "KanbanBoard",
@@ -1299,7 +1324,8 @@
       "density",
       "height",
       "fill",
-      "inset"
+      "inset",
+      "bleed"
     ],
     "behavior": "The host owns cards and persistence. Move by pointer/touch handle, keyboard pickup/arrows/drop or Move to menu. Omit onMove for read-only. Destination index excludes the moved card. Phone supports tabs and swipe; loading, error, empty and limited columns have explicit states."
   },
@@ -1432,7 +1458,7 @@
       "selectedRowKey",
       "sortIndicators"
     ],
-    "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry."
+    "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry. Column lineClamp defaults to 2; false lets composite cells own their line limits while remaining bounded to rowHeight - 16 pixels."
   },
   {
     "name": "FacetList",

@@ -337,7 +337,7 @@
 .ct-collection-body {display:flex;flex:1;min-width:0;min-height:0;}
 .ct-collection-layout > .lib-pagebar > div:first-child {min-width:0;}
 .ct-collection-layout[data-tabs] > .lib-pagebar {border-bottom:0;}
-.ct-collection-tabs > .detail-tabs {border:0;padding-inline:0;}
+.ct-collection-tabs > .detail-tabs {border:0;padding-inline:0;width:max-content;min-width:100%;max-width:none;overflow:visible;}
 /* Tabs already own the separator; results and fixed filters begin directly below it. */
 .ct-collection-tabs + .ct-collection-body {padding-top:0;}
 

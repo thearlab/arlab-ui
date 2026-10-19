@@ -6,12 +6,12 @@
 
 | Prop | Contract |
 | --- | --- |
-| `columns` | `FilterColumn<Row>[]`: key/label/header/width/align/sortable/sortValue/value/render, identical to FilterableTable. |
+| `columns` | `FilterColumn<Row>[]`: key/label/header/width/align/sortable/sortValue/value/render, shared with FilterableTable. InfiniteTable additionally honors each column's `lineClamp?: number \| false`. |
 | `rows` | Host-owned records with stable unique keys. Local: complete filtered result. Remote: accumulated pages in server order. |
 | `rowKey` | Record key property or `(row) => string \| number`. |
 | `variant` | Shared frame style: `contained` (default) or `flush`. |
 | `title`, `headerActions` | Accessible table title (default Records) and shared controls in its header. |
-| `rowHeight` | Fixed pixel height, default 64, minimum 44. Custom cell content must fit within two lines and `rowHeight - 16` pixels. Overflow is clipped to preserve correct virtualization. Use a larger fixed height for richer cells. |
+| `rowHeight` | Fixed pixel height, default 64, minimum 44. Cells default to two lines. Custom content must fit within `rowHeight - 16` pixels. Overflow is clipped to preserve correct virtualization. Use a measured larger fixed height for richer cells. |
 | `overscan` | Extra rows above/below the viewport; default 6. |
 | `chunkSize` | Local incremental disclosure count, default 50. Does not choose the host's server page size. |
 | `height` | Bounded ScrollArea height, default 480. Numeric pixels or CSS height. A percentage requires a constrained parent. |
@@ -19,6 +19,8 @@
 | `loading`, `emptyMessage` | Initial/query loading and genuinely empty filtered result. |
 
 ## Local mode
+
+For a composite cell containing a two-line title plus one metadata line, set that column's `lineClamp: false` and explicitly bound each child in your render function. `rowHeight={88}` leaves 72px for the cell content. The outer cell still clips to this pixel bound; disabling its line clamp does not enable variable-height rows or change virtual window math. Numeric `lineClamp` values are floored and bounded to at least one; omitted or non-finite values use two. This option applies only to InfiniteTable, so callers can reuse the same columns with FilterableTable.
 
 Omit `mode`, or use `mode="local"`. Pass the **entire filtered collection**, optionally `initialSort` (`{key,direction:'ascending'|'descending'}`). Shared `sortTableRows` applies natural ordering with empty values last. Sorting runs on that entire collection, then incremental disclosure and virtualization are applied. The table never sorts only the currently exposed chunk.
 

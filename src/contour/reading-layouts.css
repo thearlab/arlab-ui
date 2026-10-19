@@ -1,11 +1,15 @@
 .ct-page-frame {display:flex;flex-direction:column;height:100%;min-height:0;min-width:0;flex:1;}
 .ct-page-frame-header,.ct-page-frame-footer {flex:none;min-width:0;}
 .ct-page-frame-header {padding:var(--space-6);border-bottom:1px solid var(--line);}
-.ct-page-frame-header>.lib-pagebar {margin:0;}
+.ct-page-frame-header>.lib-pagebar {margin:0;padding-bottom:0;}
+.ct-page-frame[data-has-tabs] > .ct-page-frame-header {border-bottom:0;padding-bottom:var(--space-3);}
+.ct-page-frame-tabs {flex:none;min-width:0;padding-inline:var(--space-6);border-bottom:1px solid var(--line);}
+.ct-page-frame-tabs > .detail-tabs {padding:0;margin:0;border:0;}
 .ct-page-frame-scroll {flex:1;min-height:0;}
 .ct-page-frame-scroll>.scroll-viewport {height:100%;}
 .ct-page-frame-content {min-height:100%;min-width:0;}
-.ct-page-padding-default {padding:var(--space-6);}
+.ct-page-padding-default {--page-content-inset:var(--space-6);padding:var(--page-content-inset);}
+.ct-page-padding-none {--page-content-inset:0px;}
 .ct-page-frame-footer {padding:var(--space-4) var(--space-6);background:var(--raise);}
 .ct-page-frame-content:has(>.ct-content-loading),.ct-record-body-content:has(>.ct-content-loading) {display:flex;min-height:100%;padding:0;}
 .ct-reading-layout {display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7);align-items:start;}
@@ -36,7 +40,7 @@
 .ct-document-outline a {padding:var(--space-2) var(--space-3);border-radius:var(--radius-control);color:var(--dim);text-decoration:none;line-height:var(--leading-normal);}
 .ct-document-outline a[data-depth="3"] {padding-left:var(--space-5);}
 .ct-document-outline a:hover {background:var(--surface-hover);color:var(--ink);}.ct-document-outline a[aria-current] {color:var(--accent);background:var(--accent-soft);}
-@media(max-width:600px){.ct-page-padding-default {padding:var(--space-4);}}
+@media(max-width:600px){.ct-page-padding-default {--page-content-inset:var(--space-4);}}
 .ct-inline {display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-3);min-width:0;}.ct-inline[data-justify=between] {justify-content:space-between;}.ct-inline[data-justify=end] {justify-content:flex-end;}
 .ct-content-inset {padding:var(--space-5);min-width:0;}
 .ct-table-surface {overflow:visible;flex:none;min-height:0;border:0;border-radius:0;}.ct-table-surface table {table-layout:auto;}.ct-table-surface tbody tr[tabindex] {cursor:pointer;}

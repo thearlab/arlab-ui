@@ -30,6 +30,8 @@ export const minimumSettings = <ContourProvider mode="dark" aria-label="Workspac
   <Card title={<span>Settings</span>} action={<Button onClick={close}>Edit</Button>} />
   <Button disabled type="submit" onClick={event => event.currentTarget.focus()}>Save</Button>
   <IconButton label="Close" onClick={close}><span>×</span></IconButton>
+  <IconButton label="Open project" href="https://example.com/project" external><span>↗</span></IconButton>
+  <DayTimeline itemsMaxHeight={360} itemsLabel="Week entries" />
   <Avatar /><Avatar size={22} src="/avatar.png" name="Amal" title="Amal" /><Status title="Ready to run" role="status">Ready</Status><SectionHead title="Overview" />
   <TextAction onClick={close}>Open</TextAction><Meter value={20} />
   <Notice>Information</Notice><EmptyState /><FileUpload />

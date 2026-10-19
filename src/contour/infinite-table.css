@@ -5,6 +5,7 @@
 .ct-infinite-table .ct-infinite-row { height:var(--ct-infinite-row-height); }
 .ct-infinite-table .ct-infinite-row > td { box-sizing:border-box; height:var(--ct-infinite-row-height); max-height:var(--ct-infinite-row-height); padding:7px 16px; }
 .ct-infinite-cell { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; max-height:var(--ct-infinite-cell-height); overflow:hidden; min-width:0; }
+.ct-infinite-cell[data-line-clamp="none"] {display:block;-webkit-line-clamp:unset;}
 .ct-infinite-table .ct-infinite-spacer > td { padding:0; border:0; line-height:0; }
 .ct-infinite-table .ct-infinite-spacer:hover { background:transparent; }
 .ct-infinite-table > footer > span { min-width:0; overflow-wrap:anywhere; }

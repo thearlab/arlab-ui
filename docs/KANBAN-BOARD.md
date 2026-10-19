@@ -85,6 +85,10 @@ The controlled showcase now includes seven project phases, phase colors, collaps
 
 ## Bounded height and sideways scrolling
 
+Horizontal inset belongs to the moving column track, rather than outside its scroll viewport. Cards can therefore reach the board edges during scrolling while the first and last columns retain their resting gutter.
+
+For a board in a padded PageFrame, use `<KanbanBoard {...boardProps} bleed />` to extend its horizontal viewport through the page gutter as well. PageFrame provides `--page-content-inset` automatically. Custom parent layouts may set that variable to their horizontal padding. This is opt-in; omit it when a sibling filter panel owns the adjacent space. The board remains clipped at the page boundary and never paints over navigation. `inset="flush"` removes the board's additional inset, independently of the page gutter.
+
 `height?: CSSProperties['height']` sets the preferred board height. `fill?: boolean` uses the available height of a bounded flex/grid parent. Without either, the board uses up to 640px. All modes cap the board to the remaining visible viewport and vertically clipping ancestor space, measured from its actual position rather than a fixed page-header offset. The outer horizontal scrollbar therefore stays within that available area. A board below the visible area reserves its preferred height until scrolling exposes usable room, then measures its cap. Ordinary outer scrolling does not repeatedly resize an already measured board, avoiding scroll-clamping feedback when it sits at the end of a page. Window and ancestor resizing update the cap; card-column scrolling does not remeasure page geometry.
 
 ```tsx

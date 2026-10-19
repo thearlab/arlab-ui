@@ -493,6 +493,8 @@
   box-shadow: var(--icon-hover-shadow);
 }
 .themed-preview .text-action {
+  width: fit-content;
+  max-width: 100%;
   border: 1px solid var(--line);
   background: var(--ground);
   border-radius: var(--radius-sm);

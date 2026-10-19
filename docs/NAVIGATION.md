@@ -116,3 +116,9 @@ The spaces shell displays the complete canonical ARLAB vector wordmark inside a 
 ## Approved fixed single navigation
 
 SidebarShell without spaces keeps its single navigation expanded, with no collapse control, collapse shortcut or visible tool-name line. Legacy collapsed/defaultCollapsed/onCollapsedChange props are accepted for type compatibility and ignored. Accessible navigation labels still use toolName. Phone navigation remains available through its drawer. The outer spaces rail remains collapsible when spaces are supplied. Use contentLayout="fill" for bounded workspaces whose children own scrolling; default scroll retains document-style pages. Shell scroll boundaries contain overscroll.
+
+## Shared navigation states
+
+Department spaces and NavigationItem both distinguish a transparent resting state, neutral hover and full-width pink-tinted active state. Selected labels use the shared 600 weight; their state persists while hovered. Department tiles retain their own color and white glyphs. There is no left stripe. Keyboard focus remains a separate discreet outline. Disabled items do not receive hover styling.
+
+The foundation owns `--nav-hover-surface`, `--nav-active-surface` and `--nav-active-border` in both themes. Standalone navigation derives fallback values from its inherited palette. The outer rail footer has no divider above the collapse control.

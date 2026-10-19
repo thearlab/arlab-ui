@@ -27,9 +27,10 @@ test('Compact embedded state preserves accessible error feedback and explicit ac
  assert.equal(rule('.arlab-contour .ct-state-view[data-size="compact"][data-variant="embedded"]')['padding'],'0');
  const regular=html(StateView,{});assert.match(regular,/data-size="regular"/);assert.match(regular,/data-variant="framed"/);
 });
-test('Compact loading still delegates to the single standard full-container loading component',()=>{
+test('Compact loading retains a bounded shared skeleton and its host layout',()=>{
  const out=html(StateView,{state:'loading',size:'compact',variant:'embedded',title:'Loading projects'});
- assert.match(out,/Loading projects/);assert.match(out,/ct-content-loading-skeleton/);assert.doesNotMatch(out,/ct-state-view/);
+ assert.match(out,/Loading projects/);assert.match(out,/ct-state-loading-skeleton/);assert.match(out,/ct-state-view/);
+ assert.match(out,/data-size="compact"/);assert.match(out,/data-variant="embedded"/);assert.doesNotMatch(out,/ct-content-loading/);
 });
 test('StatNoteRow compact mobile mode is opt-in and retains every metric and status',()=>{
  const children=[1,2,3,4].map(n=>h(StatNote,{key:n,label:`Metric ${n}`,value:n,note:{tone:'warn',label:'Needs attention'},caption:'Your workspace'}));
