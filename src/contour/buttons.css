@@ -43,7 +43,7 @@
 a.btn[data-button="text"] {text-decoration:none;}
 a.btn[data-button="text"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;}
 a.icon-btn[data-button="icon"][aria-disabled="true"] {opacity:.5;cursor:not-allowed;pointer-events:none;background:var(--sunken);background-image:none;box-shadow:none;}
-.icon-btn[data-button="icon"][aria-pressed="true"],.icon-btn[data-button="icon"][aria-pressed="true"]:hover:not(:disabled) {color:var(--accent);background:var(--accent-soft);background-image:var(--button-chrome-gradient);border-color:var(--accent-line);}
+.icon-btn[data-button="icon"][aria-pressed="true"],.icon-btn[data-button="icon"][aria-pressed="true"]:hover:not(:disabled) {color:var(--link,var(--accent));background:var(--accent-soft);background-image:var(--button-chrome-gradient);border-color:var(--accent-line);}
 /* Secondary actions share the field finish; semantic actions keep their own paint. */
 .btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):not(:disabled) {border-color:var(--chrome-line);background:var(--chrome-control-surface);background-image:var(--chrome-control-gradient);}
 .btn[data-button="text"]:not(.primary):not(.danger):not(.danger-quiet):not(.ghost):hover:not(:disabled) {border-color:var(--chrome-line-hover);}

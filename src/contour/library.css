@@ -3049,7 +3049,7 @@ dl.ct-facts[data-layout="stacked"] > div {grid-template-columns:minmax(0,1fr);ga
 .ct-save-bar[data-sticky] {position:sticky;bottom:0;z-index:3;padding-block:var(--space-4);margin-top:0;background:var(--raise);background-color: var(--raise);background-image: var(--chrome-subtle-gradient);border-color: var(--chrome-divider);}
 .lib-row-open {display:flex;align-items:center;gap:var(--space-3);flex:1;min-width:0;padding:0;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;}
 .lib-row-open:focus-visible {outline:var(--line-width) solid var(--focus);outline-offset:var(--space-1);}
-.lib-row-open:hover {color:var(--accent);}
+.lib-row-open:hover {color:var(--link,var(--accent));}
 .ct-form-field-control > :is(.dropdown,.lib-input) {display:block;width:100%;min-width:0;}
 .ct-form-field-control .dropdown-trigger {display:flex;width:100%;min-width:0;}
 .ct-form-field-control .dropdown-trigger > span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -3239,7 +3239,7 @@ a.lib-link-tile {text-decoration:none;}
 @media(pointer:coarse){.ct-account-menu {grid-template-columns:30px minmax(0,1fr) 44px;}.ct-account-menu>.ct-account-logout[data-button=icon] {width:44px;height:44px;min-width:44px;min-height:44px;}.ct-account-menu[data-collapsed] {grid-template-columns:1fr;}}
 
 .detail-tabs > button {background:transparent;background-image:none;box-shadow:none;border-radius:0;text-decoration:none;}
-.detail-tabs > button[aria-selected=true] {color:var(--accent);}
+.detail-tabs > button[aria-selected=true] {color:var(--link,var(--accent));}
 .detail-tabs > button[aria-selected=true]::after {height:var(--line-width);bottom:0;}
 /* Optional metadata is separate from the label and supporting description. */
 .lib-choice[data-choice=checkbox]:has(> .ct-choice-trailing) {grid-template-columns:16px minmax(0,1fr) max-content;}

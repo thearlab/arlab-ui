@@ -17,3 +17,5 @@ Glass rim is the approved shared material: luminous inner edges, soft lift, refl
 Department spaces now apply their identity as the interface accent. SidebarShell follows the active Space.dept automatically; department={null} opts out, and an explicit department scopes a single sidebar. Website/Admin spaces restore pink. ContourProvider department and tokensFor('contour', mode, {department}) support app roots and portalled content. Nested providers inherit mode and department. Semantic status colors and chart series stay independent. Bright department actions get readable labels; approved pink and white labels remain exact.
 
 The approved sidebar finish is a fine reflective inner edge and soft neutral surface sheen. Removed projecting dark shadows and the heavy separator bands from the trial. Both sidebar formats and the top bar consume the same shared tokens.
+
+Accent text roles use the readable link color while decorative accents keep the department hue. Department text contrast is checked on both raised and selected navigation surfaces.

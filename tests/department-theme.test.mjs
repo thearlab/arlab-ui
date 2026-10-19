@@ -16,7 +16,7 @@ test('all department themes derive identities and readable action labels from th
    const theme=tokensFor('contour',mode,{department});
    assert.equal(theme.accent,base[`dept-${department}`]);
    if(department==='creative'){assert.equal(theme.action,base.action);assert.equal(theme.actionInk,base.actionInk);}
-   else {assert.ok(contrast(theme.action,theme.actionInk)>=4.5);assert.ok(contrast(theme.link,theme.raise)>=4.5);}
+   else {assert.ok(contrast(theme.action,theme.actionInk)>=4.5);assert.ok(contrast(theme.link,theme.raise)>=4.5);assert.ok(contrast(theme.link,theme['nav-active-surface'])>=4.5);}
    for(const key of Object.keys(base).filter(key=>/^(dept-|chart-|ok|bad|warn|info|planning)/.test(key)))assert.equal(theme[key],base[key],key);
    for(const key of ['font-sans','font-display','font-mono','radius-control','radius-panel','button-height'])assert.equal(theme[key],base[key]);
   }
