@@ -24,12 +24,12 @@ test('both navigation columns share distinct rest, hover and persistent active f
   assert.equal(props('.contour-dept-tile-compact').color,'var(--dept-tile-ink)');
 });
 test('departments retain solid identity at rest, metallic hover and a pink selected icon border',()=>{
- const tile=props('.contour-dept-tile-compact');assert.equal(tile.background,'var(--dept-tile-color)');assert.equal(tile.border,'2px solid var(--dept-tile-color)');
+ const tile=props('.contour-dept-tile-compact');assert.equal(tile.background,'var(--dept-tile-color)');assert.equal(tile.border,'1px solid var(--dept-tile-color)');
  for(const control of ['.contour-space-control[data-department]','.contour-navigation-item[data-department]']){
   const rest=props(`${control} .contour-dept-tile-compact`),hover=props(`${control}:hover:not(:disabled) .contour-dept-tile-compact`),active=props(`${control}[aria-current="page"]`),selected=props(`${control}[aria-current="page"] .contour-dept-tile-compact`);
   assert.equal(rest.color,'var(--department-ink)');assert.equal(rest['background-color'],'var(--department-color)');
   assert.equal(active.background,'transparent');assert.equal(active['box-shadow'],'none');
-  assert.equal(selected['border-color'],'var(--cn-accent)');assert.equal(selected.outline,'1px solid var(--cn-accent)');assert.match(hover['background-image'],/dept-solid-hover-gradient/);
+  assert.equal(selected['border-color'],'var(--cn-accent)');assert.equal(selected.outline,undefined);assert.match(hover['background-image'],/dept-solid-hover-gradient/);
   assert.equal(props(`${control}:focus-visible`)['outline-color'],'var(--cn-accent)');
  }
 });
