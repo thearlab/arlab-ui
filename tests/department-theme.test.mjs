@@ -14,12 +14,15 @@ test('all department themes derive identities and readable action labels from th
   const base=tokensFor('contour',mode);
   for(const department of ['creative','engineering','client','company','strategy']) {
    const theme=tokensFor('contour',mode,{department});
+   assert.equal(theme.actionInk,'#FFFFFF');
    assert.equal(theme.accent,base[`dept-${department}`]);
-   if(department==='creative'){assert.equal(theme.action,base.action);assert.equal(theme.actionInk,base.actionInk);}
+   if(department==='company'){assert.equal(theme.action,base.action);assert.equal(theme.actionInk,base.actionInk);}
    else {assert.ok(contrast(theme.action,theme.actionInk)>=4.5);assert.ok(contrast(theme.link,theme.raise)>=4.5);assert.ok(contrast(theme.link,theme['nav-active-surface'])>=4.5);}
    for(const key of Object.keys(base).filter(key=>/^(dept-|chart-|ok|bad|warn|info|planning)/.test(key)))assert.equal(theme[key],base[key],key);
    for(const key of ['font-sans','font-display','font-mono','radius-control','radius-panel','button-height'])assert.equal(theme[key],base[key]);
   }
+  assert.equal(base['dept-company'],base.accent);
+  assert.equal(base['dept-creative'],base['chart-4']);
   for(const department of [null,undefined,'unknown','website'])assert.equal(tokensFor('contour',mode,{department}).accent,base.accent);
   assert.equal(departmentThemeTokens(mode,'clients-servicing').accent,base['dept-client']);
   assert.equal(departmentThemeTokens(mode,'strategy-growth').accent,base['dept-strategy']);

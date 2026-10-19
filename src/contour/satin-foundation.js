@@ -41,8 +41,9 @@ export function satinLiftTokens(mode) {
   // Dark text/chart colors and solid identity fills have different contrast roles.
   const departmentFills = dark ? ['#BE36B3','#AE6332','#8863C3','#307DA6','#2D8177'] : charts;
   ['creative','engineering','client','company','strategy'].forEach((department,index)=>{
-    const color=charts[index];
-    colors[`dept-${department}`]=color;colors[`dept-${department}-solid`]=departmentFills[index];
+    const paletteIndex=department==='creative'?3:department==='company'?0:index;
+    const color=charts[paletteIndex];
+    colors[`dept-${department}`]=color;colors[`dept-${department}-solid`]=departmentFills[paletteIndex];
     colors[`dept-${department}-ink`]='#FFFFFF';
   });
   return {...colors,

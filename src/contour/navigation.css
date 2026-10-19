@@ -214,3 +214,9 @@
 .contour-navigation-footer,.contour-space-panel-footer,.contour-navigation-account {box-shadow:inset 0 1px 0 var(--chrome-rule-highlight,#FFFFFF10);}
 
 @media(prefers-reduced-motion:reduce){.contour-dept-tile-compact,.contour-rail-action-glyph {transition:none;}}
+
+/* Page icons share the same raised, reflective hover and recessed selected finish as rail utilities. */
+.contour-navigation-item-icon {background-image:var(--button-chrome-gradient,var(--chrome-control-gradient,none));box-shadow:var(--icon-rest-shadow,var(--toggle-shadow,none));transition:background-color var(--dur-fast,140ms),border-color var(--dur-fast,140ms),box-shadow var(--dur-fast,140ms);}
+.contour-navigation-item:hover:not(:disabled):not([aria-current="page"]) .contour-navigation-item-icon {background-image:var(--button-chrome-hover-gradient,var(--chrome-control-gradient,none));box-shadow:var(--icon-hover-shadow,var(--toggle-hover-shadow,none));}
+.contour-navigation-item[aria-current="page"] .contour-navigation-item-icon {background-image:var(--field-gradient,none);border-color:var(--chrome-pressed-border,var(--cn-active-edge));box-shadow:var(--chrome-pressed-shadow,inset 0 2px 4px #00000030,0 1px 2px #00000010);}
+@media(prefers-reduced-motion:reduce){.contour-navigation-item-icon {transition:none;}}

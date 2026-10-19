@@ -53,3 +53,13 @@ test('the tour stylesheet fades opacity only, leaving no positional travel in V2
   assert.doesNotMatch(text,/transition:(?:top|left|width|height)|translateY|ct-tour-appear/);
   assert.match(text,/prefers-reduced-motion|transition:none/);
 });
+
+test('page icons share the rail raised, hover and pressed material without changing geometry',()=>{
+ const icon=props('.contour-navigation-item-icon');
+ assert.equal(icon.width,'30px');assert.equal(icon.height,'30px');
+ assert.equal(icon['box-shadow'],'var(--icon-rest-shadow,var(--toggle-shadow,none))');
+ const hover=props('.contour-navigation-item:hover:not(:disabled):not([aria-current="page"]) .contour-navigation-item-icon');
+ assert.match(hover['box-shadow'],/icon-hover-shadow/);assert.match(hover['background-image'],/button-chrome-hover-gradient/);
+ const selected=props('.contour-navigation-item[aria-current="page"] .contour-navigation-item-icon');
+ assert.match(selected['background-image'],/field-gradient/);assert.match(selected['box-shadow'],/chrome-pressed-shadow/);assert.equal(selected.color,'var(--cn-accent)');
+});

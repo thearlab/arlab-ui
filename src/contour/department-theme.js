@@ -30,10 +30,10 @@ export function departmentThemeTokens(mode='light',department) {
   department=normalizeDepartment(department);
   const identity=base[`dept-${department}`];
   const accent=identity||base.accent;
-  // Preserve the department button fill. Bright fills use dark labels when white would be illegible.
-  const text=identity&&department!=='creative'?readable(accent,blend(base.raise,accent,dark?.14:.08)):base.link;
-  const action=identity&&department!=='creative'?base[`dept-${department}-solid`]:base.action;
-  const actionInk=!identity||department==='creative'?base.actionInk:contrast(action,'#FFFFFF')>=4.5?'#FFFFFF':readable(base.ink,action);
+  // Colored actions always use white labels. Use a deeper shade of bright department hues for contrast.
+  const text=identity&&department!=='company'?readable(accent,blend(base.raise,accent,dark?.14:.08)):base.link;
+  const action=identity&&department!=='company'?readable(base[`dept-${department}-solid`],'#FFFFFF',5):base.action;
+  const actionInk='#FFFFFF';
   const rgb=channels(accent).join(','),soft=`rgba(${rgb},${dark?'.10':'.08'})`;
   return {
     accent,link:text,focus:accent,'accent-deep':text,action,actionHover:action,actionInk,
