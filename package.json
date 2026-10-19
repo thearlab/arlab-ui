@@ -12,6 +12,7 @@
       "types": "./dist/contour/index.d.ts",
       "import": "./dist/contour/index.js"
     },
+    "./favicon.svg": "./dist/contour/favicon.svg",
     "./styles.css": "./dist/contour/styles.css",
     "./primitives": "./dist/contour/ui.js",
     "./icons": "./dist/contour/icons.js",

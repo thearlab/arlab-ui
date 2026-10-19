@@ -107,7 +107,7 @@
 .contour-rail-brand {position:relative;justify-content:flex-start;width:100%;min-width:0;max-width:none;flex:1 1 0;overflow:hidden;}
 .contour-rail-brand-variant {position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-start;pointer-events:none;transition:opacity var(--cn-rail-duration) var(--cn-rail-easing);}
 .contour-rail-brand-variant[data-brand="full"] {width:calc(var(--cn-rail-expanded-width) - 24px);opacity:1;}
-.contour-rail-brand-variant[data-brand="compact"] {width:34px;opacity:0;}
+.contour-rail-brand-variant[data-brand="compact"] {width:100%;justify-content:center;opacity:0;}
 .contour-rail-brand-variant > svg {max-width:100%;max-height:32px;}
 .contour-shell[data-rail-collapsed] .contour-rail-brand-variant[data-brand="full"] {opacity:0;}
 .contour-shell[data-rail-collapsed] .contour-rail-brand-variant[data-brand="compact"] {opacity:1;}

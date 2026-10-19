@@ -29,3 +29,5 @@ for (const file of fs.readdirSync('src/contour/fonts')) {
   if (file.endsWith('.woff2')) fs.copyFileSync(`src/contour/fonts/${file}`, `dist/contour/fonts/${file}`);
 }
 console.log('Satoshi uses its official Fontshare stylesheet; self-hosted DM Mono assets copied.');
+
+fs.copyFileSync('src/contour/favicon.svg','dist/contour/favicon.svg');

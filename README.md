@@ -2,7 +2,7 @@
 
 The shared design system for ARLAB internal tools. Satin Lift: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
 
-Version `2.0.0-beta.35` removes empty list bands from row-only panels and simplifies command search spacing. It includes the department, field and calendar refinements from beta.32. See [release notes](docs/RELEASE-beta.35.md).
+Version `2.0.0-beta.35` strengthens shared inner chrome, uses a single thin selected department border, defaults utility actions to neutral, and adds navigator grids. See [release notes](docs/RELEASE-beta.35.md).
 
 ```json
 "@arlab/ui": "github:thearlab/arlab-ui#v2.0.0-beta.35"

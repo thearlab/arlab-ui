@@ -147,7 +147,7 @@ import {
   MousePointer2,
   Accessibility,
   Sparkles,
-  DoorOpen as LogOut,
+  LogOut,
   Presentation,
   ShoppingCart,
   Megaphone,
