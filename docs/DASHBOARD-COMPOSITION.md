@@ -71,3 +71,7 @@ Content-mode insets belong to the ScrollArea content, not around its viewport. T
 KanbanBoard owns a 16px outer inset (12px on phones), 12px column header/list insets and 12px card gaps. Compact density uses 8px list insets/gaps. `inset="flush"` removes only the board gutter when its parent already provides one. Column text/cards retain their inset. The board stays bounded and uses its existing native sideways/column scrolling with hidden indicators.
 
 A CollectionLayout with tabs leaves 16px before/after its search toolbar, with 32px side insets (16px on phones). This keeps fields away from the tab separator and aligned with contained results. Full-width result content does not remove the toolbar's readable gutter.
+
+## List and detail grids
+
+WorkspaceGrid layout="navigator" supportingWidth={320} puts a native Panel/RankList on the left and a Stack of detail sections on the right. It remains in the page scroll instead of imposing a bounded collection workspace. It stacks below 1200px. TextAction defaults neutral; request tone="accent" for explicit emphasis.

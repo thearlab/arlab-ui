@@ -10,7 +10,7 @@ export function WorkspaceContent({children,footer,label='Workspace content'}:{ch
 export function ShellPage({children,scroll='page',label='Page content'}:{children:ReactNode;scroll?:'page'|'child';label?:string}){
  return <section className="ct-shell-page" data-scroll={scroll} aria-label={label}>{children}</section>;
 }
-export function WorkspaceGrid({children,layout='equal',supportingWidth}:{children:ReactNode;layout?:'equal'|'sidebar';supportingWidth?:CSSProperties['width']}){return <div className="ct-workspace-grid" data-layout={layout} style={supportingWidth!==undefined?{'--ct-workspace-supporting-width':typeof supportingWidth==='number'?`${supportingWidth}px`:supportingWidth} as CSSProperties:undefined}>{children}</div>;}
+export function WorkspaceGrid({children,layout='equal',supportingWidth}:{children:ReactNode;layout?:'equal'|'sidebar'|'navigator';supportingWidth?:CSSProperties['width']}){return <div className="ct-workspace-grid" data-layout={layout} style={supportingWidth!==undefined?{'--ct-workspace-supporting-width':typeof supportingWidth==='number'?`${supportingWidth}px`:supportingWidth} as CSSProperties:undefined}>{children}</div>;}
 export function WorkspaceIntro({title,description,actions}:{title:ReactNode;description?:ReactNode;actions?:ReactNode}){return <header className="ct-workspace-intro"><div><h2>{title}</h2>{description&&<p>{description}</p>}</div>{actions}</header>;}
 /** Shared name/metadata cell for custom table content; row activation belongs to the table. */
 export function RecordCell({title,description,leading}:{title:ReactNode;description?:ReactNode;leading?:ReactNode}){return <div className="ct-record-cell">{leading}<span><strong>{title}</strong>{description&&<small>{description}</small>}</span></div>;}

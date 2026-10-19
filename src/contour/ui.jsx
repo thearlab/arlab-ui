@@ -116,7 +116,7 @@ export function SectionHead({ title, sub, children }) {
 }
 /** @typedef {((React.ButtonHTMLAttributes<HTMLButtonElement> & {href?:never,external?:boolean}) | (React.AnchorHTMLAttributes<HTMLAnchorElement> & {href:string,external?:boolean})) & {tone?:'accent'|'neutral'}} TextActionProps
  * @param {TextActionProps} props */
-export function TextAction({ children, href, external=false, tone='accent', className='', ...props }) {
+export function TextAction({ children, href, external=false, tone='neutral', className='', ...props }) {
   const content = <>{children}<ChevronRight size={14} aria-hidden="true" /></>;
   if (href !== undefined) return <a {...props} data-tone={tone} className={`text-action ${className}`} href={href} target={external ? '_blank' : props.target} rel={external ? 'noopener noreferrer' : props.rel}>{content}</a>;
   return <button {...props} data-tone={tone} type={props.type || 'button'} className={`text-action ${className}`}>{content}</button>;

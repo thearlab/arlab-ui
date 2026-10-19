@@ -42,3 +42,5 @@ test('shared layout CSS owns route scrolling, tile baseline, and Kanban scroll c
   assert.match(css,/\.lib-link-tile \{align-items:flex-start;/);
   assert.match(css,/\.ct-kanban-column-scroll > \.scroll-viewport \{[^}]*overscroll-behavior-x:auto/);
 });
+
+test('utility TextAction defaults to neutral for both native link and button',()=>{for(const props of [{children:'Refresh'},{children:'Knowledge',href:'/knowledge'}]){assert.match(html(TextAction,props),/data-tone="neutral"/);assert.match(html(TextAction,{...props,tone:'accent'}),/data-tone="accent"/);}});

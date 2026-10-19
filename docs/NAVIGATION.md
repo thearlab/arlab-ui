@@ -122,3 +122,7 @@ SidebarShell without spaces keeps its single navigation expanded, with no collap
 Department spaces and NavigationItem both distinguish a transparent resting state, neutral hover and full-width pink-tinted active state. Selected labels use the shared 600 weight; their state persists while hovered. Department tiles retain their own color and white glyphs. There is no left stripe. Keyboard focus remains a separate discreet outline. Disabled items do not receive hover styling.
 
 The foundation owns `--nav-hover-surface`, `--nav-active-surface` and `--nav-active-border` in both themes. Standalone navigation derives fallback values from its inherited palette. The outer rail footer has no divider above the collapse control.
+
+## Beta.34 department identity
+
+Department glyphs remain white on their own solid color at rest, on hover and when selected. Selection adds a pink border around the icon only. Hover strengthens the metallic highlight. The row stays transparent. Page-link selection retains its separate full-width treatment.
