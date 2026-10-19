@@ -43,6 +43,7 @@ export function ScrollArea({
     content = useRef(null),
     drag = useRef(null),
     id = useId();
+  const [scrolling,setScrolling]=useState(false),[dragging,setDragging]=useState(false);
   const [metrics, setMetrics] = useState({
     vertical: scrollThumbMetrics(0, 0, 0),
     horizontal: scrollThumbMetrics(0, 0, 0),
@@ -65,12 +66,18 @@ export function ScrollArea({
     const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
     observer?.observe(node);
     observer?.observe(content.current);
-    node.addEventListener("scroll", measure, { passive: true });
+    let idle;
+    const onScroll=()=>{
+      measure();setScrolling(true);clearTimeout(idle);
+      idle=setTimeout(()=>setScrolling(false),700);
+    };
+    node.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
     measure();
     return () => {
       observer?.disconnect();
-      node.removeEventListener("scroll", measure);
+      node.removeEventListener("scroll", onScroll);
+      clearTimeout(idle);
       window.removeEventListener("resize", measure);
     };
   }, []);
@@ -100,6 +107,7 @@ export function ScrollArea({
         onPointerDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
+          setDragging(true);
           drag.current = {
             start: vertical ? e.clientY : e.clientX,
             value: viewport.current[property],
@@ -113,11 +121,12 @@ export function ScrollArea({
             drag.current.value + (delta * m.range) / Math.max(m.travel, 1);
         }}
         onPointerUp={(e) => {
-          drag.current = null;
+          drag.current = null;setDragging(false);
           e.currentTarget.releasePointerCapture(e.pointerId);
         }}
+        onPointerCancel={()=>{drag.current=null;setDragging(false);}}
         onLostPointerCapture={() => {
-          drag.current = null;
+          drag.current = null;setDragging(false);
         }}
         onKeyDown={(e) => {
           const amount =
@@ -159,6 +168,8 @@ export function ScrollArea({
       className={`contour-scroll-area scroll-shell ${className}`}
       style={{ height, maxHeight }}
       data-axis={axis}
+      data-scrolling={scrolling||undefined}
+      data-dragging={dragging||undefined}
       data-framed={framed || undefined}
     >
       {framed && <header className="contour-scroll-header">

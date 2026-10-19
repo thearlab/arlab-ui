@@ -128,3 +128,23 @@
 /* List rows meet the frame without a blank strip above or below. */
 .contour-scroll-body > .scroll-viewport > .scroll-content:has(> :is(.lib-rows,.ct-facet,.ct-ranked-list)) {padding-block:0;}
 .contour-scroll-body > .scroll-viewport > .scroll-content > .lib-rows > .lib-row {border-radius:0;}
+
+/* Indicators belong to this scroll area only. An outer area's hover must not
+   expose scrollbars inside nested tables, lists or navigation regions. */
+.contour-scroll-area > .scroll-thumb,
+.contour-scroll-area > .contour-scroll-body > .scroll-thumb {
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--dur-fast,120ms) ease;
+}
+.contour-scroll-area:is(:hover,[data-scrolling],[data-dragging]) > .scroll-thumb,
+.contour-scroll-area:is(:hover,[data-scrolling],[data-dragging]) > .contour-scroll-body > .scroll-thumb,
+.contour-scroll-area > .scroll-thumb:focus-visible,
+.contour-scroll-area > .contour-scroll-body > .scroll-thumb:focus-visible {
+  opacity:1;
+  pointer-events:auto;
+}
+@media(prefers-reduced-motion:reduce){
+ .contour-scroll-area > .scroll-thumb,
+ .contour-scroll-area > .contour-scroll-body > .scroll-thumb {transition:none;}
+}
