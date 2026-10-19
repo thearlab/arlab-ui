@@ -29,7 +29,7 @@ test('departments retain solid identity at rest, metallic hover and recessed sel
   const rest=props(`${control} .contour-dept-tile-compact`),hover=props(`${control}:hover:not(:disabled) .contour-dept-tile-compact`),active=props(`${control}[aria-current="page"]`),selected=props(`${control}[aria-current="page"] .contour-dept-tile-compact`);
   assert.equal(rest.color,'var(--department-ink)');assert.equal(rest['background-color'],'var(--department-color)');
   assert.equal(active.background,'transparent');assert.equal(active['box-shadow'],'none');
-  assert.match(selected['border-color'],/department-color/);assert.match(selected['box-shadow'],/dept-pressed-shadow/);assert.match(selected['background-image'],/dept-pressed-gradient/);assert.doesNotMatch(JSON.stringify(selected),/cn-accent/);assert.equal(selected.outline,undefined);assert.match(hover['background-image'],/dept-solid-hover-gradient/);
+  assert.match(selected['border-color'],/dept-selected-border/);assert.match(selected['box-shadow'],/dept-pressed-shadow/);assert.match(selected['background-image'],/dept-pressed-gradient/);assert.doesNotMatch(JSON.stringify(selected),/cn-accent/);assert.equal(selected.outline,undefined);assert.match(hover['background-image'],/dept-solid-hover-gradient/);
   assert.equal(props(`${control}:focus-visible`)['outline-color'],'var(--cn-accent)');
  }
 });

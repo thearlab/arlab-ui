@@ -9,3 +9,5 @@ SectionHeader adds inset="content". Put it outside ContentInset to keep its stic
 Includes beta.35 shared inner chrome, transparent favicon, centered rail logo, pressed department styling and clean sign-out artwork. Pin github:thearlab/arlab-ui#v2.0.0-beta.36.
 
 AccountMenu sign-out inherits the standard IconButton chrome in both resting and hover states. There is no account-only transparent override.
+
+Selected department icons use one 1px black border at 30% opacity in light mode. Dark mode uses a discreet light edge, retaining the pressed finish and shadow.
