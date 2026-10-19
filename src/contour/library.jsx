@@ -20,7 +20,6 @@ import {
   ChevronRight,
   ChevronLeft,
   ArrowUpDown,
-  Search,
   Copy,
   FileText,
   Folder,
@@ -148,37 +147,8 @@ export function Switch({ label = undefined, hint = undefined, ...props }) {
   );
 }
 export const SwitchRow = Switch;
-/** @param {Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "onChange"> & { label?: string; inputRef?: import("react").RefObject<HTMLInputElement>; onChange: (event: any) => void }} props */
-export function SearchField({
-  value,
-  onChange,
-  label = "Search",
-  placeholder = label,
-  inputRef = undefined,
-  ...inputProps
-}) {
-  const ownRef=useRef(null),fieldRef=inputRef || ownRef;
-  return (
-    <div className="search-field">
-      <Search size={16} />
-      <Input {...inputProps} inputRef={fieldRef} variant="embedded"
-        aria-label={label}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-      {value && (
-        <IconButton
-          label="Clear search"
-          disabled={inputProps.disabled}
-          onClick={() => {onChange({ target: { value: "" } });fieldRef.current?.focus();}}
-        >
-          <X size={14} />
-        </IconButton>
-      )}
-    </div>
-  );
-}
+export {SearchField} from "./SearchField.js";
+import {SearchField} from "./SearchField.js";
 /** @param {{options: (string | {label: React.ReactNode, value: string, disabled?: boolean})[], value: string, onChange: (value: string) => void, label?: string, block?: boolean}} props */
 export function SegmentedControl({ options, value, onChange, label = "View", block = false }) {
   const items = options.map(option => typeof option === "string" ? {value:option,label:option} : option);

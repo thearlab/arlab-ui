@@ -7,3 +7,12 @@
  --chrome-control-shadow:var(--field-shadow);
  --chrome-control-hover-shadow:var(--field-hover-shadow);
 }
+
+/* A clear action belongs to its input well. The hit area reaches the right edge;
+   the small glyph is not another full-size raised control inside the field. */
+.search-field {padding-inline:var(--space-3) 0;}
+.search-field:not(:has(.ct-search-clear)) {padding-inline-end:var(--space-3);}
+.search-field > .icon-btn.ct-search-clear[data-button="icon"],
+.search-field > .icon-btn.ct-search-clear[data-button="icon"]:hover:not(:disabled) {align-self:stretch;flex:0 0 28px;width:28px;min-width:28px;height:auto;min-height:0;padding:0;margin:0;border:0;border-radius:0;border-start-end-radius:var(--radius-control);border-end-end-radius:var(--radius-control);background:transparent;background-image:none;box-shadow:none;color:var(--dim);}
+.search-field > .icon-btn.ct-search-clear[data-button="icon"]:hover:not(:disabled) {background:var(--chrome-row-hover);color:var(--ink);}
+.search-field > .icon-btn.ct-search-clear[data-button="icon"] > svg {width:12px;height:12px;}

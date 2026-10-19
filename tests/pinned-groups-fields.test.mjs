@@ -21,7 +21,7 @@ test('pinned categories survive virtual windowing and hand over at exact group b
 test('fields use inset-only shadows and one mapping without changing embedded fields or button paint',()=>{
  for(const mode of ['light','dark']){const t=satinLiftTokens(mode);for(const key of ['field-shadow','field-hover-shadow'])assert.ok(t[key].split(',').every(shadow=>shadow.trim().startsWith('inset ')));assert.notEqual(t['field-gradient'],t['chrome-control-gradient']);assert.notEqual(t['field-gradient'],t['button-chrome-gradient']);}
  const sheet=postcss.parse(fs.readFileSync('src/contour/fields.css','utf8'));let rule;
- sheet.walkRules(r=>rule=r);for(const selector of ['.lib-input:not(.ct-input-embedded)','.search-field','.dropdown-trigger','.tag-input','.ct-temporal-trigger'])assert.ok(rule.selector.includes(selector));
+ sheet.walkRules(r=>{if(r.selector.startsWith(':where(.lib-input:not(.ct-input-embedded)'))rule=r;});for(const selector of ['.lib-input:not(.ct-input-embedded)','.search-field','.dropdown-trigger','.tag-input','.ct-temporal-trigger'])assert.ok(rule.selector.includes(selector));
  assert.ok(!rule.selector.includes('.btn'));assert.ok(rule.nodes.every(node=>node.prop?.startsWith('--')),'Field paint must not change focus borders, geometry or typography.');
  const loading=renderToStaticMarkup(React.createElement(PageLoading));assert.doesNotMatch(loading,/ct-content-loading-mark|aria-label="ARLAB"/);assert.match(loading,/ct-content-loading-skeleton/);assert.match(loading,/Opening your workspace/);
 });

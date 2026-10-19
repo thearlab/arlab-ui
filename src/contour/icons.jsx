@@ -1,4 +1,4 @@
-import { Input } from "./BaseFields.js";
+import { SearchField } from "./SearchField.js";
 import React, { useState } from "react";
 import {
   Search,
@@ -381,21 +381,7 @@ export function IconsPage({ notify }) {
         <a className="btn" href="/contour-icons.zip" download><Download size={14} />Download {iconRegistry.length} icons</a>
       </div>
       <div className="icon-tools">
-        <label className="search-field">
-          <Search size={16} />
-          <Input
-            variant="embedded"
-            value={query}
-            aria-label="Search icons"
-            placeholder="Search icons by name"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          {query && (
-            <button aria-label="Clear icon search" onClick={() => setQuery("")}>
-              <X size={14} />
-            </button>
-          )}
-        </label>
+        <SearchField label="Search icons" placeholder="Search icons by name" value={query} onChange={event=>setQuery(event.target.value)} />
         <Dropdown
           aria-label="Icon category"
           value={category}
