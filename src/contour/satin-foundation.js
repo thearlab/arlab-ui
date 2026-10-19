@@ -78,7 +78,7 @@ export function satinLiftTokens(mode) {
     'icon-rest-surface':blend(raise,sunken,.12),'icon-hover-surface':blend(raise,sunken,.35),
     'icon-rest-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.025)':'rgba(255,255,255,.6)'},transparent 65%)`,
     'icon-hover-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.045)':'rgba(255,255,255,.8)'},transparent 70%)`,
-    'dept-selected-border':dark?'rgba(255,255,255,.18)':'rgba(0,0,0,.30)',
+    'chrome-pressed-border':dark?'rgba(255,255,255,.18)':'rgba(0,0,0,.18)',
     'dept-pressed-gradient':dark?'linear-gradient(155deg,#00000030,#0000000C 52%,#FFFFFF12)':'linear-gradient(155deg,#00000024,#00000005 52%,#FFFFFF28)',
     'dept-pressed-shadow':dark?'inset 0 2px 4px #00000066,inset 0 -1px 0 #FFFFFF20,0 2px 4px #00000035':'inset 0 2px 4px #00000030,inset 0 -1px 0 #FFFFFF70,0 2px 4px #20283820',
     'dept-solid-gradient':dark?'linear-gradient(150deg,#FFFFFF18,transparent 55%,#00000014)':'linear-gradient(150deg,#FFFFFF20,transparent 55%,#0000000A)',
