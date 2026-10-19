@@ -6,10 +6,12 @@ export interface SectionHeaderProps {
   title: string;
   count?: number;
   action?: ReactNode;
+  /** Pin the section heading within its existing scroll container. */
+  sticky?: boolean;
 }
-export function SectionHeader({ title, count, action }: SectionHeaderProps) {
+export function SectionHeader({ title, count, action, sticky = false }: SectionHeaderProps) {
   return (
-    <header className="ct-section-header">
+    <header className="ct-section-header" data-sticky={sticky || undefined}>
       <h2>{title}</h2>
       {count !== undefined && <span>{count}</span>}
       {action && <div>{action}</div>}

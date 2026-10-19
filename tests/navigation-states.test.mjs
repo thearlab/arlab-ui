@@ -5,7 +5,7 @@ import postcss from 'postcss';
 import {satinLiftTokens} from '../dist/contour/satin-foundation.js';
 
 const css=postcss.parse(fs.readFileSync(new URL('../dist/contour/navigation.css',import.meta.url),'utf8'));
-const props=selector=>{const result={};css.walkRules(rule=>{if(rule.selectors.includes(selector))rule.walkDecls(decl=>result[decl.prop]=decl.value);});return result;};
+const props=selector=>{const result={};css.walkRules(rule=>{if(rule.selectors.includes(selector)&&rule.parent.type!=='atrule')rule.walkDecls(decl=>result[decl.prop]=decl.value);});return result;};
 test('both navigation columns share distinct rest, hover and persistent active fills in light and dark',()=>{
   for(const mode of ['light','dark']) {
     const tokens=satinLiftTokens(mode);
@@ -21,7 +21,29 @@ test('both navigation columns share distinct rest, hover and persistent active f
     assert.equal(props(`${item}:focus-visible`).outline,'1px solid var(--cn-accent)');
   }
   assert.equal(props('.contour-spaces-rail > footer')['border-top'],'0');
-  assert.equal(props('.contour-dept-tile-compact').color,'var(--on-dept-solid,#fff)');
+  assert.equal(props('.contour-dept-tile-compact').color,'var(--dept-tile-color)');
+});
+test('department controls use their own outline, hover and selected identity in either navigation',()=>{
+ const tile=props('.contour-dept-tile-compact');assert.equal(tile.background,'transparent');assert.equal(tile['background-image'],'none');assert.equal(tile.border,'1px solid var(--dept-tile-color)');
+ for(const control of ['.contour-space-control[data-department]','.contour-navigation-item[data-department]']){
+  const rest=props(`${control} .contour-dept-tile-compact`),hover=props(`${control}:hover:not(:disabled):not([aria-current="page"])`),active=props(`${control}[aria-current="page"]`),activeTile=props(`${control}[aria-current="page"] .contour-dept-tile-compact`);
+  assert.equal(rest.color,'var(--department-color)');assert.equal(rest.background,'transparent');assert.equal(rest['border-color'],'var(--department-color)');
+  assert.equal(hover.background,'transparent');assert.equal(active.background,'transparent');assert.equal(active['box-shadow'],'none');
+  assert.equal(activeTile.background,'var(--department-color)');assert.equal(activeTile.color,'var(--department-ink)');assert.doesNotMatch(JSON.stringify(active),/cn-accent|cn-active/);
+  assert.equal(props(`${control}:focus-visible`)['outline-color'],'var(--department-color)');
+ }
+});
+test('rail geometry, brands and labels share one transition without changing icon alignment',()=>{
+ const rail=props('.contour-spaces-rail'),closed=props('.contour-shell[data-rail-collapsed] .contour-spaces-rail');
+ assert.match(rail.transition,/flex-basis var\(--cn-rail-duration\) var\(--cn-rail-easing\),width var\(--cn-rail-duration\) var\(--cn-rail-easing\)/);
+ assert.equal(closed.width,'var(--cn-rail-width)');assert.equal(closed['flex-basis'],'var(--cn-rail-width)');assert.equal(rail.overflow,'hidden');
+ for(const label of ['.contour-space-name','.contour-rail-action-label'])assert.match(props(label).transition,/var\(--cn-rail-duration\) var\(--cn-rail-easing\)/);
+ assert.match(props('.contour-rail-brand-variant').transition,/var\(--cn-rail-duration\) var\(--cn-rail-easing\)/);
+ assert.equal(props('.contour-space-control').padding,'6px 11px');assert.equal(props('.contour-rail-action').padding,'6px 11px');
+ assert.equal(props('.contour-rail-action[data-compact]')['justify-content'],undefined);
+ const compactLabel=props('.contour-shell[data-rail-collapsed] .contour-spaces-list:not([data-mobile]) .contour-space-name');assert.equal(compactLabel.opacity,'0');assert.equal(compactLabel.display,undefined);
+ const reduced=[];css.walkAtRules('media',rule=>{if(rule.params==='prefers-reduced-motion:reduce'||rule.params==='(prefers-reduced-motion:reduce)')reduced.push(rule.toString());});
+ assert.match(reduced.join(''),/contour-rail-brand-variant/);assert.match(reduced.join(''),/contour-space-name/);assert.match(reduced.join(''),/transition:none/);
 });
 test('the tour stylesheet fades opacity only, leaving no positional travel in V2',()=>{
   const sheet=postcss.parse(fs.readFileSync(new URL('../dist/contour/styles.css',import.meta.url),'utf8'));

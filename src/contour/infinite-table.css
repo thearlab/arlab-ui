@@ -60,3 +60,10 @@
 .ct-infinite-table .ct-infinite-group > th {box-sizing:border-box;height:var(--ct-infinite-row-height);padding:var(--space-3) var(--space-4);text-align:left;background:var(--ground);color:var(--dim);font-size:var(--text-table-meta);font-weight:var(--weight-medium);border-bottom:var(--line-width) solid var(--line);}
 
 .ct-data-table > .ct-table-header > .ct-table-heading {justify-content:flex-start;}
+
+/* This zero-height overlay preserves fixed virtual row geometry, including when its
+   real group row has been windowed out. The semantic group remains in the table. */
+.ct-infinite-pinned-group {position:sticky;height:0;z-index:2;pointer-events:none;min-width:100%;}
+.ct-infinite-pinned-group > div {box-sizing:border-box;display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);background:var(--ground);border-bottom:var(--line-width) solid var(--line);font-size:var(--text-table-meta);font-weight:var(--weight-medium);color:var(--dim);}
+.ct-infinite-pinned-group > div > span:last-child {color:var(--dim);font-variant-numeric:tabular-nums;}
+.ct-infinite-table[data-sticky-groups] thead th {z-index:3;}

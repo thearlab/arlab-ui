@@ -841,7 +841,7 @@
       "workspaceName",
       "layout"
     ],
-    "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation. Optional layout container (default) fills a bounded parent; viewport explicitly fills 100dvh for application boot. Both variants retain one status announcement."
+    "behavior": "Use while initial data is unavailable. Replace with the loaded view or a persistent error. Cancel is optional and must abort the real operation. Optional layout container (default) fills a bounded parent; viewport explicitly fills 100dvh for application boot. Both variants retain one status announcement. The standard loader has no logo; an application may supply mark explicitly."
   },
   {
     "name": "Notice",
@@ -1460,7 +1460,8 @@
       "rowLabel",
       "selectedRowKey",
       "sortIndicators",
-      "showHeader"
+      "showHeader",
+      "stickyGroups"
     ],
     "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry. Column lineClamp defaults to 2; false lets composite cells own their line limits while remaining bounded to rowHeight - 16 pixels."
   },
@@ -2010,7 +2011,8 @@
     "props": [
       "title",
       "count",
-      "action"
+      "action",
+      "sticky"
     ],
     "behavior": "Uses shared 13px semibold typography; optional count is secondary."
   },

@@ -360,7 +360,7 @@
   background: transparent;
   white-space: nowrap;
 }
-.ct-verdicts.ct-verdicts-row > :last-child {
+.ct-verdicts.ct-verdicts-row > div:last-child {
   border-inline-end: 0;
 }
 .ct-verdicts.ct-verdicts-row[data-interactive] {gap:var(--space-2);}

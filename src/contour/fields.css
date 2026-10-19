@@ -1,0 +1,9 @@
+/* Input wells share recessed paint without changing their geometry or focus borders.
+   Buttons keep the raised chrome tokens defined on the provider. Embedded inputs inherit
+   their composite's paint and retain their transparent, borderless primitive contract. */
+:where(.lib-input:not(.ct-input-embedded),.search-field,.dropdown-trigger,.tag-input,.ct-temporal-trigger) {
+ --chrome-control-surface:var(--field-surface);
+ --chrome-control-gradient:var(--field-gradient);
+ --chrome-control-shadow:var(--field-shadow);
+ --chrome-control-hover-shadow:var(--field-hover-shadow);
+}

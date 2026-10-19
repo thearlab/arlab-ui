@@ -25,3 +25,5 @@
 @media(max-width:1200px){.ct-workspace-grid[data-layout=sidebar] {grid-template-columns:minmax(0,1fr);}}
 @media(max-width:1100px){.ct-workspace-grid {grid-template-columns:minmax(0,1fr);}}
 @media(max-width:760px){.ct-workspace-intro {align-items:start;flex-direction:column;}.ct-workspace-page {padding:var(--space-5) var(--space-4);}.ct-workspace-intro h2 {font-size:var(--text-2xl);}}
+
+.ct-section-header[data-sticky] {position:sticky;top:0;z-index:2;background:var(--ground);padding-block:var(--space-3);border-bottom:var(--line-width) solid var(--line);}

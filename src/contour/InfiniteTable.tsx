@@ -6,7 +6,7 @@ import { ScrollArea } from './scroll-area.js';
 import { type TableChromeOptions, TableHeader } from './TableChrome.js';
 import { Button } from './library.js';
 import { Loader } from './loading.js';
-import { infiniteTableEntries } from './table-groups.js';
+import { activeInfiniteTableGroup, infiniteTableEntries } from './table-groups.js';
 
 export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> extends TableRowActivation<Row>, TableChromeOptions {
   columns: FilterColumn<Row>[];
@@ -34,6 +34,8 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   /** Insert headings for contiguous groups. Records retain local sort or server order.
    * Group headings share rowHeight, so virtualization remains bounded and predictable. */
   groupBy?: keyof Row | ((row: Row) => string | number | null | undefined);
+  /** Keep the current plain category/count visible beneath sticky column headings. */
+  stickyGroups?: boolean;
   renderGroup?: (group: { label: string; count: number }) => ReactNode;
   overscan?: number;
   chunkSize?: number;
@@ -113,6 +115,8 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const count = remote ? ordered.length : Math.min(loaded, ordered.length);
   const allEntries = useMemo(() => infiniteTableEntries(ordered, props.groupBy), [ordered, props.groupBy]);
   const entries = useMemo(() => remote ? allEntries : infiniteTableEntries(ordered.slice(0, count), props.groupBy), [remote, allEntries, ordered, count, props.groupBy]);
+  const groupHeadings=useMemo(()=>entries.flatMap((entry,index)=>entry.kind==='group'?[{index,label:entry.group,count:entry.count}]:[]),[entries]);
+  const pinnedGroup=props.stickyGroups&&!loading?activeInfiniteTableGroup(groupHeadings,position.top,rowHeight):null;
   const error = failure || (props.mode === 'remote' ? props.error : '') || '';
   const loadingMore = pending || (props.mode === 'remote' && props.loadingMore);
   const more = props.mode === 'remote' ? props.hasMore : count < ordered.length;
@@ -220,10 +224,11 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const accessibleTotal = props.groupBy === undefined ? (total < 0 ? -1 : total + 1) : remote && more ? -1 : allEntries.length + 1;
   const colspan = Math.max(1, visibleColumns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
-  return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
+  return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} data-sticky-groups={props.stickyGroups||undefined} style={style} aria-busy={loading || loadingMore}>
     {props.showHeader !== false && <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>}
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
+      {pinnedGroup&&<div className="ct-infinite-pinned-group" aria-hidden="true" style={{top:position.header}}><div style={{height:rowHeight,transform:`translateY(${pinnedGroup.offset}px)`}}><span>{pinnedGroup.label}</span><span>{pinnedGroup.count}</span></div></div>}
       <table aria-label={title} aria-rowcount={accessibleTotal} aria-colcount={visibleColumns.length}>
         <SharedTableHead columns={visibleColumns} sort={sort} onSort={changeSort} sortingDisabled={loading} sortIndicators={props.sortIndicators}/>
         <tbody>

@@ -73,4 +73,6 @@ a.icon-btn[data-button="icon"][aria-disabled="true"] {opacity:.5;cursor:not-allo
 /* Utility actions keep the same focus and hit area without inheriting link pink. */
 .text-action[data-tone="neutral"],.text-action[data-tone="neutral"]:hover:not(:disabled) {color:var(--ink);}
 
-.ct-verdicts[data-interactive] > button.btn[aria-pressed="true"] {background:var(--accent-soft);border-color:var(--accent-line);color:var(--ink);}
+/* Pressed text controls retain the same selected treatment as icon controls. */
+.btn[data-button="text"][aria-pressed="true"]:not(.primary):not(.danger):not(.danger-quiet):not(:disabled),
+.btn[data-button="text"][aria-pressed="true"]:not(.primary):not(.danger):not(.danger-quiet):hover:not(:disabled) {background-color:var(--accent-soft);background-image:var(--button-chrome-gradient);border-color:var(--accent-line);color:var(--ink);}

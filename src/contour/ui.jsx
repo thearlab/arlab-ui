@@ -1,3 +1,4 @@
+import { ArlabMark } from "../ArlabMark.js";
 import { Input } from "./BaseFields.js";
 import React, {
   useEffect,
@@ -64,21 +65,7 @@ export function IconButton({ label, children, className = "", href, external = f
 }
 /** @param {{small?: boolean}} props */
 export function Logo({ small = false }) {
-  return (
-    <span className={`brand ${small ? "small" : ""}`}>
-      <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <path
-          d="M4 20 14 3l10 17M8 14h12M6 24h16"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="square"
-        />
-      </svg>
-      <span>
-        arlab<span className="brand-dot">.</span>
-      </span>
-    </span>
-  );
+  return <ArlabMark height={small ? 20 : 26} />;
 }
 /** @param {React.HTMLAttributes<HTMLSpanElement> & {initials?: string, color?: string, name?: string, size?: number, src?: string}} props */
 export function Avatar({ initials = "AM", color = "lilac", name, size, src, style, className = "", ...props }) {

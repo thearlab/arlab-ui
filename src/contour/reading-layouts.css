@@ -50,3 +50,6 @@
 
 .ct-page-frame-fill {display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
 .ct-page-frame[data-scrollable="false"] {overflow:hidden;}
+
+/* SaveBar owns its full-width surface and control inset; avoid a second footer gutter. */
+.ct-page-frame-footer:has(> .ct-save-bar) {padding:0;}

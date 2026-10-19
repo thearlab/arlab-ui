@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {PageFrame,DayTimeline,Modal,IconButton,TextAction,CardGrid,InfiniteTable,PageBar} from '../dist/contour/index.js';
+import {PageFrame,DayTimeline,Modal,IconButton,TextAction,CardGrid,InfiniteTable,PageBar,Logo} from '../dist/contour/index.js';
 const h=React.createElement;
 test('PageFrame keeps tabs outside its content scroll region',()=>{
  const out=renderToStaticMarkup(h(PageFrame,{header:'Title',tabs:h('nav',null,'Clients and internal'),children:'Body'}));
@@ -32,4 +32,8 @@ test('page-owned table chrome is optional and compact page headings remain seman
  const heading=renderToStaticMarkup(h(PageBar,{size:'compact',heading:'h1',title:'Presentations'}));assert.match(heading,/<h1[^>]*>Presentations/);assert.match(heading,/data-size="compact"/);
  const card=renderToStaticMarkup(h(CardGrid,{trackMode:'fill'},'Deck'));assert.match(card,/data-track-mode="fill"/);
  const action=renderToStaticMarkup(h(TextAction,{tone:'neutral',href:'/defaults'},'Manage defaults'));assert.match(action,/data-tone="neutral"/);assert.match(action,/href="\/defaults"/);
+});
+
+test('shared logo uses the canonical full wordmark without an appended decorative dot',()=>{
+ const out=renderToStaticMarkup(h(Logo));assert.match(out,/viewBox="0 0 2003 630"/);assert.match(out,/aria-label="ARLAB"/);assert.doesNotMatch(out,/brand-dot|<span/);
 });

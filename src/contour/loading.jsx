@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
 import { Button } from "./ui.js";
 
-import { ArlabMark } from "../ArlabMark.js";
 
 /** @param {{label?: string, size?: number, decorative?: boolean}} props */
 export function Loader({ label = "Loading", size = 24, decorative = false }) {
@@ -39,7 +38,7 @@ export function PageLoading({
   title = "Opening your workspace",
   description = "Fetching your projects and recent activity.",
   onCancel,
-  mark = <ArlabMark height={28} />,
+  mark = null,
   workspaceName = "ARLAB workspace",
   variant = "content-preview",
   layout = "container",
