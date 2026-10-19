@@ -125,4 +125,4 @@ The foundation owns `--nav-hover-surface`, `--nav-active-surface` and `--nav-act
 
 ## Beta.34 department identity
 
-Department glyphs remain white on their own solid color at rest, on hover and when selected. Selection adds a single 2px pink border around the icon only, without an outer outline. Hover strengthens the metallic highlight. The row stays transparent. Page-link selection retains its separate full-width treatment.
+Department glyphs remain white on their own solid color at rest, on hover and when selected. Selection recesses the icon with a reversed metallic gradient, inner shadow and clean drop shadow. No pink stroke or outer outline is added. Hover strengthens the metallic highlight. The row stays transparent. Page-link selection retains its separate full-width treatment.
