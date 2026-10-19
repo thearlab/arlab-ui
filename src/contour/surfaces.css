@@ -88,3 +88,9 @@ kbd,.ct-kbd {font-family:var(--font-mono);font-size:var(--text-kbd);font-weight:
  .ct-state-view[data-size="compact"] {grid-template-columns:var(--space-8) minmax(0,1fr);}
  .ct-state-view[data-size="compact"] > :nth-child(n+3) {grid-column:2;}
 }
+
+/* A panel consisting only of native rows has no empty band around its list.
+   Mixed prose/forms keep their normal inset and spacing. */
+.ct-panel:has(> .ct-panel-content > .lib-rows:only-child) > .section-head {margin-bottom:0;}
+.ct-panel:has(> .ct-panel-content > .lib-rows:only-child) > .ct-panel-content {margin-bottom:calc(-1 * var(--panel-padding));}
+.ct-panel-content > .lib-rows:only-child {border-bottom-left-radius:var(--surface-radius);border-bottom-right-radius:var(--surface-radius);overflow:hidden;}
