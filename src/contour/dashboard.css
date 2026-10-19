@@ -446,7 +446,7 @@
   flex-wrap: wrap;
   gap: 6px;
 }
-.ct-verdicts > :is(div, button) {
+.ct-verdicts > div {
   display: grid;
   gap: 6px;
   min-width: 80px;
@@ -464,13 +464,13 @@
   font-family: var(--font-mono);
   color: var(--dim);
 }
-.ct-verdicts > [data-state="on-track"] {
+.ct-verdicts > [data-state="on-track"]:not(.btn) {
   border-left-color: var(--ok);
 }
-.ct-verdicts > [data-state="attention"] {
+.ct-verdicts > [data-state="attention"]:not(.btn) {
   border-left-color: var(--warn);
 }
-.ct-verdicts > [data-state="blocked"] {
+.ct-verdicts > [data-state="blocked"]:not(.btn) {
   border-left-color: var(--bad);
 }
 .themed-preview.ct-guided-tour {
@@ -1419,9 +1419,9 @@
 .ct-data-table > header .detail-tabs {border:0;padding-inline:0;}
 .ct-phases[data-density="compact"] li {min-width:64px;}
 .ct-phases[data-density="compact"] li > :is(div,button) {padding:var(--space-2);gap:var(--space-1);}
-.ct-verdicts > [data-state="at-risk"] {border-left-color:var(--bad);}
-.ct-verdicts > [data-state="delayed"] {border-left-color:var(--warn);}
-.ct-verdicts > [data-state="due-today"] {border-left-color:var(--info);}
+.ct-verdicts > [data-state="at-risk"]:not(.btn) {border-left-color:var(--bad);}
+.ct-verdicts > [data-state="delayed"]:not(.btn) {border-left-color:var(--warn);}
+.ct-verdicts > [data-state="due-today"]:not(.btn) {border-left-color:var(--info);}
 .ct-verdicts.ct-verdicts-row > [data-state="at-risk"] > span {color:var(--bad);}
 .ct-verdicts.ct-verdicts-row > [data-state="delayed"] > span {color:var(--warn);}
 .ct-verdicts.ct-verdicts-row > [data-state="due-today"] > span {color:var(--info);}

@@ -14,6 +14,8 @@ export interface InfiniteTableBaseProps<Row extends Record<string, unknown>> ext
   rowKey: keyof Row | ((row: Row) => string | number);
   title?: string;
   header?: ReactNode;
+  /** Hide duplicated chrome when a containing page owns the title and controls. */
+  showHeader?: boolean;
   headerActions?: ReactNode;
   /** Compact controls displayed only inside a condensed collection pane. */
   condensedHeaderActions?: ReactNode;
@@ -219,7 +221,7 @@ export function InfiniteTable<Row extends Record<string, unknown>>(props: Infini
   const colspan = Math.max(1, visibleColumns.length);
   const style = { '--ct-infinite-row-height': `${rowHeight}px`, '--ct-infinite-cell-height': `${rowHeight - 16}px` } as CSSProperties;
   return <div ref={root} className="ct-data-table ct-infinite-table" data-variant={variant} data-fill={fill||undefined} style={style} aria-busy={loading || loadingMore}>
-    <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>
+    {props.showHeader !== false && <TableHeader showCount={props.showCount} countLabel={props.countLabel} formatCount={props.formatCount} searchWidth={props.searchWidth} title={title} header={header} headingId={headingId} count={total} loading={loading} search={search} actions={headerActions} condensedActions={props.condensedHeaderActions}/>}
     {!loading&&props.selectedRowKey!==undefined&&selectedIndex<0&&<div className="ct-table-selection-notice" role="status">{remote?'The open record is not among loaded results.':'The open record is outside these results.'}</div>}
     <ScrollArea label={`${title} rows`} height={fill?undefined:height} axis="both" className="ct-infinite-scroll">
       <table aria-label={title} aria-rowcount={accessibleTotal} aria-colcount={visibleColumns.length}>

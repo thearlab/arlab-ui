@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { ScrollArea } from "./scroll-area.js";
+import { Button } from "./ui.js";
 export interface DeadlineCountdownProps {
   deadline: string | number | Date;
   label?: string;
@@ -160,6 +161,8 @@ export interface DailyVerdictStripProps {
   days: DailyVerdict[];
   label?: string;
   onSelect?: (day: DailyVerdict) => void;
+  /** Controlled selected day, when the strip opens an adjacent status report. */
+  selectedDate?: string;
   layout?: 'cards' | 'row';
   dateStyle?: 'compact' | 'plain';
   locale?: string;
@@ -168,12 +171,13 @@ export function DailyVerdictStrip({
   days,
   label = "Daily project status",
   onSelect,
+  selectedDate,
   layout = 'cards',
   dateStyle = layout === 'row' ? 'plain' : 'compact',
   locale = 'en-GB',
 }: DailyVerdictStripProps) {
   const strip = (
-    <div className={`ct-verdicts ${layout === 'row' ? 'ct-verdicts-row' : ''}`} data-date-style={dateStyle} role="group" aria-label={label}>
+    <div className={`ct-verdicts ${layout === 'row' ? 'ct-verdicts-row' : ''}`} data-date-style={dateStyle} data-interactive={!!onSelect || undefined} role="group" aria-label={label}>
       {days.length ? (
         days.map((day) => {
           const date = /^\d{4}-\d{2}-\d{2}$/.test(day.date) ? new Date(`${day.date}T12:00:00`) : null;
@@ -186,15 +190,24 @@ export function DailyVerdictStrip({
             </>
           );
           return onSelect ? (
-            <button
+            <Button
               key={day.date}
               type="button"
               data-state={day.state}
+              aria-pressed={selectedDate === undefined ? undefined : selectedDate === day.date}
               onClick={() => onSelect(day)}
+              onKeyDown={(event) => {
+                if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                event.preventDefault(); event.stopPropagation();
+                const controls = Array.from(event.currentTarget.parentElement!.querySelectorAll<HTMLButtonElement>('button'));
+                const index = controls.indexOf(event.currentTarget);
+                const next = event.key === 'Home' ? 0 : event.key === 'End' ? controls.length - 1 : Math.max(0, Math.min(controls.length - 1, index + (event.key === 'ArrowLeft' ? -1 : 1)));
+                controls[next]?.focus(); onSelect(days[next]);
+              }}
               aria-label={`${fullDate}: ${day.label || verdictLabels[day.state]}`}
             >
               {content}
-            </button>
+            </Button>
           ) : (
             <div key={day.date} data-state={day.state}>
               {content}

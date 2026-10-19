@@ -31,9 +31,9 @@ export const minimumSettings = <ContourProvider mode="dark" aria-label="Workspac
   <Button disabled type="submit" onClick={event => event.currentTarget.focus()}>Save</Button>
   <IconButton label="Close" onClick={close}><span>×</span></IconButton>
   <IconButton label="Open project" href="https://example.com/project" external><span>↗</span></IconButton>
-  <DayTimeline itemsMaxHeight={360} itemsLabel="Week entries" />
+  <DayTimeline showTime={false} itemsMaxHeight={360} itemsLabel="Week entries" />
   <Avatar /><Avatar size={22} src="/avatar.png" name="Amal" title="Amal" /><Status title="Ready to run" role="status">Ready</Status><SectionHead title="Overview" />
-  <TextAction onClick={close}>Open</TextAction><Meter value={20} />
+  <TextAction tone="neutral" onClick={close}>Open</TextAction><Meter value={20} />
   <Notice>Information</Notice><EmptyState /><FileUpload />
   <FileUpload onChange={file => {const selected: File | null = file; void selected;}} />
   <Dropdown options={options} onChange={dropdownChange} />
@@ -59,14 +59,14 @@ export const minimumSettings = <ContourProvider mode="dark" aria-label="Workspac
   <SheetSection title="People" /><Breadcrumbs items={['Home', {label:<span>Projects</span>, href:'/projects'}]} />
   <DetailHeader title="Project" /><Steps steps={['First', 'Second']} /><DayTimeline />
   <PageLoading /><ScrollArea>Content</ScrollArea><LoadingBar /><Skeleton /><Loader />
-  <PageBar title="Projects" /><SaveBar dirty /><CopyBlock>const value = 1;</CopyBlock>
+  <PageBar size="compact" heading="h1" title="Projects" /><SaveBar dirty /><CopyBlock>const value = 1;</CopyBlock>
   <SegmentedControl options={['List', 'Grid']} value="List" onChange={close} />
   <SegmentedControl options={[{value:"list",label:"List view"},{value:"grid",label:"Grid view",disabled:true}]} value="list" onChange={close} />
   <TabStrip options={['Overview', {label:'Settings', value:'settings'}]} value="Overview" onChange={close} />
   <TextLink href="/projects">Projects</TextLink><Timestamp date="2026-10-17" /><LegendDot>Projects</LegendDot>
   <Stack /><StateView /><StateView actionLabel="Add person" onAction={close} />
   <StateView action={<Button onClick={close}>Invite</Button>} /><AccountMenu /><Tooltip label="Help"><Button>Help</Button></Tooltip>
-  <Rows /><StatRow /><PageGrid /><CardGrid /><ReadableDoc title="Guide" />
+  <Rows /><StatRow /><PageGrid /><CardGrid trackMode="fill" /><ReadableDoc title="Guide" />
   <Markdown># Guide</Markdown><Toc items={[]} /><ColumnChart /><Sparkline /><StackedBar /><BarList />
   <Inspector items={[project]} /><DataTable rows={[project]} />
   <ProjectStatusSheet open={false} onClose={close} project={project} onSave={close} />
@@ -108,7 +108,7 @@ export const extendedContracts = <>
   <Picker prefix="PM" options={[{value:"all",label:"Every PM",count:12}]} />
   <RecordHeader title="Amina" label="Person" backLabel="People" onBack={close} />
   <PhaseBar density="compact" phases={[{id:"brief",label:"Brief"}]} current="brief" />
-  <DailyVerdictStrip days={[{date:"2026-10-17",state:"due-today"},{date:"2026-10-18",state:"at-risk"},{date:"2026-10-19",state:"delayed"},{date:"2026-10-20",state:"no-update"}]} />
+  <DailyVerdictStrip selectedDate="2026-10-19" days={[{date:"2026-10-17",state:"due-today"},{date:"2026-10-18",state:"at-risk"},{date:"2026-10-19",state:"delayed"},{date:"2026-10-20",state:"no-update"}]} />
   <Gate title="Sign in" description="Use your team account" action={<Button>Sign in</Button>} fine="Team access only" />
   <DayTimeline date="2026-10-17" items={[{id:"review",time:"09:30",title:"Review",state:"late",href:"/review"}]} days={[{value:"2026-10-17",label:"Sat"}]} value="2026-10-17" onChange={close} onSelect={(name,item)=>{const id:string=item.id;void name;void id;}} />
 </>;

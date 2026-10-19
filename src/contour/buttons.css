@@ -69,3 +69,8 @@ a.icon-btn[data-button="icon"][aria-disabled="true"] {opacity:.5;cursor:not-allo
 
 /* Disabled primaries must stay quiet after the primary chrome rules above. */
 .btn.primary[data-button="text"]:disabled,.btn.primary[data-button="text"][aria-disabled="true"] {background:var(--sunken);background-image:none;border-color:var(--line);color:var(--dim);box-shadow:none;}
+
+/* Utility actions keep the same focus and hit area without inheriting link pink. */
+.text-action[data-tone="neutral"],.text-action[data-tone="neutral"]:hover:not(:disabled) {color:var(--ink);}
+
+.ct-verdicts[data-interactive] > button.btn[aria-pressed="true"] {background:var(--accent-soft);border-color:var(--accent-line);color:var(--ink);}

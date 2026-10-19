@@ -3148,7 +3148,7 @@ textarea.lib-input.ct-textarea-short {min-height:96px;}
 .lib-day-timeline .ct-day-timeline-entry[data-state="late"] > div > :is(a,article,button) {border-inline-start:2px solid var(--bad);}
 .lib-day-timeline .ct-day-timeline-entry[data-state="past"] {opacity:.65;}
 .lib-day-timeline .ct-day-timeline-entry[data-state="secondary"] > div > :is(a,article,button) {background:transparent;}
-.lib-day-timeline .ct-day-strip {display:flex;gap:var(--space-1);overflow:auto;padding:var(--space-2) var(--space-4);scroll-padding-inline:var(--space-4);}
+.lib-day-timeline .ct-day-strip {display:flex;gap:var(--space-1);overflow:auto;padding:var(--space-2) var(--space-4);scroll-padding-inline:var(--space-4);border-bottom:1px solid var(--line);margin-bottom:var(--space-3);}
 .lib-day-timeline .ct-day-strip button {width:auto;flex-shrink:0;border:1px solid var(--line);background:var(--raise);color:var(--dim);padding:var(--space-2);}
 .lib-day-timeline .ct-day-strip button[aria-pressed="true"] {background:var(--accent-soft);color:var(--link);}
 .lib-day-timeline .ct-day-strip[data-variant="quiet"] button {border-color:transparent;background:transparent;box-shadow:none;}
@@ -3353,3 +3353,9 @@ button.lib-row {border-radius:0;}
 .lib-day-timeline .ct-day-strip[data-size="compact"] {padding-block:var(--space-1);}
 .lib-day-timeline .ct-day-strip[data-size="compact"] button {min-height:var(--button-height);padding:var(--space-1) var(--space-2);font-size:var(--text-xs);line-height:var(--leading-normal);}
 @media(max-width:640px),(pointer:coarse){.lib-day-timeline .ct-day-strip[data-size="compact"] button {min-height:var(--control-h-touch);min-width:var(--control-h-touch);}}
+
+.lib-day-timeline[data-show-time="false"] .ct-day-timeline-entry {grid-template-columns:minmax(0,1fr);}
+
+.lib-pagebar[data-size="compact"] {flex-wrap:wrap;gap:var(--space-3);}
+.lib-pagebar[data-size="compact"] :is(h1,h2,h3) {margin:0;font:var(--weight-heading) var(--text-md)/var(--leading-tight) var(--font-display);letter-spacing:normal;}
+.lib-card-grid[data-track-mode="fill"] {grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));}

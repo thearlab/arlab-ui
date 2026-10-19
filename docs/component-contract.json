@@ -730,7 +730,8 @@
       "updated",
       "pillsPlacement",
       "actions",
-      "heading"
+      "heading",
+      "size"
     ],
     "behavior": "The page should explain where the user is before presenting controls."
   },
@@ -748,7 +749,8 @@
     "category": "Surfaces & layout",
     "description": "A responsive grid of collection cards.",
     "props": [
-      "children"
+      "children",
+      "trackMode"
     ],
     "behavior": "Cards use a consistent minimum width, never a screen-specific auto-fill rule."
   },
@@ -907,7 +909,7 @@
       "size",
       "variant"
     ],
-    "behavior": "Failed loads retain the user’s filters. Empty states invite a specific first action. Compact or embedded loading uses a bounded skeleton with one status announcement; regular framed loading uses PageLoading."
+    "behavior": "Failed loads retain the user\u2019s filters. Empty states invite a specific first action. Compact or embedded loading uses a bounded skeleton with one status announcement; regular framed loading uses PageLoading."
   },
   {
     "name": "Tooltip",
@@ -1302,7 +1304,8 @@
       "onChange",
       "dayVariant",
       "itemsMaxHeight",
-      "itemsLabel"
+      "itemsLabel",
+      "showTime"
     ],
     "behavior": "Display the timezone. Event details remain available through normal buttons. Optional daySize compact reduces day-selector spacing; regular remains the default."
   },
@@ -1456,7 +1459,8 @@
       "onRowClick",
       "rowLabel",
       "selectedRowKey",
-      "sortIndicators"
+      "sortIndicators",
+      "showHeader"
     ],
     "behavior": "Local mode sorts the full filtered array before loading windows. Remote mode delegates sorting and pagination to the host. One count pill and search share the fixed header; footerActions remain outside the scroll surface. fill consumes a bounded parent. Fixed row geometry bounds rendered DOM; headers stay fixed. Requests support cancellation, errors and explicit retry. Column lineClamp defaults to 2; false lets composite cells own their line limits while remaining bounded to rowHeight - 16 pixels."
   },
@@ -1563,7 +1567,8 @@
       "variant",
       "sidebar",
       "sidebarLabel",
-      "scroll"
+      "scroll",
+      "heading"
     ],
     "behavior": "Use scroll=content for ordinary cards or prose, and the default scroll=child for a table that owns its rows. Heading, search above tabs, and filters remain fixed. Results own the remaining height. Function children receive filterTrigger for placing phone filters inside the table header. Hidden empty headings and toolbars occupy no space. Filters expand on request; changing filters remains application-owned."
   },
@@ -1967,7 +1972,8 @@
       "onSelect",
       "layout",
       "dateStyle",
-      "locale"
+      "locale",
+      "selectedDate"
     ],
     "behavior": "Use row with plain dates for a single quiet line without boxed cards. Cards remain available. Full dates and written verdicts accompany semantic colour."
   },
@@ -1982,7 +1988,7 @@
       "children",
       "error"
     ],
-    "behavior": "Undefined is indeterminate; finite percentages clamp to 0–100; idle removes the progress bar."
+    "behavior": "Undefined is indeterminate; finite percentages clamp to 0\u2013100; idle removes the progress bar."
   },
   {
     "name": "InlineProgress",

@@ -347,7 +347,7 @@
   min-width: 100%;
   max-width: none;
 }
-.ct-verdicts.ct-verdicts-row > :is(div, button) {
+.ct-verdicts.ct-verdicts-row > div {
   flex: 1 0 auto;
   display: flex;
   align-items: baseline;
@@ -363,15 +363,9 @@
 .ct-verdicts.ct-verdicts-row > :last-child {
   border-inline-end: 0;
 }
-.ct-verdicts.ct-verdicts-row > button {
-  text-decoration: underline;
-  text-decoration-color: var(--line);
-  text-underline-offset: var(--space-1);
-}
-.ct-verdicts.ct-verdicts-row > button:hover {
-  background: var(--sunken);
-  text-decoration-color: var(--strong);
-}
+.ct-verdicts.ct-verdicts-row[data-interactive] {gap:var(--space-2);}
+.ct-verdicts[data-interactive] > .btn {min-width:max-content;text-decoration:none;}
+.ct-verdicts[data-interactive] > .btn[aria-pressed="true"] {background-color:var(--accent-tint);border-color:var(--accent-line);color:var(--ink);}
 .ct-verdicts.ct-verdicts-row > [data-state="on-track"] > span {
   color: var(--ok);
 }

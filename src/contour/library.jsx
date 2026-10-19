@@ -832,10 +832,10 @@ export function NavTree({ items, value, onChange }) {
     </nav>
   );
 }
-/** @param {{title:import('react').ReactNode,showTitle?:boolean,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}} props */
-export function PageBar({ title, showTitle = true, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2" }) {
+/** @param {{title:import('react').ReactNode,showTitle?:boolean,description?:import('react').ReactNode,actions?:import('react').ReactNode,pills?:import('react').ReactNode,updated?:import('react').ReactNode,pillsPlacement?:'below'|'inline',heading?:'h1'|'h2'|'h3'|'h4'|'h5'|'h6',size?:'default'|'compact'}} props */
+export function PageBar({ title, showTitle = true, description, actions, pills = undefined, updated = undefined, pillsPlacement = "below", heading: Heading = "h2", size = "default" }) {
   return (
-    <header className="lib-pagebar" data-title-hidden={!showTitle||undefined} data-pills-placement={pillsPlacement}>
+    <header className="lib-pagebar" data-size={size} data-title-hidden={!showTitle||undefined} data-pills-placement={pillsPlacement}>
       <div>
         {pillsPlacement === 'inline' ? <div className="ct-pagebar-title"><Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>{pills&&<div className="ct-pagebar-pills">{pills}</div>}</div> : <Heading className={showTitle?undefined:"sr-only"}>{title}</Heading>}
         {updated ? <div className="ct-pagebar-summary">{description&&<p>{description}</p>}<div className="ct-pagebar-updated">{updated}</div></div> : description&&<p>{description}</p>}
@@ -849,9 +849,9 @@ export function PageBar({ title, showTitle = true, description, actions, pills =
 export function PageGrid({ children }) {
   return <div className="lib-page-grid">{children}</div>;
 }
-/** @param {{children?: React.ReactNode}} props */
-export function CardGrid({ children }) {
-  return <div className="lib-card-grid">{children}</div>;
+/** @param {{children?: React.ReactNode,trackMode?:'fit'|'fill'}} props */
+export function CardGrid({ children, trackMode = "fit" }) {
+  return <div className="lib-card-grid" data-track-mode={trackMode}>{children}</div>;
 }
 /** @param {import('react').HTMLAttributes<HTMLDivElement> & {gap?:import('react').CSSProperties['gap']}} props */
 export function Stack({ children, gap = 16, className = '', style, ...props }) {
@@ -1365,18 +1365,18 @@ export function BarList({ data = chartData,categorical=false,color="var(--chart-
 }
 export { Calendar } from "./Calendar.js";
 /** @typedef {{id: string, time: string, title: string, description?: React.ReactNode, href?: string, state?: 'past'|'late'|'secondary'}} DayTimelineItem
- * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void, dayVariant?:'default'|'quiet', daySize?:'regular'|'compact', itemsMaxHeight?:React.CSSProperties['maxHeight'],itemsLabel?:string}} props
+ * @param {{date?: string | Date, items?: DayTimelineItem[], onSelect?: (name: string, item: DayTimelineItem) => void, empty?: React.ReactNode, timezone?: string, days?: {value: string, label: string, disabled?: boolean}[], value?: string, onChange?: (value: string) => void, dayVariant?:'default'|'quiet', daySize?:'regular'|'compact', itemsMaxHeight?:React.CSSProperties['maxHeight'],itemsLabel?:string,showTime?:boolean}} props
  */
-export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange, dayVariant='default', daySize='regular',itemsMaxHeight,itemsLabel='Schedule entries'}) {
+export function DayTimeline({date, items = [], onSelect, empty = "Nothing scheduled for this day.", timezone, days, value, onChange, dayVariant='default', daySize='regular',itemsMaxHeight,itemsLabel='Schedule entries',showTime=true}) {
   const dateValue = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T12:00:00`) : date ? new Date(date) : null;
   const heading = dateValue && Number.isFinite(dateValue.getTime()) ? dateValue.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}) : 'Schedule';
   const entries=items.length ? items.map(item => <div key={item.id} className="ct-day-timeline-entry" data-state={item.state}>
-      <time>{item.time}</time><div>{item.href
+      {showTime && <time>{item.time}</time>}<div>{item.href
         ? <a href={item.href} onClick={() => onSelect?.(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</a>
         : onSelect ? <button type="button" onClick={() => onSelect(item.title,item)}><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</button>
         : <article><strong>{item.title}</strong>{item.description && <small>{item.description}</small>}</article>}
       </div></div>) : <p className="ct-day-empty">{empty}</p>;
-  return <div className="lib-day-timeline">
+  return <div className="lib-day-timeline" data-show-time={showTime}>
     <header><CalendarDays size={17}/><strong>{heading}</strong>{timezone && <span>{timezone}</span>}</header>
     {days?.length ? <nav className="ct-day-strip" data-variant={dayVariant} data-size={daySize} aria-label="Schedule days">{days.map(day => <button key={day.value} type="button" aria-pressed={day.value === value} disabled={day.disabled} onClick={() => onChange?.(day.value)}>{day.label}</button>)}</nav> : null}
     {itemsMaxHeight !== undefined ? <ScrollArea className="ct-day-timeline-items-scroll" maxHeight={itemsMaxHeight} label={itemsLabel}>{entries}</ScrollArea> : entries}

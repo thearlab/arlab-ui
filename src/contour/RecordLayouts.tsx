@@ -1,4 +1,5 @@
 import {
+  createElement,
   useEffect,
   useId,
   useRef,
@@ -150,8 +151,8 @@ export function RecordCollection({
 }
 
 /** A collection is a destination of its own, with one bounded results surface. */
-export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,showTitle=true,sidebar,sidebarLabel='Filters',variant='contained',scroll='child',activeFilters=0,children}:{
- title:string;showTitle?:boolean;description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
+export function CollectionLayout({title,description,pills,updated,actions,tabs,search,filters,showTitle=true,heading='h1',sidebar,sidebarLabel='Filters',variant='contained',scroll='child',activeFilters=0,children}:{
+ title:string;showTitle?:boolean;heading?:'h1'|'h2'|'h3';description?:ReactNode;pills?:ReactNode;updated?:ReactNode;actions?:ReactNode;tabs?:ReactNode;search?:ReactNode;filters?:ReactNode;
  sidebar?:(context:{mobile:boolean;close:()=>void})=>ReactNode;sidebarLabel?:string;
  /** 'content' scrolls ordinary results; 'child' preserves a table's own scroll owner. */
  scroll?:'child'|'content';
@@ -166,7 +167,7 @@ export function CollectionLayout({title,description,pills,updated,actions,tabs,s
  const renderChildren=typeof children==='function';
  const results=renderChildren?children({filterTrigger}):children;
  return <section className="ct-collection-layout" data-scroll={scroll} data-variant={variant} data-tabs={!!tabs||undefined} data-sidebar={!!sidebar&&!mobile||undefined} aria-label={title}>
-  {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading="h1"/>:<h1 className="sr-only">{title}</h1>}
+  {(showTitle||description||pills||updated||actions)?<PageBar title={title} showTitle={showTitle} description={description} pills={pills} updated={updated} pillsPlacement="inline" actions={actions} heading={heading}/>:createElement(heading,{className:"sr-only"},title)}
   {(search||!renderChildren&&filterTrigger)&&<div className="ct-collection-toolbar" data-position="header"><div>{search}</div>{!renderChildren&&filterTrigger}</div>}
   {tabs&&<div className="ct-collection-tabs">{tabs}</div>}
   <div className="ct-collection-body">

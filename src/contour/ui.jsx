@@ -127,12 +127,12 @@ export function SectionHead({ title, sub, children }) {
     </div>
   );
 }
-/** @typedef {(React.ButtonHTMLAttributes<HTMLButtonElement> & {href?:never,external?:boolean}) | (React.AnchorHTMLAttributes<HTMLAnchorElement> & {href:string,external?:boolean})} TextActionProps
+/** @typedef {((React.ButtonHTMLAttributes<HTMLButtonElement> & {href?:never,external?:boolean}) | (React.AnchorHTMLAttributes<HTMLAnchorElement> & {href:string,external?:boolean})) & {tone?:'accent'|'neutral'}} TextActionProps
  * @param {TextActionProps} props */
-export function TextAction({ children, href, external=false, className='', ...props }) {
+export function TextAction({ children, href, external=false, tone='accent', className='', ...props }) {
   const content = <>{children}<ChevronRight size={14} aria-hidden="true" /></>;
-  if (href !== undefined) return <a {...props} className={`text-action ${className}`} href={href} target={external ? '_blank' : props.target} rel={external ? 'noopener noreferrer' : props.rel}>{content}</a>;
-  return <button {...props} type={props.type || 'button'} className={`text-action ${className}`}>{content}</button>;
+  if (href !== undefined) return <a {...props} data-tone={tone} className={`text-action ${className}`} href={href} target={external ? '_blank' : props.target} rel={external ? 'noopener noreferrer' : props.rel}>{content}</a>;
+  return <button {...props} data-tone={tone} type={props.type || 'button'} className={`text-action ${className}`}>{content}</button>;
 }
 /** @param {{value: number, label?: string}} props */
 export function Meter({ value, label }) {
