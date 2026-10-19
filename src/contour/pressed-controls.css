@@ -1,0 +1,11 @@
+/* Final interaction paint deliberately wins component hover paint. It changes no
+   colour, border, focus outline or geometry. Scroll thumbs and navigation wrappers
+   are excluded: navigation presses its glyph, never the full-width row. */
+:where(button,a[data-button],a.text-action,[role="button"]):not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]):not([role="scrollbar"]):not(.contour-space-control):not(.contour-rail-action):not(.contour-navigation-item):active {
+  background-image:var(--button-pressed-gradient) !important;
+  box-shadow:var(--button-pressed-shadow) !important;
+}
+:where(button,a[data-button],[role="button"])[aria-pressed="true"]:not(:disabled):not([aria-disabled="true"]):not(.contour-rail-action):not(.contour-space-control):not(.contour-navigation-item) {
+  background-image:var(--button-pressed-gradient) !important;
+  box-shadow:var(--button-pressed-shadow) !important;
+}

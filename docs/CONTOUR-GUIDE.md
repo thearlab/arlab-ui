@@ -3291,3 +3291,11 @@ Names correspond exactly to exported CSS custom properties. Color values are the
 Use PageFrame's `tabs` slot for a fixed tab row directly against its separator. Modal's `headerActions` slot places named icon actions beside Close, outside scrolling content. IconButton supports a real `href` and optional `external` for link actions with consistent button sizing.
 
 For a padded page containing KanbanBoard, `bleed` lets the board scroll to the page edges while its first and last columns retain their resting inset. Use `DayTimeline itemsMaxHeight={360}` to scroll only schedule entries while the heading and day selectors remain fixed. Use InfiniteTable `loading` for tab changes within a mounted collection; reserve PageLoading for page entry. See [beta.30 notes](RELEASE-beta.30.md).
+
+## Bounded editor frames and metadata (beta.39)
+
+Use `<EditorLayout previewLayout="fill" footer={<SaveBar ... />}>` when the preview owns its document scroll. Give the frame host `height:100%` and `min-height:0`; measure the available stage rather than subtracting browser-height constants. Leave `previewLayout` at `scroll` for a normal document canvas. The editor footer remains outside the preview/inspector scroll regions.
+
+Use `<Facts separators={false} items={...} />` for metadata separated with whitespace. The label/value geometry is identical to the default ruled list.
+
+Enabled buttons use `button-pressed-gradient` and `button-pressed-shadow` while activated. Press feedback does not change action colors, focus treatment or button dimensions.

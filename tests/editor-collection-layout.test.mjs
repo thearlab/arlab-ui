@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import postcss from 'postcss';
 import {EditorLayout} from '../dist/contour/EditorComponents.js';
 import {CollectionGroup} from '../dist/contour/WorkspaceComponents.js';
-import {Panel,Rows,Row} from '../dist/contour/library.js';
+import {Panel,Rows,Row,Facts} from '../dist/contour/library.js';
 const render=(component,props)=>renderToStaticMarkup(React.createElement(component,props));
 test('CollectionGroup composes the actual Panel Rows and Row primitives and preserves callbacks',()=>{
  let opened=0,all=0;
@@ -45,4 +45,17 @@ test('collection hover inherits shared row geometry while editor surfaces stay b
  assert.equal(values['.ct-editor-workspace:min-height'],'0');assert.equal(values['.ct-editor-footer:flex'],'0 0 auto');
  const source=fs.readFileSync(new URL('../src/contour/EditorComponents.tsx',import.meta.url),'utf8');
  assert.match(source,/aria-haspopup="dialog"/);assert.ok(source.includes("title={propertiesLabel} sheet scrollable"));
+});
+
+test('fill preview delegates scrolling to the hosted frame without adding a canvas scrollbar',()=>{
+ const html=render(EditorLayout,{title:'Website',previewLayout:'fill',viewport:'mobile',children:React.createElement('iframe',{title:'Site document'}),sidebar:'Fields',footer:React.createElement('div',{className:'ct-save-bar'},'Save')});
+ assert.match(html,/data-preview-layout="fill"/);
+ assert.match(html,/<div class="ct-editor-preview" role="region" aria-label="Website preview"><div class="ct-editor-canvas"><iframe/);
+ assert.doesNotMatch(html,/class="scroll-viewport"[^>]*aria-label="Website preview"/);
+ assert.match(html,/<footer class="ct-editor-footer"><div class="ct-save-bar">/);
+});
+test('Facts may omit rules without changing its accessible label/value structure',()=>{
+ const html=render(Facts,{items:[['Client','ARLAB']],separators:false});
+ assert.match(html,/data-separators="false"/);assert.match(html,/<dt>Client<\/dt><dd>ARLAB<\/dd>/);
+ assert.match(render(Facts,{items:[]}),/data-separators="true"/);
 });

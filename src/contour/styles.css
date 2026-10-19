@@ -539,7 +539,7 @@ select {
   border-color: var(--actionHover);
 }
 .btn.primary:active {
-  filter: brightness(0.93);
+  filter: none;
 }
 .btn.ghost {
   background: transparent;

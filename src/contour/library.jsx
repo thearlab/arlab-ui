@@ -253,10 +253,10 @@ export function Row({ title, description, leading, trailing, onClick }) {
     <div className="lib-row">{content}{trailing}</div>
   );
 }
-/** @param {React.HTMLAttributes<HTMLDListElement> & {items: ReadonlyArray<ReadonlyArray<React.ReactNode>>, layout?: 'rows' | 'stacked'}} props */
-export function Facts({ items, className = "", layout = 'rows', ...props }) {
+/** @param {React.HTMLAttributes<HTMLDListElement> & {items: ReadonlyArray<ReadonlyArray<React.ReactNode>>, layout?: 'rows' | 'stacked', separators?: boolean}} props */
+export function Facts({ items, className = "", layout = 'rows', separators = true, ...props }) {
   return (
-    <dl {...props} className={`ct-facts ${className}`} data-layout={layout}>
+    <dl {...props} className={`ct-facts ${className}`} data-layout={layout} data-separators={separators}>
       {items.map(([label, value]) => (
         <div key={label}>
           <dt>{label}</dt>

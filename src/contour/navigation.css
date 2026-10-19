@@ -16,7 +16,7 @@
   --cn-nav: var(--nav, #29292C); --cn-ground: var(--ground, #202022);
   --cn-raise: var(--raise, #29292C); --cn-ink: var(--ink, #F4F4F6);
   --cn-dim: var(--dim, #BDBDC5); --cn-line: var(--chrome-divider, var(--line, #414146));
-  --cn-dept-creative:var(--dept-creative-solid,#BE36B3);--cn-dept-engineering:var(--dept-engineering-solid,#AE6332);
+  --cn-dept-creative:var(--dept-creative-solid,#BE36B3);--cn-dept-engineering:var(--dept-engineering-solid,#C6530B);
   --cn-dept-client:var(--dept-client-solid,#8863C3);--cn-dept-company:var(--dept-company-solid,#307DA6);--cn-dept-strategy:var(--dept-strategy-solid,#2D8177);
   --cn-accent: var(--link,var(--accent, #D572CC)); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
 }
@@ -220,3 +220,11 @@
 .contour-navigation-item:hover:not(:disabled):not([aria-current="page"]) .contour-navigation-item-icon {background-image:var(--button-chrome-hover-gradient,var(--chrome-control-gradient,none));box-shadow:var(--icon-hover-shadow,var(--toggle-hover-shadow,none));}
 .contour-navigation-item[aria-current="page"] .contour-navigation-item-icon {background-image:var(--field-gradient,none);border-color:var(--chrome-pressed-border,var(--cn-active-edge));box-shadow:var(--chrome-pressed-shadow,inset 0 2px 4px #00000030,0 1px 2px #00000010);}
 @media(prefers-reduced-motion:reduce){.contour-navigation-item-icon {transition:none;}}
+
+/* Pointer/keyboard activation uses the same recessed finish as selected glyphs. */
+.contour-space-control:active:not(:disabled) :is(.contour-dept-tile-compact,.contour-rail-action-glyph),
+.contour-rail-action:active:not(:disabled) .contour-rail-action-glyph,
+.contour-navigation-item:active:not(:disabled):not([aria-disabled="true"]) .contour-navigation-item-icon {
+ background-image:var(--button-pressed-gradient,var(--dept-pressed-gradient,linear-gradient(155deg,#00000024,#00000005 52%,#FFFFFF28)));
+ box-shadow:var(--button-pressed-shadow,var(--chrome-pressed-shadow,inset 0 2px 4px #00000030,inset 0 -1px 0 #FFFFFF70));
+}

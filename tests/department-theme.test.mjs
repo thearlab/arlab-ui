@@ -52,3 +52,18 @@ test('approved sidebar rim has a fine reflective edge with no projecting or dark
   assert.doesNotMatch(theme['shell-header-shadow'],/#000000|3px|5px/);
  }
 });
+
+test('Engineering dark identity is vivid orange, with readable accent and white action labels',()=>{
+ const base=tokensFor('contour','dark'),theme=tokensFor('contour','dark',{department:'engineering'});
+ assert.equal(base['dept-engineering-solid'],'#C6530B');assert.equal(theme.accent,'#FFA65C');
+ assert.ok(contrast(base['dept-engineering-solid'],'#FFFFFF')>=3);
+ assert.ok(contrast(theme.accent,theme.raise)>=4.5);assert.ok(contrast(theme.action,'#FFFFFF')>=4.5);
+});
+test('pressed paint is shared across modes and department themes without altering action or focus colours',()=>{
+ for(const mode of ['light','dark'])for(const department of ['company','creative','engineering']){
+  const theme=tokensFor('contour',mode,{department});
+  assert.equal(theme['button-pressed-shadow'],'var(--chrome-pressed-shadow)');
+  assert.equal(theme['button-pressed-gradient'],'var(--dept-pressed-gradient)');
+  assert.match(theme['chrome-pressed-shadow'],/inset 0 2px/);
+ }
+});

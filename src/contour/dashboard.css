@@ -1551,3 +1551,12 @@
 .ct-table-sort:hover:not(:disabled) {color:var(--ink);}
 .ct-table-sort:focus-visible {outline-offset:calc(-1 * var(--line-width));}
 .ct-sort-head[aria-sort="ascending"] .ct-table-sort,.ct-sort-head[aria-sort="descending"] .ct-table-sort {color:var(--ink);}
+
+/* A bounded iframe owns its document scroll; the shell footer stays outside it. */
+.ct-editor[data-preview-layout="fill"] .ct-editor-preview {display:flex;overflow:hidden;}
+.ct-editor[data-preview-layout="fill"] .ct-editor-canvas {flex:1 1 0;height:100%;min-height:0;max-width:none;overflow:hidden;}
+.ct-editor-footer:has(> .ct-save-bar) {padding:0;gap:0;border-top:0;}
+.ct-editor-footer > .ct-save-bar {width:100%;position:static;}
+
+.ct-editor[data-preview-layout="fill"] .ct-editor-canvas > .ct-preview,
+.ct-editor[data-preview-layout="fill"] .ct-editor-canvas > .ct-preview iframe {min-height:0;}

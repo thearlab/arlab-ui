@@ -420,13 +420,15 @@ export interface EditorLayoutProps {
   showViewportControls?: boolean;
   propertiesLabel?: string;
   previewLabel?: string;
+  /** Fill the bounded preview with a caller-owned frame instead of scrolling a document canvas. */
+  previewLayout?: 'scroll' | 'fill';
   /** Width of the desktop inspector, capped at 40% of the editor. */
   inspectorWidth?: CSSProperties['width'];
 }
 export function EditorLayout({
   title, description, toolbar, sidebar, children, footer, onExit, style,
   viewport: controlledViewport, defaultViewport="desktop", onViewportChange,
-  showViewportControls=true, propertiesLabel="Properties", previewLabel="Live preview",inspectorWidth,
+  showViewportControls=true, propertiesLabel="Properties", previewLabel="Live preview",previewLayout="scroll",inspectorWidth,
 }: EditorLayoutProps) {
   const root = useRef<HTMLElement>(null);
   const [localViewport,setLocalViewport] = useState<EditorViewport>(defaultViewport);
@@ -448,7 +450,7 @@ export function EditorLayout({
     onViewportChange?.(next);
   };
   const viewports=[{value:'desktop' as const,label:'Desktop',icon:Monitor},{value:'mobile' as const,label:'Phone',icon:Smartphone}];
-  return <section className="ct-editor" ref={root} aria-label={title} style={{...style,...(inspectorWidth!==undefined?{'--ct-editor-inspector-width':typeof inspectorWidth==='number'?`${inspectorWidth}px`:inspectorWidth} as CSSProperties:{})}} data-viewport={viewport} data-compact={compact||undefined}>
+  return <section className="ct-editor" ref={root} aria-label={title} style={{...style,...(inspectorWidth!==undefined?{'--ct-editor-inspector-width':typeof inspectorWidth==='number'?`${inspectorWidth}px`:inspectorWidth} as CSSProperties:{})}} data-viewport={viewport} data-preview-layout={previewLayout} data-compact={compact||undefined}>
     <header className="ct-editor-header">
       <div className="ct-editor-document"><span className="ct-editor-document-mark" aria-hidden="true"><FileText size={16}/></span><div><h2>{title}</h2>{description && <p>{description}</p>}</div></div>
       <div className="ct-editor-header-actions">{toolbar && <div className="ct-editor-toolbar">{toolbar}</div>}
@@ -459,7 +461,7 @@ export function EditorLayout({
     </header>
     <div className="ct-editor-workspace">
       <div className="ct-editor-stage"><div className="ct-editor-stage-heading"><span>{previewLabel}</span><span>{viewports.find(item=>item.value===viewport)?.label}</span></div>
-        <ScrollArea label={`${title} preview`} className="ct-editor-preview" contentClassName="ct-editor-preview-content"><div className="ct-editor-canvas">{children}</div></ScrollArea>
+        {previewLayout === "fill" ? <div className="ct-editor-preview" role="region" aria-label={`${title} preview`}><div className="ct-editor-canvas">{children}</div></div> : <ScrollArea label={`${title} preview`} className="ct-editor-preview" contentClassName="ct-editor-preview-content"><div className="ct-editor-canvas">{children}</div></ScrollArea>}
       </div>
       {sidebar && !compact && <aside className="ct-editor-inspector" aria-label={propertiesLabel}><header><h3>{propertiesLabel}</h3></header><ScrollArea label={`${propertiesLabel} settings`} className="ct-editor-inspector-scroll" contentClassName="ct-editor-inspector-content">{sidebar}</ScrollArea></aside>}
     </div>

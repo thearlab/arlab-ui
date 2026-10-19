@@ -21,7 +21,7 @@ export function satinLiftTokens(mode) {
     accent,tint:blend(raise,accent,dark?.14:.08),action:dark?'#BA29B0':accent,actionHover:dark?'#C02EB5':accent,actionInk:'#FFFFFF',
     link:accent,focus:accent,'accent-deep':accent,'accent-soft':soft,
     'accent-tint':`rgba(${channels},${dark?'.14':'.10'})`,'accent-line':`rgba(${channels},${dark?'.40':'.35'})`,
-    'secondary-accent':dark?'#D99868':'#FB923C','secondary-accent-text':dark?'#E4B389':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
+    'secondary-accent':dark?'#FFA65C':'#FB923C','secondary-accent-text':dark?'#FFB77A':'#984414','secondary-accent-soft':dark?'#493020':'#FDF0E4',
     'scrollbar-thumb':`rgba(${channels},.35)`,'scrollbar-hover':`rgba(${channels},.60)`,'scrollbar-track':'transparent',
   };
   // Explicit dark semantic hues retain their meaning on neutral chrome surfaces.
@@ -34,12 +34,12 @@ export function satinLiftTokens(mode) {
     colors[`${role}Tint`]=dark ? darkTints[role] : blend(raise,color,.075);
   });
   colors.warn=colors['secondary-accent-text'];colors.warnTint=colors['secondary-accent-soft'];
-  const charts = dark ? ['#D572CC','#D99868','#AF91D9','#78ACCA','#76B3A7','#B9A4D5','#D4B36F']
+  const charts = dark ? ['#D572CC','#FFA65C','#AF91D9','#78ACCA','#76B3A7','#B9A4D5','#D4B36F']
     : ['#E414DB','#FB923C','#8058D6','#198BC2','#128D83','#9560C7','#BF870D'];
   charts.forEach((color,index)=>colors[`chart-${index+1}`]=color);
   colors['chart-trend']=colors['chart-4'];
   // Dark text/chart colors and solid identity fills have different contrast roles.
-  const departmentFills = dark ? ['#BE36B3','#AE6332','#8863C3','#307DA6','#2D8177'] : charts;
+  const departmentFills = dark ? ['#BE36B3','#C6530B','#8863C3','#307DA6','#2D8177'] : charts;
   ['creative','engineering','client','company','strategy'].forEach((department,index)=>{
     const paletteIndex=department==='creative'?3:department==='company'?0:index;
     const color=charts[paletteIndex];
@@ -79,6 +79,8 @@ export function satinLiftTokens(mode) {
     'icon-rest-surface':blend(raise,sunken,.12),'icon-hover-surface':blend(raise,sunken,.35),
     'icon-rest-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.025)':'rgba(255,255,255,.6)'},transparent 65%)`,
     'icon-hover-gradient':`linear-gradient(180deg,${dark?'rgba(255,255,255,.045)':'rgba(255,255,255,.8)'},transparent 70%)`,
+    'button-pressed-shadow':'var(--chrome-pressed-shadow)',
+    'button-pressed-gradient':'var(--dept-pressed-gradient)',
     'chrome-pressed-border':dark?'rgba(255,255,255,.18)':'rgba(0,0,0,.18)',
     'dept-pressed-gradient':dark?'linear-gradient(155deg,#00000030,#0000000C 52%,#FFFFFF12)':'linear-gradient(155deg,#00000024,#00000005 52%,#FFFFFF28)',
     'dept-pressed-shadow':dark?'inset 0 2px 4px #00000066,inset 0 -1px 0 #FFFFFF20,0 2px 4px #00000035':'inset 0 2px 4px #00000030,inset 0 -1px 0 #FFFFFF70,0 2px 4px #20283820',
