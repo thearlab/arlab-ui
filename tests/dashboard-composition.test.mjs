@@ -17,7 +17,7 @@ test('Dashboard Panel owns one shared browser header and one inset body, preserv
  assert.match(out,/data-content-inset="flush"/);assert.match(out,/href="\/projects"/);assert.match(out,/Project One/);
  assert.match(html(Panel,{title:'Default',children:'Body'}),/data-content-inset="default"/);
  assert.equal(rule('.arlab-contour .ct-panel[data-content-inset="flush"] > .section-head')['margin-bottom'],'0');
- assert.equal(rule('.arlab-contour .ct-panel[data-content-inset="flush"] > .ct-panel-content > :is(.lib-rows,.ct-ranked-list)')['margin-inline'],'0');
+ assert.equal(rule('.arlab-contour .ct-panel[data-content-inset="flush"] > .ct-panel-content > :is(.lib-rows,.ct-ranked-list,.ct-facet)')['margin-inline'],'0');
 });
 test('Compact embedded state preserves accessible error feedback and explicit actions without a nested frame',()=>{
  const out=html(StateView,{state:'error',size:'compact',variant:'embedded',title:'Projects unavailable',description:'Try again in a moment.',action:h('button',null,'Retry projects')});
