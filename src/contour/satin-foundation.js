@@ -10,7 +10,7 @@ const blend = (a,b,amount) => '#'+rgb(a).map((value,index)=>Math.round(value*(1-
 export function satinLiftTokens(mode) {
   const dark = mode === 'dark';
   const {ground,raise,sunken,ink,dim,line} = palettes[dark ? 'dark' : 'light'];
-  const accent = dark ? '#F04EE8' : '#E414DB';
+  const accent = dark ? '#D572CC' : '#E414DB';
   const channels = rgb(accent).join(',');
   const soft = `rgba(${channels},${dark ? '.10' : '.08'})`;
   const colors = {ground,raise,sunken,ink,dim,line,strong:dim,
@@ -18,10 +18,10 @@ export function satinLiftTokens(mode) {
     'nav-hover-surface':blend(ground,line,.30),
     'nav-active-surface':blend(raise,accent,dark?.14:.08),
     'nav-active-border':blend(line,accent,.25),
-    accent,tint:blend(raise,accent,dark?.14:.08),action:accent,actionHover:accent,actionInk:'#FFFFFF',
+    accent,tint:blend(raise,accent,dark?.14:.08),action:dark?'#BA29B0':accent,actionHover:dark?'#C02EB5':accent,actionInk:'#FFFFFF',
     link:accent,focus:accent,'accent-deep':accent,'accent-soft':soft,
     'accent-tint':`rgba(${channels},${dark?'.14':'.10'})`,'accent-line':`rgba(${channels},${dark?'.40':'.35'})`,
-    'secondary-accent':'#FB923C','secondary-accent-text':dark?'#FDBA74':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
+    'secondary-accent':dark?'#D99868':'#FB923C','secondary-accent-text':dark?'#E4B389':'#984414','secondary-accent-soft':dark?'#503826':'#FDF0E4',
     'scrollbar-thumb':`rgba(${channels},.35)`,'scrollbar-hover':`rgba(${channels},.60)`,'scrollbar-track':'transparent',
   };
   // Explicit dark semantic hues retain their meaning on neutral chrome surfaces.
@@ -34,14 +34,15 @@ export function satinLiftTokens(mode) {
     colors[`${role}Tint`]=dark ? darkTints[role] : blend(raise,color,.075);
   });
   colors.warn=colors['secondary-accent-text'];colors.warnTint=colors['secondary-accent-soft'];
-  const charts = dark ? ['#F04EE8','#FB923C','#A78BFA','#38BDF8','#2DD4BF','#C4B5FD','#FBBF24']
+  const charts = dark ? ['#D572CC','#D99868','#AF91D9','#78ACCA','#76B3A7','#B9A4D5','#D4B36F']
     : ['#E414DB','#FB923C','#8058D6','#198BC2','#128D83','#9560C7','#BF870D'];
   charts.forEach((color,index)=>colors[`chart-${index+1}`]=color);
   colors['chart-trend']=colors['chart-4'];
-  // Department tiles retain the approved vivid hues and white outline icons.
+  // Dark text/chart colors and solid identity fills have different contrast roles.
+  const departmentFills = dark ? ['#BE36B3','#AE6332','#8863C3','#307DA6','#2D8177'] : charts;
   ['creative','engineering','client','company','strategy'].forEach((department,index)=>{
     const color=charts[index];
-    colors[`dept-${department}`]=color;colors[`dept-${department}-solid`]=color;
+    colors[`dept-${department}`]=color;colors[`dept-${department}-solid`]=departmentFills[index];
     colors[`dept-${department}-ink`]='#FFFFFF';
   });
   return {...colors,
@@ -67,7 +68,7 @@ export function satinLiftTokens(mode) {
     'shadow-primary-hover':dark?'inset 0 1px 0 #FFFFFF20,0 4px 12px #00000040':`inset 0 1px 0 #FFFFFF30,0 4px 12px rgba(${channels},.14)`,
     'shadow-pop':dark?'var(--surface-inset-shadow),0 4px 8px #00000035,0 20px 48px -12px #00000090':'var(--surface-inset-shadow),0 4px 8px #2028380A,0 20px 48px -12px #20283830',
     'shadow-chrome':dark?'0 2px 10px #00000020':'0 2px 10px #20283808',
-    'action-gradient':`linear-gradient(180deg,${dark?'#FFFFFF1F':'#FFFFFF24'},transparent 62%)`,
+    'action-gradient':`linear-gradient(180deg,${dark?'#FFFFFF08':'#FFFFFF24'},transparent 62%)`,
     'button-chrome-gradient':dark?'linear-gradient(180deg,#FFFFFF0D,transparent 52%,#00000008)':'linear-gradient(180deg,#FFFFFFCC,transparent 62%,#00000004)',
     'button-chrome-hover-gradient':dark?'linear-gradient(180deg,#FFFFFF14,transparent 56%,#00000005)':'linear-gradient(180deg,#FFFFFFF2,transparent 62%,#00000003)',
     'page-gradient':`radial-gradient(ellipse at 10% 0%,rgba(${channels},${dark?'.035':'.025'}),transparent 65%)`,

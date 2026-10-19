@@ -8,10 +8,12 @@ export interface SectionHeaderProps {
   action?: ReactNode;
   /** Pin the section heading within its existing scroll container. */
   sticky?: boolean;
+  /** Keep the header/divider full width while aligning its content to ContentInset. */
+  inset?: 'flush' | 'content';
 }
-export function SectionHeader({ title, count, action, sticky = false }: SectionHeaderProps) {
+export function SectionHeader({ title, count, action, sticky = false, inset = 'flush' }: SectionHeaderProps) {
   return (
-    <header className="ct-section-header" data-sticky={sticky || undefined}>
+    <header className="ct-section-header" data-sticky={sticky || undefined} data-inset={inset}>
       <h2>{title}</h2>
       {count !== undefined && <span>{count}</span>}
       {action && <div>{action}</div>}

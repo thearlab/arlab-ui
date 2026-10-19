@@ -24,7 +24,7 @@ test('Drop feedback and semantic table are caller-owned compositions',()=>{
 test('Approved pink background is shared across both themes without orange canvas stops',()=>{
  for(const mode of ['light','dark']){
   const t=tokensFor('contour',mode);
-  assert.match(t['page-gradient'],/^radial-gradient/);assert.match(t['page-gradient'],mode==='dark'?/240,78,232,.035/:/228,20,219,.025/);
+  assert.match(t['page-gradient'],/^radial-gradient/);assert.match(t['page-gradient'],mode==='dark'?/213,114,204,.035/:/228,20,219,.025/);
   for(const key of ['surface-gradient','chrome-gradient','chrome-subtle-gradient','chrome-control-gradient']){assert.match(t[key],/^linear-gradient/);assert.doesNotMatch(t[key],/251,146,60|#FB923C/i);}
  }
  const css=fs.readFileSync(new URL('../dist/contour/styles.css',import.meta.url),'utf8');

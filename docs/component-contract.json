@@ -2012,9 +2012,10 @@
       "title",
       "count",
       "action",
-      "sticky"
+      "sticky",
+      "inset"
     ],
-    "behavior": "Uses shared 13px semibold typography; optional count is secondary."
+    "behavior": "Optional sticky positioning and content inset keep the divider full width and align title/count to ContentInset."
   },
   {
     "name": "CollectionGroup",

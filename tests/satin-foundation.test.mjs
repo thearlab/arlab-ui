@@ -29,9 +29,9 @@ test('Text and semantic notes pass contrast; exact brand choices stay explicit',
   const t=tokensFor('contour',mode);
   for(const bg of ['ground','raise','sunken'])for(const text of ['ink','dim']){assert.ok(contrast(t[text],t[bg])>=4.5,`${mode} ${text}/${bg}`);checks++;}
   for(const role of ['ok','warn','bad','info']){assert.ok(contrast(t[role],t[`${role}Tint`])>=4.5,`${mode} ${role} note`);checks++;}
-  for(const department of ['creative','engineering','client','company','strategy']){assert.equal(t[`dept-${department}-solid`],t[`dept-${department}`]);assert.equal(t[`dept-${department}-ink`],'#FFFFFF');}
-  for(const role of ['link','focus','navSelected','accent-deep','action','actionHover'])assert.equal(t[role],t.accent,`${mode} ${role} uses the main pink`);
-  assert.equal(t.action,t.accent);assert.equal(t.actionInk,'#FFFFFF');assert.ok(contrast(t.action,t.actionInk)>=3);
+  for(const department of ['creative','engineering','client','company','strategy']){if(mode==='light')assert.equal(t[`dept-${department}-solid`],t[`dept-${department}`]);else assert.ok(contrast(t[`dept-${department}-solid`],'#FFFFFF')>=4.5,department);assert.equal(t[`dept-${department}-ink`],'#FFFFFF');}
+  for(const role of ['link','focus','navSelected','accent-deep'])assert.equal(t[role],t.accent,`${mode} ${role} uses the main pink`);
+  if(mode==='light')assert.equal(t.action,t.accent);else {assert.notEqual(t.action,t.accent);assert.ok(contrast(t.action,t.actionInk)>=4.5);assert.ok(contrast(t.actionHover,t.actionInk)>=4.5);assert.ok(contrast(t.link,t.raise)>=4.5);}assert.equal(t.actionInk,'#FFFFFF');assert.ok(contrast(t.action,t.actionInk)>=3);
  }
  const light=tokensFor('contour');const brandRatio=contrast(light.action,light.actionInk);
  assert.ok(brandRatio>=3 && brandRatio<4.5,`Explicit white-on-brand-pink exception: ${brandRatio.toFixed(2)}:1`);
