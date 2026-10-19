@@ -7,3 +7,5 @@ A Panel whose body contains only native Rows now places the list directly below 
 CommandPalette now places the shared SearchField beside the native Close action in one header row. Its accessible dialog title remains available to assistive technology. Results size to their content up to the existing bounded scroll height; empty results have compact spacing. Keyboard navigation, grouping and result limits remain unchanged.
 
 Includes beta.32's metallic department icon states without row strips, smooth rail transition, recessed field tokens, task rows, logo-free standard loading and sticky category headers.
+
+Bounded SidebarShell content excludes native/ARIA dialogs and tour overlays from page-height rules, preventing a content-sized search dialog from stretching to the page height.

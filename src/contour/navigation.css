@@ -3,7 +3,7 @@
   --cn-nav: var(--nav, #FFFDFF); --cn-ground: var(--ground, #F7F5F9);
   --cn-raise: var(--raise, #FFFDFF); --cn-ink: var(--ink, #2C2532);
   --cn-dim: var(--dim, #665C70); --cn-line: var(--line, #DDD4E5);
-  --cn-dept-creative:var(--dept-creative-solid,#E414DB);--cn-dept-engineering:var(--dept-engineering-solid,#A45514);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#176A96);--cn-dept-strategy:var(--dept-strategy-solid,#13766F);
+  --cn-dept-creative:var(--dept-creative-solid,#E414DB);--cn-dept-engineering:var(--dept-engineering-solid,#FB923C);--cn-dept-client:var(--dept-client-solid,#8058D6);--cn-dept-company:var(--dept-company-solid,#198BC2);--cn-dept-strategy:var(--dept-strategy-solid,#128D83);
   --cn-accent: var(--accent, #e414db); --cn-selected: var(--accent-soft, rgba(228,20,219,.08));
   --cn-hover-surface: var(--nav-hover-surface, color-mix(in srgb, var(--cn-ground) 70%, var(--cn-line)));
   --cn-active-surface: var(--nav-active-surface, color-mix(in srgb, var(--cn-raise) 92%, var(--cn-accent)));
@@ -17,6 +17,7 @@
   --cn-raise: var(--raise, #29292C); --cn-ink: var(--ink, #F4F4F6);
   --cn-dim: var(--dim, #BDBDC5); --cn-line: var(--line, #414146);
   --cn-dept-creative:var(--dept-creative-solid,#F04EE8);
+  --cn-dept-client:var(--dept-client-solid,#A78BFA);--cn-dept-company:var(--dept-company-solid,#38BDF8);--cn-dept-strategy:var(--dept-strategy-solid,#2DD4BF);
   --cn-accent: var(--accent, #f04ee8); --cn-selected: var(--accent-soft, rgba(240,78,232,.12));
 }
 .contour-shell *, .contour-navigation * { box-sizing: border-box; }
@@ -179,7 +180,7 @@
 
 /* Explicit workspace sizing avoids intrinsic content growing beyond the shell. */
 .contour-shell-content[data-content-layout="fill"] {display:flex;flex-direction:column;overflow:hidden;}
-.contour-shell-content[data-content-layout="fill"] > * {flex:1;min-width:0;min-height:0;height:100%;overflow:hidden;}
+.contour-shell-content[data-content-layout="fill"] > :not(dialog):not([role="dialog"]):not(.ct-tour-layer) {flex:1;min-width:0;min-height:0;height:100%;overflow:hidden;}
 .contour-shell-content:has(> .ct-shell-page[data-scroll="page"]) {display:block;overflow:auto;}
 .contour-shell-content:has(> .ct-shell-page[data-scroll="child"]) {display:flex;flex-direction:column;overflow:hidden;}
 .contour-shell .ct-shell-page {min-width:0;box-sizing:border-box;}
@@ -197,4 +198,4 @@
 
 /* A standard page loader fills the shell even when the route adds one neutral wrapper. */
 .contour-shell-content:has(.ct-content-loading) {display:flex;flex-direction:column;overflow:hidden;}
-.contour-shell-content > :has(.ct-content-loading) {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;}
+.contour-shell-content > :not(dialog):not([role="dialog"]):has(.ct-content-loading) {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;}

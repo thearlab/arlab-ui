@@ -2,6 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import React,{act,useState} from 'react';
 import {createRoot} from 'react-dom/client';
+import fs from 'node:fs';
+import postcss from 'postcss';
 import {CommandPalette} from '../dist/contour/index.js';
 test('compact command header retains keyboard selection, grouping and focus restoration',async()=>{
  const {Window}=await import(process.env.HAPPY_DOM_PATH||'happy-dom');const browser=new Window({url:'http://localhost/'}),saved=new Map();
@@ -17,4 +19,10 @@ test('compact command header retains keyboard selection, grouping and focus rest
   await act(async()=>input.dispatchEvent(new browser.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true})));assert.equal(host.querySelector('[role="option"][aria-selected="true"] strong').textContent,'Projects');
   await act(async()=>input.dispatchEvent(new browser.KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true})));assert.deepEqual(choices,['project']);assert.equal(document.activeElement,trigger);assert.equal(host.querySelector('dialog').hasAttribute('open'),false);
  }finally{await act(async()=>root.unmount());await browser.happyDOM.abort();for(const[key,descriptor]of saved)if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}
+});
+
+test('bounded shell rules leave native and ARIA dialogs outside page sizing',()=>{
+ const ast=postcss.parse(fs.readFileSync('src/contour/navigation.css','utf8'));let bounded;
+ ast.walkRules(rule=>{if(rule.selector.includes('content-layout="fill"')&&rule.selector.includes('>'))bounded=rule;});
+ assert.ok(bounded);assert.match(bounded.selector,/:not\(dialog\)/);assert.match(bounded.selector,/:not\(\[role="dialog"\]\)/);
 });
