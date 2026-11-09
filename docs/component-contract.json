@@ -248,6 +248,24 @@
     "behavior": "This is the FileUpload implementation under the migration alias Dropzone."
   },
   {
+    "name": "QuestionThread",
+    "category": "Inputs & choices",
+    "description": "An agent asking a person questions one at a time, as a conversation.",
+    "props": [
+      "history",
+      "current",
+      "onAnswer",
+      "onDontKnow",
+      "dontKnowLabel",
+      "waiting",
+      "progress",
+      "doneLabel",
+      "historyLabel",
+      "autoFocus"
+    ],
+    "behavior": "Controlled and presentational: it never fetches or saves. Answered questions read as a thread with each answer as a reply bubble and an optional Change action; the current question offers quick-answer pills, a typed answer and an optional I don't know action. Waiting lines show a LoadingBar. The current question sits in a polite live region and its input takes focus when the question changes."
+  },
+  {
     "name": "AppSwitcher",
     "category": "Navigation",
     "description": "A stable, labeled entry to Workspace, Agents Studio, and Knowledge.",

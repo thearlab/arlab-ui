@@ -159,4 +159,7 @@ export const countedCheckbox = <Checkbox label="Running" trailing={<span>24</spa
 
 import {EditorLayout as ContractEditorLayout, CollectionGroup as ContractCollectionGroup} from '@arlab/ui';
 const editorLayoutContract=<ContractEditorLayout title="Campaign" viewport="tablet" onViewportChange={viewport=>{const selected:'desktop'|'tablet'|'mobile'=viewport;void selected;}} propertiesLabel="Page settings" footer={<Button>Save</Button>} sidebar={<Input/>}><div>Preview</div></ContractEditorLayout>;
+import {QuestionThread, type QuestionThreadProps} from '@arlab/ui';
+const questionHistory: QuestionThreadProps['history'] = [{id:'a', question:'Where will it run?', answer:'In a mall', onChange:()=>{}}];
+export const questionThreadContract = <QuestionThread history={questionHistory} current={{id:'b', context:'Pearl Breath', question:'How many screens?', options:['One','More']}} progress={{index:2,total:5}} waiting={['Re-assessing']} onAnswer={(text:string)=>void text} onDontKnow={()=>{}} />;
 const collectionGroupContract=<ContractCollectionGroup title="Creative" items={[{id:'one',label:'Read only',description:'Reference'},{id:'two',label:'Open',onOpen:()=>{}}]}/>;

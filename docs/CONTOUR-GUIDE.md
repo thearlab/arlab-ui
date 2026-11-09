@@ -527,6 +527,39 @@ Import: `import { Dropzone } from '@arlab/ui';`
 
 Live example: [Dropzone](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=Dropzone)
 
+#### QuestionThread
+
+An agent asking a person questions one at a time, as a conversation.
+
+Controlled and presentational: it never fetches or saves; the caller owns the questions, the answers, sending and errors (show errors in a Notice beside it). Answered questions read as a thread: the question in dim text, the answer as a reply bubble at the end, with a Change action while it can still be changed. The current question shows its context and step, the question, an optional "Why we ask" line, quick-answer pills, a text answer with an Answer button and an optional "I don't know" button. Each waiting line shows a LoadingBar. The current question sits in a polite live region; its input takes focus when the question changes (`autoFocus={false}` to stop that).
+
+Import: `import { QuestionThread, type QuestionThreadProps } from '@arlab/ui';`
+
+| Prop | Contract |
+| --- | --- |
+| `history` | `{ id?, question, answer, onChange? }[]`. Answered questions, oldest first. `onChange` shows a Change action; the caller then moves that question back into `current` with `answer` prefilled. |
+| `current` | `{ id?, context?, question, why?, options?, answer? } \| null`. The question asked now. `options` become quick-answer pills; `answer` prefills the input; a new `id` (or question) resets the input. |
+| `onAnswer` | `(text) => void`. Called with a pill's label or the trimmed typed answer. |
+| `onDontKnow` | Optional. Shows the quiet "I don't know" button. |
+| `dontKnowLabel` | Label of that button; default "I don't know". |
+| `waiting` | `string[]`. One status line with a LoadingBar each, e.g. "Re-assessing Pearl Breath with your answers...". |
+| `progress` | `{ index, total }`, 1-based. Adds "question 2 of 5" after the context. |
+| `doneLabel` | Shown when there is no current question and nothing waits; default "All answered.", `null` hides it. |
+| `historyLabel` | Accessible name of the answered list; default "Your answers so far". |
+| `autoFocus` | Focus the answer input when a question appears; default true. |
+
+```tsx
+<QuestionThread
+  history={[{ id: 'q1', question: 'Where will it run?', answer: 'In a mall', onChange: () => edit('q1') }]}
+  current={{ id: 'q2', context: 'Pearl Breath · Digital Installations', question: 'How many screens?', why: 'Screens set the hardware cost.', options: ['One', 'Two to four', 'More'] }}
+  progress={{ index: 2, total: 5 }}
+  onAnswer={text => save('q2', text)}
+  onDontKnow={() => save('q2', null)}
+/>
+```
+
+Live example: [QuestionThread](https://arlab-ui-showcase.pages.dev/?view=catalogue&component=QuestionThread)
+
 ### Navigation
 
 #### AppSwitcher
