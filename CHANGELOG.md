@@ -1,5 +1,61 @@
 # Changelog
 
+Full notes per release are in `docs/RELEASE-beta.N.md`.
+
+## 2.0.0-beta.40
+
+- The recessed pressed finish applies only to Button and IconButton (and their link forms and pressed toggles); beta.39's generic button selector is removed. Disabled and busy controls are excluded. No API removed.
+
+## 2.0.0-beta.39
+
+- All enabled buttons get a recessed glass/chrome pressed response (tokens `button-pressed-gradient`, `button-pressed-shadow`).
+- Add `EditorLayout previewLayout="fill"` and `Facts separators={false}`.
+- Dark Engineering uses a saturated orange identity (#C6530B, text/accent #FFA65C).
+
+## 2.0.0-beta.38
+
+- ScrollArea indicators stay hidden while idle and appear on hover, scroll, drag or keyboard focus.
+
+## 2.0.0-beta.37
+
+- SearchField uses a compact 12px clear glyph in a 28px action area instead of a nested raised button.
+
+## 2.0.0-beta.36
+
+- Dark mode role-specific pinks; richer department fills; all department fills and buttons pass 4.5:1 with white.
+- Department spaces apply their identity as the interface accent (`SidebarShell` follows `Space.dept`; `ContourProvider department`). Company is ARLAB pink, Creative is blue.
+- Glass rim is the shared material; `SectionHeader inset="content"`; AccountMenu sign-out uses standard IconButton chrome.
+
+## 2.0.0-beta.35
+
+- Department selection uses one thin 1px pink border. New `surface-inset-shadow` and `chrome-inset-shadow` roles.
+- Collapsed rail centers the square ARLAB mark; new LogOut icon; canonical favicon at `@arlab/ui/favicon.svg`.
+
+## 2.0.0-beta.34
+
+- Department icons keep their solid identity color in every state.
+- `TextAction` defaults to neutral; pass `tone="accent"` for accent actions.
+- Add `WorkspaceGrid layout="navigator"`.
+
+## 2.0.0-beta.33
+
+- A Panel holding only Rows places the list flush under its heading. CommandPalette puts SearchField beside Close in one header row. Bounded SidebarShell no longer stretches dialogs to page height.
+
+## 2.0.0-beta.32
+
+- Department navigation uses its own color (outlined metallic, filled when active). Smoother rail width transition; `Logo` has no decorative dot.
+- Recessed field tokens (`field-surface`, `field-gradient`, `field-shadow`, `field-hover-shadow`).
+- Add `InfiniteTable stickyGroups` and `SectionHeader sticky`; standard PageLoading no longer renders a logo.
+
+## 2.0.0-beta.31
+
+- Add `PageBar size="compact"`, `InfiniteTable showHeader={false}`, `CollectionLayout heading="h2"`, `CardGrid trackMode="fill"`, `DayTimeline showTime={false}`, `TextAction tone="neutral"`; interactive `DailyVerdictStrip` with `selectedDate`.
+
+## 2.0.0-beta.30
+
+- Shared navigation states (resting, hover, pink-tinted active); GuidedTour fades between stops instead of flying.
+- Add `IconButton href`/`external`, `Modal headerActions`, `PageFrame tabs`, `KanbanBoard bleed`, `DayTimeline itemsMaxHeight`/`itemsLabel`, `PageLoading layout`, `Facts layout="stacked"`, `ColumnChart labelInterval`, InfiniteTable `lineClamp`.
+
 ## 2.0.0-beta.29
 
 - Give every Kanban column a full-width divider beneath its fixed header so cards remain visually separate while the column scrolls. Reduce the colored top accent from 3px to 2px in both light and dark modes.
