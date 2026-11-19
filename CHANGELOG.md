@@ -2,6 +2,10 @@
 
 Full notes per release are in `docs/RELEASE-beta.N.md`.
 
+## 2.0.0
+
+- The stable 2.0 release: the same code as 2.0.0-beta.41 (fix plan step 27, one baseline). Every app on v2 moves to this tag.
+
 ## 2.0.0-beta.41
 
 - Add `QuestionThread` (Contour): an agent asks a person questions one at a time. No API removed.
