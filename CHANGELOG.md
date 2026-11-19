@@ -2,6 +2,10 @@
 
 Full notes per release are in `docs/RELEASE-beta.N.md`.
 
+## 2.0.0-beta.41
+
+- Add `QuestionThread` (Contour): an agent asks a person questions one at a time. No API removed.
+
 ## 2.0.0-beta.40
 
 - The recessed pressed finish applies only to Button and IconButton (and their link forms and pressed toggles); beta.39's generic button selector is removed. Disabled and busy controls are excluded. No API removed.
