@@ -109,7 +109,7 @@ Cmd/Ctrl+backslash folds the tools panel on desktop (the existing navigation in 
 
 ### Focused checks
 
-`node scripts/check-spaces-shell.mjs` runs five isolated source-level DOM checks: selection/disabled arrow navigation and tooltip, fold persistence and shortcut, controlled read-only folding, native drawer content/focus restoration, and compact single-navigation identity. The optional harness uses Vite and happy-dom from a sibling `agents-studio` checkout; set `ARLAB_TEST_HARNESS` to another package.json with those test dependencies to relocate it. It does not add runtime dependencies or call live services. TypeScript also checks the public props. Actual responsive geometry, visual contrast and native browser focus trapping require browser/catalogue review.
+`npm test` (also run by `npm run build`) covers the shell in `tests/sidebar-shell-contracts.test.mjs` with happy-dom: navigation, folding and drawer behaviour. TypeScript also checks the public props. Actual responsive geometry, visual contrast and native browser focus trapping require browser/catalogue review.
 
 The spaces shell displays the complete canonical ARLAB vector wordmark inside a square brand area. It does not redraw the logo or replace it with initials. Pass `brandMark` for another application mark. The full/compact `ArlabMark` variants remain available for explicit use. The panel fold control sits in the fixed panel footer; when folded, its expand control moves to the fixed rail footer. Neither moves with the scrollable navigation.
 

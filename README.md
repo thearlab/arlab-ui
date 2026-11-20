@@ -1,11 +1,9 @@
 # ARLAB UI V2: Contour
 
-The shared design system for ARLAB internal tools. Glass rim finish with Satin Lift geometry: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. This is the V2 integration beta; Studio is the first migration target.
-
-Version `2.0.0-beta.40` limits shared pressed feedback to Button and IconButton. Tabs, pills, rows, dropdowns, cards and navigation retain their own interaction styling. Colors, contrast and glass/chrome finishes remain unchanged. See [release notes](docs/RELEASE-beta.40.md).
+The shared design system for ARLAB internal tools. Glass rim finish with Satin Lift geometry: Satoshi interface and 600-weight headings, DM Mono code, vivid ARLAB pink, neutral charcoal dark surfaces, satin edges and soft elevation. Containers use 14px corners and controls use 7px. Current release: `2.0.0`.
 
 ```json
-"@arlab/ui": "github:thearlab/arlab-ui#v2.0.0-beta.40"
+"@arlab/ui": "github:thearlab/arlab-ui#v2.0.0"
 ```
 
 ```jsx
@@ -25,11 +23,11 @@ Repository: https://github.com/thearlab/arlab-ui-showcase. The Contour showcase 
 
 ## Development
 
-`npm ci` builds the package on install. `npm run build` validates legacy CSS, emits ESM and declarations, checks tour placement and scopes Contour CSS to its theme boundary. `npm run check:contour` checks every catalogue export, icon count and stylesheet boundary.
+`npm ci` builds the package on install. `npm run build` validates legacy CSS, emits ESM and declarations, checks tour placement, scopes Contour CSS to its theme boundary, checks every catalogue export, icon count and stylesheet boundary (`check:contour`), then runs the tests (`npm test`: `node --test`, happy-dom). There is no CI: run `npm run build` before tagging a release.
 
 V1 remains available at the immutable v1 tags. Temporary `/legacy` and `/legacy/styles.css` entry points support staged application migration. New application work belongs in Contour; reusable additions must be showcased in the same release.
 
-See MIGRATION-V2.md for beta limitations and remaining stable-release gates.
+See MIGRATION-V2.md for moving a v1 app.
 
 ## Standalone navigation
 

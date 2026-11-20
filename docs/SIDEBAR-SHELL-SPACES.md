@@ -50,10 +50,4 @@ Applications without `spaces` retain their existing single-navigation collapse A
 
 ## Verification
 
-`npm run build` checks the real public declarations and standalone styles. Run the isolated interaction harness with a checkout containing Vite and happy-dom:
-
-```sh
-ARLAB_TEST_HARNESS=/path/to/showcase/package.json node scripts/check-spaces-shell.mjs
-```
-
-Five checks cover labels/selection/disabled-skipping keyboard navigation, real brand variants and persisted rail-only folding, controlled/read-only state, both phone drawers with focus restoration, and unchanged single-navigation compact identity. Browser geometry and theme appearance still require the final integration review.
+`npm run build` checks the real public declarations and standalone styles, then runs `npm test` (happy-dom; `tests/sidebar-shell-contracts.test.mjs` covers this shell). Browser geometry and theme appearance still require the final integration review.
