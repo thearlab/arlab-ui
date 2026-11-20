@@ -826,6 +826,30 @@
     "behavior": "The demonstration never sends authentication requests. Production sign-in must state the workspace and provider."
   },
   {
+    "name": "ShellPage",
+    "category": "Surfaces & layout",
+    "description": "Per-route scroll ownership inside SidebarShell.",
+    "props": [
+      "scroll",
+      "label",
+      "children"
+    ],
+    "behavior": "page lets ordinary content grow and scroll in the shell; child bounds the route so its table or editor owns scrolling."
+  },
+  {
+    "name": "TextAction",
+    "category": "Surfaces & layout",
+    "description": "A discreet section action with native button or link semantics.",
+    "props": [
+      "children",
+      "href",
+      "external",
+      "onClick",
+      "tone"
+    ],
+    "behavior": "href renders a link, including modifier-click and new-tab behavior. Without href it is a non-submit button. Text defaults neutral; the accent tone is explicit."
+  },
+  {
     "name": "Loader",
     "category": "Feedback",
     "description": "A fine circular loader with a restrained moving arc.",
